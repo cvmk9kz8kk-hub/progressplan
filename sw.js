@@ -1,8 +1,6 @@
-// Service Worker — macht die App offline verfügbar
-const CACHE = 'cutplan-v6-3';
+// Service Worker — Offline-Betrieb & Installation
+const CACHE = 'cutplan-v6-8';
 const ASSETS = [
-  './',
-  './index.html',
   './manifest.json',
   './icon-180.png',
   './icon-192.png',
@@ -28,11 +26,29 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = e.request.url;
-  // Lebensmittel-Suche immer live abfragen, nie aus dem Cache
+
+  // Lebensmittel-Suche: immer live, nie aus dem Cache
   if (url.includes('openfoodfacts.org')) {
     e.respondWith(fetch(e.request).catch(() => new Response('{"products":[]}', {headers:{'Content-Type':'application/json'}})));
     return;
   }
+
+  // Die App-Seite selbst (index.html / Navigation): NETWORK-FIRST.
+  // So kommt jede neue Version sofort an, sobald Internet da ist —
+  // ohne dass ein Cache-Name manuell hochgezählt werden muss.
+  // Nur ohne Internetverbindung greift der zuletzt gespeicherte Stand.
+  if (e.request.mode === 'navigate' || url.endsWith('/') || url.endsWith('index.html')) {
+    e.respondWith(
+      fetch(e.request).then(res => {
+        if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
+        return res;
+      }).catch(() => caches.match(e.request).then(hit => hit || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // Statische Assets (Icons, manifest, Chart.js): CACHE-FIRST — ändern sich selten,
+  // schnell und funktioniert offline.
   e.respondWith(
     caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
       if (res.ok && e.request.method === 'GET') {
@@ -40,6 +56,6 @@ self.addEventListener('fetch', e => {
         caches.open(CACHE).then(c => c.put(e.request, copy));
       }
       return res;
-    }).catch(() => caches.match('./index.html')))
+    }))
   );
 });

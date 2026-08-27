@@ -429,7 +429,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v6.6</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v6.9</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1050,7 +1050,7 @@ const data = {
     "fr": {label:"Fr · Push (moderat, Kabel-Variante)", sub:"Kabelzug · leichter als Dienstag", exercises:[
       {name:"Kabelzug Fliegende, Bank 45° (Zug von unten)", sets:"2 × 10–12", note:"Obere Brust — Kabel links/rechts unten eingehängt."},
       {name:"Kabelzug Fliegende, Bank flach (Zug Schulterhöhe)", sets:"2 × 10–12", note:"Untere/mittlere Brust."},
-      {name:"Kabelzug Fliegende, Bank aufrecht", sets:"2 × 10–12", note:"Gesamte Brust, sitzend."},
+      {name:"Butterfly (Pec Deck Maschine, Matrix)", sets:"2 × 10–12", note:"GEÄNDERT: ersetzt die dritte Kabel-Fliegende-Variante. Gesamte Brust, sitzend an der Matrix-Maschine statt am Kabelzug."},
       {name:"Ring-Dips", sets:"3 × so viele wie sauber möglich", note:"ERSETZT Maschinen-Dips. Einziges Druck-Verbundelement des Tages — Calisthenics-Anteil."},
       {name:"Pike Push-ups", sets:"3 × 8–12", note:"Calisthenics-Schulterdrücken, Vorbereitung auf Handstand-Liegestütz."},
       {name:"Handstand-Praxis", sets:"5–8 min", note:"NEU: zweite Skill-Einheit der Woche. Direkt nach den Pike Push-ups, solange die Schultern warm sind."},
@@ -2259,8 +2259,10 @@ async function fetchOFF(url){
   // Hinweis: Browser dürfen den User-Agent-Header per fetch() nicht selbst setzen (wird vom Browser verwaltet).
   // Stattdessen wird die App über den Query-Parameter app_name identifiziert, wie von Open Food Facts akzeptiert.
   const res = await fetch(url);
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  const j = await res.json();
+  if (!res.ok) throw new Error('OFF-HTTP-' + res.status);
+  let j;
+  try { j = await res.json(); }
+  catch(e) { throw new Error('OFF-Antwort kein JSON'); }
   return (j.products || []).map(pr => {
     const nu = pr.nutriments || {};
     const kcal = nu['energy-kcal_100g'];
@@ -2508,7 +2510,8 @@ function initNutSearch(){
         const off = await withTimeout(searchOpenFoodFacts(q), 7000);
         renderResults([...local, ...off], off.length ? '' : (local.length ? '' : 'Keine Treffer.'));
       } catch(e) {
-        renderResults(local, local.length ? '' : 'Online-Suche nicht verfügbar (offline oder blockiert). Nutze die lokale Datenbank oder leg unter "Auswertung" ein eigenes Lebensmittel an.');
+        const msg = 'Online-Suche fehlgeschlagen (' + e.message + '). Nutze die lokale Datenbank oder leg unter "Auswertung" ein eigenes Lebensmittel an.';
+        renderResults(local, local.length ? '' : msg);
       }
     }, 550);
   };
