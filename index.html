@@ -18,7 +18,7 @@
 <meta name="theme-color" content="#12140F">
 <title>Ultimate Cut Plan</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zxing-library/0.20.0/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
 <style>
   :root{
     --bg:#12140F; --bg2:#1A1D15; --card:#1E2118; --line:#2C3024;
@@ -452,7 +452,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v7.0</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v7.1</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -991,6 +991,20 @@
   </section>
 
 </main>
+
+
+<div id="scanOverlay" class="scan-overlay">
+  <div class="scan-header">
+    <button id="scanClose" class="scan-close">✕</button>
+    <span class="scan-title">Barcode scannen</span>
+    <span style="width:36px;"></span>
+  </div>
+  <div class="scan-video-wrap">
+    <video id="scanVideo" playsinline autoplay muted></video>
+    <div class="scan-frame"></div>
+  </div>
+  <div id="scanStatus" class="scan-status">Kamera wird gestartet…</div>
+</div>
 
 <footer class="tabbar" id="bottomNav"></footer>
 
