@@ -352,6 +352,9 @@
     box-shadow:0 0 0 2000px rgba(0,0,0,0.45); pointer-events:none; }
   .scan-status{ color:#fff; text-align:center; padding:16px; font-size:13px; min-height:50px;
     background:rgba(0,0,0,0.6); }
+  .scan-tap-start{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:var(--lime); color:#12140F; border:none; border-radius:12px; padding:14px 22px;
+    font-weight:800; font-size:14px; z-index:5; box-shadow:0 6px 20px rgba(0,0,0,.5); }
 
 
   /* Dashboard-Kacheln */
@@ -452,7 +455,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v7.1</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v7.2</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -999,9 +1002,10 @@
     <span class="scan-title">Barcode scannen</span>
     <span style="width:36px;"></span>
   </div>
-  <div class="scan-video-wrap">
-    <video id="scanVideo" playsinline autoplay muted></video>
+  <div class="scan-video-wrap" id="scanVideoWrap">
+    <video id="scanVideo" playsinline webkit-playsinline autoplay muted></video>
     <div class="scan-frame"></div>
+    <button id="scanTapStart" class="scan-tap-start" style="display:none;">▶ Zum Starten hier tippen</button>
   </div>
   <div id="scanStatus" class="scan-status">Kamera wird gestartet…</div>
 </div>
@@ -3465,12 +3469,33 @@ async function fetchProductByBarcode(code){
 function stopScanner(){
   if (zxingReader) { try { zxingReader.reset(); } catch(e){} zxingReader = null; }
   if (scanStream) { scanStream.getTracks().forEach(t => t.stop()); scanStream = null; }
+  const video = document.getElementById('scanVideo');
+  if (video) { video.pause(); video.srcObject = null; }
   document.getElementById('scanOverlay').classList.remove('open');
+}
+
+async function ensureVideoPlaying(video){
+  // iOS blockiert die automatische Wiedergabe manchmal trotz "autoplay" —
+  // ein expliziter play()-Aufruf behebt das in den meisten Fällen.
+  try { await video.play(); } catch(e) { /* ignorieren, Tippen-Button greift dann */ }
+  // Prüfen, ob nach kurzer Zeit tatsächlich Bilddaten ankommen
+  await new Promise(r => setTimeout(r, 900));
+  const tapBtn = document.getElementById('scanTapStart');
+  if (video.paused || video.readyState < 2) {
+    tapBtn.style.display = 'block';
+    tapBtn.onclick = async () => {
+      try { await video.play(); tapBtn.style.display = 'none'; } catch(e){}
+    };
+  } else {
+    tapBtn.style.display = 'none';
+  }
 }
 
 async function startScanner(){
   const overlay = document.getElementById('scanOverlay');
   const statusEl = document.getElementById('scanStatus');
+  const video = document.getElementById('scanVideo');
+  document.getElementById('scanTapStart').style.display = 'none';
   overlay.classList.add('open');
   statusEl.textContent = 'Kamera wird gestartet…';
 
@@ -3484,11 +3509,21 @@ async function startScanner(){
   }
 
   try {
-    zxingReader = new ZXing.BrowserMultiFormatReader();
-    const devices = await ZXing.BrowserCodeReader.listVideoInputDevices();
-    const backCam = devices.find(d => /back|rear|environment/i.test(d.label)) || devices[devices.length - 1];
+    // Stream selbst anfordern (statt ZXings Geräteliste zu nutzen) — vor erteilter
+    // Erlaubnis liefert die Geräteliste oft keine brauchbaren Labels, wodurch die
+    // falsche Kamera gewählt werden kann. facingMode:"environment" wählt direkt
+    // die Rückkamera.
+    scanStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' } },
+      audio: false
+    });
+    video.srcObject = scanStream;
+    video.muted = true;
+    video.playsInline = true;
+    await ensureVideoPlaying(video);
 
-    zxingReader.decodeFromVideoDevice(backCam ? backCam.deviceId : undefined, 'scanVideo', async (result, err) => {
+    zxingReader = new ZXing.BrowserMultiFormatReader();
+    zxingReader.decodeFromStream(scanStream, video, async (result, err) => {
       if (result) {
         const code = result.getText();
         statusEl.textContent = 'Barcode erkannt: ' + code + ' — suche Produkt…';
