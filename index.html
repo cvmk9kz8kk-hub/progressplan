@@ -429,7 +429,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v6.5</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v6.6</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1824,6 +1824,9 @@ const FOOD_DB = [
   {n:"Orangensaft", kcal:45, p:0.7, c:10, f:0.2, por:[["Glas",200]]},
   {n:"Apfelschorle", kcal:24, p:0.1, c:5.7, f:0, por:[["Glas",300]]},
   {n:"Erythrit", kcal:20, p:0, c:5, f:0, por:[["Teelöffel",4]]},
+  {n:"Süßstofftabletten (Saccharin/Cyclamat)", kcal:1, p:0, c:0.2, f:0, por:[["1 Tablette",0.02],["3 Tabletten",0.06],["5 Tabletten",0.1]]},
+  {n:"Stevia (Tropfen/Pulver)", kcal:0, p:0, c:0, f:0, por:[["Teelöffel Pulver",2],["10 Tropfen",1]]},
+  {n:"Süßstoff flüssig", kcal:2, p:0, c:0.5, f:0, por:[["10 Tropfen",1],["1 ml",1]]},
   {n:"Pizza Margherita", kcal:250, p:11, c:30, f:9, por:[["Halbe Pizza",150],["Ganze Pizza",300]]},
   {n:"Döner Kebab", kcal:215, p:15, c:16, f:10, por:[["Ganzer Döner",400]]},
   {n:"Sushi (Ø)", kcal:145, p:6, c:26, f:1.5, por:[["Stück",30],["Portion 8 Stück",240]]},
@@ -2262,7 +2265,7 @@ async function fetchOFF(url){
     const nu = pr.nutriments || {};
     const kcal = nu['energy-kcal_100g'];
     const name = pr.product_name_de || pr.product_name;
-    if (!name || kcal === undefined) return null;
+    if (!name || kcal === undefined || kcal === null) return null;
     return {
       n: name + (pr.brands ? ' (' + pr.brands.split(',')[0].trim() + ')' : ''),
       kcal: Math.round(kcal),
