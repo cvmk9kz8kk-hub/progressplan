@@ -1,11 +1,12 @@
 // Service Worker — Offline-Betrieb & Installation
-const CACHE = 'cutplan-v6-8';
+const CACHE = 'cutplan-v7-0';
 const ASSETS = [
   './manifest.json',
   './icon-180.png',
   './icon-192.png',
   './icon-512.png',
-  'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js'
+  'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/zxing-library/0.20.0/index.min.js'
 ];
 
 self.addEventListener('install', e => {
