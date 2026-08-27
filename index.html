@@ -429,7 +429,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v6.4</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v6.5</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -2252,18 +2252,19 @@ function searchLocal(q){
     .slice(0, 16);
 }
 
-async function searchOpenFoodFacts(q){
-  const url = 'https://world.openfoodfacts.org/cgi/search.pl?search_terms=' + encodeURIComponent(q) +
-              '&search_simple=1&action=process&json=1&page_size=8&fields=product_name,brands,nutriments';
+async function fetchOFF(url){
+  // Hinweis: Browser dürfen den User-Agent-Header per fetch() nicht selbst setzen (wird vom Browser verwaltet).
+  // Stattdessen wird die App über den Query-Parameter app_name identifiziert, wie von Open Food Facts akzeptiert.
   const res = await fetch(url);
   if (!res.ok) throw new Error('HTTP ' + res.status);
   const j = await res.json();
   return (j.products || []).map(pr => {
     const nu = pr.nutriments || {};
     const kcal = nu['energy-kcal_100g'];
-    if (!pr.product_name || kcal === undefined) return null;
+    const name = pr.product_name_de || pr.product_name;
+    if (!name || kcal === undefined) return null;
     return {
-      n: pr.product_name + (pr.brands ? ' (' + pr.brands.split(',')[0].trim() + ')' : ''),
+      n: name + (pr.brands ? ' (' + pr.brands.split(',')[0].trim() + ')' : ''),
       kcal: Math.round(kcal),
       p: Math.round((nu.proteins_100g || 0) * 10)/10,
       c: Math.round((nu.carbohydrates_100g || 0) * 10)/10,
@@ -2271,6 +2272,29 @@ async function searchOpenFoodFacts(q){
       src: 'off'
     };
   }).filter(Boolean);
+}
+
+async function searchOpenFoodFacts(q){
+  const fields = 'product_name,product_name_de,brands,nutriments';
+  // Zuerst gezielt in der deutschen Datenbank (de.openfoodfacts.org) suchen —
+  // liefert deutlich mehr Treffer für hierzulande übliche Produkte
+  const deUrl = 'https://de.openfoodfacts.org/cgi/search.pl?search_terms=' + encodeURIComponent(q) +
+                '&search_simple=1&action=process&json=1&page_size=10&lc=de&app_name=UltimateCutPlan&fields=' + fields;
+  let results = [];
+  try { results = await fetchOFF(deUrl); } catch(e) { /* weiter zum Fallback */ }
+
+  // Ergänzend die weltweite Datenbank, falls wenige/keine deutschen Treffer
+  if (results.length < 5) {
+    const worldUrl = 'https://world.openfoodfacts.org/cgi/search.pl?search_terms=' + encodeURIComponent(q) +
+                      '&search_simple=1&action=process&json=1&page_size=10&lc=de&app_name=UltimateCutPlan&fields=' + fields;
+    try {
+      const more = await fetchOFF(worldUrl);
+      const seen = new Set(results.map(r => r.n));
+      more.forEach(m => { if (!seen.has(m.n)) { results.push(m); seen.add(m.n); } });
+    } catch(e) { /* nur deutsche Treffer verwenden, falls vorhanden */ }
+  }
+  if (!results.length) throw new Error('keine Treffer');
+  return results.slice(0, 12);
 }
 
 const LIQUID_RE = /milch|saft|drink|getr|wasser|cola|smoothie|kefir|brühe|suppe|öl|sahne|cappuccino|kaffee|tee|shake|limo/i;
@@ -2476,8 +2500,9 @@ function initNutSearch(){
     renderResults(local, local.length ? '' : 'Nichts in der lokalen Datenbank — suche online…');
     nutSearchTimer = setTimeout(async () => {
       try {
-        document.getElementById('nutSearchStatus').textContent = 'Suche online…';
-        const off = await searchOpenFoodFacts(q);
+        document.getElementById('nutSearchStatus').textContent = 'Suche online (Open Food Facts)…';
+        const withTimeout = (p, ms) => Promise.race([p, new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')), ms))]);
+        const off = await withTimeout(searchOpenFoodFacts(q), 7000);
         renderResults([...local, ...off], off.length ? '' : (local.length ? '' : 'Keine Treffer.'));
       } catch(e) {
         renderResults(local, local.length ? '' : 'Online-Suche nicht verfügbar (offline oder blockiert). Nutze die lokale Datenbank oder leg unter "Auswertung" ein eigenes Lebensmittel an.');
