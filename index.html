@@ -345,13 +345,40 @@
   .scan-header{ display:flex; align-items:center; justify-content:space-between; padding:16px 16px calc(12px + env(safe-area-inset-top)); }
   .scan-close{ width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.12); color:#fff; font-size:16px; }
   .scan-title{ color:#fff; font-weight:700; font-size:14px; }
-  .scan-video-wrap{ flex:1; position:relative; overflow:hidden; background:#000; }
-  #scanVideo{ width:100%; height:100%; object-fit:cover; }
+  .scan-video-wrap{ flex:1; position:relative; overflow:hidden; background:#000;
+    -webkit-transform: translate3d(0,0,0); transform: translate3d(0,0,0); }
+  #scanVideo{ width:100%; height:100%; object-fit:cover; display:block;
+    -webkit-transform: translate3d(0,0,0); transform: translate3d(0,0,0); background:#000; }
   .scan-frame{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
     width:78%; max-width:340px; height:120px; border:3px solid var(--lime); border-radius:14px;
     box-shadow:0 0 0 2000px rgba(0,0,0,0.45); pointer-events:none; }
   .scan-status{ color:#fff; text-align:center; padding:16px; font-size:13px; min-height:50px;
     background:rgba(0,0,0,0.6); }
+
+  /* ---------- Yazio-artiges Layout: Filter-Chips & Ergebniszeilen ---------- */
+  .filter-chips{ display:flex; gap:8px; margin:10px 0 4px; overflow-x:auto; }
+  .fchip{ flex:0 0 auto; padding:8px 14px; border-radius:999px; border:1px solid var(--line);
+    background:var(--bg2); color:var(--ink-dim); font-size:12.5px; font-weight:700; white-space:nowrap; }
+  .fchip.active{ background:var(--lime); color:#12140F; border-color:var(--lime); }
+
+  .yz-row{ display:flex; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid var(--line); }
+  .yz-row:last-child{ border-bottom:none; }
+  .yz-body{ flex:1; min-width:0; cursor:pointer; }
+  .yz-name{ font-size:14.5px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .yz-sub{ font-size:12px; color:var(--ink-dim); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .yz-kcal{ flex:0 0 auto; font-family:ui-monospace,monospace; font-weight:800; font-size:14px; color:var(--lime); text-align:right; min-width:64px; }
+  .yz-add{ flex:0 0 auto; width:34px; height:34px; border-radius:50%; background:var(--lime); color:#12140F;
+    border:none; font-size:20px; font-weight:800; display:flex; align-items:center; justify-content:center; line-height:1; }
+  .yz-add:active{ transform:scale(0.92); }
+
+  .kcal-hero{ text-align:center; padding:18px 0 14px; }
+  .kcal-hero-num{ font-size:44px; font-weight:800; color:var(--lime); font-family:ui-monospace,monospace; line-height:1; }
+  .kcal-hero-lbl{ font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
+  .macro-hero-row{ display:flex; justify-content:space-around; padding:10px 0 4px; border-top:1px solid var(--line); margin-top:8px; }
+  .macro-hero-cell{ text-align:center; }
+  .macro-hero-val{ font-size:16px; font-weight:800; font-family:ui-monospace,monospace; }
+  .macro-hero-lbl{ font-size:10px; color:var(--ink-dim); margin-top:2px; text-transform:uppercase; letter-spacing:.04em; }
+
   .scan-tap-start{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
     background:var(--lime); color:#12140F; border:none; border-radius:12px; padding:14px 22px;
     font-weight:800; font-size:14px; z-index:5; box-shadow:0 6px 20px rgba(0,0,0,.5); }
@@ -455,7 +482,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v7.2</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v7.3</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -734,6 +761,11 @@
           </button>
         </div>
         <div id="nutSearchStatus" class="nut-status"></div>
+        <div class="filter-chips" id="nutFilterChips">
+          <button class="fchip active" data-f="all">Alle</button>
+          <button class="fchip" data-f="fav">★ Favoriten</button>
+          <button class="fchip" data-f="recent">Zuletzt</button>
+        </div>
         <div id="nutResults"></div>
         <div id="nutQuick"></div>
       </div>
@@ -2385,9 +2417,34 @@ function toggleFav(f){
 }
 function isFav(name){ return loadFavs().some(x => x.n === name); }
 
-function renderResults(list, statusText){
+let currentFilter = 'all';
+let lastSearchList = [];
+
+function applyFilter(list, filter){
+  if (filter === 'fav') return loadFavs().map(f => ({...f, src:'fav'}));
+  if (filter === 'recent') return loadRecents().map(f => ({...f, src:'recent'}));
+  return list;
+}
+
+function initFilterChips(){
+  const wrap = document.getElementById('nutFilterChips');
+  if (!wrap || wrap.dataset.bound) return;
+  wrap.dataset.bound = '1';
+  wrap.querySelectorAll('.fchip').forEach(chip => {
+    chip.onclick = () => {
+      currentFilter = chip.dataset.f;
+      wrap.querySelectorAll('.fchip').forEach(c => c.classList.toggle('active', c === chip));
+      const list = applyFilter(lastSearchList, currentFilter);
+      renderResults(list, list.length ? '' : (currentFilter === 'fav' ? 'Noch keine Favoriten markiert (★ antippen).' : 'Noch nichts verwendet.'), true);
+    };
+  });
+}
+
+function renderResults(list, statusText, skipStore){
+  if (!skipStore) lastSearchList = list;
   document.getElementById('nutSearchStatus').textContent = statusText || '';
   const el = document.getElementById('nutResults');
+  initFilterChips();
   if (!list.length) { el.innerHTML = ''; return; }
   const srcLabel = {local:'Datenbank', own:'Eigenes', off:'Online', fav:'Favorit', recent:'Zuletzt'};
 
@@ -2399,15 +2456,18 @@ function renderResults(list, statusText){
     const unit = isLiquid ? 'ml' : 'g';
     const pors = portionsFor(f);
     st[i] = { porIdx: 0, qty: 1, unit: unit, pors: pors, manual: null };
+    const defaultAmt = pors[0][1];
+    const defKcal = Math.round(f.kcal * defaultAmt / 100);
     return `
     <div class="nut-res-wrap">
-      <div class="nut-res">
-        <div class="nut-res-body">
-          <div class="nut-res-name">${f.n}<span class="nut-src ${f.src||'local'}">${srcLabel[f.src]||'Datenbank'}</span></div>
-          <div class="nut-res-macros">pro 100${unit}: ${f.kcal} kcal · P${f.p} C${f.c} F${f.f}</div>
+      <div class="yz-row">
+        <div class="yz-body ry-toggle" data-i="${i}">
+          <div class="yz-name">${f.n}<span class="nut-src ${f.src||'local'}" style="margin-left:6px;">${srcLabel[f.src]||'Datenbank'}</span></div>
+          <div class="yz-sub">${pors[0][0]} (${defaultAmt}${unit}) · pro 100${unit}: ${f.kcal} kcal</div>
         </div>
+        <span class="yz-kcal">${defKcal} kcal</span>
         <span class="fav-star ${isFav(f.n)?'on':''}" data-i="${i}">★</span>
-        <button class="nut-res-add na-toggle" data-i="${i}">+</button>
+        <button class="yz-add" data-i="${i}" title="Direkt mit Standardmenge hinzufügen">+</button>
       </div>
       <div class="nut-panel" id="np-${i}">
         <div class="np-label">Portionsgröße</div>
@@ -2424,7 +2484,7 @@ function renderResults(list, statusText){
           <button class="qty-btn qplus" data-i="${i}">+</button>
         </div>
 
-        <div class="np-total" id="npt-${i}"></div>
+        <div class="kcal-hero" id="npt-${i}"></div>
 
         <details class="np-manual">
           <summary>Menge manuell eingeben</summary>
@@ -2436,7 +2496,7 @@ function renderResults(list, statusText){
 
         <div class="np-label" style="margin-top:14px;">Zu welcher Mahlzeit?</div>
         <div class="np-slots">
-          ${MEAL_SLOTS.map(s => `<button class="np-slot" data-i="${i}" data-slot="${s}">${s}</button>`).join('')}
+          ${MEAL_SLOTS.filter(s=>s!=='Importiert').map(s => `<button class="np-slot" data-i="${i}" data-slot="${s}">${s}</button>`).join('')}
         </div>
       </div>
     </div>`;
@@ -2463,30 +2523,30 @@ function renderResults(list, statusText){
     if (inp && document.activeElement !== inp) inp.value = amt;
 
     document.getElementById('npt-' + i).innerHTML = `
-      <div class="npt-kcal mono">${Math.round(f.kcal*m)} kcal</div>
-      <div class="npt-macros">
-        <span><b class="mono" style="color:var(--protein)">${Math.round(f.p*m*10)/10}g</b> Protein</span>
-        <span><b class="mono" style="color:var(--carb)">${Math.round(f.c*m*10)/10}g</b> Carbs</span>
-        <span><b class="mono" style="color:var(--fat)">${Math.round(f.f*m*10)/10}g</b> Fett</span>
-      </div>
-      <div class="npt-amt">Gesamt: ${amt} ${s.unit}</div>`;
+      <div class="kcal-hero-num">${Math.round(f.kcal*m)}</div>
+      <div class="kcal-hero-lbl">Kalorien · ${amt} ${s.unit}</div>
+      <div class="macro-hero-row">
+        <div class="macro-hero-cell"><div class="macro-hero-val" style="color:var(--carb)">${Math.round(f.c*m*10)/10}g</div><div class="macro-hero-lbl">Carbs</div></div>
+        <div class="macro-hero-cell"><div class="macro-hero-val" style="color:var(--protein)">${Math.round(f.p*m*10)/10}g</div><div class="macro-hero-lbl">Eiweiß</div></div>
+        <div class="macro-hero-cell"><div class="macro-hero-val" style="color:var(--fat)">${Math.round(f.f*m*10)/10}g</div><div class="macro-hero-lbl">Fett</div></div>
+      </div>`;
   }
 
-  el.querySelectorAll('.fav-star').forEach(sEl => {
-    sEl.onclick = () => {
-      const nowFav = toggleFav(list[parseInt(sEl.dataset.i,10)]);
-      sEl.classList.toggle('on', nowFav);
-    };
-  });
-
-  el.querySelectorAll('.na-toggle').forEach(btn => {
-    btn.onclick = () => {
-      const i = btn.dataset.i;
+  el.querySelectorAll('.ry-toggle').forEach(row => {
+    row.onclick = () => {
+      const i = row.dataset.i;
       const panel = document.getElementById('np-' + i);
       const isOpen = panel.classList.contains('open');
       el.querySelectorAll('.nut-panel').forEach(p => p.classList.remove('open'));
-      el.querySelectorAll('.na-toggle').forEach(b => b.textContent = '+');
-      if (!isOpen) { panel.classList.add('open'); btn.textContent = '×'; refresh(i); }
+      if (!isOpen) { panel.classList.add('open'); refresh(i); panel.scrollIntoView({behavior:'smooth', block:'nearest'}); }
+    };
+  });
+
+  el.querySelectorAll('.fav-star').forEach(sEl => {
+    sEl.onclick = (ev) => {
+      ev.stopPropagation();
+      const nowFav = toggleFav(list[parseInt(sEl.dataset.i,10)]);
+      sEl.classList.toggle('on', nowFav);
     };
   });
 
@@ -2523,20 +2583,40 @@ function renderResults(list, statusText){
     };
   });
 
+  function addToMeal(i, slotName){
+    const f = list[i];
+    const amt = currentAmount(i);
+    if (!amt || amt <= 0) { document.getElementById('nutSearchStatus').textContent = 'Bitte eine Menge angeben.'; return false; }
+    const s = st[i];
+    const label = s.manual !== null ? f.n : (s.qty > 1 ? s.qty + '× ' + f.n + ' (' + s.pors[s.porIdx][0] + ')' : f.n + ' (' + s.pors[s.porIdx][0] + ')');
+    addFoodEntry({...f, n: label}, amt, slotName);
+    addRecent(f);
+    return label;
+  }
+
   el.querySelectorAll('.np-slot').forEach(btn => {
     btn.onclick = () => {
       const i = parseInt(btn.dataset.i, 10);
-      const f = list[i];
-      const amt = currentAmount(i);
-      if (!amt || amt <= 0) { document.getElementById('nutSearchStatus').textContent = 'Bitte eine Menge angeben.'; return; }
-      const s = st[i];
-      const label = s.manual !== null ? f.n : (s.qty > 1 ? s.qty + '× ' + f.n + ' (' + s.pors[s.porIdx][0] + ')' : f.n + ' (' + s.pors[s.porIdx][0] + ')');
-      const entry = {...f, n: f.n};
-      addFoodEntry({...entry, n: label, kcal: f.kcal, p: f.p, c: f.c, f: f.f, por: f.por}, amt, btn.dataset.slot);
-      addRecent(f);
+      const label = addToMeal(i, btn.dataset.slot);
+      if (!label) return;
       document.getElementById('nutSearch').value = '';
       document.getElementById('nutResults').innerHTML = '';
       document.getElementById('nutSearchStatus').textContent = '✓ ' + label + ' hinzugefügt';
+      setTimeout(() => { const x = document.getElementById('nutSearchStatus'); if (x) x.textContent = ''; }, 2500);
+      renderNutToday();
+    };
+  });
+
+  // Schnell-Hinzufügen-Knopf: nutzt die Standardportion, fügt direkt zur aktuell wahrscheinlichsten Mahlzeit hinzu
+  el.querySelectorAll('.yz-add').forEach(btn => {
+    btn.onclick = (ev) => {
+      ev.stopPropagation();
+      const i = parseInt(btn.dataset.i, 10);
+      const hour = new Date().getHours();
+      const slot = hour < 10 ? 'Frühstück' : hour < 15 ? 'Mittagessen' : hour < 19 ? 'Abendessen' : 'Snack';
+      const label = addToMeal(i, slot);
+      if (!label) return;
+      document.getElementById('nutSearchStatus').textContent = '✓ ' + label + ' zu ' + slot + ' hinzugefügt';
       setTimeout(() => { const x = document.getElementById('nutSearchStatus'); if (x) x.textContent = ''; }, 2500);
       renderNutToday();
     };
@@ -3517,10 +3597,20 @@ async function startScanner(){
       video: { facingMode: { ideal: 'environment' } },
       audio: false
     });
-    video.srcObject = scanStream;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
     video.muted = true;
     video.playsInline = true;
+    video.srcObject = scanStream;
     await ensureVideoPlaying(video);
+
+    // Diagnose: zeigt, ob wirklich Bilddaten ankommen (hilft, falls es noch schwarz bleibt)
+    const track = scanStream.getVideoTracks()[0];
+    const settings = track ? track.getSettings() : {};
+    video.addEventListener('loadedmetadata', () => {
+      statusEl.textContent = 'Bild: ' + (video.videoWidth || '?') + '×' + (video.videoHeight || '?') +
+        ' · Kamera: ' + (settings.facingMode || 'unbekannt') + ' · Barcode in den Rahmen halten…';
+    }, { once: true });
 
     zxingReader = new ZXing.BrowserMultiFormatReader();
     zxingReader.decodeFromStream(scanStream, video, async (result, err) => {
