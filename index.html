@@ -273,7 +273,9 @@
   footer.tabbar{ position:fixed; bottom:0; left:0; right:0; z-index:30;
     background: rgba(20,23,16,0.94); backdrop-filter: blur(14px); border-top:1px solid var(--line);
     display:flex; gap:2px; padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
-    overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+    overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+    /* mittig, solange alles passt; "safe" verhindert Abschneiden links bei Überlauf */
+    justify-content: safe center; }
   footer.tabbar::-webkit-scrollbar{ display:none; }
   .nav-btn{ flex:0 0 auto; min-width:62px; display:flex; flex-direction:column; align-items:center; gap:4px;
     color:var(--ink-dim); font-size:10px; font-weight:600; padding:7px 8px; border-radius:12px;
@@ -283,6 +285,12 @@
   .nav-btn.active{ color:var(--lime); }
   .nav-btn.active .nav-ico{ background:rgba(200,255,77,0.16); }
   .nav-lbl{ white-space:nowrap; }
+  /* Fallback für Browser ohne "safe center": Randabstände gleichmäßig verteilen */
+  @supports not (justify-content: safe center){
+    footer.tabbar{ justify-content: center; }
+    .nav-btn:first-child{ margin-left:auto; }
+    .nav-btn:last-child{ margin-right:auto; }
+  }
 
   /* ---------- Layout-Korrekturen ---------- */
   *, *::before, *::after{ box-sizing:border-box; }
@@ -379,6 +387,17 @@
   .macro-hero-val{ font-size:16px; font-weight:800; font-family:ui-monospace,monospace; }
   .macro-hero-lbl{ font-size:10px; color:var(--ink-dim); margin-top:2px; text-transform:uppercase; letter-spacing:.04em; }
 
+  .scan-photo-hint{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; text-align:center; padding:24px; color:#fff; gap:8px; }
+  .sph-icon{ font-size:44px; }
+  .sph-title{ font-weight:800; font-size:16px; }
+  .sph-text{ font-size:13px; color:rgba(255,255,255,.7); line-height:1.5; max-width:280px; }
+  .scan-actions{ padding:14px 16px calc(18px + env(safe-area-inset-bottom)); display:flex; flex-direction:column; gap:10px;
+    background:#000; }
+  .scan-primary{ background:var(--lime); color:#12140F; border:none; border-radius:12px; padding:16px;
+    font-weight:800; font-size:15px; }
+  .scan-secondary{ background:transparent; color:rgba(255,255,255,.65); border:1px solid rgba(255,255,255,.25);
+    border-radius:12px; padding:12px; font-size:13px; font-weight:600; }
   .scan-tap-start{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
     background:var(--lime); color:#12140F; border:none; border-radius:12px; padding:14px 22px;
     font-weight:800; font-size:14px; z-index:5; box-shadow:0 6px 20px rgba(0,0,0,.5); }
@@ -482,7 +501,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v7.3</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v7.4</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1036,10 +1055,19 @@
   </div>
   <div class="scan-video-wrap" id="scanVideoWrap">
     <video id="scanVideo" playsinline webkit-playsinline autoplay muted></video>
-    <div class="scan-frame"></div>
-    <button id="scanTapStart" class="scan-tap-start" style="display:none;">▶ Zum Starten hier tippen</button>
+    <div class="scan-frame" id="scanFrame"></div>
+    <div id="scanPhotoHint" class="scan-photo-hint">
+      <div class="sph-icon">📷</div>
+      <div class="sph-title">Barcode fotografieren</div>
+      <div class="sph-text">Tipp unten auf „Foto aufnehmen“, halte den Barcode formatfüllend ins Bild und löse aus.</div>
+    </div>
   </div>
-  <div id="scanStatus" class="scan-status">Kamera wird gestartet…</div>
+  <div id="scanStatus" class="scan-status">Bereit.</div>
+  <div class="scan-actions">
+    <button id="scanPhotoBtn" class="scan-primary">📷 Foto aufnehmen</button>
+    <button id="scanLiveBtn" class="scan-secondary">Live-Kamera versuchen</button>
+  </div>
+  <input type="file" id="scanFileInput" accept="image/*" capture="environment" style="display:none;">
 </div>
 
 <footer class="tabbar" id="bottomNav"></footer>
@@ -3554,84 +3582,100 @@ function stopScanner(){
   document.getElementById('scanOverlay').classList.remove('open');
 }
 
-async function ensureVideoPlaying(video){
-  // iOS blockiert die automatische Wiedergabe manchmal trotz "autoplay" —
-  // ein expliziter play()-Aufruf behebt das in den meisten Fällen.
-  try { await video.play(); } catch(e) { /* ignorieren, Tippen-Button greift dann */ }
-  // Prüfen, ob nach kurzer Zeit tatsächlich Bilddaten ankommen
-  await new Promise(r => setTimeout(r, 900));
-  const tapBtn = document.getElementById('scanTapStart');
-  if (video.paused || video.readyState < 2) {
-    tapBtn.style.display = 'block';
-    tapBtn.onclick = async () => {
-      try { await video.play(); tapBtn.style.display = 'none'; } catch(e){}
-    };
-  } else {
-    tapBtn.style.display = 'none';
+async function handleBarcodeResult(code, statusEl){
+  statusEl.textContent = 'Barcode ' + code + ' erkannt — suche Produkt…';
+  try {
+    const food = await fetchProductByBarcode(code);
+    stopScanner();
+    document.getElementById('nutSearch').value = food.n;
+    renderResults([food], '');
+    document.getElementById('nutSearchStatus').textContent = '✓ Gefunden: ' + food.n;
+  } catch(e) {
+    statusEl.textContent = 'Barcode ' + code + ': ' + e.message + ' — bitte manuell suchen.';
   }
 }
 
-async function startScanner(){
-  const overlay = document.getElementById('scanOverlay');
+// --- Weg 1 (zuverlässig auf iOS): Foto mit der nativen Kamera, dann Barcode aus dem Bild lesen ---
+function initPhotoScan(){
+  const input = document.getElementById('scanFileInput');
+  const statusEl = document.getElementById('scanStatus');
+  if (!input || input.dataset.bound) return;
+  input.dataset.bound = '1';
+
+  input.onchange = async () => {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    statusEl.textContent = 'Bild wird ausgewertet…';
+    const url = URL.createObjectURL(file);
+    try {
+      if (typeof ZXing === 'undefined') throw new Error('Scanner-Bibliothek nicht geladen');
+      const reader = new ZXing.BrowserMultiFormatReader();
+      const result = await reader.decodeFromImageUrl(url);
+      await handleBarcodeResult(result.getText(), statusEl);
+    } catch(e) {
+      statusEl.textContent = 'Kein Barcode im Bild erkannt. Tipp: näher ran, Barcode gerade und formatfüllend, gutes Licht.';
+    } finally {
+      URL.revokeObjectURL(url);
+      input.value = '';
+    }
+  };
+}
+
+// --- Weg 2 (optional): Live-Kamera, funktioniert auf iOS nicht immer zuverlässig ---
+async function startLiveCamera(){
   const statusEl = document.getElementById('scanStatus');
   const video = document.getElementById('scanVideo');
-  document.getElementById('scanTapStart').style.display = 'none';
-  overlay.classList.add('open');
-  statusEl.textContent = 'Kamera wird gestartet…';
+  const hint = document.getElementById('scanPhotoHint');
 
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    statusEl.textContent = 'Kamera nicht verfügbar. Nur über die installierte App (nicht als Vorschau) möglich, und nur mit https-Adresse.';
+    statusEl.textContent = 'Live-Kamera in diesem Browser nicht verfügbar — nutze „Foto aufnehmen“.';
     return;
   }
   if (typeof ZXing === 'undefined') {
-    statusEl.textContent = 'Scanner-Bibliothek konnte nicht geladen werden. Internetverbindung prüfen.';
+    statusEl.textContent = 'Scanner-Bibliothek nicht geladen — Internetverbindung prüfen.';
     return;
   }
 
+  statusEl.textContent = 'Live-Kamera wird gestartet…';
   try {
-    // Stream selbst anfordern (statt ZXings Geräteliste zu nutzen) — vor erteilter
-    // Erlaubnis liefert die Geräteliste oft keine brauchbaren Labels, wodurch die
-    // falsche Kamera gewählt werden kann. facingMode:"environment" wählt direkt
-    // die Rückkamera.
     scanStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: 'environment' } },
-      audio: false
+      video: { facingMode: { ideal: 'environment' } }, audio: false
     });
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
+    hint.style.display = 'none';
+    video.setAttribute('playsinline','');
+    video.setAttribute('webkit-playsinline','');
     video.muted = true;
     video.playsInline = true;
     video.srcObject = scanStream;
-    await ensureVideoPlaying(video);
+    try { await video.play(); } catch(e){}
 
-    // Diagnose: zeigt, ob wirklich Bilddaten ankommen (hilft, falls es noch schwarz bleibt)
-    const track = scanStream.getVideoTracks()[0];
-    const settings = track ? track.getSettings() : {};
-    video.addEventListener('loadedmetadata', () => {
-      statusEl.textContent = 'Bild: ' + (video.videoWidth || '?') + '×' + (video.videoHeight || '?') +
-        ' · Kamera: ' + (settings.facingMode || 'unbekannt') + ' · Barcode in den Rahmen halten…';
-    }, { once: true });
+    await new Promise(r => setTimeout(r, 1200));
+    if (!video.videoWidth) {
+      statusEl.textContent = 'Live-Bild bleibt schwarz (bekannte iOS-Einschränkung). Nutze bitte „Foto aufnehmen“ — das funktioniert zuverlässig.';
+      hint.style.display = 'flex';
+      if (scanStream) { scanStream.getTracks().forEach(t => t.stop()); scanStream = null; }
+      return;
+    }
 
     zxingReader = new ZXing.BrowserMultiFormatReader();
-    zxingReader.decodeFromStream(scanStream, video, async (result, err) => {
-      if (result) {
-        const code = result.getText();
-        statusEl.textContent = 'Barcode erkannt: ' + code + ' — suche Produkt…';
-        stopScanner();
-        try {
-          const food = await fetchProductByBarcode(code);
-          document.getElementById('nutSearch').value = food.n;
-          renderResults([food], '');
-          document.getElementById('nutSearchStatus').textContent = '';
-        } catch(e) {
-          document.getElementById('nutSearchStatus').textContent = 'Barcode ' + code + ': ' + e.message;
-        }
-      }
+    zxingReader.decodeFromStream(scanStream, video, async (result) => {
+      if (result) await handleBarcodeResult(result.getText(), statusEl);
     });
-    statusEl.textContent = 'Barcode in den Rahmen halten…';
+    statusEl.textContent = 'Bild läuft (' + video.videoWidth + '×' + video.videoHeight + ') — Barcode in den Rahmen halten…';
   } catch(e) {
-    statusEl.textContent = 'Kamera-Zugriff verweigert oder nicht möglich: ' + e.message;
+    statusEl.textContent = 'Live-Kamera nicht möglich (' + e.message + '). Nutze „Foto aufnehmen“.';
+    hint.style.display = 'flex';
   }
+}
+
+function startScanner(){
+  const overlay = document.getElementById('scanOverlay');
+  const statusEl = document.getElementById('scanStatus');
+  const hint = document.getElementById('scanPhotoHint');
+  overlay.classList.add('open');
+  hint.style.display = 'flex';
+  statusEl.textContent = 'Bereit — „Foto aufnehmen“ antippen.';
+  initPhotoScan();
 }
 
 function initScanner(){
@@ -3644,6 +3688,16 @@ function initScanner(){
   if (close && !close.dataset.bound) {
     close.dataset.bound = '1';
     close.onclick = stopScanner;
+  }
+  const photoBtn = document.getElementById('scanPhotoBtn');
+  if (photoBtn && !photoBtn.dataset.bound) {
+    photoBtn.dataset.bound = '1';
+    photoBtn.onclick = () => { initPhotoScan(); document.getElementById('scanFileInput').click(); };
+  }
+  const liveBtn = document.getElementById('scanLiveBtn');
+  if (liveBtn && !liveBtn.dataset.bound) {
+    liveBtn.dataset.bound = '1';
+    liveBtn.onclick = startLiveCamera;
   }
 }
 
