@@ -501,7 +501,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v7.7</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v8.2</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1078,9 +1078,9 @@ const data = {
     {name:"Montag", type:"Gym · hart", training:"Beine (schwer)", vol:"8 Übungen inkl. Core & Mobility", kcal:2400, p:200, c:220, f:82, steps:"12.500", refeed:false},
     {name:"Dienstag", type:"Gym · hart", training:"Push (schwer)", vol:"8 Übungen inkl. Core & Mobility", kcal:2400, p:200, c:210, f:84, steps:"12.500", refeed:false},
     {name:"Mittwoch", type:"Calisthenics · hart", training:"Pull + Muscle-Up + Lauf", vol:"10 Übungen inkl. Core & Lauf", kcal:2400, p:200, c:210, f:84, steps:"9.000", refeed:false},
-    {name:"Donnerstag", type:"Gym · moderat", training:"Beine + Core", vol:"11 Übungen inkl. Core & Mobility", kcal:2300, p:200, c:170, f:96, steps:"12.500", refeed:false},
+    {name:"Donnerstag", type:"Gym · moderat", training:"Beine + Core-Block 2", vol:"11 Übungen inkl. Core & Mobility", kcal:2300, p:200, c:170, f:96, steps:"12.500", refeed:false},
     {name:"Freitag", type:"Kabel/Calisthenics · moderat", training:"Push (Kabel) + Turner-Skills", vol:"8 Übungen inkl. Ring- & Handstand-Arbeit", kcal:2300, p:200, c:170, f:96, steps:"9.000", refeed:false},
-    {name:"Samstag", type:"Calisthenics + Lauf · Refeed", training:"Pull + Walk-Run", vol:"8 Übungen inkl. Laufintervalle", kcal:2800, p:200, c:340, f:75, steps:"13.500", refeed:true},
+    {name:"Samstag", type:"Calisthenics + Lauf · Refeed", training:"Pull + Core-Block 3 + Lauf", vol:"11 Übungen inkl. Lauf & Core", kcal:2800, p:200, c:340, f:75, steps:"13.500", refeed:true},
     {name:"Sonntag", type:"Ruhetag", training:"Mobility, Gehen & Skill", vol:"4 Einheiten", kcal:2200, p:200, c:110, f:111, steps:"8.000+", refeed:false},
   ],
   mealPlans: {
@@ -1117,7 +1117,6 @@ const data = {
       {name:"Beinbeuger liegend (Matrix)", sets:"2 × 10–12", note:"Isoliert Hamstrings, entlastet Knie."},
       {name:"Hip Thrust (Langhantel oder Maschine)", sets:"3 × 10–12", note:"NEU — LÜCKE GESCHLOSSEN: Gluteus maximus in voller Hüftstreckung. Kniebeugen trainieren ihn nur im gebeugten Bereich. Starker Glutes-Muskel schützt das Knie vor dem Einknicken nach innen und ist die zentrale Muskelgruppe für Sprint und Sprung. Oben 1 Sek. halten."},
       {name:"Wadenheben stehend", sets:"3 × 15–20", note:"Hohe Wdh.-Zahl bewusst: Waden haben deutlich mehr langsame Fasern. Trifft den Gastrocnemius; der Soleus kommt donnerstags."},
-      {name:"Pallof Press (Kabelzug, stehend)", sets:"3 × 10 je Seite", note:"CORE — Anti-Rotation. Kabel seitlich auf Brusthöhe, Griff vor der Brust nach vorne drücken und gegen die Verdrehung halten. Die wichtigste fehlende Core-Funktion bei Rückenproblemen."},
       {name:"Mobility: Hüftbeuger & Knöchel", sets:"10 min", note:"Direkt im Warm-down. Knöchelbeweglichkeit ist Voraussetzung für tiefe Hocke und schmerzfreies Laufen."},
     ]},
     "di": {label:"Di · Push (hart)", sub:"Gym · Krafttraining, schwer", exercises:[
@@ -1127,7 +1126,8 @@ const data = {
       {name:"Schulterdrücken (Matrix Schulterpresse)", sets:"2 × 8–10", note:"Vordere/mittlere Schulter."},
       {name:"Seitheben (Matrix Maschine)", sets:"3 × 12–15", note:"Höhere Wdh.: Deltamuskel hat nachweislich mehr langsame Fasern als der Rest des Oberkörpers."},
       {name:"Trizeps-Pushdown (Kabel)", sets:"2 × 10–12", note:"Übung frei austauschbar."},
-      {name:"Cable Crunch (Kabelzug, kniend)", sets:"3 × 10–12", note:"CORE — gewichtete Flexion. Die einzige Bauchübung mit echter progressiver Steigerung: Gewicht erhöhen wie bei jeder anderen Übung. Bewegung aus der Wirbelsäule, nicht aus der Hüfte."},
+      {name:"CORE-BLOCK 1 · Pallof Press (Kabelzug, stehend)", sets:"3 × 10 je Seite", note:"Anti-Rotation. Bewusst isometrisch und unbelastet gewählt: morgen stehen Rack Pulls an, und schwere Rumpfbeugung würde die Rumpfsteifigkeit für die schwerste Wirbelsäulenbelastung der Woche senken. Halten, nicht beugen."},
+      {name:"CORE-BLOCK 1 · Side Plank mit Beinheben", sets:"3 × 20–30 sek je Seite", note:"Anti-laterale-Flexion + Abduktoren. Ebenfalls isometrisch — belastet die Wirbelsäule kaum und beeinträchtigt die Rack Pulls am Folgetag nicht."},
       {name:"Mobility: Brustwirbelsäule-Rotation", sets:"10 min", note:"Gegen Rundrücken-Kompensation vom Drücken."},
     ]},
     "mi": {label:"Mi · Pull (hart) — Calisthenics-Fokus", sub:"Bodyweight + Kabel · Muscle-Up & 2. Laufeinheit", exercises:[
@@ -1140,20 +1140,19 @@ const data = {
 
       {name:"Reverse Fly vorgebeugt (Kurzhantel)", sets:"2 × 12–15", note:"Hintere Schulter. Zweiter Reiz kommt samstags über Face Pulls."},
       {name:"Hammer Curls", sets:"2 × 10–12", note:"Einzige Bizeps-Isolation der Woche — der Rest kommt über Klimmzüge und Rudern. Brachialis + Griffkraft für Muscle-Ups."},
-      {name:"Hanging Leg Raises (an der Stange)", sets:"3 × 8–12", note:"CORE — untere Bauchmuskulatur. Beine gestreckt anheben, kontrolliert senken, kein Schwung."},
       {name:"Walk-Run locker (2. Laufeinheit)", sets:"20 min: 3 min gehen / 1 min joggen, 5×", note:"NEU: zweiter Laufreiz der Woche. Bewusst mittwochs — 3 Tage Abstand zur Samstags-Einheit, Beine sind vom Montag erholt. Zwei Läufe pro Woche sind das Minimum für echten Fortschritt."},
     ]},
     "do": {label:"Do · Beine (moderat) + Core", sub:"Gym · moderat, Technik-Fokus", exercises:[
       {name:"Hack Squat (leichter, ca. 80% von Montag)", sets:"2 × 10–12", note:"Kein neues Maximum — Kontrolle und voller Bewegungsumfang im Fokus. Alternativ Beinpresse, falls die Hack Squat besetzt ist."},
-      {name:"Beinstrecker (Matrix)", sets:"2 × 12–15", note:"Quadrizeps isoliert, unterstützt Kniestabilität bei moderater Last."},
-      {name:"Beinbeuger sitzend (Matrix)", sets:"3 × 10–15", note:"NEU: Hamstrings brauchen 2× pro Woche Reiz — ein Ungleichgewicht zwischen Quadrizeps und Hamstrings ist einer der Hauptrisikofaktoren für Knieprobleme. Sitzend statt liegend (Montag) für etwas anderen Reizwinkel."},
-      {name:"Nordic Curl (assistiert) oder Beinbeuger-Negative", sets:"2 × 5–8", note:"Exzentrische Hamstring-Kraft — nachweislich der beste Schutz vor Hamstring-Verletzungen beim Laufen. Falls zu schwer: nur die Absenkbewegung langsam kontrollieren (3–5 Sek.)."},
+      {name:"Beinstrecker (Matrix)", sets:"2 × 12–15", note:"WIEDER DRIN: trainiert als einzige Übung des Plans den Rectus femoris wirksam — der einzige Quadrizeps-Kopf, der über die Hüfte läuft und bei Hack Squat, Split Squats und Step-ups (Hüfte gebeugt) kaum Reiz bekommt. Kontrolliert bewegen, im schmerzfreien Bereich arbeiten."},
+      {name:"Beinbeuger liegend (Matrix)", sets:"3 × 10–15", note:"Hamstrings brauchen 2× pro Woche Reiz — ein Ungleichgewicht zwischen Quadrizeps und Hamstrings ist einer der Hauptrisikofaktoren für Knieprobleme. Hier bewusst etwas höhere Wiederholungen als am Montag (dort 2 × 10–12), um trotz gleicher Maschine einen anderen Reiz zu setzen."},
+      {name:"Einbeinige Beinbeuger-Negative (liegend)", sets:"2 × 6–8 je Bein", note:"ERSETZT Nordic Curl — braucht keine Fixierung, nur die Maschine, die du ohnehin nutzt. Ablauf: mit BEIDEN Beinen hochziehen, dann ein Bein lösen und das Gewicht mit EINEM Bein über 3–5 Sekunden kontrolliert absenken. Erzeugt denselben exzentrischen Reiz wie der Nordic Curl — nachweislich der beste Schutz vor Hamstring-Verletzungen beim Laufen. Alternative ohne Maschine: Handtuch- oder Slider-Curls auf glattem Boden, Fersen langsam wegschieben."},
       {name:"Step-ups auf Bank/Box", sets:"3 × 10 je Seite", note:"Einbeinige Hüftstabilität — der Gluteus-medius-Reiz, funktionell statt an der Maschine."},
       {name:"Wadenheben sitzend", sets:"3 × 15–20", note:"Sitzend trifft den Soleus (tiefer Wadenmuskel), stehend am Montag den Gastrocnemius. Beide fürs Laufen relevant."},
       {name:"Tibialis Raises (Zehenheben)", sets:"3 × 15–20", note:"NEU — LÜCKE GESCHLOSSEN: Schienbeinmuskel, der Gegenspieler der Wade. Fehlt in fast jedem Plan und ist eine Hauptursache für Shin Splints und Knieschmerzen beim Laufen. Mit Rücken an der Wand stehen, Fersen am Boden, Fußspitzen so weit wie möglich anheben."},
-      {name:"Copenhagen Plank (Adduktoren)", sets:"2 × 15–25 sek je Seite", note:"NEU — LÜCKE GESCHLOSSEN: Die Adduktoren waren mit der Maschine ersatzlos rausgeflogen. Sie sind die häufigste Zerrung beim Laufeinstieg. Seitstütz, oberes Bein auf einer Bank, unteres Bein frei anheben. Einsteiger: Knie statt Fuß auf der Bank."},
-      {name:"Side Plank mit Beinheben", sets:"3 × 20–30 sek je Seite", note:"CORE — Anti-laterale-Flexion. Abduktoren + seitliche Rumpfstabilität kombiniert. Direkt gegen Knie- und Rückenprobleme."},
-      {name:"Ab Wheel Rollout (oder Plank aus dem Unterarmstütz)", sets:"3 × 8–12", note:"CORE — Anti-Extension unter Last. Falls kein Ab Wheel da ist: Plank mit angehobenen Füßen, 3 × 45 sek. Rücken bleibt gerade, kein Durchhängen."},
+      {name:"CORE-BLOCK 2 · Ab Wheel Rollout", sets:"3 × 8–12", note:"Anti-Extension unter Last — die anspruchsvollste Core-Übung des Plans, deshalb am Anfang des Blocks. Rücken bleibt gerade, kein Durchhängen. Ohne Ab Wheel: Plank mit erhöhten Füßen, 3 × 45 sek."},
+      {name:"CORE-BLOCK 2 · Cable Crunch (Kabelzug, kniend)", sets:"3 × 10–12", note:"VERSCHOBEN von Dienstag: gewichtete Flexion, die einzige Bauchübung mit echter progressiver Steigerung. Liegt jetzt 4 Tage vor den nächsten Rack Pulls statt 1 Tag davor. Bewegung aus der Wirbelsäule, nicht aus der Hüfte."},
+      {name:"CORE-BLOCK 2 · Copenhagen Plank (Adduktoren)", sets:"2 × 15–25 sek je Seite", note:"Adduktoren — häufigste Zerrung beim Laufeinstieg. Seitstütz, oberes Bein auf einer Bank, unteres Bein frei anheben. Einsteiger: Knie statt Fuß auf der Bank."},
       {name:"Mobility: Knöchel & Hüfte tief", sets:"10 min", note:"Tiefe Hocke halten, Ankle-Dorsiflexion."},
     ]},
     "fr": {label:"Fr · Push (moderat, Kabel-Variante)", sub:"Kabelzug · leichter als Dienstag", exercises:[
@@ -1163,7 +1162,6 @@ const data = {
       {name:"Ring-Dips", sets:"3 × so viele wie sauber möglich", note:"ERSETZT Maschinen-Dips. Einziges Druck-Verbundelement des Tages — Calisthenics-Anteil."},
       {name:"Pike Push-ups", sets:"3 × 8–12", note:"Calisthenics-Schulterdrücken, Vorbereitung auf Handstand-Liegestütz."},
       {name:"Ring Support Hold (Ringe außenrotiert)", sets:"3 × 15–30 sek", note:"NEU — Basis für jede Ringkraft. Oben auf den Ringen stützen, Arme durchgestreckt, Ringe nach außen drehen (RTO). Baut die Schulter- und Brustdichte auf, die Turner auszeichnet, und schützt gleichzeitig die Schultergelenke."},
-      {name:"L-Sit (Boden, Barren oder Ringe)", sets:"3 × 15–25 sek", note:"NEU — Turner-Core: Beine waagerecht, Arme durchgestreckt, Schultern nach unten gedrückt. Trainiert Bauch, Hüftbeuger und Stützkraft gleichzeitig. Zu schwer? Tuck L-Sit mit angezogenen Knien, dann ein Bein strecken."},
       {name:"Handstand-Praxis", sets:"5–8 min", note:"Zweite Skill-Einheit der Woche. Direkt nach den Pike Push-ups, solange die Schultern warm sind."},
     ]},
     "sa": {label:"Sa · Pull (moderat) + Lauf-Aufbau", sub:"Bodyweight · Refeed-Tag", exercises:[
@@ -1172,7 +1170,10 @@ const data = {
       {name:"Straight-Arm Pulldown (Kabel, Seil)", sets:"2 × 12–15", note:"Deine bisherige Übung 'Schulterhöhe zu Knie' — Korrektur: das trainiert den LATISSIMUS, nicht die hintere Schulter. Bleibt drin, aber richtig eingeordnet."},
       {name:"Face Pulls (Kabel, Seil auf Kopfhöhe)", sets:"2 × 15–20", note:"VERSCHOBEN von Freitag hierher: hintere Schulter gehört zum Zugtag, nicht zum Drucktag. Zweiter Rear-Delt-Reiz der Woche neben dem Reverse Fly am Mittwoch. Trainiert zusätzlich die Außenrotatoren — wichtig bei deinem hohen Druckvolumen."},
       {name:"Bizeps-Curls (Langhantel oder Kurzhantel)", sets:"2 × 10–12", note:"NEU: zweiter direkter Bizeps-Reiz der Woche neben Hammer Curls (Mi). Klassische Curls trainieren den Bizeps aus einem anderen Winkel als Hammer Curls (Handfläche nach oben statt neutral) — deckt den Muskel damit vollständiger ab."},
-      {name:"Renegade Rows (Liegestütz-Position, Kurzhantel)", sets:"3 × 8–10 je Seite", note:"ERSETZT Farmer's Walk: Anti-Rotation im Stütz statt im Stehen — eine Funktion, die sonst fehlt. Trainiert Latissimus, mittleren Rücken und Griffkraft mit. Rumpf bewusst ruhig halten, nicht zur Seite kippen lassen — die Stabilität ist der eigentliche Trainingsreiz, nicht das Rudern selbst."},
+      {name:"Renegade Rows (Liegestütz-Position, Kurzhantel)", sets:"3 × 8–10 je Seite", note:"ERSETZT Farmer's Walk: Anti-Rotation im Stütz. Trainiert Latissimus, mittleren Rücken und Griffkraft mit. Rumpf ruhig halten, nicht zur Seite kippen — die Stabilität ist der Reiz, nicht das Rudern."},
+      {name:"CORE-BLOCK 3 · L-Sit (Boden, Barren oder Ringe)", sets:"3 × 15–25 sek", note:"VERSCHOBEN von Freitag: Turner-Core. Beine waagerecht, Arme durchgestreckt, Schultern nach unten gedrückt. Zu schwer? Tuck L-Sit mit angezogenen Knien, dann ein Bein strecken."},
+      {name:"CORE-BLOCK 3 · Hanging Leg Raises (an der Stange)", sets:"3 × 8–12", note:"VERSCHOBEN von Mittwoch: untere Bauchmuskulatur. Beine gestreckt anheben, kontrolliert senken, kein Schwung. Liegt hier direkt vor dem Ruhetag — optimaler Erholungszeitpunkt."},
+      {name:"CORE-BLOCK 3 · Hollow Body Hold", sets:"2 × 20–30 sek", note:"Anti-Extension und Grundposition jeder Turner-Bewegung. Unterer Rücken bleibt am Boden gepresst — sobald er sich hebt, ist der Satz vorbei."},
       {name:"Walk-Run-Intervalle (Hauptfokus)", sets:"25–30 min: 3 min gehen / 1 min joggen, 6–7×", note:"HAUPTÜBUNG des Tages, nicht Anhängsel. Steigerung: alle 2 Wochen 30 Sek. mehr Joggen pro Intervall — nur wenn die Knie beschwerdefrei bleiben."},
       {name:"Dehnen: Ganzkörper", sets:"10 min", note:"Nach der Lauf-Einheit, besonders Waden/Achillessehne."},
     ]},
