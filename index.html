@@ -513,7 +513,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.0</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.1</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1089,11 +1089,11 @@ const data = {
   days: [
     {name:"Montag", type:"Gym · schwer", training:"Unterkörper schwer", vol:"15 Arbeitssätze · ca. 55 min", kcal:2400, p:200, c:220, f:82, steps:"10.000", refeed:false},
     {name:"Dienstag", type:"Gym · schwer", training:"Oberkörper schwer", vol:"20 Arbeitssätze · ca. 58 min", kcal:2400, p:200, c:210, f:84, steps:"10.000", refeed:false},
-    {name:"Mittwoch", type:"Lauf + Core · leicht", training:"Walk-Run + Bauchworkout", vol:"ca. 40 min", kcal:2300, p:200, c:180, f:92, steps:"13.000", refeed:false},
+    {name:"Mittwoch", type:"Core + Lauf · leicht", training:"Bauchworkout + 60 min Walk-Run", vol:"ca. 70 min", kcal:2400, p:200, c:200, f:87, steps:"15.000", refeed:false},
     {name:"Donnerstag", type:"Gym · moderat", training:"Unterkörper moderat", vol:"13 Arbeitssätze · ca. 50 min", kcal:2300, p:200, c:170, f:96, steps:"10.000", refeed:false},
     {name:"Freitag", type:"Gym · moderat", training:"Oberkörper + Turner-Skills", vol:"23 Sätze (9 Skill) · ca. 60 min", kcal:2300, p:200, c:170, f:96, steps:"10.000", refeed:false},
-    {name:"Samstag", type:"Lauf + Core · Refeed", training:"Hauptlauf + Bauchworkout", vol:"ca. 45 min", kcal:2800, p:200, c:340, f:75, steps:"14.000", refeed:true},
-    {name:"Sonntag", type:"Core + aktive Erholung", training:"Bauchworkout + Turner-Core + Gehen", vol:"ca. 35 min", kcal:2200, p:200, c:110, f:111, steps:"13.000", refeed:false},
+    {name:"Samstag", type:"Core + Hauptlauf · Refeed", training:"Bauchworkout + 60 min Walk-Run", vol:"ca. 75 min", kcal:2800, p:200, c:340, f:75, steps:"16.000", refeed:true},
+    {name:"Sonntag", type:"Core + aktive Erholung", training:"Bauchworkout + Turner-Core + Gehen", vol:"ca. 75 min", kcal:2200, p:200, c:110, f:111, steps:"13.000", refeed:false},
   ],
   mealPlans: {
     "hoch": {label:"Trainingstag hoch", meals:[
@@ -1140,11 +1140,11 @@ const data = {
       {name:"Trizeps-Pushdown", sets:"2 × 10–12", note:"Einzige direkte Trizeps-Isolation der Woche. Ellenbogen fixiert am Körper."},
       {name:"Hammer Curls", sets:"2 × 10–12", note:"BIZEPS 1/2 der Woche, neutraler Griff — Brachialis und Unterarm. Der supinierte Reiz kommt freitags."},
     ]},
-    "mi": {label:"Mi · Lauf + Core", sub:"Leichter Tag — ca. 40 min", exercises:[
-      {name:"Walk-Run", sets:"25–30 min", note:"3 min gehen / 1 min joggen im Wechsel, 6–7 Durchgänge. Eigener Tag statt nach dem Krafttraining — dadurch bleibt Energie für die Schritte am Rest des Tages."},
-      {name:"Bauchworkout (6 Minuten, dein Video)", sets:"6 min", note:"CORE 1/3 der Woche. Dein gewohntes Zirkeltraining — bewusst an einem leichten Tag, damit du dafür Energie hast."},
-      {name:"Pallof Press (Kabelzug, stehend)", sets:"3 × 10 je Seite", note:"Anti-Rotation — die einzige Core-Funktion, die dein Bauchworkout nicht abdeckt. Kabel seitlich auf Brusthöhe, Griff vor der Brust nach vorne drücken, gegen die Verdrehung halten."},
-      {name:"Handstand-Praxis", sets:"5–8 min", note:"Skill-Einheit. Balance braucht Frequenz, nicht Volumen — kurz und regelmäßig schlägt lang und selten."},
+    "mi": {label:"Mi · Core + Lauf", sub:"Leichter Tag — ca. 70 min", exercises:[
+      {name:"Bauchworkout (6 Minuten, dein Video)", sets:"6 min", note:"CORE 1/3 der Woche — bewusst ganz am Anfang, solange du frisch bist. Am Ende einer Einheit wird der Core erfahrungsgemäß nur noch abgespult."},
+      {name:"Renegade Rows (Liegestütz-Position, Kurzhantel)", sets:"3 × 8–10 je Seite", note:"ERSETZT Pallof Press: Anti-Rotation im Stütz — die Funktion, die dein Bauchworkout nicht abdeckt. Trainiert zusätzlich Latissimus, mittleren Rücken und Griffkraft. Hüfte darf NICHT mitdrehen — die Stabilität ist der Reiz, nicht das Gewicht."},
+      {name:"Walk-Run", sets:"60 min", note:"GEÄNDERT von 25–30 auf 60 min. 3 min gehen / 1 min joggen im Wechsel, ca. 15 Durchgänge. An einem Tag ohne Krafttraining ist das machbar und bringt dich deutlich näher ans Schritte-Ziel."},
+      {name:"Handstand-Praxis", sets:"5–8 min", note:"Skill-Einheit. Balance braucht Frequenz, nicht Volumen."},
       {name:"Dehnen", sets:"10 min", note:"Hüfte, Waden, unterer Rücken."},
     ]},
     "do": {label:"Do · Unterkörper moderat", sub:"Gym · moderat — 13 Arbeitssätze, ca. 50 min", exercises:[
@@ -1166,14 +1166,14 @@ const data = {
       {name:"Face Pulls (Kabel, Seil auf Kopfhöhe)", sets:"2 × 15–20", note:"Hintere Schulter und Außenrotatoren — Gegengewicht zum Druckvolumen der Woche. Ellenbogen hoch, Seil zur Stirn ziehen."},
       {name:"Bizeps-Curls (Langhantel oder Kurzhantel)", sets:"2 × 10–12", note:"BIZEPS 2/2 der Woche, supinierter Griff (Handfläche nach oben) — anderer Winkel als die Hammer Curls am Dienstag."},
     ]},
-    "sa": {label:"Sa · Lauf + Core", sub:"Leichter Tag — ca. 45 min", exercises:[
-      {name:"Walk-Run (Hauptlauf der Woche)", sets:"25–30 min", note:"3 min gehen / 1 min joggen, 6–7 Durchgänge. Wenn es gut läuft, Laufanteil auf 90 Sek. steigern — aber nur eine Variable pro Woche verändern."},
-      {name:"Bauchworkout (6 Minuten, dein Video)", sets:"6 min", note:"CORE 2/3 der Woche."},
+    "sa": {label:"Sa · Core + Hauptlauf", sub:"Leichter Tag — ca. 75 min", exercises:[
+      {name:"Bauchworkout (6 Minuten, dein Video)", sets:"6 min", note:"CORE 2/3 der Woche — am Anfang, nicht am Ende."},
       {name:"Hanging Leg Raises (an der Stange)", sets:"3 × 8–12", note:"Untere Bauchmuskulatur unter Zugbelastung. Beine gestreckt anheben, kontrolliert senken, kein Schwung."},
+      {name:"Walk-Run (Hauptlauf der Woche)", sets:"60 min", note:"GEÄNDERT von 25–30 auf 60 min. 3 min gehen / 1 min joggen, ca. 15 Durchgänge. Wenn es gut läuft, Laufanteil auf 90 Sek. steigern — aber immer nur EINE Variable pro Woche verändern, entweder Dauer oder Laufanteil."},
       {name:"Dehnen: Ganzkörper", sets:"10 min", note:"Nach dem Laufen: Waden, Hamstrings, Hüftbeuger."},
     ]},
-    "so": {label:"So · Core + aktive Erholung", sub:"Regeneration — ca. 35 min", exercises:[
-      {name:"Bauchworkout (6 Minuten, dein Video)", sets:"6 min", note:"CORE 3/3 der Woche."},
+    "so": {label:"So · Core + aktive Erholung", sub:"Regeneration — ca. 75 min", exercises:[
+      {name:"Bauchworkout (6 Minuten, dein Video)", sets:"6 min", note:"CORE 3/3 der Woche — am Anfang der Einheit."},
       {name:"L-Sit (Boden, Barren oder Ringe)", sets:"3 × 15–25 sek", note:"Turner-Core: Beine waagerecht, Arme durchgestreckt, Schultern nach unten gedrückt. Zu schwer? Tuck L-Sit mit angezogenen Knien, dann ein Bein strecken."},
       {name:"Hollow Body Rocks", sets:"3 × 20–30 sek", note:"Grundposition jeder Turner-Bewegung. Unterer Rücken bleibt am Boden gepresst — hebt er sich, ist der Satz vorbei."},
       {name:"Zügiges Gehen", sets:"40–50 min", note:"Kein Joggen — reine Alltagsaktivität. Zahlt aufs Schritte-Ziel ein, ohne Belastungsspitze vor dem Montag."},
