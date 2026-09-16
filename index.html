@@ -334,6 +334,19 @@
   .vol-delta.down{ background:rgba(242,179,61,.16); color:var(--amber); }
   .vol-delta.same{ background:var(--bg2); color:var(--ink-dim); }
 
+
+  /* ---------- Volumen-Vergleich je Übung ---------- */
+  .vol-compare{ display:flex; align-items:center; gap:8px; padding:10px;
+    background:var(--bg2); border-radius:10px; margin-top:2px; }
+  .vol-col{ flex:1; min-width:0; text-align:center; }
+  .vol-col-lbl{ font-size:9.5px; color:var(--ink-dim); text-transform:uppercase;
+    letter-spacing:.04em; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .vol-col-val{ font-family:ui-monospace,monospace; font-weight:800; font-size:15px; line-height:1.2; }
+  .vol-col-val.prev{ color:var(--ink-dim); }
+  .vol-col-val.now{ color:var(--lime); }
+  .vol-col-sub{ font-size:9.5px; color:var(--ink-dim); margin-top:3px; overflow-wrap:anywhere; line-height:1.35; }
+  .vol-arrow{ flex:0 0 auto; font-size:12px; color:var(--ink-dim); }
+
   .vol-day{ margin-top:14px; }
   .vol-hero{ display:flex; justify-content:space-between; align-items:flex-end; gap:12px; padding:6px 0 2px; }
   .vol-hero-num{ font-family:ui-monospace,monospace; font-weight:800; font-size:26px; color:var(--lime); line-height:1.1; }
@@ -536,7 +549,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.2</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.3</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1468,6 +1481,77 @@ function goalWeight(){
 // ---- PROGRESS TRACKER (localStorage-based, persists on this device) ----
 const PROG_KEY = 'cutplan_progress_v1';
 
+// ---- ÜBUNGSNAMEN: Verlauf bei Umbenennungen erhalten ----
+// Namen werden auf einen Kern reduziert, damit "Klimmzüge (schulterbreit, frei)"
+// und "Klimmzüge (mit Zusatzgewicht)" als dieselbe Übung erkannt werden.
+function normalizeExName(name){
+  return (name || '')
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, ' ')          // Klammerzusätze entfernen
+    .replace(/[·,:\-–—/]/g, ' ')
+    .replace(/\b(matrix|langhantel|kurzhantel|maschine|stehend|sitzend|liegend|kabel|kabelzug|seil|frei|assistiert|schulterbreit|core[- ]?block \d|je seite|mit|oder|und|zusatzgewicht|gewicht|erhöht|füße)\b/g, ' ')
+    .replace(/[^a-zäöüß0-9 ]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Feste Zuordnungen für Fälle, die die Normalisierung nicht trifft
+const EX_ALIASES = {
+  'beinpresse': 'hack squat',
+  'beinpresse stehend': 'hack squat',
+  'nordic curl': 'einbeinige beinbeuger negative',
+  'farmer s walk': 'renegade rows',
+  'pallof press': 'renegade rows',
+  'beinbeuger sitzend': 'beinbeuger',
+  'kabelzug fliegende bank aufrecht': 'butterfly pec deck',
+};
+function aliasKey(name){
+  const n = normalizeExName(name);
+  return EX_ALIASES[n] || n;
+}
+
+// Verlauf einer Übung holen — führt IMMER exakte und umbenannte Treffer zusammen,
+// damit neue Einträge den alten Verlauf nicht verdecken
+function historyFor(exName, store){
+  store = store || loadProgress();
+  const key = aliasKey(exName);
+  const merged = [];
+  const seen = new Set();
+  Object.keys(store).forEach(k => {
+    if (k !== exName && aliasKey(k) !== key) return;
+    (store[k] || []).forEach(e => {
+      const sig = e.date + '|' + e.setIdx + '|' + e.weight + '|' + e.reps;
+      if (seen.has(sig)) return;       // Duplikate aus doppelten Namen entfernen
+      seen.add(sig);
+      merged.push(e);
+    });
+  });
+  return merged.sort((a, b) => (a.date + '' + String(a.setIdx).padStart(2,'0')).localeCompare(b.date + '' + String(b.setIdx).padStart(2,'0')));
+}
+
+// Einmalige Zusammenführung: alte Namen in aktuelle Übungen überführen
+function migrateProgressNames(){
+  try {
+    const store = loadProgress();
+    const current = exerciseList || [];
+    let changed = false;
+    current.forEach(cur => {
+      if (store[cur]) return;                     // hat schon eigene Daten
+      const key = aliasKey(cur);
+      const oldKeys = Object.keys(store).filter(k => aliasKey(k) === key);
+      if (oldKeys.length) {
+        store[cur] = [];
+        oldKeys.forEach(k => { store[cur].push(...store[k]); delete store[k]; });
+        store[cur].sort((a, b) => (a.date + '' + a.setIdx).localeCompare(b.date + '' + b.setIdx));
+        changed = true;
+      }
+    });
+    if (changed) localStorage.setItem(PROG_KEY, JSON.stringify(store));
+    return changed;
+  } catch(e) { return false; }
+}
+
+
 // ---- TRAININGSVOLUMEN (Gewicht × Wdh., über alle Sätze) ----
 function volumeOfSets(sets){
   return sets.reduce((sum, e) => {
@@ -1614,7 +1698,9 @@ function saveSet(exName, date, setIdx, weightVal, repsVal){
   return true;
 }
 
+let migrationDone = false;
 function renderTodayEntry(){
+  if (!migrationDone) { migrateProgressNames(); migrationDone = true; }
   const daySelect = document.getElementById('progDaySelect');
   if (!daySelect.dataset.filled) {
     daySelect.innerHTML = Object.keys(data.trainingDays).map(k =>
@@ -1638,7 +1724,7 @@ function renderTodayEntry(){
   }
 
   listEl.innerHTML = relevantExercises.map((ex) => {
-    const hist = allData[ex.name] || [];
+    const hist = historyFor(ex.name, allData);
 
     // Letzte Trainingseinheit ermitteln (jüngstes Datum vor heute) und deren Sätze sammeln
     const prevDates = [...new Set(hist.filter(e => e.date !== today).map(e => e.date))].sort();
@@ -1704,7 +1790,7 @@ function renderTodayEntry(){
   listEl.querySelectorAll('.prev-copy').forEach(btn => {
     btn.onclick = () => {
       const exName = btn.dataset.ex;
-      const hist = loadProgress()[exName] || [];
+      const hist = historyFor(exName);
       const prevDates = [...new Set(hist.filter(e => e.date !== today).map(e => e.date))].sort();
       if (!prevDates.length) return;
       const lastDate = prevDates[prevDates.length - 1];
@@ -1726,7 +1812,7 @@ function renderTodayEntry(){
     let dayNow = 0, dayPrev = 0, doneCount = 0, prevCount = 0;
 
     relevantExercises.forEach(ex => {
-      const hist = store[ex.name] || [];
+      const hist = historyFor(ex.name, store);
       const todaySets = setsOf(hist, today);
       const prevDate = lastDateBefore(hist, today);
       const prevSets = prevDate ? setsOf(hist, prevDate) : [];
@@ -1744,21 +1830,42 @@ function renderTodayEntry(){
 
       const repsNow = repsOfSets(todaySets);
       const repsPrev = repsOfSets(prevSets);
+      const bodyweightOnly = vNow === 0 && vPrev === 0 && (repsNow > 0 || repsPrev > 0);
 
-      // Reine Körpergewichtsübungen: Volumen in kg nicht sinnvoll, dann Wiederholungen vergleichen
-      const bodyweightOnly = vNow === 0 && repsNow > 0;
+      const dStr = prevDate ? (() => { const p = prevDate.split('-'); return p[2] + '.' + p[1] + '.'; })() : '';
 
       if (bodyweightOnly) {
-        box.innerHTML = `<div class="vol-row">
-            <span class="vol-label">Wiederholungen heute</span>
-            <span class="vol-val">${repsNow}</span>
-            ${repsPrev ? `<span class="vol-prev">letztes Mal ${repsPrev}</span>` + deltaTag(repsNow, repsPrev) : ''}
+        box.innerHTML = `
+          <div class="vol-compare">
+            <div class="vol-col">
+              <div class="vol-col-lbl">Letztes Mal${dStr ? ' · ' + dStr : ''}</div>
+              <div class="vol-col-val prev">${repsPrev ? repsPrev + ' Wdh.' : '–'}</div>
+              <div class="vol-col-sub">${prevSets.length} ${prevSets.length === 1 ? 'Satz' : 'Sätze'}</div>
+            </div>
+            <div class="vol-arrow">${(repsNow && repsPrev) ? deltaTag(repsNow, repsPrev) : '→'}</div>
+            <div class="vol-col">
+              <div class="vol-col-lbl">Heute</div>
+              <div class="vol-col-val now">${repsNow ? repsNow + ' Wdh.' : '–'}</div>
+              <div class="vol-col-sub">${todaySets.length} ${todaySets.length === 1 ? 'Satz' : 'Sätze'} eingetragen</div>
+            </div>
           </div>`;
       } else {
-        box.innerHTML = `<div class="vol-row">
-            <span class="vol-label">Volumen heute</span>
-            <span class="vol-val">${vNow ? fmtVolume(vNow) : '–'}</span>
-            ${vPrev ? `<span class="vol-prev">letztes Mal ${fmtVolume(vPrev)}</span>` + (vNow ? deltaTag(vNow, vPrev) : '') : ''}
+        const prevDetail = prevSets.length
+          ? prevSets.map(e => `${e.weight ? fmtNum(e.weight) : '–'}×${e.reps}`).join(' + ')
+          : '';
+        box.innerHTML = `
+          <div class="vol-compare">
+            <div class="vol-col">
+              <div class="vol-col-lbl">Letztes Mal${dStr ? ' · ' + dStr : ''}</div>
+              <div class="vol-col-val prev">${vPrev ? fmtVolume(vPrev) : '–'}</div>
+              <div class="vol-col-sub">${prevDetail || '–'}</div>
+            </div>
+            <div class="vol-arrow">${(vNow && vPrev) ? deltaTag(vNow, vPrev) : '→'}</div>
+            <div class="vol-col">
+              <div class="vol-col-lbl">Heute</div>
+              <div class="vol-col-val now">${vNow ? fmtVolume(vNow) : '–'}</div>
+              <div class="vol-col-sub">${todaySets.length ? todaySets.length + (todaySets.length === 1 ? ' Satz' : ' Sätze') + ' · ' + repsNow + ' Wdh.' : 'noch nichts eingetragen'}</div>
+            </div>
           </div>`;
       }
     });
