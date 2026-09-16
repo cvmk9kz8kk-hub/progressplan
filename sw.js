@@ -1,5 +1,5 @@
 // Service Worker — Offline-Betrieb & Installation
-const CACHE = 'cutplan-v9-1';
+const CACHE = 'cutplan-v9-2';
 const ASSETS = [
   './manifest.json',
   './icon-180.png',

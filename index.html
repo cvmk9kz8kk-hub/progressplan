@@ -320,6 +320,29 @@
   .set-prev.empty{ opacity:.35; }
   .prev-line{ font-size:11.5px; line-height:1.5; margin-bottom:8px; overflow-wrap:anywhere; }
   .prev-line b{ color:var(--lime); font-family:ui-monospace,monospace; }
+
+  /* ---------- Trainingsvolumen ---------- */
+  .vol-box{ margin-top:10px; }
+  .vol-row{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;
+    padding:8px 10px; background:var(--bg2); border-radius:9px; font-size:11.5px; }
+  .vol-label{ color:var(--ink-dim); }
+  .vol-val{ font-family:ui-monospace,monospace; font-weight:800; font-size:13px; color:var(--lime); }
+  .vol-prev{ color:var(--ink-dim); font-family:ui-monospace,monospace; margin-left:auto; }
+  .vol-delta{ font-family:ui-monospace,monospace; font-weight:800; font-size:11.5px;
+    padding:2px 7px; border-radius:999px; white-space:nowrap; }
+  .vol-delta.up{ background:rgba(200,255,77,.16); color:var(--lime); }
+  .vol-delta.down{ background:rgba(242,179,61,.16); color:var(--amber); }
+  .vol-delta.same{ background:var(--bg2); color:var(--ink-dim); }
+
+  .vol-day{ margin-top:14px; }
+  .vol-hero{ display:flex; justify-content:space-between; align-items:flex-end; gap:12px; padding:6px 0 2px; }
+  .vol-hero-num{ font-family:ui-monospace,monospace; font-weight:800; font-size:26px; color:var(--lime); line-height:1.1; }
+  .vol-hero-num.prev{ font-size:20px; color:var(--ink-dim); }
+  .vol-hero-lbl{ font-size:10px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.05em; margin-top:3px; }
+  .vol-hint{ font-size:12px; line-height:1.55; color:var(--ink); background:var(--bg2);
+    border-radius:9px; padding:10px 12px; margin-top:8px; }
+  .vol-note{ font-size:10.5px; color:var(--ink-dim); margin-top:8px; line-height:1.5; }
+
   .prev-copy{ width:100%; margin-top:8px; background:var(--bg2); border:1px solid var(--line);
     color:var(--ink-dim); border-radius:10px; padding:9px; font-size:12px; font-weight:600; }
   .prev-copy:active{ background:var(--lime); color:#12140F; }
@@ -513,7 +536,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.1</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.2</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -692,6 +715,7 @@
         Felder bleiben dauerhaft editierbar — einfach reinschreiben, der grüne Haken erscheint automatisch. Zum Korrigieren direkt überschreiben, kein Löschen nötig.
       </div>
       <div id="progTodayList"></div>
+      <div id="progDayVolume"></div>
     </div>
 
     <div id="progOverview" style="display:none;">
@@ -1444,6 +1468,41 @@ function goalWeight(){
 // ---- PROGRESS TRACKER (localStorage-based, persists on this device) ----
 const PROG_KEY = 'cutplan_progress_v1';
 
+// ---- TRAININGSVOLUMEN (Gewicht × Wdh., über alle Sätze) ----
+function volumeOfSets(sets){
+  return sets.reduce((sum, e) => {
+    const w = parseFloat(e.weight);
+    const r = parseFloat(e.reps);
+    if (isNaN(r) || r <= 0) return sum;
+    // Körpergewichtsübungen ohne Zusatzgewicht: nur Wiederholungen zählen, kein kg-Volumen
+    if (isNaN(w) || w <= 0) return sum;
+    return sum + w * r;
+  }, 0);
+}
+function repsOfSets(sets){
+  return sets.reduce((s, e) => s + (parseInt(e.reps, 10) || 0), 0);
+}
+function fmtVolume(v){
+  if (v >= 1000) return (Math.round(v / 100) / 10).toString().replace('.', ',') + ' t';
+  return Math.round(v).toLocaleString('de-DE') + ' kg';
+}
+// Sätze einer Übung an einem bestimmten Datum
+function setsOf(hist, date){ return hist.filter(e => e.date === date); }
+// Letztes Trainingsdatum einer Übung vor einem Stichtag
+function lastDateBefore(hist, date){
+  const ds = [...new Set(hist.filter(e => e.date !== date).map(e => e.date))].sort();
+  return ds.length ? ds[ds.length - 1] : null;
+}
+// Prozentuale Veränderung als formatierter Text mit Farbe
+function deltaTag(now, prev){
+  if (!prev || prev <= 0) return '';
+  const pct = Math.round(((now - prev) / prev) * 100);
+  if (pct === 0) return '<span class="vol-delta same">±0 %</span>';
+  const cls = pct > 0 ? 'up' : 'down';
+  return `<span class="vol-delta ${cls}">${pct > 0 ? '+' : ''}${pct} %</span>`;
+}
+
+
 // Zahlen kompakt darstellen: 62.5 -> "62,5", 60 -> "60"
 function fmtNum(v){
   const n = parseFloat(v);
@@ -1631,11 +1690,12 @@ function renderTodayEntry(){
       : '';
 
     return `
-    <div class="qcard">
+    <div class="qcard" data-exname="${ex.name}">
       <div class="qcard-name">${ex.name}</div>
       <div class="qcard-target">Ziel: ${ex.sets}</div>
       <div class="qcard-last prev-line">${lastTxt}</div>
       <div class="set-lines">${rows.join('')}</div>
+      <div class="vol-box" data-volfor="${ex.name}"></div>
       ${copyBtn}
     </div>`;
   }).join('');
@@ -1660,6 +1720,87 @@ function renderTodayEntry(){
     };
   });
 
+  // ---- Volumen je Übung und für den ganzen Tag berechnen und anzeigen ----
+  function renderVolumes(){
+    const store = loadProgress();
+    let dayNow = 0, dayPrev = 0, doneCount = 0, prevCount = 0;
+
+    relevantExercises.forEach(ex => {
+      const hist = store[ex.name] || [];
+      const todaySets = setsOf(hist, today);
+      const prevDate = lastDateBefore(hist, today);
+      const prevSets = prevDate ? setsOf(hist, prevDate) : [];
+
+      const vNow = volumeOfSets(todaySets);
+      const vPrev = volumeOfSets(prevSets);
+      dayNow += vNow; dayPrev += vPrev;
+      if (todaySets.length) doneCount++;
+      if (prevSets.length) prevCount++;
+
+      const box = listEl.querySelector(`.vol-box[data-volfor="${CSS.escape(ex.name)}"]`);
+      if (!box) return;
+
+      if (!todaySets.length && !prevSets.length) { box.innerHTML = ''; return; }
+
+      const repsNow = repsOfSets(todaySets);
+      const repsPrev = repsOfSets(prevSets);
+
+      // Reine Körpergewichtsübungen: Volumen in kg nicht sinnvoll, dann Wiederholungen vergleichen
+      const bodyweightOnly = vNow === 0 && repsNow > 0;
+
+      if (bodyweightOnly) {
+        box.innerHTML = `<div class="vol-row">
+            <span class="vol-label">Wiederholungen heute</span>
+            <span class="vol-val">${repsNow}</span>
+            ${repsPrev ? `<span class="vol-prev">letztes Mal ${repsPrev}</span>` + deltaTag(repsNow, repsPrev) : ''}
+          </div>`;
+      } else {
+        box.innerHTML = `<div class="vol-row">
+            <span class="vol-label">Volumen heute</span>
+            <span class="vol-val">${vNow ? fmtVolume(vNow) : '–'}</span>
+            ${vPrev ? `<span class="vol-prev">letztes Mal ${fmtVolume(vPrev)}</span>` + (vNow ? deltaTag(vNow, vPrev) : '') : ''}
+          </div>`;
+      }
+    });
+
+    // Tagesbilanz
+    const el = document.getElementById('progDayVolume');
+    if (!el) return;
+    if (!dayNow && !dayPrev) { el.innerHTML = ''; return; }
+
+    let hint = '';
+    if (dayNow && dayPrev) {
+      const pct = Math.round(((dayNow - dayPrev) / dayPrev) * 100);
+      if (doneCount < prevCount) {
+        hint = `Noch nicht alle Übungen eingetragen (${doneCount} von ${prevCount} aus der letzten Einheit) — der Vergleich wird erst am Ende aussagekräftig.`;
+      } else if (pct >= 3) {
+        hint = 'Volumen gesteigert — genau das Signal, auf das es im Defizit ankommt.';
+      } else if (pct <= -5) {
+        hint = 'Volumen gesunken. Einmalig ist das normal (Schlaf, Stress, Tagesform). Zwei Wochen in Folge heißt: Defizit zu groß oder Erholung zu knapp.';
+      } else {
+        hint = 'Volumen praktisch gehalten. Im Kaloriendefizit ist das bereits ein Erfolg.';
+      }
+    }
+
+    el.innerHTML = `
+      <div class="card accent vol-day">
+        <div class="card-title">Tagesbilanz — bewegtes Volumen</div>
+        <div class="vol-hero">
+          <div>
+            <div class="vol-hero-num">${dayNow ? fmtVolume(dayNow) : '–'}</div>
+            <div class="vol-hero-lbl">heute gesamt</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="vol-hero-num prev">${dayPrev ? fmtVolume(dayPrev) : '–'}</div>
+            <div class="vol-hero-lbl">letztes Training</div>
+          </div>
+        </div>
+        ${dayNow && dayPrev ? `<div style="text-align:center; margin:10px 0 4px;">${deltaTag(dayNow, dayPrev)}</div>` : ''}
+        ${hint ? `<div class="vol-hint">${hint}</div>` : ''}
+        <div class="vol-note">Volumen = Gewicht × Wiederholungen, über alle Sätze summiert. Übungen mit reinem Körpergewicht zählen über die Wiederholungen.</div>
+      </div>`;
+  }
+
   function handleChange(inputEl){
     const exName = inputEl.dataset.ex;
     const setIdx = parseInt(inputEl.dataset.set, 10);
@@ -1668,7 +1809,10 @@ function renderTodayEntry(){
     const ok = saveSet(exName, today, setIdx, wEl.value, rEl.value);
     const check = listEl.querySelector(`.set-check[data-ex="${CSS.escape(exName)}"][data-set="${setIdx}"]`);
     if (check) check.classList.toggle('on', ok);
+    renderVolumes();
   }
+
+  renderVolumes();
 
   listEl.querySelectorAll('.set-input').forEach(inp => {
     inp.addEventListener('change', () => handleChange(inp));
