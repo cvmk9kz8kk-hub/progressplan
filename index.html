@@ -347,6 +347,19 @@
   .vol-col-sub{ font-size:9.5px; color:var(--ink-dim); margin-top:3px; overflow-wrap:anywhere; line-height:1.35; }
   .vol-arrow{ flex:0 0 auto; font-size:12px; color:var(--ink-dim); }
 
+
+  /* ---------- Eingabe für Dauer- und Halteübungen ---------- */
+  .set-unit{ flex:0 0 auto; font-size:11px; color:var(--ink-dim); white-space:nowrap; }
+  .set-idx.dur{ font-size:14px; }
+  .set-input.wide{ flex:1 1 70px; }
+  .dur-line{ gap:8px; }
+  .vol-extra{ margin-top:10px; display:flex; flex-direction:column; gap:6px; }
+  .vol-extra-row{ display:flex; align-items:baseline; gap:8px; font-size:11.5px;
+    background:var(--bg2); border-radius:8px; padding:8px 10px; flex-wrap:wrap; }
+  .vol-extra-row span:first-child{ color:var(--ink-dim); }
+  .vol-extra-row b{ font-family:ui-monospace,monospace; color:var(--lime); font-size:13px; }
+  .vol-extra-row .vol-prev{ margin-left:auto; }
+
   .vol-day{ margin-top:14px; }
   .vol-hero{ display:flex; justify-content:space-between; align-items:flex-end; gap:12px; padding:6px 0 2px; }
   .vol-hero-num{ font-family:ui-monospace,monospace; font-weight:800; font-size:26px; color:var(--lime); line-height:1.1; }
@@ -549,7 +562,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.3</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.4</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1651,6 +1664,22 @@ function switchProgView(){
   else renderOverview();
 }
 
+
+// ---- ÜBUNGSTYP: bestimmt, welche Eingabefelder eine Übung bekommt ----
+// 'reps'     → Gewicht × Wiederholungen  (z. B. "3 × 8–12")
+// 'hold'     → Sätze × Sekunden          (z. B. "3 × 15–25 sek")
+// 'duration' → Gesamtdauer in Minuten    (z. B. "60 min", "5–8 min")
+function exerciseKind(setsStr){
+  const s = (setsStr || '').toLowerCase();
+  if (/\bmin\b/.test(s) && !/[×x]/.test(s)) return 'duration';
+  if (/\bsek|sekunde/.test(s)) return 'hold';
+  if (/[×x]/.test(s)) return 'reps';
+  return 'duration';
+}
+function unitLabel(kind){
+  return kind === 'hold' ? 'sek' : kind === 'duration' ? 'min' : 'Wdh.';
+}
+
 function parseSetCount(setsStr){
   if (!setsStr) return 2;
   const m = setsStr.match(/^\s*(\d+)\s*[×x]/);
@@ -1674,7 +1703,7 @@ function migrateLegacyEntries(){
   if (changed) saveProgress(d);
 }
 
-function saveSet(exName, date, setIdx, weightVal, repsVal){
+function saveSet(exName, date, setIdx, weightVal, repsVal, unit){
   const d = loadProgress();
   if (!d[exName]) d[exName] = [];
   const existing = d[exName].find(e => e.date === date && e.setIdx === setIdx);
@@ -1689,9 +1718,10 @@ function saveSet(exName, date, setIdx, weightVal, repsVal){
     date: date,
     setIdx: setIdx,
     weight: (weightVal !== '' && weightVal !== null && weightVal !== undefined) ? parseFloat(weightVal) : null,
-    reps: parseInt(repsVal, 10)
+    reps: parseInt(repsVal, 10),
+    unit: unit || 'reps'
   };
-  if (existing) { existing.weight = rec.weight; existing.reps = rec.reps; }
+  if (existing) { existing.weight = rec.weight; existing.reps = rec.reps; existing.unit = rec.unit; }
   else { d[exName].push(rec); }
   d[exName].sort((a,b) => a.date.localeCompare(b.date) || ((a.setIdx||0) - (b.setIdx||0)));
   saveProgress(d);
@@ -1713,7 +1743,7 @@ function renderTodayEntry(){
   const day = data.trainingDays[currentProgDayKey];
   document.getElementById('progTodayTitle').textContent = day.label;
 
-  const relevantExercises = day.exercises.filter(ex => !(ex.sets && ex.sets.includes('min')));
+  const relevantExercises = day.exercises.slice();  // alle Übungen sind eintragbar
   const listEl = document.getElementById('progTodayList');
   const today = new Date().toISOString().split('T')[0];
   const allData = loadProgress();
@@ -1732,7 +1762,9 @@ function renderTodayEntry(){
     const lastBySet = {};
     if (lastDate) hist.filter(e => e.date === lastDate).forEach(e => { lastBySet[e.setIdx] = e; });
 
-    const nSets = parseSetCount(ex.sets);
+    const kind = exerciseKind(ex.sets);
+    const uLbl = unitLabel(kind);
+    const nSets = kind === 'duration' ? 1 : parseSetCount(ex.sets);
 
     // Kompakte Übersicht der letzten Einheit, Satz für Satz
     let lastTxt;
@@ -1740,7 +1772,10 @@ function renderTodayEntry(){
       const parts = [];
       for (let s = 0; s < nSets; s++) {
         const e = lastBySet[s];
-        parts.push(e ? `<b>${e.weight ? fmtNum(e.weight) : '–'}</b>${e.weight ? '&thinsp;kg' : ''}&times;${e.reps}` : '<span style="opacity:.4">–</span>');
+        if (!e) { parts.push('<span style="opacity:.4">–</span>'); continue; }
+        if (kind === 'duration') parts.push(`<b>${e.reps}</b>&thinsp;min`);
+        else if (kind === 'hold') parts.push(`<b>${e.reps}</b>&thinsp;sek${e.weight ? ' @' + fmtNum(e.weight) + 'kg' : ''}`);
+        else parts.push(`<b>${e.weight ? fmtNum(e.weight) : '–'}</b>${e.weight ? '&thinsp;kg' : ''}&times;${e.reps}`);
       }
       const d = lastDate.split('-');
       lastTxt = `Letztes Mal (${d[2]}.${d[1]}.): ${parts.join(' · ')}`;
@@ -1754,21 +1789,44 @@ function renderTodayEntry(){
       const wVal = (saved && saved.weight !== null && saved.weight !== undefined) ? saved.weight : '';
       const rVal = saved ? saved.reps : '';
       const prev = lastBySet[s];
-      // Werte der letzten Einheit als Vorbelegung im leeren Feld anzeigen
-      const wPh = (prev && prev.weight) ? fmtNum(prev.weight) : 'kg';
-      const rPh = prev ? prev.reps : 'Wdh.';
-      const prevTag = prev
-        ? `<span class="set-prev" title="letztes Mal">${prev.weight ? fmtNum(prev.weight) + 'kg' : ''}&times;${prev.reps}</span>`
-        : `<span class="set-prev empty">–</span>`;
-      rows.push(`
-        <div class="set-line">
-          <span class="set-idx">${s + 1}</span>
-          <input type="number" step="0.5" class="set-input sx-weight" data-ex="${ex.name}" data-set="${s}" placeholder="${wPh}" value="${wVal}">
-          <span class="set-x">×</span>
-          <input type="number" class="set-input sx-reps" data-ex="${ex.name}" data-set="${s}" placeholder="${rPh}" value="${rVal}">
-          ${prevTag}
-          <span class="set-check ${saved ? 'on' : ''}" data-ex="${ex.name}" data-set="${s}">&#10003;</span>
-        </div>`);
+      const rPh = prev ? prev.reps : uLbl;
+
+      if (kind === 'duration') {
+        rows.push(`
+          <div class="set-line dur-line">
+            <span class="set-idx dur">⏱</span>
+            <input type="number" class="set-input sx-reps wide" data-ex="${ex.name}" data-set="${s}" data-kind="duration" placeholder="${rPh}" value="${rVal}">
+            <span class="set-unit">Minuten</span>
+            ${prev ? `<span class="set-prev">letztes Mal ${prev.reps} min</span>` : '<span class="set-prev empty">–</span>'}
+            <span class="set-check ${saved ? 'on' : ''}" data-ex="${ex.name}" data-set="${s}">&#10003;</span>
+          </div>`);
+      } else if (kind === 'hold') {
+        const wPh = (prev && prev.weight) ? fmtNum(prev.weight) : 'kg';
+        rows.push(`
+          <div class="set-line">
+            <span class="set-idx">${s + 1}</span>
+            <input type="number" step="0.5" class="set-input sx-weight" data-ex="${ex.name}" data-set="${s}" data-kind="hold" placeholder="${wPh}" value="${wVal}" title="Zusatzgewicht, optional">
+            <span class="set-x">×</span>
+            <input type="number" class="set-input sx-reps" data-ex="${ex.name}" data-set="${s}" data-kind="hold" placeholder="${rPh}" value="${rVal}">
+            <span class="set-unit">sek</span>
+            ${prev ? `<span class="set-prev">${prev.reps}s</span>` : '<span class="set-prev empty">–</span>'}
+            <span class="set-check ${saved ? 'on' : ''}" data-ex="${ex.name}" data-set="${s}">&#10003;</span>
+          </div>`);
+      } else {
+        const wPh = (prev && prev.weight) ? fmtNum(prev.weight) : 'kg';
+        const prevTag = prev
+          ? `<span class="set-prev" title="letztes Mal">${prev.weight ? fmtNum(prev.weight) + 'kg' : ''}&times;${prev.reps}</span>`
+          : `<span class="set-prev empty">–</span>`;
+        rows.push(`
+          <div class="set-line">
+            <span class="set-idx">${s + 1}</span>
+            <input type="number" step="0.5" class="set-input sx-weight" data-ex="${ex.name}" data-set="${s}" data-kind="reps" placeholder="${wPh}" value="${wVal}">
+            <span class="set-x">×</span>
+            <input type="number" class="set-input sx-reps" data-ex="${ex.name}" data-set="${s}" data-kind="reps" placeholder="${rPh}" value="${rVal}">
+            ${prevTag}
+            <span class="set-check ${saved ? 'on' : ''}" data-ex="${ex.name}" data-set="${s}">&#10003;</span>
+          </div>`);
+      }
     }
 
     const copyBtn = lastDate
@@ -1810,6 +1868,7 @@ function renderTodayEntry(){
   function renderVolumes(){
     const store = loadProgress();
     let dayNow = 0, dayPrev = 0, doneCount = 0, prevCount = 0;
+    let dayMinNow = 0, dayMinPrev = 0, daySecNow = 0, daySecPrev = 0;
 
     relevantExercises.forEach(ex => {
       const hist = historyFor(ex.name, store);
@@ -1819,7 +1878,11 @@ function renderTodayEntry(){
 
       const vNow = volumeOfSets(todaySets);
       const vPrev = volumeOfSets(prevSets);
-      dayNow += vNow; dayPrev += vPrev;
+      const kAgg = exerciseKind(ex.sets);
+      // Nur Kraftübungen zählen ins kg-Gesamtvolumen; Dauer/Halte separat
+      if (kAgg === 'reps') { dayNow += vNow; dayPrev += vPrev; }
+      else if (kAgg === 'duration') { dayMinNow += repsOfSets(todaySets); dayMinPrev += repsOfSets(prevSets); }
+      else { daySecNow += repsOfSets(todaySets); daySecPrev += repsOfSets(prevSets); }
       if (todaySets.length) doneCount++;
       if (prevSets.length) prevCount++;
 
@@ -1830,9 +1893,50 @@ function renderTodayEntry(){
 
       const repsNow = repsOfSets(todaySets);
       const repsPrev = repsOfSets(prevSets);
+      const kindV = exerciseKind(ex.sets);
       const bodyweightOnly = vNow === 0 && vPrev === 0 && (repsNow > 0 || repsPrev > 0);
 
       const dStr = prevDate ? (() => { const p = prevDate.split('-'); return p[2] + '.' + p[1] + '.'; })() : '';
+
+      // Dauer-Übungen (Laufen, Mobility, Dehnen): Minuten vergleichen
+      if (kindV === 'duration') {
+        box.innerHTML = `
+          <div class="vol-compare">
+            <div class="vol-col">
+              <div class="vol-col-lbl">Letztes Mal${dStr ? ' · ' + dStr : ''}</div>
+              <div class="vol-col-val prev">${repsPrev ? repsPrev + ' min' : '–'}</div>
+              <div class="vol-col-sub">Dauer</div>
+            </div>
+            <div class="vol-arrow">${(repsNow && repsPrev) ? deltaTag(repsNow, repsPrev) : '→'}</div>
+            <div class="vol-col">
+              <div class="vol-col-lbl">Heute</div>
+              <div class="vol-col-val now">${repsNow ? repsNow + ' min' : '–'}</div>
+              <div class="vol-col-sub">${repsNow ? 'eingetragen' : 'noch nichts eingetragen'}</div>
+            </div>
+          </div>`;
+        return;
+      }
+
+      // Halteübungen (L-Sit, Front Lever, Hollow Body): Gesamtsekunden vergleichen
+      if (kindV === 'hold') {
+        const secNow = repsNow, secPrev = repsPrev;
+        const fmtSec = s => s >= 60 ? (Math.round(s / 6) / 10).toString().replace('.', ',') + ' min' : s + ' sek';
+        box.innerHTML = `
+          <div class="vol-compare">
+            <div class="vol-col">
+              <div class="vol-col-lbl">Letztes Mal${dStr ? ' · ' + dStr : ''}</div>
+              <div class="vol-col-val prev">${secPrev ? fmtSec(secPrev) : '–'}</div>
+              <div class="vol-col-sub">${prevSets.length ? prevSets.map(e => e.reps + 's').join(' + ') : '–'}</div>
+            </div>
+            <div class="vol-arrow">${(secNow && secPrev) ? deltaTag(secNow, secPrev) : '→'}</div>
+            <div class="vol-col">
+              <div class="vol-col-lbl">Heute</div>
+              <div class="vol-col-val now">${secNow ? fmtSec(secNow) : '–'}</div>
+              <div class="vol-col-sub">${todaySets.length ? todaySets.length + ' Sätze gesamt' : 'noch nichts eingetragen'}</div>
+            </div>
+          </div>`;
+        return;
+      }
 
       if (bodyweightOnly) {
         box.innerHTML = `
@@ -1873,7 +1977,7 @@ function renderTodayEntry(){
     // Tagesbilanz
     const el = document.getElementById('progDayVolume');
     if (!el) return;
-    if (!dayNow && !dayPrev) { el.innerHTML = ''; return; }
+    if (!dayNow && !dayPrev && !dayMinNow && !dayMinPrev && !daySecNow && !daySecPrev) { el.innerHTML = ''; return; }
 
     let hint = '';
     if (dayNow && dayPrev) {
@@ -1891,8 +1995,8 @@ function renderTodayEntry(){
 
     el.innerHTML = `
       <div class="card accent vol-day">
-        <div class="card-title">Tagesbilanz — bewegtes Volumen</div>
-        <div class="vol-hero">
+        <div class="card-title">Tagesbilanz ${dayNow || dayPrev ? "— bewegtes Volumen" : ""}</div>
+        ${(dayNow || dayPrev) ? `<div class="vol-hero">
           <div>
             <div class="vol-hero-num">${dayNow ? fmtVolume(dayNow) : '–'}</div>
             <div class="vol-hero-lbl">heute gesamt</div>
@@ -1901,8 +2005,13 @@ function renderTodayEntry(){
             <div class="vol-hero-num prev">${dayPrev ? fmtVolume(dayPrev) : '–'}</div>
             <div class="vol-hero-lbl">letztes Training</div>
           </div>
-        </div>
+        </div>` : ''}
         ${dayNow && dayPrev ? `<div style="text-align:center; margin:10px 0 4px;">${deltaTag(dayNow, dayPrev)}</div>` : ''}
+        ${(dayMinNow || dayMinPrev || daySecNow || daySecPrev) ? `
+          <div class="vol-extra">
+            ${(dayMinNow || dayMinPrev) ? `<div class="vol-extra-row"><span>Dauer (Laufen, Mobility)</span><b>${dayMinNow || '–'} min</b><span class="vol-prev">letztes Mal ${dayMinPrev || '–'} min</span></div>` : ''}
+            ${(daySecNow || daySecPrev) ? `<div class="vol-extra-row"><span>Haltezeit (Skills, Core)</span><b>${daySecNow || '–'} sek</b><span class="vol-prev">letztes Mal ${daySecPrev || '–'} sek</span></div>` : ''}
+          </div>` : ''}
         ${hint ? `<div class="vol-hint">${hint}</div>` : ''}
         <div class="vol-note">Volumen = Gewicht × Wiederholungen, über alle Sätze summiert. Übungen mit reinem Körpergewicht zählen über die Wiederholungen.</div>
       </div>`;
@@ -1913,7 +2022,9 @@ function renderTodayEntry(){
     const setIdx = parseInt(inputEl.dataset.set, 10);
     const wEl = listEl.querySelector(`.sx-weight[data-ex="${CSS.escape(exName)}"][data-set="${setIdx}"]`);
     const rEl = listEl.querySelector(`.sx-reps[data-ex="${CSS.escape(exName)}"][data-set="${setIdx}"]`);
-    const ok = saveSet(exName, today, setIdx, wEl.value, rEl.value);
+    if (!rEl) return;
+    const kind = (rEl && rEl.dataset.kind) || 'reps';
+    const ok = saveSet(exName, today, setIdx, wEl ? wEl.value : '', rEl.value, kind);
     const check = listEl.querySelector(`.set-check[data-ex="${CSS.escape(exName)}"][data-set="${setIdx}"]`);
     if (check) check.classList.toggle('on', ok);
     renderVolumes();
