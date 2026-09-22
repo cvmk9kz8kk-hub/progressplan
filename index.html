@@ -360,6 +360,14 @@
   .vol-extra-row b{ font-family:ui-monospace,monospace; color:var(--lime); font-size:13px; }
   .vol-extra-row .vol-prev{ margin-left:auto; }
 
+
+  .data-status{ margin-bottom:12px; }
+  .ds-ok{ background:var(--bg2); border-radius:10px; padding:10px 12px; font-size:11.5px; color:var(--ink-dim); line-height:1.6; }
+  .ds-ok b{ color:var(--lime); font-family:ui-monospace,monospace; }
+  .ds-warn{ background:rgba(242,179,61,.12); border:1px solid rgba(242,179,61,.3); border-radius:10px;
+    padding:11px 13px; font-size:12px; color:var(--amber); font-weight:700; line-height:1.55; }
+  .ds-sub{ display:block; margin-top:5px; font-weight:400; color:var(--ink-dim); font-size:11px; }
+
   .vol-day{ margin-top:14px; }
   .vol-hero{ display:flex; justify-content:space-between; align-items:flex-end; gap:12px; padding:6px 0 2px; }
   .vol-hero-num{ font-family:ui-monospace,monospace; font-weight:800; font-size:26px; color:var(--lime); line-height:1.1; }
@@ -562,7 +570,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.4</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.6</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -740,6 +748,7 @@
       <div style="font-size:11.5px; color:var(--ink-dim); padding:0 2px 10px; line-height:1.5;">
         Felder bleiben dauerhaft editierbar — einfach reinschreiben, der grüne Haken erscheint automatisch. Zum Korrigieren direkt überschreiben, kein Löschen nötig.
       </div>
+      <div id="progDataStatus" class="data-status"></div>
       <div id="progTodayList"></div>
       <div id="progDayVolume"></div>
     </div>
@@ -1198,9 +1207,9 @@ const data = {
       {name:"Dehnen", sets:"10 min", note:"Hüfte, Waden, unterer Rücken."},
     ]},
     "do": {label:"Do · Unterkörper moderat", sub:"Gym · moderat — 13 Arbeitssätze, ca. 50 min", exercises:[
-      {name:"Beinbeuger liegend (Matrix)", sets:"3 × 10–15", note:"HAMSTRINGS 2/2 der Woche. Höhere Wdh. als montags beim Kreuzheben, um trotz gleicher Muskelgruppe einen anderen Reiz zu setzen."},
-      {name:"Einbeinige Beinbeuger-Negative (liegend)", sets:"2 × 6–8 je Bein", note:"Exzentrische Hamstring-Kraft — bester Schutz vor Hamstring-Verletzungen beim Laufen. Mit BEIDEN Beinen hochziehen, mit EINEM über 3–5 Sek. absenken. Alternative: Handtuch-Curls auf glattem Boden."},
-      {name:"Beinstrecker (Matrix)", sets:"2 × 12–15", note:"Trainiert als einzige Übung des Plans den Rectus femoris wirksam — der Quadrizeps-Kopf, der über die Hüfte läuft und bei Hack Squat und Split Squats kaum Reiz bekommt."},
+      {name:"Einbeinige Beinbeuger-Negative (liegend)", sets:"2 × 6–8 je Bein", note:"VORGEZOGEN: Exzentrische Hamstring-Kraft ist der beste Schutz vor Hamstring-Verletzungen beim Laufen — und braucht frische Muskulatur. Stand vorher hinter dem Beinbeuger, also auf vorermüdetem Muskel. Ablauf: mit BEIDEN Beinen hochziehen, mit EINEM über 3–5 Sek. kontrolliert absenken. Alternative: Handtuch-Curls auf glattem Boden."},
+      {name:"Beinstrecker (Matrix)", sets:"2 × 12–15", note:"Bewusst zwischen die beiden Hamstring-Übungen gelegt: der Gegenspieler bekommt Reiz, während die Hamstrings sich erholen. Trainiert als einzige Übung des Plans den Rectus femoris wirksam — der Quadrizeps-Kopf, der über die Hüfte läuft."},
+      {name:"Beinbeuger liegend (Matrix)", sets:"3 × 10–15", note:"HAMSTRINGS-Hauptvolumen. Nach den Negativen und dem Beinstrecker — hier zählt die Wiederholungszahl, nicht maximale Frische. Höhere Wdh. als beim Kreuzheben am Montag für einen anderen Reiz."},
       {name:"Step-ups auf Bank/Box", sets:"3 × 10 je Seite", note:"Einbeinige Hüftstabilität, Gluteus medius. Kontrolliert hoch UND runter, nicht abspringen."},
       {name:"Wadenheben sitzend", sets:"3 × 15–20", note:"Trifft den Soleus (tiefer Wadenmuskel), montags stehend den Gastrocnemius. Beide fürs Laufen relevant."},
       {name:"Tibialis Raises (Zehenheben)", sets:"2 × 15–20", note:"Schienbeinmuskel, Gegenspieler der Wade. Hauptursache für Shin Splints und Knieschmerzen beim Laufen, wenn schwach. Rücken an der Wand, Fersen am Boden, Fußspitzen anheben."},
@@ -1707,8 +1716,13 @@ function saveSet(exName, date, setIdx, weightVal, repsVal, unit){
   const d = loadProgress();
   if (!d[exName]) d[exName] = [];
   const existing = d[exName].find(e => e.date === date && e.setIdx === setIdx);
-  const hasReps = repsVal !== '' && repsVal !== null && repsVal !== undefined;
-  if (!hasReps) {
+  const hasReps   = repsVal   !== '' && repsVal   !== null && repsVal   !== undefined && !isNaN(parseInt(repsVal, 10));
+  const hasWeight = weightVal !== '' && weightVal !== null && weightVal !== undefined && !isNaN(parseFloat(weightVal));
+
+  // KORREKTUR: Es wird gespeichert, sobald Gewicht ODER Wiederholungen vorliegen.
+  // Vorher wurde ein Eintrag ohne Wiederholungen gelöscht — dadurch ging ein
+  // zuerst eingetragenes Gewicht verloren, bevor der Satz überhaupt gemacht war.
+  if (!hasReps && !hasWeight) {
     if (existing) d[exName] = d[exName].filter(e => !(e.date === date && e.setIdx === setIdx));
     if (d[exName] && d[exName].length === 0) delete d[exName];
     saveProgress(d);
@@ -1717,20 +1731,47 @@ function saveSet(exName, date, setIdx, weightVal, repsVal, unit){
   const rec = {
     date: date,
     setIdx: setIdx,
-    weight: (weightVal !== '' && weightVal !== null && weightVal !== undefined) ? parseFloat(weightVal) : null,
-    reps: parseInt(repsVal, 10),
+    weight: hasWeight ? parseFloat(weightVal) : null,
+    reps: hasReps ? parseInt(repsVal, 10) : null,
     unit: unit || 'reps'
   };
   if (existing) { existing.weight = rec.weight; existing.reps = rec.reps; existing.unit = rec.unit; }
   else { d[exName].push(rec); }
   d[exName].sort((a,b) => a.date.localeCompare(b.date) || ((a.setIdx||0) - (b.setIdx||0)));
   saveProgress(d);
-  return true;
+  return hasReps;   // Häkchen erst, wenn der Satz mit Wiederholungen vollständig ist
+}
+
+
+// ---- Statusanzeige: zeigt, was tatsächlich im Speicher liegt ----
+function renderDataStatus(){
+  const el = document.getElementById('progDataStatus');
+  if (!el) return;
+  let store = {};
+  try { store = loadProgress(); } catch(e) {}
+  const exNames = Object.keys(store);
+  let entries = 0;
+  const dates = new Set();
+  exNames.forEach(k => (store[k] || []).forEach(e => { entries++; if (e.date) dates.add(e.date); }));
+  const dateList = [...dates].sort();
+
+  if (!entries) {
+    el.innerHTML = `<div class="ds-warn">Noch keine Trainingsdaten gespeichert.<br>
+      <span class="ds-sub">Falls du sicher bist, dass du schon Werte eingetragen hattest: Diese Version behebt einen Fehler, bei dem ein Gewicht ohne Wiederholungszahl wieder gelöscht wurde. Trag ab jetzt beides ein — Gewicht UND Wiederholungen.</span></div>`;
+    return;
+  }
+  const last = dateList[dateList.length - 1];
+  const lp = last.split('-');
+  el.innerHTML = `<div class="ds-ok">
+      <b>${entries}</b> gespeicherte Sätze · <b>${exNames.length}</b> Übungen · <b>${dateList.length}</b> Trainingstage
+      <span class="ds-sub">zuletzt: ${lp[2]}.${lp[1]}.${lp[0]}</span>
+    </div>`;
 }
 
 let migrationDone = false;
 function renderTodayEntry(){
   if (!migrationDone) { migrateProgressNames(); migrationDone = true; }
+  renderDataStatus();
   const daySelect = document.getElementById('progDaySelect');
   if (!daySelect.dataset.filled) {
     daySelect.innerHTML = Object.keys(data.trainingDays).map(k =>
@@ -1773,9 +1814,10 @@ function renderTodayEntry(){
       for (let s = 0; s < nSets; s++) {
         const e = lastBySet[s];
         if (!e) { parts.push('<span style="opacity:.4">–</span>'); continue; }
-        if (kind === 'duration') parts.push(`<b>${e.reps}</b>&thinsp;min`);
-        else if (kind === 'hold') parts.push(`<b>${e.reps}</b>&thinsp;sek${e.weight ? ' @' + fmtNum(e.weight) + 'kg' : ''}`);
-        else parts.push(`<b>${e.weight ? fmtNum(e.weight) : '–'}</b>${e.weight ? '&thinsp;kg' : ''}&times;${e.reps}`);
+        const rTxt = (e.reps === null || e.reps === undefined || isNaN(e.reps)) ? '?' : e.reps;
+        if (kind === 'duration') parts.push(`<b>${rTxt}</b>&thinsp;min`);
+        else if (kind === 'hold') parts.push(`<b>${rTxt}</b>&thinsp;sek${e.weight ? ' @' + fmtNum(e.weight) + 'kg' : ''}`);
+        else parts.push(`<b>${e.weight ? fmtNum(e.weight) : '–'}</b>${e.weight ? '&thinsp;kg' : ''}&times;${rTxt}`);
       }
       const d = lastDate.split('-');
       lastTxt = `Letztes Mal (${d[2]}.${d[1]}.): ${parts.join(' · ')}`;
@@ -1955,7 +1997,7 @@ function renderTodayEntry(){
           </div>`;
       } else {
         const prevDetail = prevSets.length
-          ? prevSets.map(e => `${e.weight ? fmtNum(e.weight) : '–'}×${e.reps}`).join(' + ')
+          ? prevSets.map(e => `${e.weight ? fmtNum(e.weight) : '–'}×${(e.reps === null || isNaN(e.reps)) ? '?' : e.reps}`).join(' + ')
           : '';
         box.innerHTML = `
           <div class="vol-compare">
