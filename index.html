@@ -368,6 +368,45 @@
     padding:11px 13px; font-size:12px; color:var(--amber); font-weight:700; line-height:1.55; }
   .ds-sub{ display:block; margin-top:5px; font-weight:400; color:var(--ink-dim); font-size:11px; }
 
+
+
+  /* ---------- SVG-Diagramme ---------- */
+  .svgc{ width:100%; }
+  .svgc-scroll{ width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .svgc-scroll svg{ display:block; max-width:none !important; height:auto; }
+  .svgc-legend{ display:flex; flex-wrap:wrap; gap:6px 12px; font-size:10.5px; color:var(--ink-dim); margin-bottom:8px; }
+  .svgc-legend i{ display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:5px; vertical-align:-1px; }
+  .svgc-detail{ margin-top:10px; background:var(--bg2); border-radius:10px; padding:10px 12px;
+    font-size:12px; line-height:1.55; color:var(--ink-dim); }
+  .svgc-detail b{ color:var(--ink); }
+
+  /* ---------- Leistungsanalyse ---------- */
+  .ana-head{ font-size:11px; font-weight:800; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--lime); margin:18px 2px 8px; }
+  .ana-kpis{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; }
+  .kpi{ background:var(--bg2); border-radius:11px; padding:10px 11px; min-width:0; }
+  .kpi-l{ font-size:10px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.04em; line-height:1.3; }
+  .kpi-v{ font-family:ui-monospace,monospace; font-weight:800; font-size:17px; margin-top:4px; line-height:1.15;
+    overflow-wrap:anywhere; }
+  .kpi-s{ font-size:10.5px; color:var(--ink-dim); margin-top:3px; line-height:1.35; overflow-wrap:anywhere; }
+  .kpi.wide{ grid-column:1 / -1; }
+  .c-up{ color:var(--lime); } .c-down{ color:var(--amber); } .c-flat{ color:var(--ink-dim); }
+  .ana-note{ font-size:11px; color:var(--ink-dim); margin-top:10px; line-height:1.5; }
+  .ana-empty{ font-size:12.5px; color:var(--ink-dim); text-align:center; padding:20px 0; }
+  .pr-row{ display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); }
+  .pr-row:last-child{ border-bottom:none; }
+  .pr-ic{ flex:0 0 auto; font-size:15px; }
+  .pr-b{ flex:1; min-width:0; }
+  .pr-n{ font-size:13px; font-weight:700; overflow-wrap:anywhere; }
+  .pr-s{ font-size:11px; color:var(--ink-dim); margin-top:2px; }
+  .pr-v{ flex:0 0 auto; font-family:ui-monospace,monospace; font-weight:800; color:var(--lime); font-size:13px; }
+  .hist-sess{ padding:10px 0; border-bottom:1px solid var(--line); }
+  .hist-sess:last-child{ border-bottom:none; }
+  .hist-top{ display:flex; align-items:baseline; gap:8px; }
+  .hist-d{ font-weight:700; font-size:13px; }
+  .hist-v{ margin-left:auto; font-family:ui-monospace,monospace; font-weight:800; font-size:13px; }
+  .hist-sets{ font-size:11.5px; color:var(--ink-dim); margin-top:4px; font-family:ui-monospace,monospace; overflow-wrap:anywhere; }
+
   .vol-day{ margin-top:14px; }
   .vol-hero{ display:flex; justify-content:space-between; align-items:flex-end; gap:12px; padding:6px 0 2px; }
   .vol-hero-num{ font-family:ui-monospace,monospace; font-weight:800; font-size:26px; color:var(--lime); line-height:1.1; }
@@ -570,7 +609,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.6</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.9</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -754,23 +793,68 @@
     </div>
 
     <div id="progOverview" style="display:none;">
+
+      <div class="ana-head">Gesamtentwicklung · alle Übungen</div>
+
+      <div class="card accent">
+        <div class="card-title">Kennzahlen</div>
+        <div id="anaKpis" class="ana-kpis"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Wochenvolumen &amp; Veränderung zur Vorwoche</div>
+        <div id="anaWeekChart" class="svgc"></div>
+        <div class="ana-note" id="anaWeekNote"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Volumen nach Trainingstag</div>
+        <div id="anaSplitChart" class="svgc"></div>
+        <div class="ana-note">Zeigt, ob Ober- und Unterkörper sich gleichmäßig entwickeln.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Trainingseinheiten pro Woche</div>
+        <div id="anaFreqChart" class="svgc"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Rekorde der letzten 4 Wochen</div>
+        <div id="anaPRs"></div>
+      </div>
+
+      <div class="ana-head">Einzelübung</div>
+
       <div class="card">
         <div class="card-title">Übung wählen</div>
         <select id="progExercise" class="prog-input"></select>
       </div>
+
       <div class="card accent">
-        <div class="card-title">Fortschritt</div>
-        <div id="progSummary"></div>
+        <div class="card-title" id="progChartTitle">Leistung</div>
+        <div id="progSummary" class="ana-kpis"></div>
       </div>
+
       <div class="card">
-        <div class="card-title" id="progChartTitle">Verlauf</div>
-        <canvas id="progChart" height="220"></canvas>
-        <div id="progEmpty" style="font-size:12.5px; color:var(--ink-dim); text-align:center; padding:20px 0; display:none;">
-          Noch keine Einträge für diese Übung.
-        </div>
+        <div class="card-title" id="exMainTitle">Volumen pro Einheit &amp; Veränderung</div>
+        <div id="progChart" class="svgc"></div>
+        <div id="progEmpty" class="ana-empty" style="display:none;">Noch keine Einträge für diese Übung.</div>
       </div>
+
+      <div class="card" id="exStrengthCard">
+        <div class="card-title">Kraft: Topgewicht &amp; geschätztes Maximum (1RM)</div>
+        <div id="exStrengthChart" class="svgc"></div>
+        <div class="ana-note">1RM = geschätztes Gewicht für eine einzige Wiederholung (Epley-Formel aus deinem besten Satz). Macht Einheiten mit unterschiedlichen Wiederholungszahlen vergleichbar.</div>
+      </div>
+
+      <div class="card" id="exRepsCard">
+        <div class="card-title">Wiederholungen &amp; Ø Last pro Wiederholung</div>
+        <div id="exRepsChart" class="svgc"></div>
+        <div class="ana-note">Steigt die Ø Last bei gleichen Wiederholungen, bist du stärker geworden.</div>
+      </div>
+
       <div class="card">
-        <div class="card-title">Letzte Einträge</div>
+        <div class="card-title">Alle Einheiten</div>
         <div id="progHistory"></div>
       </div>
     </div>
@@ -1518,14 +1602,11 @@ function normalizeExName(name){
 }
 
 // Feste Zuordnungen für Fälle, die die Normalisierung nicht trifft
+// Nur echte Umbenennungen derselben Übung. Verschiedene Übungen (z. B. Beinpresse
+// vs. Hack Squat) werden bewusst NICHT zusammengeführt — sonst entstehen falsche
+// Vergleiche. Alte Übungen bleiben mit ihrem eigenen Verlauf erhalten.
 const EX_ALIASES = {
-  'beinpresse': 'hack squat',
-  'beinpresse stehend': 'hack squat',
-  'nordic curl': 'einbeinige beinbeuger negative',
-  'farmer s walk': 'renegade rows',
-  'pallof press': 'renegade rows',
   'beinbeuger sitzend': 'beinbeuger',
-  'kabelzug fliegende bank aufrecht': 'butterfly pec deck',
 };
 function aliasKey(name){
   const n = normalizeExName(name);
@@ -1632,20 +1713,39 @@ function buildExerciseCatalog(){
 const exerciseCatalog = buildExerciseCatalog();
 const exerciseList = Object.keys(exerciseCatalog);
 
+const PROG_SAFE_KEY = 'cutplan_progress_safecopy_v1';
+let progReadFailed = false;
 function loadProgress(){
-  try { const raw = localStorage.getItem(PROG_KEY); return raw ? JSON.parse(raw) : {}; }
-  catch(e){ return {}; }
-}
-function saveProgress(d){ try { localStorage.setItem(PROG_KEY, JSON.stringify(d)); } catch(e){} }
-
-function seedProgressIfEmpty(){
-  const d = loadProgress();
-  if (Object.keys(d).length === 0) {
-    const today = new Date().toISOString().split('T')[0];
-    d["Klimmzüge (schulterbreit)"] = [{date: today, weight: null, reps: 8}];
-    saveProgress(d);
+  let raw = null;
+  try { raw = localStorage.getItem(PROG_KEY); } catch(e) {}
+  if (!raw) return {};
+  try {
+    const parsed = JSON.parse(raw);
+    progReadFailed = false;
+    return parsed;
+  } catch(e) {
+    // Speicher unlesbar: Rohdaten sichern und auf letzte gute Kopie zurückfallen,
+    // damit der nächste Eintrag nichts überschreibt.
+    progReadFailed = true;
+    try { localStorage.setItem('cutplan_progress_corrupt_' + Date.now(), raw); } catch(_) {}
+    try { const safe = localStorage.getItem(PROG_SAFE_KEY); if (safe) return JSON.parse(safe); } catch(_) {}
+    return {};
   }
 }
+function saveProgress(d){ try { localStorage.setItem(PROG_KEY, JSON.stringify(d)); } catch(e){} }
+// Sicherungskopie: wird bei jedem Start aus dem lesbaren Bestand erneuert
+function refreshProgressSafeCopy(){
+  try {
+    const raw = localStorage.getItem(PROG_KEY);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (parsed && Object.keys(parsed).length) localStorage.setItem(PROG_SAFE_KEY, raw);
+  } catch(e) {}
+}
+
+// Früher wurde hier bei leerem Speicher ein Platzhalter-Eintrag angelegt.
+// Das erzeugte ein Schein-Training im Verlauf — entfernt. Bestehende Daten bleiben unberührt.
+function seedProgressIfEmpty(){ /* bewusst leer */ }
 
 const dayOrder = ['so','mo','di','mi','do','fr','sa']; // JS getDay(): 0=Sonntag
 function todayDayKey(){ return dayOrder[new Date().getDay()]; }
@@ -2080,176 +2180,579 @@ function renderTodayEntry(){
   });
 }
 
-function renderOverview(){
-  const sel = document.getElementById('progExercise');
-  if (!sel.dataset.filled) {
-    sel.innerHTML = exerciseList.map(e => `<option value="${e}">${e}</option>`).join('');
-    sel.dataset.filled = '1';
-    sel.onchange = () => { currentProgExercise = sel.value; renderOverview(); };
+// ================= EIGENE DIAGRAMME (SVG, ohne externe Bibliothek) =================
+// Funktionieren immer — auch offline und wenn das Nachladen von Chart.js scheitert.
+function niceStep(x){
+  if (!x || x <= 0) return 1;
+  const p = Math.pow(10, Math.floor(Math.log10(x)));
+  const f = x / p;
+  return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p;
+}
+function fmtKg(v){ return Math.round(v).toLocaleString('de-DE') + ' kg'; }
+function fmtKgShort(v){
+  v = Math.round(v);
+  if (v >= 10000) return (Math.round(v / 100) / 10).toString().replace('.', ',') + ' t';
+  return v.toLocaleString('de-DE');
+}
+function isoWeek(dateStr){
+  const d = new Date(dateStr + 'T12:00:00');
+  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const day = t.getUTCDay() || 7;
+  t.setUTCDate(t.getUTCDate() + 4 - day);
+  const y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
+  return Math.ceil(((t - y0) / 864e5 + 1) / 7);
+}
+function svgEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// Balkendiagramm: o = { labels, sub (2. Zeile x-Achse), values | stacks, axisFmt, valFmt, pcts, details, colorByTrend }
+function svgBarChart(el, o){
+  if (!el) return;
+  const n = o.labels.length;
+  if (!n) { el.innerHTML = ''; return; }
+  const totals = o.stacks
+    ? o.labels.map((_, i) => o.stacks.reduce((a, s) => a + (s.values[i] || 0), 0))
+    : o.values.map(v => v || 0);
+  const maxV = Math.max(...totals, 1);
+  const step = niceStep(maxV / 4);
+  const top = Math.ceil(maxV * 1.05 / step) * step;
+  const slot = o.slot || 58, padL = o.padL || 62, padR = 12, padT = o.pcts ? 40 : 26, padB = o.sub ? 42 : 28, H = o.height || 250;
+  const W = Math.max(padL + padR + n * slot, 300);
+  const plotH = H - padT - padB;
+  const y = v => padT + plotH - (v / top) * plotH;
+  const axisFmt = o.axisFmt || (v => v.toLocaleString('de-DE'));
+  const valFmt = o.valFmt || axisFmt;
+  let s = '';
+
+  // Gitter + Y-Achse
+  for (let v = 0; v <= top + 1e-9; v += step) {
+    const yy = y(v).toFixed(1);
+    s += `<line x1="${padL}" x2="${W - padR}" y1="${yy}" y2="${yy}" stroke="${ANA_COL.grid}" stroke-width="1"/>`;
+    s += `<text x="${padL - 6}" y="${(+yy + 3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="${ANA_COL.dim}">${svgEsc(axisFmt(v))}</text>`;
   }
-  sel.value = currentProgExercise;
+  if (o.yTitle) s += `<text x="4" y="${padT - 14}" font-size="10" fill="${ANA_COL.lime}" font-weight="700">${svgEsc(o.yTitle)}</text>`;
 
-  const store = loadProgress();
-  const entries = store[currentProgExercise] || [];
-  document.getElementById('progChartTitle').textContent = 'Gewichtsentwicklung — ' + currentProgExercise;
+  // Bestwert-Linie
+  if (o.bestLine && !o.stacks) {
+    const by = y(maxV).toFixed(1);
+    s += `<line x1="${padL}" x2="${W - padR}" y1="${by}" y2="${by}" stroke="rgba(237,239,230,.35)" stroke-dasharray="4 4" stroke-width="1"/>`;
+  }
 
-  const canvas = document.getElementById('progChart');
-  const emptyMsg = document.getElementById('progEmpty');
-
-  // Aggregate per session (date): best set = highest weight; also track est. 1RM
-  const byDate = {};
-  entries.forEach(e => {
-    if (!byDate[e.date]) byDate[e.date] = [];
-    byDate[e.date].push(e);
-  });
-  const dates = Object.keys(byDate).sort();
-  const sessions = dates.map(d => {
-    const sets = byDate[d];
-    const withWeight = sets.filter(s => s.weight !== null && s.weight !== undefined);
-    const topWeight = withWeight.length ? Math.max(...withWeight.map(s => s.weight)) : null;
-    // Epley estimated 1RM from the best set (weight x reps)
-    let best1rm = null;
-    withWeight.forEach(s => {
-      const est = s.weight * (1 + s.reps / 30);
-      if (best1rm === null || est > best1rm) best1rm = est;
-    });
-    const topReps = sets.length ? Math.max(...sets.map(s => s.reps)) : null;
-    const volume = withWeight.reduce((sum, s) => sum + s.weight * s.reps, 0);
-    return { date: d, topWeight, best1rm: best1rm !== null ? Math.round(best1rm * 10) / 10 : null, topReps, volume };
-  });
-
-  const hasWeights = sessions.some(s => s.topWeight !== null);
-
-  if (sessions.length === 0) {
-    canvas.style.display = 'none';
-    emptyMsg.style.display = 'block';
-  } else {
-    canvas.style.display = 'block';
-    emptyMsg.style.display = 'none';
-
-    if (progChartInstance) progChartInstance.destroy();
-    const ctx = canvas.getContext('2d');
-
-    const datasets = [];
-    if (hasWeights) {
-      datasets.push({
-        label: 'Arbeitsgewicht (kg)',
-        data: sessions.map(s => s.topWeight),
-        borderColor: '#C8FF4D',
-        backgroundColor: 'rgba(200,255,77,0.15)',
-        borderWidth: 3,
-        yAxisID: 'y',
-        tension: 0.25,
-        pointRadius: 5,
-        pointBackgroundColor: '#C8FF4D',
-        fill: true,
-        spanGaps: true,
-      });
-      datasets.push({
-        label: 'Geschätztes 1RM (kg)',
-        data: sessions.map(s => s.best1rm),
-        borderColor: '#F2B33D',
-        borderWidth: 2,
-        borderDash: [5, 4],
-        yAxisID: 'y',
-        tension: 0.25,
-        pointRadius: 0,
-        fill: false,
-        spanGaps: true,
+  const bw = slot * 0.62;
+  for (let i = 0; i < n; i++) {
+    const x = padL + i * slot + (slot - bw) / 2;
+    const cx = x + bw / 2;
+    s += `<g class="svgc-bar" data-i="${i}" style="cursor:pointer">`;
+    s += `<rect x="${padL + i * slot}" y="${padT}" width="${slot}" height="${plotH}" fill="transparent"/>`;
+    if (o.stacks) {
+      let acc = 0;
+      o.stacks.forEach(st => {
+        const v = st.values[i] || 0;
+        if (!v) return;
+        const y1 = y(acc + v), y0 = y(acc);
+        s += `<rect x="${x.toFixed(1)}" y="${y1.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0, y0 - y1).toFixed(1)}" fill="${st.color}"/>`;
+        acc += v;
       });
     } else {
-      datasets.push({
-        label: 'Wiederholungen',
-        data: sessions.map(s => s.topReps),
-        borderColor: '#C8FF4D',
-        backgroundColor: 'rgba(200,255,77,0.15)',
-        borderWidth: 3,
-        yAxisID: 'y',
-        tension: 0.25,
-        pointRadius: 5,
-        pointBackgroundColor: '#C8FF4D',
-        fill: true,
+      const v = totals[i];
+      let col = o.color || ANA_COL.lime;
+      if (o.colorByTrend) col = i === 0 ? '#7E8574' : (v >= totals[i - 1] ? ANA_COL.lime : ANA_COL.amber);
+      const yv = y(v);
+      s += `<rect x="${x.toFixed(1)}" y="${yv.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0, padT + plotH - yv).toFixed(1)}" rx="4" fill="${col}"/>`;
+    }
+    // Wert über dem Balken
+    if (totals[i] > 0) s += `<text x="${cx.toFixed(1)}" y="${(y(totals[i]) - 5).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="${ANA_COL.ink}">${svgEsc(valFmt(totals[i]))}</text>`;
+    // Prozent-Veränderung darüber
+    if (o.pcts && o.pcts[i] !== null && o.pcts[i] !== undefined && totals[i] > 0) {
+      const p = o.pcts[i];
+      const pc = p > 0.5 ? ANA_COL.lime : p < -0.5 ? ANA_COL.amber : ANA_COL.dim;
+      s += `<text x="${cx.toFixed(1)}" y="${(y(totals[i]) - 18).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="800" fill="${pc}">${svgEsc(fmtPct(p))}</text>`;
+    }
+    // X-Achse
+    s += `<text x="${cx.toFixed(1)}" y="${H - padB + 15}" text-anchor="middle" font-size="10.5" fill="${ANA_COL.ink}">${svgEsc(o.labels[i])}</text>`;
+    if (o.sub) s += `<text x="${cx.toFixed(1)}" y="${H - padB + 28}" text-anchor="middle" font-size="9" fill="${ANA_COL.dim}">${svgEsc(o.sub[i])}</text>`;
+    s += `</g>`;
+  }
+  s += `<line x1="${padL}" x2="${W - padR}" y1="${padT + plotH}" y2="${padT + plotH}" stroke="${ANA_COL.dim}" stroke-width="1"/>`;
+
+  let legend = '';
+  if (o.stacks) legend = `<div class="svgc-legend">${o.stacks.map(st => `<span><i style="background:${st.color}"></i>${svgEsc(st.name)}</span>`).join('')}</div>`;
+
+  el.innerHTML = `${legend}<div class="svgc-scroll"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${s}</svg></div>
+    ${o.details ? '<div class="svgc-detail">Balken antippen für Details</div>' : ''}`;
+
+  const sc = el.querySelector('.svgc-scroll');
+  if (sc) sc.scrollLeft = sc.scrollWidth;   // neueste Einheit sichtbar
+
+  if (o.details) {
+    const det = el.querySelector('.svgc-detail');
+    el.querySelectorAll('.svgc-bar').forEach(g => {
+      g.addEventListener('click', () => {
+        const i = +g.dataset.i;
+        el.querySelectorAll('.svgc-bar rect[rx]').forEach(r => r.removeAttribute('stroke'));
+        const r = g.querySelector('rect[rx]');
+        if (r) { r.setAttribute('stroke', '#FFFFFF'); r.setAttribute('stroke-width', '2'); }
+        det.innerHTML = o.details[i];
       });
-    }
-
-    progChartInstance = new Chart(ctx, {
-      type: 'line',
-      data: { labels: sessions.map(s => s.date.slice(5)), datasets },
-      options: {
-        responsive: true,
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-          legend: { labels: { color: '#EDEFE6', font: { size: 11 }, boxWidth: 14 } },
-          tooltip: {
-            callbacks: {
-              afterBody: function(items){
-                const s = sessions[items[0].dataIndex];
-                const lines = [];
-                if (s.topReps !== null) lines.push('Beste Wdh.: ' + s.topReps);
-                if (s.volume) lines.push('Volumen: ' + Math.round(s.volume) + ' kg');
-                return lines;
-              }
-            }
-          }
-        },
-        scales: {
-          x: { ticks: { color: '#9AA08C', font: { size: 10 } }, grid: { color: '#2C3024' } },
-          y: {
-            position: 'left',
-            ticks: { color: '#C8FF4D', font: { size: 10 } },
-            grid: { color: '#2C3024' },
-            title: { display: true, text: hasWeights ? 'kg' : 'Wdh.', color: '#C8FF4D', font: {size:10} }
-          }
-        }
-      }
     });
-  }
-
-  // Progress summary card
-  const summaryEl = document.getElementById('progSummary');
-  if (summaryEl) {
-    if (sessions.length < 2 || !hasWeights) {
-      summaryEl.innerHTML = '<div style="font-size:12.5px; color:var(--ink-dim);">Sobald du diese Übung mehrfach eingetragen hast, siehst du hier deine Steigerung.</div>';
-    } else {
-      const first = sessions.find(s => s.topWeight !== null);
-      const lastS = [...sessions].reverse().find(s => s.topWeight !== null);
-      const diff = lastS.topWeight - first.topWeight;
-      const pct = first.topWeight ? Math.round(diff / first.topWeight * 1000) / 10 : 0;
-      const color = diff > 0 ? 'var(--steps)' : (diff < 0 ? 'var(--clay)' : 'var(--ink-dim)');
-      const sign = diff > 0 ? '+' : '';
-      summaryEl.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
-          <span style="font-size:12.5px; color:var(--ink-dim);">Start (${first.date.slice(5)})</span>
-          <span class="mono" style="font-weight:700;">${first.topWeight} kg</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px;">
-          <span style="font-size:12.5px; color:var(--ink-dim);">Aktuell (${lastS.date.slice(5)})</span>
-          <span class="mono" style="font-weight:700;">${lastS.topWeight} kg</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:baseline; padding-top:10px; border-top:1px solid var(--line);">
-          <span style="font-size:13px; font-weight:700;">Steigerung</span>
-          <span class="mono" style="font-weight:800; font-size:17px; color:${color};">${sign}${Math.round(diff*10)/10} kg (${sign}${pct}%)</span>
-        </div>`;
-    }
-  }
-
-  const histEl = document.getElementById('progHistory');
-  if (entries.length === 0) {
-    histEl.innerHTML = '<div style="font-size:12.5px; color:var(--ink-dim);">Noch keine Einträge.</div>';
-  } else {
-    const revDates = [...dates].reverse();
-    histEl.innerHTML = revDates.map(d => {
-      const sets = byDate[d].slice().sort((a,b) => (a.setIdx||0)-(b.setIdx||0));
-      const setsTxt = sets.map(s => `${s.weight !== null && s.weight !== undefined ? s.weight + 'kg×' : ''}${s.reps}`).join('  ·  ');
-      return `<div class="prog-hist-row">
-        <span class="prog-hist-date">${d}</span>
-        <span class="prog-hist-val">${setsTxt}</span>
-      </div>`;
-    }).join('');
   }
 }
 
-seedProgressIfEmpty();
+// Liniendiagramm: o = { labels, sub, series:[{name,color,values,dash}], fmt }
+function svgLineChart(el, o){
+  if (!el) return;
+  const n = o.labels.length;
+  if (!n) { el.innerHTML = ''; return; }
+  const all = o.series.flatMap(s => s.values).filter(v => v !== null && v !== undefined && !isNaN(v));
+  if (!all.length) { el.innerHTML = ''; return; }
+  let lo = Math.min(...all), hi = Math.max(...all);
+  if (hi === lo) { hi += 1; lo = Math.max(0, lo - 1); }
+  const step = niceStep((hi - lo) / 4);
+  lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
+  const slot = 58, padL = 52, padR = 16, padT = 16, padB = o.sub ? 42 : 28, H = 220;
+  const W = Math.max(padL + padR + n * slot, 300);
+  const plotH = H - padT - padB;
+  const xAt = i => padL + i * slot + slot / 2;
+  const y = v => padT + plotH - ((v - lo) / (hi - lo)) * plotH;
+  const fmt = o.fmt || (v => fmtNum(v));
+  let s = '';
+  for (let v = lo; v <= hi + 1e-9; v += step) {
+    const yy = y(v).toFixed(1);
+    s += `<line x1="${padL}" x2="${W - padR}" y1="${yy}" y2="${yy}" stroke="${ANA_COL.grid}"/>`;
+    s += `<text x="${padL - 6}" y="${(+yy + 3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="${ANA_COL.dim}">${svgEsc(fmt(v))}</text>`;
+  }
+  o.series.forEach(se => {
+    const pts = se.values.map((v, i) => (v === null || v === undefined || isNaN(v)) ? null : [xAt(i), y(v)]);
+    let d = '', started = false;
+    pts.forEach(p => { if (!p) return; d += (started ? ' L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); started = true; });
+    s += `<path d="${d}" fill="none" stroke="${se.color}" stroke-width="2.5" ${se.dash ? 'stroke-dasharray="5 4"' : ''}/>`;
+    pts.forEach((p, i) => {
+      if (!p) return;
+      s += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="${se.color}"/>`;
+      s += `<text x="${p[0].toFixed(1)}" y="${(p[1] - 8).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${se.color}">${svgEsc(fmt(se.values[i]))}</text>`;
+    });
+  });
+  for (let i = 0; i < n; i++) {
+    s += `<text x="${xAt(i).toFixed(1)}" y="${H - padB + 15}" text-anchor="middle" font-size="10.5" fill="${ANA_COL.ink}">${svgEsc(o.labels[i])}</text>`;
+    if (o.sub) s += `<text x="${xAt(i).toFixed(1)}" y="${H - padB + 28}" text-anchor="middle" font-size="9" fill="${ANA_COL.dim}">${svgEsc(o.sub[i])}</text>`;
+  }
+  const legend = `<div class="svgc-legend">${o.series.map(se => `<span><i style="background:${se.color}"></i>${svgEsc(se.name)}</span>`).join('')}</div>`;
+  el.innerHTML = `${legend}<div class="svgc-scroll"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${s}</svg></div>`;
+  const sc = el.querySelector('.svgc-scroll');
+  if (sc) sc.scrollLeft = sc.scrollWidth;
+}
+
+// ================= LEISTUNGSANALYSE =================
+// Liest ausschließlich aus dem bestehenden Speicher — es werden keine Daten verändert.
+const ANA_COL = { lime:'#C8FF4D', amber:'#F2B33D', cyan:'#5CC8FF', clay:'#E07A5F', violet:'#B794F6',
+                  ink:'#EDEFE6', dim:'#9AA08C', grid:'#2C3024' };
+const anaCharts = {};
+function anaDestroy(id){ if (anaCharts[id]) { try { anaCharts[id].destroy(); } catch(e){} delete anaCharts[id]; } }
+function chartsAvailable(){ return typeof Chart !== 'undefined'; }
+
+function pctChange(now, prev){
+  if (!prev || prev <= 0 || now === null || now === undefined) return null;
+  return Math.round(((now - prev) / prev) * 1000) / 10;
+}
+function fmtPct(p){
+  if (p === null || p === undefined || isNaN(p)) return '–';
+  const r = Math.round(p * 10) / 10;
+  return (r > 0 ? '+' : '') + r.toString().replace('.', ',') + ' %';
+}
+function pctClass(p){ return p === null || p === undefined ? 'c-flat' : p > 0.5 ? 'c-up' : p < -0.5 ? 'c-down' : 'c-flat'; }
+function fmtDate(d){ const p = d.split('-'); return p[2] + '.' + p[1] + '.'; }
+function mondayOf(dateStr){
+  const d = new Date(dateStr + 'T12:00:00');
+  const wd = (d.getDay() + 6) % 7;         // Mo = 0
+  d.setDate(d.getDate() - wd);
+  return d.toISOString().slice(0, 10);
+}
+function kpi(label, value, sub, cls, wide){
+  return `<div class="kpi${wide ? ' wide' : ''}"><div class="kpi-l">${label}</div>
+    <div class="kpi-v ${cls || ''}">${value}</div>${sub ? `<div class="kpi-s">${sub}</div>` : ''}</div>`;
+}
+// Linearer Trend über die letzten n Werte, als % des Mittelwerts pro Einheit
+function trendPct(values){
+  const v = values.filter(x => x !== null && x !== undefined && !isNaN(x));
+  if (v.length < 3) return null;
+  const n = v.length, xs = v.map((_, i) => i);
+  const mx = xs.reduce((a,b)=>a+b,0)/n, my = v.reduce((a,b)=>a+b,0)/n;
+  let num = 0, den = 0;
+  xs.forEach((x,i) => { num += (x-mx)*(v[i]-my); den += (x-mx)*(x-mx); });
+  if (!den || !my) return null;
+  return Math.round((num/den) / my * 1000) / 10;
+}
+
+// Übung → Trainingstag im aktuellen Plan (für die Aufteilung nach Tagen)
+function planDayOf(exName){
+  const key = aliasKey(exName);
+  for (const dk of ['mo','di','mi','do','fr','sa','so']) {
+    const day = data.trainingDays[dk];
+    if (day && day.exercises.some(e => aliasKey(e.name) === key)) return dk;
+  }
+  return null;
+}
+const DAY_SHORT = { mo:'Mo · Unterkörper', di:'Di · Oberkörper', mi:'Mi · Lauf/Core', do:'Do · Unterkörper',
+                    fr:'Fr · Oberkörper', sa:'Sa · Lauf/Core', so:'So · Core' };
+
+// Kind einer gespeicherten Übung bestimmen (aus Plan, sonst aus gespeicherter Einheit)
+function kindForExercise(exName, entries){
+  const key = aliasKey(exName);
+  for (const dk of Object.keys(data.trainingDays)) {
+    const hit = data.trainingDays[dk].exercises.find(e => aliasKey(e.name) === key);
+    if (hit) return exerciseKind(hit.sets);
+  }
+  const withUnit = (entries || []).find(e => e.unit && e.unit !== 'reps');
+  return withUnit ? withUnit.unit : 'reps';
+}
+
+
+// ---- Körpergewicht für Körpergewichtsübungen ----
+const BW_EX_RE = /klimmz|muscle|dips/i;
+function isBodyweightExercise(name){ return BW_EX_RE.test(name || ''); }
+function bodyweightOn(date){
+  let w = {};
+  try { w = JSON.parse(localStorage.getItem('cutplan_weight_v1') || '{}') || {}; } catch(e) {}
+  const ds = Object.keys(w).filter(k => !isNaN(parseFloat(w[k]))).sort();
+  if (ds.length) {
+    const before = ds.filter(d => d <= date);
+    return parseFloat(w[before.length ? before[before.length - 1] : ds[0]]);
+  }
+  try {
+    const p = JSON.parse(localStorage.getItem('cutplan_profile_v1') || '{}');
+    const sw = parseFloat(p.startWeight);
+    if (!isNaN(sw) && sw > 0) return sw;
+  } catch(e) {}
+  return null;
+}
+
+// Einheiten (Sessions) einer Übung aggregieren
+function buildSessions(entries, kind, exName){
+  const byDate = {};
+  entries.forEach(e => { (byDate[e.date] = byDate[e.date] || []).push(e); });
+  const bwEx = kind === 'reps' && isBodyweightExercise(exName);
+  return Object.keys(byDate).sort().map(date => {
+    const sets = byDate[date].slice().sort((a,b) => (a.setIdx||0) - (b.setIdx||0));
+    const valid = sets.filter(s => s.reps !== null && s.reps !== undefined && !isNaN(s.reps) && s.reps > 0);
+    const bw = bwEx ? bodyweightOn(date) : null;
+    // Bei Klimmzügen/Muscle-Ups/Dips: Körpergewicht + Zusatzgewicht = tatsächlich bewegte Last
+    const eff = s => bw ? bw + ((s.weight && !isNaN(s.weight)) ? s.weight : 0) : s.weight;
+    const weighted = valid.filter(s => { const w = eff(s); return w !== null && w !== undefined && !isNaN(w) && w > 0; })
+                          .map(s => ({ ...s, weight: eff(s) }));
+    const volume = weighted.reduce((sum, s) => sum + s.weight * s.reps, 0);
+    const reps = valid.reduce((sum, s) => sum + s.reps, 0);
+    const topWeight = weighted.length ? Math.max(...weighted.map(s => s.weight)) : null;
+    let e1rm = null;
+    weighted.forEach(s => { const est = s.weight * (1 + s.reps / 30); if (e1rm === null || est > e1rm) e1rm = est; });
+    const repsWeighted = weighted.reduce((sum, s) => sum + s.reps, 0);
+    return {
+      date, sets, kind, bw,
+      volume: Math.round(volume),
+      reps,
+      topWeight,
+      e1rm: e1rm !== null ? Math.round(e1rm * 10) / 10 : null,
+      avgLoad: repsWeighted ? Math.round(volume / repsWeighted * 10) / 10 : null,
+      maxSingle: valid.length ? Math.max(...valid.map(s => s.reps)) : null,
+      setCount: valid.length
+    };
+  });
+}
+
+// Alle Übungen mit Daten, zusammengeführt über umbenannte Namen
+function collectAllExercises(){
+  const store = loadProgress();
+  const groups = {};
+  Object.keys(store).forEach(name => {
+    const key = aliasKey(name);
+    // aktuellen Plannamen bevorzugen
+    const current = exerciseList.find(e => aliasKey(e) === key);
+    const display = current || name;
+    if (!groups[display]) groups[display] = [];
+    groups[display].push(...(store[name] || []));
+  });
+  const out = {};
+  Object.keys(groups).forEach(name => {
+    const seen = new Set(), list = [];
+    groups[name].forEach(e => {
+      const sig = e.date + '|' + e.setIdx + '|' + e.weight + '|' + e.reps;
+      if (!seen.has(sig)) { seen.add(sig); list.push(e); }
+    });
+    if (list.length) out[name] = list;
+  });
+  return out;
+}
+
+// ---------- GESAMTÜBERSICHT ----------
+function renderGlobalAnalysis(){
+  const all = collectAllExercises();
+  const names = Object.keys(all);
+  const kpiEl = document.getElementById('anaKpis');
+
+  if (!names.length) {
+    kpiEl.innerHTML = kpi('Noch keine Daten', '–', 'Trag im Tab „Heute" deine Sätze ein — dann entstehen hier deine Auswertungen.', '', true);
+    ['anaWeekChart','anaSplitChart','anaFreqChart'].forEach(anaDestroy);
+    document.getElementById('anaPRs').innerHTML = '<div class="ana-empty">Noch keine Rekorde.</div>';
+    document.getElementById('anaWeekNote').textContent = '';
+    return;
+  }
+
+  // Wochenaggregation (nur kg-Volumen aus Kraftübungen)
+  const weekVol = {}, weekDays = {}, weekSplit = {}, allDates = new Set();
+  let totalVol = 0;
+  const prList = [];
+  const cutoff28 = new Date(Date.now() - 28*864e5).toISOString().slice(0,10);
+
+  names.forEach(name => {
+    const kind = kindForExercise(name, all[name]);
+    const sessions = buildSessions(all[name], kind, name);
+    const dk = planDayOf(name) || 'other';
+    let bestVol = 0, best1rm = 0;
+    sessions.forEach((s, i) => {
+      allDates.add(s.date);
+      const wk = mondayOf(s.date);
+      (weekDays[wk] = weekDays[wk] || new Set()).add(s.date);
+      if (kind === 'reps' && s.volume > 0) {
+        weekVol[wk] = (weekVol[wk] || 0) + s.volume;
+        weekSplit[wk] = weekSplit[wk] || {};
+        weekSplit[wk][dk] = (weekSplit[wk][dk] || 0) + s.volume;
+        totalVol += s.volume;
+        // Rekorde: neues Volumen- oder 1RM-Maximum innerhalb der letzten 28 Tage
+        if (i > 0 && s.date >= cutoff28) {
+          if (s.volume > bestVol) prList.push({ name, date: s.date, type:'Volumen', val: fmtVolume(s.volume), gain: pctChange(s.volume, bestVol) });
+          else if (s.e1rm && s.e1rm > best1rm) prList.push({ name, date: s.date, type:'1RM', val: fmtNum(s.e1rm) + ' kg', gain: pctChange(s.e1rm, best1rm) });
+        }
+        bestVol = Math.max(bestVol, s.volume);
+        if (s.e1rm) best1rm = Math.max(best1rm, s.e1rm);
+      }
+    });
+  });
+
+  const weeks = Object.keys(weekDays).sort().slice(-12);
+  const volSeries = weeks.map(w => weekVol[w] || 0);
+  const pctSeries = volSeries.map((v, i) => i === 0 ? null : pctChange(v, volSeries[i-1]));
+  const freqSeries = weeks.map(w => weekDays[w].size);
+
+  // Kennzahlen
+  const thisW = mondayOf(new Date().toISOString().slice(0,10));
+  const wkIdx = weeks.indexOf(thisW);
+  const lastFull = wkIdx > 0 ? weeks[wkIdx-1] : weeks[weeks.length-1];
+  const prevFull = weeks[weeks.indexOf(lastFull) - 1];
+  const vLast = weekVol[lastFull] || 0, vPrev = prevFull ? (weekVol[prevFull] || 0) : 0;
+  const l4 = weeks.slice(-4), p4 = weeks.slice(-8, -4);
+  const sum = arr => arr.reduce((a, w) => a + (weekVol[w] || 0), 0);
+  const p4p = p4.length ? pctChange(sum(l4), sum(p4)) : null;
+  const avgFreq = l4.length ? Math.round(l4.reduce((a,w) => a + weekDays[w].size, 0) / l4.length * 10) / 10 : 0;
+  const trend = trendPct(volSeries.slice(-6));
+  const wowPct = pctChange(vLast, vPrev);
+
+  kpiEl.innerHTML =
+    kpi('Wochenvolumen', fmtVolume(vLast), 'Woche ab ' + fmtDate(lastFull)) +
+    kpi('vs. Vorwoche', fmtPct(wowPct), prevFull ? 'Vorwoche ' + fmtVolume(vPrev) : 'noch keine Vorwoche', pctClass(wowPct)) +
+    kpi('4 Wochen vs. 4 davor', fmtPct(p4p), p4.length ? fmtVolume(sum(l4)) + ' zu ' + fmtVolume(sum(p4)) : 'braucht 8 Wochen Daten', pctClass(p4p)) +
+    kpi('Trend', trend === null ? '–' : fmtPct(trend) + '/Wo.', 'Richtung der letzten 6 Wochen', pctClass(trend)) +
+    kpi('Einheiten', allDates.size, 'Ø ' + fmtNum(avgFreq) + ' pro Woche (4 Wo.)') +
+    kpi('Gesamt bewegt', fmtVolume(totalVol), names.length + ' Übungen erfasst');
+
+  const noteEl = document.getElementById('anaWeekNote');
+  if (wowPct === null) noteEl.textContent = 'Der Wochenvergleich erscheint ab der zweiten erfassten Woche.';
+  else if (wowPct >= 3) noteEl.textContent = 'Volumen steigt — im Kaloriendefizit ein sehr gutes Zeichen.';
+  else if (wowPct <= -10) noteEl.textContent = 'Deutlicher Rückgang. Einmalig normal (Schlaf, Stress, ausgelassene Einheit). Zwei Wochen in Folge: Defizit oder Erholung prüfen.';
+  else noteEl.textContent = 'Volumen stabil — im Defizit ist Halten bereits Erfolg.';
+
+  // Rekorde
+  const prEl = document.getElementById('anaPRs');
+  const prs = prList.sort((a,b) => b.date.localeCompare(a.date)).slice(0, 8);
+  prEl.innerHTML = prs.length ? prs.map(p => `
+    <div class="pr-row"><span class="pr-ic">🏆</span>
+      <div class="pr-b"><div class="pr-n">${p.name}</div><div class="pr-s">${p.type}-Rekord · ${fmtDate(p.date)}${p.gain !== null ? ' · ' + fmtPct(p.gain) + ' zum alten Bestwert' : ''}</div></div>
+      <span class="pr-v">${p.val}</span></div>`).join('')
+    : '<div class="ana-empty">Keine neuen Rekorde in den letzten 4 Wochen.</div>';
+
+  // Diagramme (eigene SVG-Darstellung)
+  const wLabels = weeks.map(fmtDate);
+  const wSub = weeks.map(w => 'KW ' + isoWeek(w));
+  svgBarChart(document.getElementById('anaWeekChart'), {
+    labels: wLabels, sub: wSub, values: volSeries, pcts: pctSeries, colorByTrend: true,
+    axisFmt: v => fmtKgShort(v), valFmt: v => fmtKgShort(v), yTitle: 'Volumen (kg)',
+    details: weeks.map((w, i) => `<b>Woche ab ${fmtDate(w)} · KW ${isoWeek(w)}</b><br>Volumen: ${fmtKg(volSeries[i])}${pctSeries[i] !== null ? ' · ' + fmtPct(pctSeries[i]) + ' zur Vorwoche' : ''}<br>${freqSeries[i]} Trainingstage`)
+  });
+
+  const splitKeys = ['mo','di','do','fr','mi','sa','so','other'].filter(k => weeks.some(w => weekSplit[w] && weekSplit[w][k]));
+  const splitCol = { mo: ANA_COL.lime, di: ANA_COL.cyan, do: '#8FD14F', fr: ANA_COL.violet, mi: ANA_COL.amber, sa: ANA_COL.clay, so: '#F7A1C4', other: '#7E8574' };
+  svgBarChart(document.getElementById('anaSplitChart'), {
+    labels: wLabels, sub: wSub, axisFmt: v => fmtKgShort(v), valFmt: v => fmtKgShort(v), yTitle: 'Volumen (kg)',
+    stacks: splitKeys.map(k => ({ name: k === 'other' ? 'Sonstige' : DAY_SHORT[k], color: splitCol[k],
+      values: weeks.map(w => (weekSplit[w] && weekSplit[w][k]) || 0) }))
+  });
+
+  svgBarChart(document.getElementById('anaFreqChart'), {
+    labels: wLabels, sub: wSub, values: freqSeries, height: 190, color: ANA_COL.cyan,
+    axisFmt: v => String(Math.round(v)), valFmt: v => String(v), yTitle: 'Tage'
+  });
+}
+
+// ---------- EINZELÜBUNG ----------
+function renderOverview(){
+  renderGlobalAnalysis();
+
+  const all = collectAllExercises();
+  const sel = document.getElementById('progExercise');
+
+  // Übungen mit Daten zuerst, jeweils mit Anzahl der Einheiten
+  const counts = {};
+  Object.keys(all).forEach(n => { counts[n] = new Set(all[n].map(e => e.date)).size; });
+  const planNames = exerciseList.filter(n => exerciseKind((Object.values(data.trainingDays).flatMap(d => d.exercises).find(e => e.name === n) || {}).sets) !== 'duration' || counts[n]);
+  const extra = Object.keys(all).filter(n => !planNames.includes(n));
+  const ordered = [...planNames, ...extra].sort((a, b) => (counts[b] || 0) - (counts[a] || 0));
+
+  if (!currentProgExercise || !ordered.includes(currentProgExercise) || (!counts[currentProgExercise] && Object.keys(counts).length)) {
+    currentProgExercise = ordered.find(n => counts[n]) || ordered[0];
+  }
+  sel.innerHTML = ordered.map(n => `<option value="${n}">${n}${counts[n] ? ' · ' + counts[n] + '×' : ''}</option>`).join('');
+  sel.value = currentProgExercise;
+  sel.onchange = () => { currentProgExercise = sel.value; renderOverview(); };
+
+  const entries = all[currentProgExercise] || [];
+  const kind = kindForExercise(currentProgExercise, entries);
+  const sessions = buildSessions(entries, kind, currentProgExercise);
+  const hasWeights = kind === 'reps' && sessions.some(s => s.volume > 0);
+
+  document.getElementById('progChartTitle').textContent = currentProgExercise;
+  const summaryEl = document.getElementById('progSummary');
+  const canvas = document.getElementById('progChart');
+  const emptyMsg = document.getElementById('progEmpty');
+  const strengthCard = document.getElementById('exStrengthCard');
+  const repsCard = document.getElementById('exRepsCard');
+  const mainTitle = document.getElementById('exMainTitle');
+
+  ['progChart','exStrengthChart','exRepsChart'].forEach(anaDestroy);
+
+  if (!sessions.length) {
+    summaryEl.innerHTML = kpi('Noch keine Einträge', '–', 'Sobald du diese Übung einträgst, erscheint hier deine Entwicklung.', '', true);
+    canvas.innerHTML = ''; canvas.style.display = 'none'; emptyMsg.style.display = 'block';
+    strengthCard.style.display = 'none'; repsCard.style.display = 'none';
+    document.getElementById('progHistory').innerHTML = '<div class="ana-empty">Noch keine Einträge.</div>';
+    return;
+  }
+  canvas.style.display = 'block'; emptyMsg.style.display = 'none';
+
+  // Hauptmetrik je Übungstyp
+  let metric, unitFmt, metricLabel;
+  if (hasWeights) { metric = s => s.volume; unitFmt = v => fmtVolume(v); metricLabel = 'Volumen (kg)'; }
+  else if (kind === 'hold') { metric = s => s.reps; unitFmt = v => v + ' sek'; metricLabel = 'Haltezeit gesamt (sek)'; }
+  else if (kind === 'duration') { metric = s => s.reps; unitFmt = v => v + ' min'; metricLabel = 'Dauer (min)'; }
+  else { metric = s => s.reps; unitFmt = v => v + ' Wdh.'; metricLabel = 'Wiederholungen gesamt'; }
+  mainTitle.textContent = (hasWeights ? 'Volumen' : metricLabel.split(' (')[0]) + ' pro Einheit & Veränderung';
+
+  const vals = sessions.map(metric);
+  const first = sessions[0], last = sessions[sessions.length - 1], prev = sessions[sessions.length - 2];
+  const pLast = prev ? pctChange(metric(last), metric(prev)) : null;
+  const pStart = sessions.length > 1 ? pctChange(metric(last), metric(first)) : null;
+  const bestIdx = vals.indexOf(Math.max(...vals));
+  const tr = trendPct(vals.slice(-6));
+
+  let html =
+    kpi('Letzte Einheit', unitFmt(metric(last)), fmtDate(last.date) + ' · ' + last.setCount + ' Sätze') +
+    kpi('vs. vorherige', fmtPct(pLast), prev ? 'vorher ' + unitFmt(metric(prev)) : 'erste Einheit', pctClass(pLast)) +
+    kpi('Seit Start', fmtPct(pStart), 'Start ' + fmtDate(first.date) + ': ' + unitFmt(metric(first)), pctClass(pStart)) +
+    kpi('Bestwert', unitFmt(vals[bestIdx]), fmtDate(sessions[bestIdx].date)) +
+    kpi('Trend', tr === null ? '–' : fmtPct(tr) + '/Einh.', 'letzte bis zu 6 Einheiten', pctClass(tr)) +
+    kpi('Einheiten', sessions.length, 'erfasst seit ' + fmtDate(first.date));
+
+  if (hasWeights) {
+    const w1 = sessions.filter(s => s.e1rm);
+    const e1First = w1[0], e1Last = w1[w1.length - 1];
+    const e1Best = w1.reduce((m, s) => s.e1rm > m.e1rm ? s : m, w1[0]);
+    const topW = sessions.filter(s => s.topWeight);
+    html +=
+      kpi('Geschätztes 1RM', e1Last ? fmtNum(e1Last.e1rm) + ' kg' : '–', w1.length > 1 ? fmtPct(pctChange(e1Last.e1rm, e1First.e1rm)) + ' seit Start · Best ' + fmtNum(e1Best.e1rm) + ' kg' : '', w1.length > 1 ? pctClass(pctChange(e1Last.e1rm, e1First.e1rm)) : '') +
+      kpi('Topgewicht', topW.length ? fmtNum(last.topWeight || topW[topW.length-1].topWeight) + ' kg' : '–', topW.length ? 'Max ' + fmtNum(Math.max(...topW.map(s => s.topWeight))) + ' kg' : '') +
+      kpi('Ø Last / Wdh.', last.avgLoad ? fmtNum(last.avgLoad) + ' kg' : '–', prev && prev.avgLoad ? fmtPct(pctChange(last.avgLoad, prev.avgLoad)) + ' zur Vorwoche' : '', prev && prev.avgLoad ? pctClass(pctChange(last.avgLoad, prev.avgLoad)) : '') +
+      kpi('Wiederholungen', last.reps, prev ? 'vorher ' + prev.reps : '', prev ? pctClass(pctChange(last.reps, prev.reps)) : '');
+  } else if (kind === 'hold') {
+    html += kpi('Längster Einzelsatz', last.maxSingle + ' sek', 'Best: ' + Math.max(...sessions.map(s => s.maxSingle || 0)) + ' sek', '', true);
+  } else if (kind === 'duration') {
+    html += kpi('Gesamt', sessions.reduce((a, s) => a + s.reps, 0) + ' min', 'über alle Einheiten', '', true);
+  }
+  if (hasWeights && isBodyweightExercise(currentProgExercise)) {
+    const bwLast = last.bw;
+    html += kpi('Berechnung', bwLast ? 'inkl. ' + fmtNum(bwLast) + ' kg Körpergewicht' : 'ohne Körpergewicht',
+      bwLast ? 'Volumen = (Körpergewicht + Zusatzgewicht) × Wdh. Körpergewicht aus deinem Gewichtsverlauf zum jeweiligen Datum.'
+             : 'Trag dein Gewicht im Ernährungs-Tagebuch oder im Profil ein, dann wird es eingerechnet.', '', true);
+  }
+  summaryEl.innerHTML = html;
+
+  // Verlauf-Liste
+  const histEl = document.getElementById('progHistory');
+  histEl.innerHTML = sessions.slice().reverse().map((s, ri) => {
+    const i = sessions.length - 1 - ri;
+    const p = i > 0 ? pctChange(metric(s), metric(sessions[i-1])) : null;
+    const setsTxt = s.sets.map(x => {
+      const r = (x.reps === null || x.reps === undefined || isNaN(x.reps)) ? '?' : x.reps;
+      if (kind === 'duration') return r + ' min';
+      if (kind === 'hold') return r + 's' + (x.weight ? ' @' + fmtNum(x.weight) + 'kg' : '');
+      return (x.weight ? fmtNum(x.weight) + 'kg×' : '') + r;
+    }).join(' · ');
+    return `<div class="hist-sess"><div class="hist-top"><span class="hist-d">${fmtDate(s.date)}${s.date.slice(0,4) !== new Date().toISOString().slice(0,4) ? s.date.slice(0,4) : ''}</span>
+      ${p !== null ? `<span class="vol-delta ${p > 0.5 ? 'up' : p < -0.5 ? 'down' : 'same'}">${fmtPct(p)}</span>` : ''}
+      <span class="hist-v">${unitFmt(metric(s))}</span></div>
+      <div class="hist-sets">${setsTxt}</div></div>`;
+  }).join('');
+
+  strengthCard.style.display = hasWeights ? 'block' : 'none';
+  repsCard.style.display = hasWeights ? 'block' : 'none';
+
+  const labels = sessions.map(s => fmtDate(s.date));
+  const sub = sessions.map(s => 'KW ' + isoWeek(s.date));
+  const pcts = vals.map((v, i) => i === 0 ? null : pctChange(v, vals[i-1]));
+  const details = sessions.map((s, i) => {
+    const setsTxt = s.sets.map((x, k) => {
+      const r = (x.reps === null || x.reps === undefined || isNaN(x.reps)) ? '?' : x.reps;
+      if (kind === 'duration') return `Satz ${k+1}: ${r} min`;
+      if (kind === 'hold') return `Satz ${k+1}: ${r} sek${x.weight ? ' mit ' + fmtNum(x.weight) + ' kg' : ''}`;
+      return `Satz ${k+1}: ${x.weight ? fmtNum(x.weight) + ' kg' : 'Körpergewicht'} × ${r}`;
+    }).join('<br>');
+    return `<b>${fmtDate(s.date)}${s.date.slice(0,4)} · KW ${isoWeek(s.date)}</b><br>`
+      + `${hasWeights ? 'Volumen' : metricLabel.split(' (')[0]}: <b>${hasWeights ? fmtKg(vals[i]) : unitFmt(vals[i])}</b>`
+      + (pcts[i] !== null ? ` · <span class="${pctClass(pcts[i])}">${fmtPct(pcts[i])}</span> zur Einheit davor` : '')
+      + (hasWeights && s.e1rm ? `<br>Topgewicht ${fmtNum(s.topWeight)} kg · geschätztes 1RM ${fmtNum(s.e1rm)} kg` : '')
+      + (s.bw ? `<br>inkl. ${fmtNum(s.bw)} kg Körpergewicht` : '')
+      + `<div style="margin-top:6px; font-family:ui-monospace,monospace; font-size:11px; color:var(--ink-dim)">${setsTxt}</div>`;
+  });
+
+  // Hauptdiagramm: Y = Volumen in kg, X = Datum (mit Kalenderwoche)
+  svgBarChart(canvas, {
+    labels, sub, values: vals, pcts, details, colorByTrend: true, bestLine: true,
+    axisFmt: hasWeights ? (v => v.toLocaleString('de-DE')) : (v => String(Math.round(v))),
+    valFmt: hasWeights ? (v => fmtKgShort(v)) : (v => String(v)),
+    yTitle: hasWeights ? 'Volumen (kg)' : metricLabel
+  });
+
+  if (!hasWeights) return;
+
+  svgLineChart(document.getElementById('exStrengthChart'), {
+    labels, sub, fmt: v => fmtNum(Math.round(v * 10) / 10),
+    series: [
+      { name: 'Geschätztes 1RM (kg)', color: ANA_COL.amber, values: sessions.map(s => s.e1rm), dash: true },
+      { name: 'Topgewicht (kg)', color: ANA_COL.lime, values: sessions.map(s => s.topWeight) }
+    ]
+  });
+
+  svgBarChart(document.getElementById('exRepsChart'), {
+    labels, sub, values: sessions.map(s => s.reps), color: ANA_COL.cyan, height: 200,
+    pcts: sessions.map((s, i) => i === 0 ? null : pctChange(s.reps, sessions[i-1].reps)),
+    axisFmt: v => String(Math.round(v)), valFmt: v => String(v), yTitle: 'Wiederholungen'
+  });
+  const repsCardEl = document.getElementById('exRepsChart');
+  repsCardEl.insertAdjacentHTML('beforeend', '<div style="margin-top:12px"></div>');
+  const loadDiv = document.createElement('div');
+  repsCardEl.appendChild(loadDiv);
+  svgLineChart(loadDiv, {
+    labels, sub, fmt: v => fmtNum(Math.round(v * 10) / 10),
+    series: [{ name: 'Ø Last pro Wiederholung (kg)', color: ANA_COL.violet, values: sessions.map(s => s.avgLoad) }]
+  });
+}
+
+refreshProgressSafeCopy();
 migrateLegacyEntries();
 renderProgSubtabs();
 switchProgView();
