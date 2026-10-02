@@ -370,6 +370,45 @@
 
 
 
+
+  /* ---------- Trainings-Timer ---------- */
+  .sess-card{ padding:14px; }
+  .sess-start{ width:100%; background:var(--lime); color:#12140F; border:none; border-radius:13px; padding:16px;
+    font-size:16px; font-weight:800; letter-spacing:.01em; }
+  .sess-start:active{ transform:scale(.98); }
+  .sess-hint{ font-size:11px; color:var(--ink-dim); margin-top:9px; line-height:1.5; text-align:center; }
+  .sess-run{ text-align:center; }
+  .sess-live{ font-size:11.5px; color:var(--lime); font-weight:700; display:flex; align-items:center; justify-content:center; gap:7px; }
+  .sess-dot{ width:8px; height:8px; border-radius:50%; background:var(--lime); animation:sessPulse 1.4s infinite; }
+  @keyframes sessPulse{ 0%,100%{ opacity:1; } 50%{ opacity:.25; } }
+  .sess-clock{ font-family:ui-monospace,monospace; font-size:46px; font-weight:800; color:var(--ink); margin:6px 0 2px; letter-spacing:.02em; }
+  .sess-day{ font-size:12px; color:var(--ink-dim); margin-bottom:10px; }
+  .sess-bar{ height:7px; background:var(--bg2); border-radius:99px; overflow:hidden; }
+  .sess-bar i{ display:block; height:100%; background:var(--lime); border-radius:99px; transition:width .4s; }
+  .sess-prog-t{ font-size:11.5px; color:var(--ink-dim); margin-top:6px; }
+  .sess-stop{ width:100%; margin-top:14px; background:var(--amber); color:#12140F; border:none; border-radius:13px; padding:15px;
+    font-size:15px; font-weight:800; }
+  .sess-discard{ width:100%; margin-top:8px; background:transparent; border:none; color:var(--ink-dim); font-size:11.5px; padding:6px; text-decoration:underline; }
+  .sess-warn{ margin-top:12px; background:rgba(242,179,61,.12); border:1px solid rgba(242,179,61,.3); border-radius:10px;
+    padding:10px; font-size:12px; color:var(--amber); font-weight:700; line-height:1.5; }
+  .sess-warn-btn{ display:block; width:100%; margin-top:8px; background:var(--bg2); color:var(--ink); border:1px solid var(--line);
+    border-radius:9px; padding:9px; font-size:12px; font-weight:700; }
+  .sess-done{ background:var(--bg2); border-radius:12px; padding:12px; margin-bottom:12px; }
+  .sess-done-t{ font-weight:800; color:var(--lime); font-size:14px; margin-bottom:9px; }
+  .sess-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .sess-grid div{ display:flex; flex-direction:column; }
+  .sess-grid span{ font-size:10px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.04em; }
+  .sess-grid b{ font-family:ui-monospace,monospace; font-size:15px; margin-top:2px; }
+  .sess-skip{ font-size:11.5px; color:var(--amber); margin-top:10px; line-height:1.5; }
+  .sess-skip.ok{ color:var(--lime); }
+  .corr-sig{ display:inline-block; background:rgba(200,255,77,.16); color:var(--lime); font-weight:800; font-size:10.5px;
+    padding:2px 8px; border-radius:99px; margin-right:6px; }
+  .corr-tend{ display:inline-block; background:var(--bg2); color:var(--ink-dim); font-weight:800; font-size:10.5px;
+    padding:2px 8px; border-radius:99px; margin-right:6px; }
+  .corr-verdict{ font-size:12.5px; line-height:1.55; margin-top:10px; }
+  .corr-head{ font-size:17px; font-weight:800; color:var(--lime); line-height:1.3; }
+  .corr-missing{ font-size:11.5px; color:var(--ink-dim); line-height:1.75; }
+
   /* ---------- SVG-Diagramme ---------- */
   .svgc{ width:100%; }
   .svgc-scroll{ width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
@@ -609,7 +648,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v9.9</span></div>
+  <div class="eyebrow">Ultimate Cut · 6× / Woche · <span style="color:var(--steps)">v10.0</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -784,6 +823,7 @@
           <select id="progDaySelect" class="prog-input"></select>
         </div>
       </div>
+      <div class="card sess-card"><div id="sessTimer"></div></div>
       <div style="font-size:11.5px; color:var(--ink-dim); padding:0 2px 10px; line-height:1.5;">
         Felder bleiben dauerhaft editierbar — einfach reinschreiben, der grüne Haken erscheint automatisch. Zum Korrigieren direkt überschreiben, kein Löschen nötig.
       </div>
@@ -822,6 +862,44 @@
         <div class="card-title">Rekorde der letzten 4 Wochen</div>
         <div id="anaPRs"></div>
       </div>
+
+      <div class="ana-head">Trainingszeit</div>
+
+      <div class="card accent">
+        <div class="card-title">Dauer, Dichte &amp; Abschluss</div>
+        <div id="sessKpis" class="ana-kpis"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Dauer pro Training</div>
+        <div id="sessDurChart" class="svgc"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Trainingsdichte — kg pro Minute</div>
+        <div id="sessDensChart" class="svgc"></div>
+        <div class="ana-note">Dichte = bewegtes Volumen geteilt durch Trainingsdauer. Steigt sie, schaffst du mehr Arbeit in gleicher Zeit — ein guter Fitness-Indikator, unabhängig von der Tagesform einzelner Übungen.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Dauer vs. Volumen</div>
+        <div id="sessScatter" class="svgc"></div>
+        <div class="ana-note">Jeder Punkt ist ein Training. Steigt die Linie, bringen längere Einheiten mehr Volumen. Liegt sie flach, verlängern Pausen das Training ohne Mehrertrag.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Am häufigsten ausgelassen</div>
+        <div id="sessSkipped"></div>
+      </div>
+
+      <div class="ana-head">Zusammenhänge · wann leistest du mehr?</div>
+
+      <div class="card">
+        <div class="card-title">So wird gemessen</div>
+        <div class="ana-note" style="margin-top:0">Für jedes Training vergleicht die App das Volumen jeder Übung mit deinem Schnitt der letzten bis zu 3 Einheiten dieser Übung. Daraus entsteht ein <b>Leistungsindex</b>: +5 % heißt, du warst 5 % über deinem aktuellen Niveau. So werden unterschiedliche Übungen und dein laufender Fortschritt herausgerechnet. Grüne Balken: überdurchschnittlich, orange: unterdurchschnittlich, grau: weniger als 2 Trainings in der Gruppe.</div>
+      </div>
+
+      <div id="corrCards"></div>
 
       <div class="ana-head">Einzelübung</div>
 
@@ -1833,9 +1911,10 @@ function saveSet(exName, date, setIdx, weightVal, repsVal, unit){
     setIdx: setIdx,
     weight: hasWeight ? parseFloat(weightVal) : null,
     reps: hasReps ? parseInt(repsVal, 10) : null,
-    unit: unit || 'reps'
+    unit: unit || 'reps',
+    ts: Date.now()
   };
-  if (existing) { existing.weight = rec.weight; existing.reps = rec.reps; existing.unit = rec.unit; }
+  if (existing) { existing.weight = rec.weight; existing.reps = rec.reps; existing.unit = rec.unit; existing.ts = rec.ts; }
   else { d[exName].push(rec); }
   d[exName].sort((a,b) => a.date.localeCompare(b.date) || ((a.setIdx||0) - (b.setIdx||0)));
   saveProgress(d);
@@ -1872,6 +1951,7 @@ let migrationDone = false;
 function renderTodayEntry(){
   if (!migrationDone) { migrateProgressNames(); migrationDone = true; }
   renderDataStatus();
+  renderSessionTimer();
   const daySelect = document.getElementById('progDaySelect');
   if (!daySelect.dataset.filled) {
     daySelect.innerHTML = Object.keys(data.trainingDays).map(k =>
@@ -2593,6 +2673,8 @@ function renderGlobalAnalysis(){
 // ---------- EINZELÜBUNG ----------
 function renderOverview(){
   renderGlobalAnalysis();
+  renderSessionAnalysis();
+  renderCorrelations();
 
   const all = collectAllExercises();
   const sel = document.getElementById('progExercise');
@@ -2750,6 +2832,445 @@ function renderOverview(){
     labels, sub, fmt: v => fmtNum(Math.round(v * 10) / 10),
     series: [{ name: 'Ø Last pro Wiederholung (kg)', color: ANA_COL.violet, values: sessions.map(s => s.avgLoad) }]
   });
+}
+
+// ================= TRAININGS-TIMER =================
+// Eigene Speicherschlüssel — die Trainingsdaten (Sätze) bleiben unberührt.
+const SESS_KEY = 'cutplan_sessions_v1';
+const SESS_ACTIVE_KEY = 'cutplan_session_active_v1';
+let sessTick = null;
+
+function loadSessions(){ try { const r = localStorage.getItem(SESS_KEY); return r ? JSON.parse(r) : []; } catch(e){ return []; } }
+function saveSessions(a){ try { localStorage.setItem(SESS_KEY, JSON.stringify(a)); } catch(e){} }
+function loadActive(){ try { const r = localStorage.getItem(SESS_ACTIVE_KEY); return r ? JSON.parse(r) : null; } catch(e){ return null; } }
+function saveActive(a){ try { a ? localStorage.setItem(SESS_ACTIVE_KEY, JSON.stringify(a)) : localStorage.removeItem(SESS_ACTIVE_KEY); } catch(e){} }
+
+function localDateStr(ts){ const d = new Date(ts); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+function fmtClock(ts){ const d = new Date(ts); return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); }
+function fmtElapsed(ms){
+  const s = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+  return (h ? h + ':' + String(m).padStart(2,'0') : String(m).padStart(2,'0')) + ':' + String(sec).padStart(2,'0');
+}
+function fmtMin(min){ if (min === null || min === undefined) return '–'; const h = Math.floor(min / 60), m = Math.round(min % 60); return h ? h + ' h ' + String(m).padStart(2,'0') + ' min' : m + ' min'; }
+
+// Was wurde an einem Datum für einen Trainingstag erledigt?
+function sessionStats(date, dayKey){
+  const day = data.trainingDays[dayKey];
+  const store = loadProgress();
+  const planned = day ? day.exercises.map(e => e.name) : [];
+  const done = [], skipped = [];
+  let volume = 0, sets = 0, lastTs = null, firstTs = null;
+  planned.forEach(name => {
+    const hist = historyFor(name, store);
+    const todays = hist.filter(e => e.date === date);
+    const hasAny = todays.some(e => (e.reps !== null && e.reps !== undefined && !isNaN(e.reps)) || (e.weight !== null && e.weight !== undefined));
+    if (hasAny) done.push(name); else skipped.push(name);
+    todays.forEach(e => { if (e.ts) { lastTs = Math.max(lastTs || 0, e.ts); firstTs = Math.min(firstTs || Infinity, e.ts); } });
+    const ex = day.exercises.find(x => x.name === name);
+    const kind = exerciseKind(ex.sets);
+    if (kind === 'reps' && todays.length) {
+      const s = buildSessions(todays, kind, name)[0];
+      if (s) { volume += s.volume; sets += s.setCount; }
+    } else {
+      sets += todays.filter(e => e.reps).length;
+    }
+  });
+  return { planned, done, skipped, volume: Math.round(volume), sets, lastTs, firstTs: firstTs === Infinity ? null : firstTs };
+}
+
+function startSession(){
+  const now = Date.now();
+  saveActive({ start: now, date: localDateStr(now), dayKey: currentProgDayKey });
+  renderSessionTimer();
+}
+function discardSession(){
+  if (!confirm('Laufendes Training verwerfen? Die eingetragenen Sätze bleiben erhalten, nur die Zeitmessung wird gelöscht.')) return;
+  saveActive(null);
+  renderSessionTimer();
+}
+function endSession(endTs){
+  const a = loadActive();
+  if (!a) return;
+  const end = endTs || Date.now();
+  const st = sessionStats(a.date, a.dayKey);
+  if (!st.done.length && !confirm('Es sind noch keine Sätze eingetragen. Training trotzdem beenden und speichern?')) return;
+  const dur = Math.max(1, Math.round((end - a.start) / 60000));
+  const rec = {
+    id: a.start, date: a.date, dayKey: a.dayKey, start: a.start, end,
+    durationMin: dur, startHour: new Date(a.start).getHours() + new Date(a.start).getMinutes() / 60,
+    volume: st.volume, sets: st.sets, planned: st.planned.length, done: st.done.length, skipped: st.skipped
+  };
+  const all = loadSessions().filter(s => s.id !== rec.id);
+  all.push(rec);
+  all.sort((x, y) => x.start - y.start);
+  saveSessions(all);
+  saveActive(null);
+  renderSessionTimer(rec);
+}
+
+function renderSessionTimer(justFinished){
+  const el = document.getElementById('sessTimer');
+  if (!el) return;
+  if (sessTick) { clearInterval(sessTick); sessTick = null; }
+  const a = loadActive();
+
+  if (!a) {
+    let summary = '';
+    if (justFinished) {
+      const r = justFinished;
+      const dens = r.volume && r.durationMin ? Math.round(r.volume / r.durationMin) : null;
+      summary = `<div class="sess-done">
+        <div class="sess-done-t">✓ Training gespeichert</div>
+        <div class="sess-grid">
+          <div><span>Dauer</span><b>${fmtMin(r.durationMin)}</b></div>
+          <div><span>Volumen</span><b>${r.volume ? fmtKg(r.volume) : '–'}</b></div>
+          <div><span>Dichte</span><b>${dens ? dens + ' kg/min' : '–'}</b></div>
+          <div><span>Übungen</span><b>${r.done} / ${r.planned}</b></div>
+        </div>
+        ${r.skipped.length ? `<div class="sess-skip"><b>Ausgelassen:</b> ${r.skipped.map(svgEsc).join(' · ')}</div>` : '<div class="sess-skip ok">Alle geplanten Übungen erledigt.</div>'}
+      </div>`;
+    }
+    el.innerHTML = `${summary}
+      <button class="sess-start" id="sessStartBtn">▶&nbsp; Training starten</button>
+      <div class="sess-hint">Misst die Dauer, erkennt ausgelassene Übungen und liefert die Uhrzeit für die Auswertung „Wann leiste ich mehr?".</div>`;
+    document.getElementById('sessStartBtn').onclick = startSession;
+    return;
+  }
+
+  const dayLbl = (data.trainingDays[a.dayKey] || {}).label || '';
+  el.innerHTML = `
+    <div class="sess-run">
+      <div class="sess-live"><span class="sess-dot"></span> Training läuft · seit ${fmtClock(a.start)} Uhr</div>
+      <div class="sess-clock" id="sessClock">${fmtElapsed(Date.now() - a.start)}</div>
+      <div class="sess-day">${svgEsc(dayLbl)}</div>
+      <div class="sess-prog" id="sessProg"></div>
+      <div id="sessForgot"></div>
+      <button class="sess-stop" id="sessStopBtn">■&nbsp; Training beenden</button>
+      <button class="sess-discard" id="sessDiscardBtn">Zeitmessung verwerfen</button>
+    </div>`;
+  document.getElementById('sessStopBtn').onclick = () => endSession();
+  document.getElementById('sessDiscardBtn').onclick = discardSession;
+
+  const update = () => {
+    const c = document.getElementById('sessClock');
+    if (!c) { clearInterval(sessTick); sessTick = null; return; }
+    const elapsed = Date.now() - a.start;
+    c.textContent = fmtElapsed(elapsed);
+    const st = sessionStats(a.date, a.dayKey);
+    const pg = document.getElementById('sessProg');
+    if (pg) {
+      const pct = st.planned.length ? Math.round(st.done.length / st.planned.length * 100) : 0;
+      pg.innerHTML = `<div class="sess-bar"><i style="width:${pct}%"></i></div>
+        <div class="sess-prog-t">${st.done.length} von ${st.planned.length} Übungen begonnen${st.volume ? ' · ' + fmtKg(st.volume) + ' bewegt' : ''}</div>`;
+    }
+    // Vergessen zu beenden? Nach 3 Stunden Angebot: am letzten Satz beenden
+    const fg = document.getElementById('sessForgot');
+    if (fg) {
+      if (elapsed > 3 * 3600e3 && st.lastTs && st.lastTs > a.start) {
+        if (!fg.dataset.shown) {
+          fg.dataset.shown = '1';
+          fg.innerHTML = `<div class="sess-warn">Läuft seit über 3 Stunden — vergessen zu beenden?
+            <button class="sess-warn-btn" id="sessEndAtLast">Beim letzten Satz beenden (${fmtClock(st.lastTs)} Uhr)</button></div>`;
+          document.getElementById('sessEndAtLast').onclick = () => endSession(st.lastTs + 2 * 60000);
+        }
+      }
+    }
+  };
+  update();
+  sessTick = setInterval(update, 1000);
+}
+
+// ================= AUSWERTUNG: TRAININGSZEIT & ZUSAMMENHÄNGE =================
+const WD_SHORT = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+function addDays(dateStr, n){ const d = new Date(dateStr + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0,10); }
+function pearson(xs, ys){
+  const n = xs.length; if (n < 3) return null;
+  const mx = xs.reduce((a,b)=>a+b,0)/n, my = ys.reduce((a,b)=>a+b,0)/n;
+  let sxy = 0, sxx = 0, syy = 0;
+  for (let i = 0; i < n; i++) { const dx = xs[i]-mx, dy = ys[i]-my; sxy += dx*dy; sxx += dx*dx; syy += dy*dy; }
+  if (!sxx || !syy) return null;
+  return sxy / Math.sqrt(sxx * syy);
+}
+// Statistische Absicherung: t-Test für den Korrelationskoeffizienten (≈ 5 %-Niveau).
+// Verhindert, dass Zufallsmuster bei wenigen Trainings als Erkenntnis gemeldet werden.
+function isSignificant(r, n){
+  if (r === null || n < 6 || Math.abs(r) >= 1) return n >= 6 && Math.abs(r) >= 1;
+  const t = Math.abs(r) * Math.sqrt((n - 2) / (1 - r * r));
+  const crit = n < 10 ? 2.31 : n < 15 ? 2.16 : n < 25 ? 2.09 : n < 40 ? 2.04 : 2.0;
+  return t >= crit;
+}
+function rWords(r){
+  const a = Math.abs(r);
+  return a < 0.2 ? 'kein erkennbarer' : a < 0.4 ? 'ein schwacher' : a < 0.6 ? 'ein mittlerer' : 'ein starker';
+}
+
+// Diverging-Balken für ± Prozentwerte
+function svgDivergeBars(el, o){
+  if (!el) return;
+  const n = o.labels.length;
+  if (!n) { el.innerHTML = ''; return; }
+  const vals = o.values;
+  const mx = Math.max(5, ...vals.filter(v => v !== null).map(v => Math.abs(v)));
+  const step = niceStep(mx / 2), lim = Math.ceil(mx * 1.15 / step) * step;
+  const slot = Math.max(54, Math.min(80, 300 / n)), padL = 44, padR = 10, padT = 22, padB = 40, H = 210;
+  const W = Math.max(padL + padR + n * slot, 300), plotH = H - padT - padB;
+  const y = v => padT + plotH / 2 - (v / lim) * (plotH / 2);
+  let s = '';
+  for (let v = -lim; v <= lim + 1e-9; v += step) {
+    const yy = y(v).toFixed(1);
+    s += `<line x1="${padL}" x2="${W-padR}" y1="${yy}" y2="${yy}" stroke="${v === 0 ? ANA_COL.dim : ANA_COL.grid}" stroke-width="${v === 0 ? 1.2 : 1}"/>`;
+    s += `<text x="${padL-6}" y="${(+yy+3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="${ANA_COL.dim}">${(v>0?'+':'') + Math.round(v)}%</text>`;
+  }
+  const bw = slot * 0.6;
+  for (let i = 0; i < n; i++) {
+    const cx = padL + i * slot + slot / 2, v = vals[i];
+    const weak = o.counts && o.counts[i] < 2;
+    if (v !== null && v !== undefined) {
+      const y0 = y(0), y1 = y(v);
+      const col = weak ? '#555B4C' : (v >= 0 ? ANA_COL.lime : ANA_COL.amber);
+      s += `<rect x="${(cx-bw/2).toFixed(1)}" y="${Math.min(y0,y1).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1,Math.abs(y1-y0)).toFixed(1)}" rx="3" fill="${col}"/>`;
+      const ty = v >= 0 ? y1 - 5 : y1 + 13;
+      s += `<text x="${cx.toFixed(1)}" y="${ty.toFixed(1)}" text-anchor="middle" font-size="10" font-weight="800" fill="${weak ? ANA_COL.dim : (v >= 0 ? ANA_COL.lime : ANA_COL.amber)}">${svgEsc(fmtPct(v))}</text>`;
+    } else {
+      s += `<text x="${cx.toFixed(1)}" y="${(y(0)-5).toFixed(1)}" text-anchor="middle" font-size="10" fill="${ANA_COL.dim}">–</text>`;
+    }
+    s += `<text x="${cx.toFixed(1)}" y="${H-padB+15}" text-anchor="middle" font-size="10.5" fill="${ANA_COL.ink}">${svgEsc(o.labels[i])}</text>`;
+    if (o.counts) s += `<text x="${cx.toFixed(1)}" y="${H-padB+28}" text-anchor="middle" font-size="9" fill="${ANA_COL.dim}">n=${o.counts[i]}</text>`;
+  }
+  el.innerHTML = `<div class="svgc-scroll"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${s}</svg></div>`;
+}
+
+// Streudiagramm mit Trendlinie
+function svgScatter(el, o){
+  if (!el) return;
+  const pts = o.points;
+  if (pts.length < 2) { el.innerHTML = '<div class="ana-empty">Zu wenig Daten.</div>'; return; }
+  const xs = pts.map(p => p.x), ys = pts.map(p => p.y);
+  let x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  if (x1 === x0) { x1 += 1; x0 -= 1; } if (y1 === y0) { y1 += 1; y0 = Math.max(0, y0 - 1); }
+  const sx = niceStep((x1-x0)/4), sy = niceStep((y1-y0)/4);
+  x0 = Math.floor(x0/sx)*sx; x1 = Math.ceil(x1/sx)*sx; y0 = Math.floor(y0/sy)*sy; y1 = Math.ceil(y1/sy)*sy;
+  const W = 330, H = 230, padL = 54, padR = 12, padT = 12, padB = 38;
+  const X = v => padL + (v-x0)/(x1-x0)*(W-padL-padR), Y = v => padT + (H-padT-padB) - (v-y0)/(y1-y0)*(H-padT-padB);
+  let s = '';
+  for (let v = y0; v <= y1+1e-9; v += sy) s += `<line x1="${padL}" x2="${W-padR}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="${ANA_COL.grid}"/><text x="${padL-6}" y="${(Y(v)+3.5).toFixed(1)}" text-anchor="end" font-size="9.5" fill="${ANA_COL.dim}">${svgEsc(o.yFmt ? o.yFmt(v) : v)}</text>`;
+  for (let v = x0; v <= x1+1e-9; v += sx) s += `<text x="${X(v).toFixed(1)}" y="${H-padB+14}" text-anchor="middle" font-size="9.5" fill="${ANA_COL.dim}">${svgEsc(o.xFmt ? o.xFmt(v) : v)}</text>`;
+  s += `<text x="${(W/2).toFixed(0)}" y="${H-6}" text-anchor="middle" font-size="10" fill="${ANA_COL.ink}">${svgEsc(o.xLabel)}</text>`;
+  // Regressionslinie
+  const n = pts.length, mx = xs.reduce((a,b)=>a+b,0)/n, my = ys.reduce((a,b)=>a+b,0)/n;
+  let num = 0, den = 0; pts.forEach(p => { num += (p.x-mx)*(p.y-my); den += (p.x-mx)*(p.x-mx); });
+  if (den) { const b = num/den, a0 = my - b*mx; s += `<line x1="${X(x0).toFixed(1)}" y1="${Y(a0+b*x0).toFixed(1)}" x2="${X(x1).toFixed(1)}" y2="${Y(a0+b*x1).toFixed(1)}" stroke="rgba(237,239,230,.45)" stroke-dasharray="5 4" stroke-width="1.5"/>`; }
+  pts.forEach(p => { s += `<circle cx="${X(p.x).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="5" fill="${p.color || ANA_COL.cyan}" fill-opacity=".85"/>`; });
+  el.innerHTML = `<div class="svgc-scroll"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${s}</svg></div>`;
+}
+
+// Leistungsindex je Trainingstag: Volumen jeder Übung im Vergleich zum Schnitt
+// ihrer letzten bis zu 3 Einheiten → bereinigt um unterschiedliche Übungen und den Trainingsfortschritt.
+function performanceByDate(){
+  const all = collectAllExercises();
+  const perDate = {};
+  Object.keys(all).forEach(name => {
+    const kind = kindForExercise(name, all[name]);
+    if (kind !== 'reps') return;
+    const ss = buildSessions(all[name], kind, name).filter(s => s.volume > 0);
+    ss.forEach((s, i) => {
+      if (i === 0) return;
+      const prev = ss.slice(Math.max(0, i-3), i);
+      const base = prev.reduce((a, p) => a + p.volume, 0) / prev.length;
+      if (!base) return;
+      (perDate[s.date] = perDate[s.date] || []).push(s.volume / base);
+    });
+  });
+  const out = {};
+  Object.keys(perDate).forEach(d => {
+    const r = perDate[d];
+    out[d] = { pi: (r.reduce((a,b)=>a+b,0) / r.length - 1) * 100, n: r.length };
+  });
+  return out;
+}
+// Startuhrzeit eines Trainingstags: gemessene Einheit, sonst frühester Satz-Zeitstempel
+function startHourByDate(){
+  const out = {}, measured = new Set();
+  loadSessions().forEach(s => { out[s.date] = s.startHour; measured.add(s.date); });
+  Object.values(loadProgress()).forEach(list => (list || []).forEach(e => {
+    if (!e.ts || measured.has(e.date)) return;
+    const d = new Date(e.ts); const hr = d.getHours() + d.getMinutes() / 60;
+    if (out[e.date] === undefined || hr < out[e.date]) out[e.date] = hr;
+  }));
+  return out;
+}
+function kcalOf(dateStr){
+  let nut = {}; try { nut = JSON.parse(localStorage.getItem('cutplan_nutrition_v1') || '{}') || {}; } catch(e) {}
+  const day = nut[dateStr]; if (!day) return null;
+  let kcal = 0, p = 0, any = false;
+  Object.values(day).forEach(arr => Array.isArray(arr) && arr.forEach(it => {
+    const m = (parseFloat(it.amount) || 0) / 100; kcal += (parseFloat(it.kcal) || 0) * m; p += (parseFloat(it.p) || 0) * m; any = true;
+  }));
+  return any && kcal > 300 ? { kcal: Math.round(kcal), p: Math.round(p) } : null;
+}
+
+function renderSessionAnalysis(){
+  const sessions = loadSessions();
+  const kEl = document.getElementById('sessKpis');
+  if (!kEl) return;
+  if (!sessions.length) {
+    kEl.innerHTML = kpi('Noch keine gemessenen Trainings', '–', 'Starte im Tab „Heute" dein nächstes Training mit dem Start-Button — ab dann erscheinen hier Dauer, Dichte und ausgelassene Übungen.', '', true);
+    ['sessDurChart','sessDensChart','sessScatter'].forEach(id => { const x = document.getElementById(id); if (x) x.innerHTML = ''; });
+    document.getElementById('sessSkipped').innerHTML = '<div class="ana-empty">Noch keine Daten.</div>';
+    return;
+  }
+  const last = sessions.slice(-8);
+  const avgDur = Math.round(last.reduce((a,s)=>a+s.durationMin,0) / last.length);
+  const withVol = sessions.filter(s => s.volume > 0 && s.durationMin > 0);
+  const dens = withVol.map(s => s.volume / s.durationMin);
+  const avgDens = dens.length ? Math.round(dens.slice(-8).reduce((a,b)=>a+b,0) / Math.min(8, dens.length)) : null;
+  const completion = Math.round(sessions.reduce((a,s)=>a+s.done,0) / Math.max(1, sessions.reduce((a,s)=>a+s.planned,0)) * 100);
+  const byDay = {};
+  sessions.forEach(s => { (byDay[s.dayKey] = byDay[s.dayKey] || []).push(s.durationMin); });
+  const dayAvg = Object.keys(byDay).sort((a,b) => ['mo','di','mi','do','fr','sa','so'].indexOf(a) - ['mo','di','mi','do','fr','sa','so'].indexOf(b))
+    .map(k => `${k.charAt(0).toUpperCase()+k.slice(1)} ${Math.round(byDay[k].reduce((a,b)=>a+b,0)/byDay[k].length)} min`).join(' · ');
+  const durs = sessions.map(s => s.durationMin);
+
+  kEl.innerHTML =
+    kpi('Ø Dauer', fmtMin(avgDur), 'letzte ' + last.length + ' Trainings') +
+    kpi('Ø Dichte', avgDens ? avgDens + ' kg/min' : '–', 'bewegtes Volumen pro Minute') +
+    kpi('Abschlussquote', completion + ' %', 'geplante Übungen erledigt', completion >= 90 ? 'c-up' : completion < 75 ? 'c-down' : 'c-flat') +
+    kpi('Gemessen', sessions.length + ' Trainings', 'kürzestes ' + Math.min(...durs) + ' · längstes ' + Math.max(...durs) + ' min') +
+    kpi('Ø Dauer je Tag', dayAvg || '–', '', '', true);
+
+  const labels = sessions.map(s => fmtDate(s.date));
+  const sub = sessions.map(s => WD_SHORT[new Date(s.date + 'T12:00:00').getDay()] + ' · ' + fmtClock(s.start));
+  svgBarChart(document.getElementById('sessDurChart'), {
+    labels, sub, values: sessions.map(s => s.durationMin), color: ANA_COL.cyan, height: 220,
+    axisFmt: v => Math.round(v) + '', valFmt: v => v + '′', yTitle: 'Minuten',
+    details: sessions.map(s => `<b>${fmtDate(s.date)} · ${svgEsc((data.trainingDays[s.dayKey] || {}).label || '')}</b><br>
+      ${fmtClock(s.start)} – ${fmtClock(s.end)} Uhr · <b>${fmtMin(s.durationMin)}</b><br>
+      Volumen ${s.volume ? fmtKg(s.volume) : '–'}${s.volume ? ' · ' + Math.round(s.volume / s.durationMin) + ' kg/min' : ''} · ${s.done}/${s.planned} Übungen
+      ${s.skipped && s.skipped.length ? '<br><span class="c-down">Ausgelassen: ' + s.skipped.map(svgEsc).join(', ') + '</span>' : ''}`)
+  });
+
+  const dsess = withVol;
+  svgBarChart(document.getElementById('sessDensChart'), {
+    labels: dsess.map(s => fmtDate(s.date)), sub: dsess.map(s => WD_SHORT[new Date(s.date + 'T12:00:00').getDay()]),
+    values: dsess.map(s => Math.round(s.volume / s.durationMin)), colorByTrend: true, height: 210,
+    pcts: dsess.map((s, i) => i === 0 ? null : pctChange(s.volume / s.durationMin, dsess[i-1].volume / dsess[i-1].durationMin)),
+    axisFmt: v => Math.round(v) + '', valFmt: v => v + '', yTitle: 'kg pro Minute'
+  });
+
+  svgScatter(document.getElementById('sessScatter'), {
+    points: withVol.map(s => ({ x: s.durationMin, y: s.volume })),
+    xLabel: 'Trainingsdauer (min)', xFmt: v => Math.round(v), yFmt: v => fmtKgShort(v)
+  });
+
+  // Ausgelassene Übungen: Häufigkeit
+  const cnt = {};
+  sessions.forEach(s => (s.skipped || []).forEach(n => { cnt[n] = (cnt[n] || 0) + 1; }));
+  const top = Object.entries(cnt).sort((a,b) => b[1]-a[1]).slice(0, 8);
+  document.getElementById('sessSkipped').innerHTML = top.length
+    ? top.map(([n, c]) => `<div class="pr-row"><span class="pr-ic">⏭</span><div class="pr-b"><div class="pr-n">${svgEsc(n)}</div>
+        <div class="pr-s">${c}× ausgelassen</div></div></div>`).join('')
+    : '<div class="ana-empty">Bisher keine Übung ausgelassen.</div>';
+}
+
+function renderCorrelations(){
+  const box = document.getElementById('corrCards');
+  if (!box) return;
+  const perf = performanceByDate();
+  const dates = Object.keys(perf).sort();
+  const sleep = (() => { try { return JSON.parse(localStorage.getItem('cutplan_sleep_v1') || '{}') || {}; } catch(e) { return {}; } })();
+  const steps = (() => { try { return JSON.parse(localStorage.getItem('cutplan_steps_v1') || '{}') || {}; } catch(e) { return {}; } })();
+  const startH = startHourByDate();
+
+  // Pausentage vor jedem Training
+  const trainDates = [...new Set(Object.values(loadProgress()).flatMap(l => (l || []).map(e => e.date)))].sort();
+  const restBefore = {};
+  trainDates.forEach((d, i) => { if (i > 0) restBefore[d] = Math.round((new Date(d) - new Date(trainDates[i-1])) / 864e5) - 1; });
+
+  const factors = [
+    { id:'time', title:'Uhrzeit des Trainings', need:'Startzeit — kommt ab jetzt über den Start-Button',
+      x: d => startH[d], unit:'Uhr', fmtX: v => Math.floor(v) + ':' + String(Math.round((v%1)*60)).padStart(2,'0'),
+      buckets: [['vor 10', v => v < 10], ['10–12', v => v >= 10 && v < 12], ['12–15', v => v >= 12 && v < 15], ['15–18', v => v >= 15 && v < 18], ['ab 18', v => v >= 18]],
+      sayHigh: 'später am Tag', sayLow: 'früher am Tag' },
+    { id:'sleep', title:'Schlaf in der Nacht davor', need:'Schlafdaten (Health → Schlaf oder Import)',
+      x: d => sleep[d] && sleep[d].h ? sleep[d].h : null, unit:'h',
+      buckets: [['< 6 h', v => v < 6], ['6–7 h', v => v >= 6 && v < 7], ['7–8 h', v => v >= 7 && v < 8], ['≥ 8 h', v => v >= 8]],
+      sayHigh: 'mehr Schlaf', sayLow: 'weniger Schlaf' },
+    { id:'kcal', title:'Kalorien am Vortag', need:'Ernährungstagebuch am Vortag des Trainings',
+      x: d => { const k = kcalOf(addDays(d, -1)); return k ? k.kcal : null; }, unit:'kcal',
+      buckets: [['< 2.000', v => v < 2000], ['2.000–2.400', v => v >= 2000 && v < 2400], ['2.400–2.800', v => v >= 2400 && v < 2800], ['≥ 2.800', v => v >= 2800]],
+      sayHigh: 'mehr Kalorien am Vortag', sayLow: 'weniger Kalorien am Vortag' },
+    { id:'protein', title:'Protein am Vortag', need:'Ernährungstagebuch am Vortag des Trainings',
+      x: d => { const k = kcalOf(addDays(d, -1)); return k ? k.p : null; }, unit:'g',
+      buckets: [['< 160 g', v => v < 160], ['160–200 g', v => v >= 160 && v < 200], ['≥ 200 g', v => v >= 200]],
+      sayHigh: 'mehr Protein am Vortag', sayLow: 'weniger Protein am Vortag' },
+    { id:'steps', title:'Schritte am Vortag', need:'Schrittdaten (Health → Schritte oder Import)',
+      x: d => { const s = steps[addDays(d, -1)]; return s ? +s : null; }, unit:'Schritte',
+      buckets: [['< 8k', v => v < 8000], ['8–11k', v => v >= 8000 && v < 11000], ['11–14k', v => v >= 11000 && v < 14000], ['≥ 14k', v => v >= 14000]],
+      sayHigh: 'mehr Schritte am Vortag', sayLow: 'weniger Schritte am Vortag' },
+    { id:'rest', title:'Pausentage davor', need:'mehrere Trainingstage',
+      x: d => restBefore[d] !== undefined ? restBefore[d] : null, unit:'Tage',
+      buckets: [['0 Tage', v => v === 0], ['1 Tag', v => v === 1], ['2 Tage', v => v === 2], ['3+ Tage', v => v >= 3]],
+      sayHigh: 'mehr Pause davor', sayLow: 'weniger Pause davor' },
+    { id:'weekday', title:'Wochentag', need:'mehrere Trainingstage', categorical: true,
+      x: d => new Date(d + 'T12:00:00').getDay(),
+      buckets: [1,2,3,4,5,6,0].map(k => [WD_SHORT[k], v => v === k]) }
+  ];
+
+  const results = [];
+  let html = '';
+  const missing = [];
+  factors.forEach(f => {
+    const pairs = dates.map(d => ({ d, x: f.x(d), y: perf[d].pi })).filter(p => p.x !== null && p.x !== undefined && !isNaN(p.x));
+    if (pairs.length < 3) { missing.push(`<b>${f.title}</b> — braucht ${f.need} (${pairs.length} von mind. 6 Trainings)`); return; }
+    const bvals = f.buckets.map(([lbl, test]) => {
+      const sel = pairs.filter(p => test(p.x));
+      return { lbl, n: sel.length, v: sel.length ? Math.round(sel.reduce((a,p)=>a+p.y,0) / sel.length * 10) / 10 : null };
+    }).filter(b => !f.categorical || b.n > 0);
+    const r = f.categorical ? null : pearson(pairs.map(p => p.x), pairs.map(p => p.y));
+    const enough = pairs.length >= 6;
+    let verdict;
+    if (!enough) verdict = `Erst ${pairs.length} Trainings mit diesen Daten — ab 6 wird es aussagekräftig.`;
+    else if (f.categorical) {
+      const good = bvals.filter(b => b.n >= 2).sort((a,b) => b.v - a.v);
+      verdict = good.length >= 2 ? `Stärkster Tag: <b>${good[0].lbl}</b> (${fmtPct(good[0].v)}), schwächster: <b>${good[good.length-1].lbl}</b> (${fmtPct(good[good.length-1].v)}). Achtung: Wochentage hängen an deinem Trainingsplan — Unterschiede können auch an den Übungen liegen.` : 'Noch zu wenige Wiederholungen je Wochentag.';
+    } else if (r !== null) {
+      const dir = r > 0 ? f.sayHigh : f.sayLow;
+      const sig = isSignificant(r, pairs.length);
+      const rTxt = r.toFixed(2).replace('.', ',');
+      if (Math.abs(r) < 0.2) verdict = `Kein erkennbarer Zusammenhang (r = ${rTxt}).`;
+      else if (sig) verdict = `<span class="corr-sig">✓ belastbar</span> Es zeigt sich ${rWords(r)} Zusammenhang (r = ${rTxt}): <b>${dir} → mehr Leistung</b>.`;
+      else verdict = `<span class="corr-tend">Tendenz</span> Leichte Richtung „${dir} → mehr Leistung" (r = ${rTxt}), bei ${pairs.length} Trainings aber noch durch Zufall erklärbar. Mit mehr Daten wird sich zeigen, ob sie hält.`;
+      results.push({ f, r, n: pairs.length, sig });
+    } else verdict = 'Keine Streuung in den Daten — Zusammenhang nicht berechenbar.';
+    html += `<div class="card corr-card">
+      <div class="card-title">${f.title}</div>
+      <div class="svgc" id="corr_${f.id}"></div>
+      <div class="corr-verdict">${verdict}</div>
+      <div class="ana-note">${pairs.length} Trainings ausgewertet${r !== null ? ' · Korrelation r = ' + r.toFixed(2).replace('.', ',') : ''}</div>
+    </div>`;
+    f._b = bvals;
+  });
+
+  // Wichtigste Erkenntnis
+  const strong = results.filter(x => x.sig && Math.abs(x.r) >= 0.2).sort((a,b) => Math.abs(b.r) - Math.abs(a.r));
+  let headline = '';
+  if (strong.length) {
+    const s = strong[0];
+    const more = strong.slice(1).map(s => `${s.r > 0 ? s.f.sayHigh : s.f.sayLow} (r = ${s.r.toFixed(2).replace('.', ',')})`);
+    headline = `<div class="card accent"><div class="card-title">Deutlichster Zusammenhang bisher</div>
+      <div class="corr-head">${s.r > 0 ? s.f.sayHigh : s.f.sayLow} → mehr Leistung</div>
+      <div class="ana-note">${s.f.title} · r = ${s.r.toFixed(2).replace('.', ',')} · ${s.n} Trainings · statistisch abgesichert.${more.length ? '<br>Ebenfalls belastbar: ' + more.join(', ') + '.' : ''} Ein Zusammenhang ist noch kein Beweis für Ursache und Wirkung — aber ein guter Hinweis, worauf du achten solltest.</div></div>`;
+  } else if (dates.length) {
+    headline = `<div class="card accent"><div class="card-title">Noch kein belastbarer Zusammenhang</div>
+      <div class="ana-note">Erste Tendenzen siehst du unten. Als belastbar gilt ein Muster erst, wenn es bei deiner Datenmenge nicht mehr durch Zufall erklärbar ist — je lückenloser du Training, Schlaf und Ernährung einträgst, desto schneller.</div></div>`;
+  }
+
+  box.innerHTML = headline + html + (missing.length ? `<div class="card"><div class="card-title">Noch nicht auswertbar</div>
+    <div class="corr-missing">${missing.join('<br>')}</div></div>` : '');
+  factors.forEach(f => { if (f._b) svgDivergeBars(document.getElementById('corr_' + f.id), { labels: f._b.map(b => b.lbl), values: f._b.map(b => b.v), counts: f._b.map(b => b.n) }); });
+
+  if (!dates.length) box.innerHTML = '<div class="card"><div class="ana-empty">Für Zusammenhänge braucht es mindestens zwei Einheiten pro Übung — dann kann die App Leistung vergleichen.</div></div>';
 }
 
 refreshProgressSafeCopy();
