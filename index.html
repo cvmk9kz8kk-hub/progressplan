@@ -925,6 +925,29 @@
   canvas.svg-replaced{ position:absolute !important; width:0 !important; height:0 !important; opacity:0; pointer-events:none; }
   canvas[style*="none"] + .svgc-shim{ display:none; }
 
+
+  /* ---------- Privatsphäre ---------- */
+  .ci-priv{ margin:2px 0 10px; }
+  .ci-priv summary{ cursor:pointer; font-size:13px; font-weight:700; color:var(--ink-dim); padding:4px 0 8px; }
+  .ci-flag.priv.on{ border-color:var(--lime); color:var(--lime); background:color-mix(in srgb, var(--lime) 12%, transparent); }
+  .mw-chip.fut{ opacity:.45; }
+  .bk-priv{ display:flex; align-items:center; gap:9px; font-size:13px; margin-bottom:10px; color:var(--ink-dim); }
+  .bk-priv input{ width:20px; height:20px; accent-color:var(--lime); }
+  .lock-set{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+  .lock-set input{ padding:12px; border-radius:11px; border:1px solid var(--line); background:var(--bg2); font-size:18px; text-align:center; letter-spacing:.3em; color:var(--ink); }
+  .lock-ov{ position:fixed; inset:0; z-index:400; display:none; background:var(--bg); background-image:var(--page-grad); align-items:center; justify-content:center; }
+  .lock-ov.open{ display:flex; }
+  .lock-box{ width:min(320px, 86vw); text-align:center; }
+  .lock-ic{ font-size:34px; }
+  .lock-t{ font-size:19px; font-weight:800; margin-top:8px; }
+  .lock-dots{ display:flex; justify-content:center; gap:14px; margin:22px 0 8px; }
+  .lock-dots i{ width:14px; height:14px; border-radius:50%; border:2px solid var(--ink-dim); }
+  .lock-dots i.on{ background:var(--lime); border-color:var(--lime); }
+  .lock-msg{ min-height:20px; color:var(--down); font-size:13px; font-weight:700; }
+  .lock-pad{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:12px; }
+  .lock-pad button{ height:64px; border-radius:50%; border:1px solid var(--line); background:var(--card); font-size:24px; font-weight:700; color:var(--ink); }
+  .lock-pad button:active{ background:var(--lime); color:var(--acc-ink); }
+  .lock-forgot{ margin-top:20px; background:transparent; border:none; color:var(--ink-dim); font-size:13px; text-decoration:underline; }
   /* ================= v12: Kopfzeile kompakt, mehr Platz für Inhalt ================= */
   header.top{ padding: calc(6px + env(safe-area-inset-top, 0px)) 18px 8px !important; }
   header.top .eyebrow{ font-size:9.5px !important; letter-spacing:.14em; margin-bottom:1px !important; opacity:.8; }
@@ -1030,7 +1053,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v12.0</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v12.1</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1658,6 +1681,7 @@
         <div class="hl-cap" style="margin-bottom:10px; line-height:1.5;">
           Sichert alle Daten der App (Training, Ernährung, Schlaf, Schritte, Gewicht) als Text. Kopieren und irgendwo speichern — damit nichts verloren geht.
         </div>
+        <label class="bk-priv"><input type="checkbox" id="bkPriv"> Private Angaben (🔒) mit sichern</label>
         <button id="bkExport" class="prog-btn" style="width:100%; margin-bottom:8px;">Backup erzeugen</button>
         <textarea id="bkText" class="prog-input" rows="4" placeholder="Backup erscheint hier — oder hier einfügen und wiederherstellen"></textarea>
         <button id="bkImport" class="prog-btn" style="width:100%; margin-top:8px; background:var(--bg2); color:var(--lime); border:1px solid var(--lime);">Backup wiederherstellen</button>
@@ -1673,6 +1697,10 @@
     <div class="card accent">
       <div class="card-title">Farbschema</div>
       <div id="themePicker" class="theme-grid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">App-Sperre</div>
+      <div id="lockSettings"></div>
     </div>
     <div class="card">
       <div class="card-title">Daten</div>
@@ -1713,6 +1741,17 @@
 
 
 
+
+<div id="lockOverlay" class="lock-ov">
+  <div class="lock-box">
+    <div class="lock-ic">🔒</div>
+    <div class="lock-t">PIN eingeben</div>
+    <div class="lock-dots" id="lockDots"></div>
+    <div class="lock-msg" id="lockMsg"></div>
+    <div class="lock-pad"><button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><span></span><button data-k="0">0</button><button data-k="del">⌫</button></div>
+    <button class="lock-forgot" id="lockForgot">PIN vergessen?</button>
+  </div>
+</div>
 <div id="goalSheet" class="as-overlay">
   <div class="as-panel">
     <div class="as-head"><button class="as-close" onclick="closeGoalSheet()" aria-label="schließen">✕</button><div class="as-title">Ernährungsziele</div><span style="width:36px"></span></div>
@@ -4005,6 +4044,7 @@ function renderCorrelations(){
   const sleep = (() => { try { return JSON.parse(localStorage.getItem('cutplan_sleep_v1') || '{}') || {}; } catch(e) { return {}; } })();
   const steps = (() => { try { return JSON.parse(localStorage.getItem('cutplan_steps_v1') || '{}') || {}; } catch(e) { return {}; } })();
   const startH = startHourByDate();
+  const ciAll = loadCheckins();
   const restMap = {};
   (() => { const rd = restDataByDate(); Object.keys(rd).forEach(d => { const m = median(rd[d].rests.map(r => r.sec)); if (m) restMap[d] = m; }); })();
 
@@ -4042,6 +4082,15 @@ function renderCorrelations(){
       x: d => restMap[d] ? restMap[d] / 60 : null, unit:'min',
       buckets: [['< 1:30', v => v < 1.5], ['1:30–2:30', v => v >= 1.5 && v < 2.5], ['2:30–3:30', v => v >= 2.5 && v < 3.5], ['≥ 3:30', v => v >= 3.5]],
       sayHigh: 'längere Satzpausen', sayLow: 'kürzere Satzpausen' },
+    { id:'coffee', title:'Koffein vor dem Training', need:'Check-ins mit Angabe zu Koffein',
+      x: d => { const c = ciAll[d]; return c && Object.keys(c).length ? (c.coffee ? 1 : 0) : null; },
+      buckets: [['ohne', v => v === 0], ['mit', v => v === 1]], sayHigh: 'Koffein', sayLow: 'kein Koffein' },
+    { id:'sex', title:'Sexuelle Aktivität (24 h) 🔒', need:'Check-ins mit privater Angabe',
+      x: d => { const c = ciAll[d]; return c && Object.keys(c).length ? ((c.sexA || c.sexM) ? 1 : 0) : null; },
+      buckets: [['nein', v => v === 0], ['ja', v => v === 1]], sayHigh: 'sexuelle Aktivität', sayLow: 'keine sexuelle Aktivität' },
+    { id:'lust', title:'Lust auf Training (Check-in)', need:'Check-ins mit „Lust auf Training"',
+      x: d => ciAll[d] && ciAll[d].lust ? ciAll[d].lust : null,
+      buckets: [['1–2', v => v <= 2], ['3', v => v === 3], ['4–5', v => v >= 4]], sayHigh: 'mehr Lust', sayLow: 'weniger Lust' },
     { id:'weekday', title:'Wochentag', need:'mehrere Trainingstage', categorical: true,
       x: d => new Date(d + 'T12:00:00').getDay(),
       buckets: [1,2,3,4,5,6,0].map(k => [WD_SHORT[k], v => v === k]) }
@@ -4552,6 +4601,7 @@ function applyTheme(id){
   renderSettings();
 }
 function renderSettings(){
+  try { renderLockSettings(); } catch(e) {}
   const el = document.getElementById('themePicker');
   if (!el) return;
   const cur = currentTheme();
@@ -5090,7 +5140,8 @@ const CHECK_Q = [
   ['sore', 'Muskelkater', ['keiner', 'leicht', 'spürbar', 'stark', 'heftig']],
   ['sleepQ', 'Schlafqualität', ['sehr schlecht', 'schlecht', 'okay', 'gut', 'sehr gut']],
 ];
-const CHECK_FLAGS = [['alc', 'Alkohol gestern'], ['sick', 'Krank / angeschlagen'], ['off', 'Freier Tag']];
+const CHECK_FLAGS = [['alc', 'Alkohol gestern'], ['sick', 'Krank / angeschlagen'], ['off', 'Freier Tag'], ['coffee', 'Koffein vor dem Training']];
+const CHECK_PRIVATE = [['sexA', 'Sex (letzte 24 h)'], ['sexM', 'Selbstbefriedigung (letzte 24 h)'], ['sex2h', 'davon < 2 h vor dem Training']];
 const BODY_FIELDS = [
   ['w', 'Gewicht', 'kg', 0.1], ['bf', 'Körperfett', '%', 0.1], ['muscle', 'Muskelmasse', 'kg', 0.1],
   ['water', 'Wasseranteil', '%', 0.1], ['bone', 'Knochenmasse', 'kg', 0.1], ['visceral', 'Viszeralfett', 'Index', 1],
@@ -5171,8 +5222,12 @@ function renderHeute(){
   const g = goalsForDate(today), t = dayTotals(today);
   const kPct = Math.min(100, Math.round(t.kcal / Math.max(1, g.kcal) * 100));
 
-  const chips = WORKOUT_ORDER.map(x => { const d = st.done[x];
-    return `<button class="mw-chip${d ? ' done' : ''}${x === k ? ' sel' : ''}" data-k="${x}"><span>${x.charAt(0).toUpperCase() + x.slice(1)}</span><b>${d ? '✓' : '·'}</b></button>`; }).join('');
+  const monW = mondayOf(today), pst = loadProgress();
+  let nTrainDays = 0;
+  const chips = WORKOUT_ORDER.map((x, i) => {
+    const d = addDays(monW, i), fut = d > today, tr = !fut && trainedOn(d, pst);
+    if (tr) nTrainDays++;
+    return `<button class="mw-chip${tr ? ' done' : ''}${d === today ? ' sel' : ''}${fut ? ' fut' : ''}" data-d="${d}"><span>${x.charAt(0).toUpperCase() + x.slice(1)}</span><b>${tr ? '✓' : '·'}</b></button>`; }).join('');
   const qHTML = CHECK_Q.map(([key, lbl, words]) => `<div class="ci-q"><div class="ci-l">${lbl}<span id="ciw-${key}">${ci[key] ? words[ci[key] - 1] : ''}</span></div>
       <div class="ci-scale">${[1,2,3,4,5].map(v => `<button class="ci-b${ci[key] === v ? ' on' : ''}" data-k="${key}" data-v="${v}">${v}</button>`).join('')}</div></div>`).join('');
   const fHTML = CHECK_FLAGS.map(([key, lbl]) => `<button class="ci-flag${ci[key] ? ' on' : ''}" data-f="${key}">${lbl}</button>`).join('');
@@ -5197,12 +5252,16 @@ function renderHeute(){
       <div class="card-title">Check-in · wie geht's dir heute?</div>
       ${qHTML}
       <div class="ci-flags">${fHTML}</div>
+      <details class="ci-priv"><summary>🔒 Privat</summary>
+        <div class="ci-flags">${CHECK_PRIVATE.map(([key, lbl]) => `<button class="ci-flag priv${ci[key] ? ' on' : ''}" data-f="${key}">${lbl}</button>`).join('')}</div>
+        <div class="ci-hint" style="margin-top:4px">Bleibt nur auf diesem iPhone. Nicht im Backup, außer du schließt es dort ausdrücklich ein.</div>
+      </details>
       <input class="ci-note" id="ciNote" placeholder="Notiz (optional) — z. B. Deadline, schlecht gegessen, Reise" value="${svgEsc(ci.note || '')}">
       <div class="ci-hint">Dauert 15 Sekunden. Nach 2–3 Wochen zeigt <b>Analyse → Motivation</b>, was deine Lust auf Training wirklich beeinflusst.</div>
     </div>
 
     <div class="card">
-      <div class="card-title">Diese Woche · ${nDone} von 7 Trainings</div>
+      <div class="card-title">Diese Woche · ${nTrainDays} ${nTrainDays === 1 ? 'Trainingstag' : 'Trainingstage'}</div>
       <div class="mw-grid">${chips}</div>
     </div>
 
@@ -5228,11 +5287,7 @@ function renderHeute(){
 
     ${weekBalanceHTML(today)}`;
 
-  el.querySelectorAll('.mw-chip').forEach(bt => bt.onclick = () => {
-    currentProgDayKey = bt.dataset.k; progDayPicked = true;
-    const act = loadActive(); if (act && act.dayKey !== bt.dataset.k) { act.dayKey = bt.dataset.k; saveActive(act); }
-    switchTab('train');
-  });
+  el.querySelectorAll('.mw-chip').forEach(bt => bt.onclick = () => switchTab('train'));
   const saveCI = (fn) => { const all = loadCheckins(); all[today] = all[today] || {}; fn(all[today]); all[today].ts = Date.now(); saveCheckins(all); };
   el.querySelectorAll('.ci-b').forEach(bt => bt.onclick = () => {
     const key = bt.dataset.k, v = +bt.dataset.v; let now;
@@ -5352,6 +5407,8 @@ function renderMotivation(){
     ['Trainingsbelastung der 2 Vortage', d => (loadByDate[addDays(d, -1)] || 0) + (loadByDate[addDays(d, -2)] || 0), 'mehr Belastung davor', 'weniger Belastung davor'],
     ['Tage seit letztem Training', d => { const p = trainDays.filter(x => x < d).pop(); return p ? Math.round((new Date(d) - new Date(p)) / 864e5) : null; }, 'längere Pause', 'kürzere Pause'],
     ['Alkohol am Vorabend', d => ci[d].alc ? 1 : 0, 'Alkohol', 'kein Alkohol', true],
+    ['Koffein vor dem Training', d => ci[d].coffee ? 1 : 0, 'Koffein', 'kein Koffein', true],
+    ['Sexuelle Aktivität (24 h) 🔒', d => (ci[d].sexA || ci[d].sexM) ? 1 : 0, 'sexuelle Aktivität', 'keine', true],
     ['Krank / angeschlagen', d => ci[d].sick ? 1 : 0, 'angeschlagen', 'gesund', true],
     ['Freier Tag', d => ci[d].off ? 1 : 0, 'freier Tag', 'Arbeitstag', true],
   ];
@@ -5402,6 +5459,116 @@ function renderMotivation(){
     values: ds.map(d => ci[d].lust), colors: ds.map(d => ci[d].lust >= 4 ? ANA_COL.up : ci[d].lust <= 2 ? ANA_COL.down : ANA_COL.acc),
     axisFmt: v => String(Math.round(v)), valFmt: v => String(v), height: 190, yTitle: 'Lust 1–5'
   });
+}
+
+// ================= PRIVATSPHÄRE: private Check-in-Felder, Backup, App-Sperre =================
+const PRIVATE_FIELDS = ['sexA', 'sexM', 'sex2h'];
+const LOCK_KEY = 'cutplan_lock_v1';
+const BACKUP_SKIP = ['cutplan_session_active_v1', 'cutplan_progress_safecopy_v1'];
+
+function buildBackup(includePrivate){
+  const dump = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith('cutplan_') || BACKUP_SKIP.includes(k) || k.startsWith('cutplan_progress_corrupt_') || k === LOCK_KEY) continue;
+    let v = localStorage.getItem(k);
+    if (k === 'cutplan_checkin_v1' && !includePrivate) {
+      try { const o = JSON.parse(v); Object.values(o).forEach(d => PRIVATE_FIELDS.forEach(f => delete d[f])); v = JSON.stringify(o); } catch(e) {}
+    }
+    dump[k] = v;
+  }
+  return dump;
+}
+function restoreBackup(dump){
+  let n = 0;
+  Object.keys(dump).forEach(k => {
+    if (!k.startsWith('cutplan_') || k === LOCK_KEY) return;
+    if (k === 'cutplan_checkin_v1') {   // private Angaben, die nicht im Backup sind, bleiben erhalten
+      try {
+        const cur = JSON.parse(localStorage.getItem(k) || '{}'), inc = JSON.parse(dump[k]);
+        Object.keys(cur).forEach(d => PRIVATE_FIELDS.forEach(f => { if (cur[d][f] !== undefined && (!inc[d] || inc[d][f] === undefined)) { inc[d] = inc[d] || {}; inc[d][f] = cur[d][f]; } }));
+        localStorage.setItem(k, JSON.stringify(inc)); n++; return;
+      } catch(e) {}
+    }
+    localStorage.setItem(k, dump[k]); n++;
+  });
+  return n;
+}
+
+// ---------- App-Sperre (PIN) ----------
+async function hashPin(pin){
+  const s = 'cutplan-lock:' + pin;
+  try {
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
+  } catch(e) { let h = 7; for (const c of s) h = (h * 31 + c.charCodeAt(0)) | 0; return 'x' + h; }
+}
+function lockCfg(){ try { return JSON.parse(localStorage.getItem(LOCK_KEY) || 'null'); } catch(e) { return null; } }
+let lockEntry = '', lockHiddenAt = 0;
+function showLock(){
+  const ov = document.getElementById('lockOverlay'); if (!ov || !lockCfg()) return;
+  lockEntry = ''; renderLockDots(); document.getElementById('lockMsg').textContent = '';
+  ov.classList.add('open');
+}
+function renderLockDots(){
+  const d = document.getElementById('lockDots'); if (!d) return;
+  d.innerHTML = [0,1,2,3].map(i => `<i class="${i < lockEntry.length ? 'on' : ''}"></i>`).join('');
+}
+async function lockPress(k){
+  if (k === 'del') { lockEntry = lockEntry.slice(0, -1); renderLockDots(); return; }
+  if (lockEntry.length >= 4) return;
+  lockEntry += k; renderLockDots();
+  if (lockEntry.length === 4) {
+    const ok = (await hashPin(lockEntry)) === (lockCfg() || {}).h;
+    if (ok) { try { sessionStorage.setItem('cutplan_unlocked', '1'); } catch(e) {} document.getElementById('lockOverlay').classList.remove('open'); }
+    else { document.getElementById('lockMsg').textContent = 'Falscher PIN'; lockEntry = ''; setTimeout(renderLockDots, 250); }
+  }
+}
+function lockForgot(){
+  if (!confirm('App-Sperre aufheben?\n\nDabei werden alle privaten Angaben (🔒) gelöscht. Alle übrigen Daten bleiben erhalten.')) return;
+  try {
+    const o = JSON.parse(localStorage.getItem('cutplan_checkin_v1') || '{}');
+    Object.values(o).forEach(d => PRIVATE_FIELDS.forEach(f => delete d[f]));
+    localStorage.setItem('cutplan_checkin_v1', JSON.stringify(o));
+  } catch(e) {}
+  localStorage.removeItem(LOCK_KEY);
+  document.getElementById('lockOverlay').classList.remove('open');
+}
+function initLock(){
+  const ov = document.getElementById('lockOverlay'); if (!ov || ov.dataset.bound) return;
+  ov.dataset.bound = '1';
+  ov.querySelectorAll('[data-k]').forEach(b => b.onclick = () => lockPress(b.dataset.k));
+  document.getElementById('lockForgot').onclick = lockForgot;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) lockHiddenAt = Date.now();
+    else if (lockCfg() && lockHiddenAt && Date.now() - lockHiddenAt > 60000) { try { sessionStorage.removeItem('cutplan_unlocked'); } catch(e) {} showLock(); }
+  });
+  let unlocked = false; try { unlocked = sessionStorage.getItem('cutplan_unlocked') === '1'; } catch(e) {}
+  if (lockCfg() && !unlocked) showLock();
+}
+function renderLockSettings(){
+  const el = document.getElementById('lockSettings'); if (!el) return;
+  const on = !!lockCfg();
+  el.innerHTML = on
+    ? `<div class="ana-note" style="margin-top:0">Die App-Sperre ist <b>aktiv</b>. Nach dem Öffnen und nach mehr als einer Minute im Hintergrund fragt die App nach deinem PIN.</div>
+       <button class="prog-btn" id="lockOff" style="width:100%; margin-top:10px;">Sperre ausschalten</button>`
+    : `<div class="ana-note" style="margin-top:0">Schützt die App mit einem 4-stelligen PIN — gegen neugierige Blicke, wenn jemand dein entsperrtes iPhone in der Hand hat.</div>
+       <div class="lock-set"><input type="password" inputmode="numeric" maxlength="4" id="lockNew" placeholder="Neuer PIN"><input type="password" inputmode="numeric" maxlength="4" id="lockNew2" placeholder="Wiederholen"></div>
+       <button class="prog-btn" id="lockOn" style="width:100%; margin-top:10px;">Sperre einschalten</button><div class="quick-msg" id="lockSetMsg"></div>`;
+  if (on) document.getElementById('lockOff').onclick = () => { if (confirm('App-Sperre ausschalten?')) { localStorage.removeItem(LOCK_KEY); renderLockSettings(); } };
+  else document.getElementById('lockOn').onclick = async () => {
+    const a = document.getElementById('lockNew').value, b = document.getElementById('lockNew2').value, m = document.getElementById('lockSetMsg');
+    if (!/^\d{4}$/.test(a)) { m.textContent = 'Bitte genau 4 Ziffern.'; m.className = 'quick-msg c-down'; return; }
+    if (a !== b) { m.textContent = 'Die beiden PINs stimmen nicht überein.'; m.className = 'quick-msg c-down'; return; }
+    localStorage.setItem(LOCK_KEY, JSON.stringify({ h: await hashPin(a), since: Date.now() }));
+    try { sessionStorage.setItem('cutplan_unlocked', '1'); } catch(e) {}
+    renderLockSettings();
+  };
+}
+// Trainingstage der Kalenderwoche (egal welches Training)
+function trainedOn(date, store){
+  try { if (workoutCandidates(date, store).length) return true; } catch(e) {}
+  return loadSessions().some(s => s.date === date && s.durationMin >= 10);
 }
 
 refreshProgressSafeCopy();
@@ -6965,16 +7132,15 @@ function initImport(){
   if(!be.dataset.bound){
     be.dataset.bound='1';
     be.onclick=()=>{
-      const keys=[PROG_KEY,NUT_KEY,CUSTOM_FOOD_KEY,RECENT_KEY,FAV_KEY,WATER_KEY,WEIGHT_KEY,MYMEALS_KEY,SLEEP_KEY,STEPS_KEY];
-      const dump={};
-      keys.forEach(k=>{ const v=localStorage.getItem(k); if(v) dump[k]=v; });
+      const inclPriv = !!(document.getElementById('bkPriv') || {}).checked;
+      const dump = buildBackup(inclPriv);
       document.getElementById('bkText').value=JSON.stringify(dump);
       document.getElementById('bkResult').innerHTML='<span style="color:var(--steps)">✓ Backup erzeugt — Text markieren und kopieren.</span>';
     };
     document.getElementById('bkImport').onclick=()=>{
       try{
         const dump=JSON.parse(document.getElementById('bkText').value);
-        Object.keys(dump).forEach(k=>localStorage.setItem(k,dump[k]));
+        restoreBackup(dump);
         document.getElementById('bkResult').innerHTML='<span style="color:var(--steps)">✓ Wiederhergestellt. Seite neu laden.</span>';
       }catch(e){
         document.getElementById('bkResult').innerHTML='<span style="color:var(--clay)">Backup-Text ungültig.</span>';
@@ -6986,6 +7152,7 @@ function initImport(){
 renderHlSubtabs();
 switchHlView();
 switchTab('dashboard');
+try { initLock(); } catch(e) {}
 
 
 // ================= DASHBOARD =================
