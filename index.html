@@ -994,6 +994,17 @@
   .comp-leg b{ font-family:ui-monospace,monospace; font-size:13px; }
   .comp-note{ font-size:11px; color:var(--ink-dim); margin-top:10px; line-height:1.5; }
   .comp-leg em{ grid-column:2 / -1; font-style:normal; font-size:11px; color:var(--ink-dim); }
+
+  /* ---------- Marken-Import ---------- */
+  .as-newown.alt{ border-style:solid; border-color:var(--line); color:var(--ink); background:var(--card); }
+  .bi-row{ display:flex; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid var(--line); }
+  .bi-b{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; } .bi-b b{ font-size:15px; } .bi-b small{ font-size:12px; color:var(--ink-dim); }
+  .bi-load{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:10px; padding:9px 13px; font-weight:800; font-size:13px; }
+  .bi-load:disabled{ opacity:.5; }
+  .bi-del{ width:34px; height:34px; border-radius:50%; border:1px solid var(--line); background:var(--bg2); color:var(--ink-dim); }
+  .bi-add{ display:flex; gap:8px; margin-top:14px; }
+  .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
+  .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
   /* ================= v12: Kopfzeile kompakt, mehr Platz für Inhalt ================= */
   header.top{ padding: calc(6px + env(safe-area-inset-top, 0px)) 18px 8px !important; }
   header.top .eyebrow{ font-size:9.5px !important; letter-spacing:.14em; margin-bottom:1px !important; opacity:.8; }
@@ -1099,7 +1110,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v13.1</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v13.2</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -4780,12 +4791,14 @@ function renderAsList(){
   } else if (AS.tab === 'fav') {
     items = loadFavs(); empty = 'Noch keine Favoriten — in der Detailansicht ★ antippen.';
   } else {
-    items = loadCustomFoods().map(f => Object.assign({ src: 'own' }, f));
+    const cf = loadCustomFoods();
+    items = [...cf.filter(f => !f.origin), ...cf.filter(f => f.origin).sort((a, b) => (a.brand || '').localeCompare(b.brand || '') || a.n.localeCompare(b.n))].map(f => Object.assign({ src: 'own' }, f));
     empty = 'Noch keine eigenen Lebensmittel.';
   }
   if (AS.q.length < 2) st.textContent = '';
-  const ownBtn = (AS.tab === 'own' && AS.q.length < 2) || (AS.q.length >= 2 && !items.length)
-    ? `<button class="as-newown" id="asNewOwn">＋ Eigenes Lebensmittel anlegen</button>` : '';
+  const ownBtn = ((AS.tab === 'own' && AS.q.length < 2) || (AS.q.length >= 2 && !items.length)
+    ? `<button class="as-newown" id="asNewOwn">＋ Eigenes Lebensmittel anlegen</button>` : '')
+    + (AS.tab === 'own' && AS.q.length < 2 ? `<button class="as-newown alt" id="asBrands">⤓ Marken importieren · ESN, Myprotein, Bodybuilding Depot …</button>` : '');
   if (!items.length) { listEl.innerHTML = ownBtn + (AS.q.length >= 2 ? '' : `<div class="as-empty">${empty}</div>`); bindNewOwn(); return; }
   AS.rendered = items;
   listEl.innerHTML = ownBtn + items.map((f, i) => {
@@ -4809,7 +4822,8 @@ function renderAsList(){
   });
   bindNewOwn();
 }
-function bindNewOwn(){ const b = document.getElementById('asNewOwn'); if (b) b.onclick = () => showOwnForm(AS.q); }
+function bindNewOwn(){ const b = document.getElementById('asNewOwn'); if (b) b.onclick = () => showOwnForm(AS.q);
+  const m = document.getElementById('asBrands'); if (m) m.onclick = showBrandImport; }
 
 // ---------- Suche ----------
 function asSearch(q){
@@ -6077,6 +6091,124 @@ function renderBodyAnalysis(){
   if (document.getElementById('baMU')) { const s = tail(S.muscle, 40); svgLineChart(document.getElementById('baMU'), { labels: s.map(x => fmtDate(x.d)), fmt: v => fmtNum(r1(v)), area: true, series: [{ name: 'Muskelmasse kg', color: ANA_COL.up, values: s.map(x => r1(x.v)) }] }); }
 }
 
+// ================= MARKEN-IMPORT aus Open Food Facts =================
+// Lädt alle Produkte einer Marke und speichert sie wie selbst angelegte Lebensmittel — nur auf diesem iPhone.
+const BRAND_PRESETS = [
+  { name: 'ESN', tags: ['esn'] },
+  { name: 'Myprotein', tags: ['myprotein', 'my-protein'] },
+  { name: 'Bodybuilding Depot', tags: ['bodybuilding-depot', 'bodybuildingdepot', 'bbd'] },
+];
+const BRAND_FIELDS = 'code,product_name,product_name_de,brands,nutriments,serving_quantity,serving_size,product_quantity';
+function brandTag(name){ return String(name || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+function offToFood(pr, brandName){
+  const nu = pr.nutriments || {};
+  let kcal = nu['energy-kcal_100g'];
+  if ((kcal === undefined || kcal === null || kcal === '') && nu['energy-kj_100g']) kcal = nu['energy-kj_100g'] / 4.184;
+  const name = (pr.product_name_de || pr.product_name || '').trim();
+  if (!name || kcal === undefined || kcal === null || isNaN(+kcal)) return null;
+  const p = +(nu.proteins_100g || 0), c = +(nu.carbohydrates_100g || 0), f = +(nu.fat_100g || 0);
+  if (kcal < 0 || kcal > 900 || p > 100 || c > 100 || f > 100 || p + c + f > 105) return null;   // offensichtliche Datenfehler
+  return { n: name, brand: brandName, kcal: Math.round(+kcal), p: Math.round(p * 10) / 10, c: Math.round(c * 10) / 10, f: Math.round(f * 10) / 10,
+           por: offPortions(pr, name), code: pr.code || '', origin: 'brand:' + brandName, src: 'own' };
+}
+async function fetchJSONRetry(url, tries){
+  let last;
+  for (let i = 0; i < (tries || 3); i++) {
+    try { const r = await fetch(url); if (r.ok) return await r.json(); last = new Error('HTTP ' + r.status); }
+    catch(e) { last = e; }
+    await new Promise(r => setTimeout(r, 1200 * (i + 1)));   // Open Food Facts antwortet gelegentlich mit 503
+  }
+  throw last;
+}
+async function fetchBrandProducts(preset, onProgress){
+  const tags = preset.tags && preset.tags.length ? preset.tags : [brandTag(preset.name)];
+  for (const tag of tags) {
+    const all = [];
+    for (let page = 1; page <= 6; page++) {
+      const url = `https://world.openfoodfacts.org/api/v2/search?brands_tags=${encodeURIComponent(tag)}&fields=${BRAND_FIELDS}&page_size=100&page=${page}`;
+      const j = await fetchJSONRetry(url, 3);
+      const prods = j.products || [];
+      all.push(...prods);
+      if (onProgress) onProgress(all.length, j.count || all.length);
+      if (prods.length < 100 || all.length >= (j.count || 0)) break;
+    }
+    if (all.length) return all;
+  }
+  return [];
+}
+async function importBrand(preset, onProgress){
+  const raw = await fetchBrandProducts(preset, onProgress);
+  const foods = raw.map(pr => offToFood(pr, preset.name)).filter(Boolean);
+  const list = loadCustomFoods();
+  const ownNames = new Set(list.filter(x => !x.origin).map(x => x.n));          // selbst angelegte haben Vorrang
+  const keep = list.filter(x => x.origin !== 'brand:' + preset.name);            // alte Version dieser Marke ersetzen
+  const seen = new Set(keep.map(x => (x.code || '') + '|' + x.n));
+  let added = 0, skipped = raw.length - foods.length;
+  foods.forEach(f => {
+    const k = (f.code || '') + '|' + f.n;
+    if (ownNames.has(f.n) || seen.has(k)) return;
+    seen.add(k); keep.push(f); added++;
+  });
+  saveCustomFoods(keep);
+  const meta = loadBrandMeta(); meta[preset.name] = { n: added, at: localDateStr(Date.now()) }; saveBrandMeta(meta);
+  return { found: raw.length, added, skipped };
+}
+function removeBrand(name){
+  saveCustomFoods(loadCustomFoods().filter(x => x.origin !== 'brand:' + name));
+  const meta = loadBrandMeta(); delete meta[name]; saveBrandMeta(meta);
+}
+function loadBrandMeta(){ try { return JSON.parse(localStorage.getItem('cutplan_brandmeta_v1') || '{}') || {}; } catch(e) { return {}; } }
+function saveBrandMeta(m){ try { localStorage.setItem('cutplan_brandmeta_v1', JSON.stringify(m)); } catch(e) {} }
+
+function showBrandImport(){
+  AS.detail = { brands: true }; renderAsTabs();
+  document.getElementById('asList').style.display = 'none';
+  document.getElementById('asStatus').textContent = '';
+  const meta = loadBrandMeta();
+  const custom = Object.keys(meta).filter(n => !BRAND_PRESETS.some(p => p.name === n));
+  const row = (name) => `<div class="bi-row" data-b="${svgEsc(name)}">
+      <div class="bi-b"><b>${svgEsc(name)}</b><small>${meta[name] ? `${meta[name].n} Produkte · geladen am ${fmtDate(meta[name].at)}` : 'noch nicht geladen'}</small></div>
+      <button class="bi-load">${meta[name] ? 'Aktualisieren' : 'Laden'}</button>
+      ${meta[name] ? '<button class="bi-del" aria-label="entfernen">✕</button>' : ''}
+    </div>`;
+  document.getElementById('asDetail').innerHTML = `
+    <button class="as-back" id="asBack">‹ Zurück</button>
+    <div class="as-dn" style="margin-bottom:4px">Marken importieren</div>
+    <div class="as-hint" style="margin:0 0 12px; text-align:left">Lädt alle Produkte einer Marke aus Open Food Facts mit Nährwerten und Portionsgrößen. Sie werden auf diesem iPhone gespeichert, funktionieren offline und erscheinen bei der Suche wie deine eigenen Lebensmittel.</div>
+    ${BRAND_PRESETS.map(p => row(p.name)).join('')}
+    ${custom.map(row).join('')}
+    <div class="bi-add"><input id="biName" placeholder="Weitere Marke, z. B. Rocka, More, Barebells"><button id="biAdd">Laden</button></div>
+    <div class="as-hint" id="biMsg" style="text-align:left"></div>
+    <div class="as-hint" style="text-align:left; margin-top:14px">Open Food Facts wird von Nutzern gepflegt — einzelne Werte können fehlen oder veraltet sein. Produkte mit offensichtlich falschen Nährwerten werden aussortiert. Stimmt ein Wert nicht mit deiner Packung überein: das Produkt als eigenes Lebensmittel mit den richtigen Werten anlegen — deine eigenen Einträge haben immer Vorrang.</div>`;
+  document.getElementById('asBack').onclick = () => { AS.detail = null; renderAsTabs(); renderAsList(); };
+  const msg = document.getElementById('biMsg');
+  const run = async (preset, btn) => {
+    btn.disabled = true; btn.textContent = '…';
+    msg.className = 'as-hint'; msg.textContent = `${preset.name}: lade …`;
+    try {
+      const r = await importBrand(preset, (n, total) => { msg.textContent = `${preset.name}: ${n}${total ? ' von ' + total : ''} Produkten geladen …`; });
+      msg.innerHTML = r.found
+        ? `✓ <b>${preset.name}</b>: ${r.added} Produkte gespeichert${r.skipped ? `, ${r.skipped} ohne vollständige Nährwerte übersprungen` : ''}.`
+        : `Für „${preset.name}" wurden bei Open Food Facts keine Produkte gefunden. Probier eine andere Schreibweise.`;
+      msg.className = r.found ? 'as-hint c-up' : 'as-hint c-down';
+      setTimeout(showBrandImport, r.found ? 1800 : 3500);
+    } catch(e) {
+      msg.textContent = `Laden fehlgeschlagen (${e.message}). Prüfe die Internetverbindung und versuch es in einer Minute erneut.`;
+      msg.className = 'as-hint c-down'; btn.disabled = false; btn.textContent = 'Erneut';
+    }
+  };
+  document.querySelectorAll('#asDetail .bi-row').forEach(r => {
+    const name = r.dataset.b, preset = BRAND_PRESETS.find(p => p.name === name) || { name, tags: [brandTag(name)] };
+    r.querySelector('.bi-load').onclick = e => run(preset, e.target);
+    const del = r.querySelector('.bi-del');
+    if (del) del.onclick = () => { if (confirm(`Alle importierten Produkte von ${name} entfernen? Deine selbst angelegten Lebensmittel bleiben erhalten.`)) { removeBrand(name); showBrandImport(); } };
+  });
+  document.getElementById('biAdd').onclick = e => {
+    const n = document.getElementById('biName').value.trim(); if (!n) return;
+    run({ name: n, tags: [brandTag(n), brandTag(n).replace(/-/g, '')] }, e.target);
+  };
+}
+
 refreshProgressSafeCopy();
 migrateLegacyEntries();
 renderProgSubtabs();
@@ -6677,6 +6809,12 @@ function rankScore(name, ql){
   if (words.some(w => w === ql)) return 3;
   if (words.some(w => w.startsWith(ql))) return 4;
   if (nl.includes(ql)) return 5;
+  // Mehrere Suchwörter: jedes muss vorkommen ("esn bar", "whey vanille") — Reihenfolge egal
+  const qt = ql.split(/\s+/).filter(Boolean);
+  if (qt.length > 1) {
+    const hit = qt.map(t => words.some(w => w.startsWith(t)) ? 2 : nl.includes(t) ? 1 : 0);
+    if (hit.every(x => x > 0)) return hit.every(x => x === 2) ? 6 : 7;
+  }
   return 99;
 }
 
@@ -6689,11 +6827,11 @@ function searchLocal(q){
   ];
   const seen = new Set();
   return pool
-    .map(f => ({...f, score: rankScore(f.n, ql)}))
+    .map(f => ({...f, score: Math.min(rankScore(f.n, ql), f.brand ? rankScore(f.brand + ' ' + f.n, ql) : 99)}))
     .filter(f => f.score < 99)
     .filter(f => { if (seen.has(f.n)) return false; seen.add(f.n); return true; })
     .sort((a,b) => a.score - b.score || a.prio - b.prio || a.n.length - b.n.length)
-    .slice(0, 16);
+    .slice(0, 30);
 }
 
 
