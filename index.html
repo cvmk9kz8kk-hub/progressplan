@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v14.3: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v14.4: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v14.3: Cockpit kompakter ---------- */
+  /* ---------- v14.4: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1240,7 +1240,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v14.3</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v14.4</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -3013,11 +3013,12 @@ function renderTodayEntry(){
         <div class="qcard-hl">
           <div class="qcard-name">${ex.name}</div>
           <div class="qcard-target">Ziel: ${ex.sets}<span class="qc-sum" data-sumfor="${ex.name}"></span></div>
-          ${isBodyweightExercise(ex.name) && exerciseKind(ex.sets) === 'reps' ? bwBoxHTML(ex.name, today) : ''}
+
         </div>
         <span class="qc-chev">⌄</span>
       </div>
       <div class="qcard-body">
+        ${isBodyweightExercise(ex.name) && exerciseKind(ex.sets) === 'reps' ? bwBoxHTML(ex.name, today) : ''}
         <div class="qcard-last prev-line">${lastTxt}</div>
         <div class="set-lines">${rows.join('')}</div>
         <div class="vol-box" data-volfor="${ex.name}"></div>
