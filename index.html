@@ -948,6 +948,40 @@
   .lock-pad button{ height:64px; border-radius:50%; border:1px solid var(--line); background:var(--card); font-size:24px; font-weight:700; color:var(--ink); }
   .lock-pad button:active{ background:var(--lime); color:var(--acc-ink); }
   .lock-forgot{ margin-top:20px; background:transparent; border:none; color:var(--ink-dim); font-size:13px; text-decoration:underline; }
+
+  /* ---------- Tag wählen & nachtragen ---------- */
+  .ck-past{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 12px; padding:11px 14px;
+    border-radius:14px; background:color-mix(in srgb, var(--lime) 14%, transparent); border:1px solid color-mix(in srgb, var(--lime) 40%, transparent); font-size:13.5px; }
+  .ck-past button, .nut-daynav #ndToday{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:99px; padding:7px 12px; font-weight:800; font-size:12.5px; flex:0 0 auto; }
+  .ck-link{ display:block; margin-top:12px; border:none; background:transparent; color:var(--lime); font-weight:800; font-size:13.5px; padding:2px 0; }
+  .mw-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+  .mw-nav{ flex:0 0 34px; height:34px; border-radius:50%; border:1px solid var(--line); background:var(--bg2); color:var(--ink); font-size:19px; font-weight:700; line-height:1; }
+  .mw-nav:disabled{ opacity:.3; }
+  .mw-chip small{ font-size:10px; font-weight:600; opacity:.7; }
+  .mw-chip.now{ box-shadow:0 0 0 1px var(--line) inset; }
+  .mw-chip.sel{ border-color:var(--lime) !important; box-shadow:0 0 0 1.5px var(--lime) inset !important; }
+  .nut-daynav{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 10px; }
+  .nut-daynav > button{ flex:0 0 40px; height:40px; border-radius:50%; border:1px solid var(--line); background:var(--card); font-size:21px; font-weight:700; color:var(--ink); }
+  .nut-daynav > button:disabled{ opacity:.3; }
+  .nut-daynav > div{ display:flex; align-items:center; gap:10px; font-size:16px; }
+
+  /* ---------- v13 ---------- */
+  .ins-btn{ display:inline-block; margin-top:10px; border:none; background:var(--lime); color:var(--acc-ink); border-radius:10px; padding:9px 13px; font-weight:800; font-size:13px; }
+  .card .ins-btn{ margin-right:8px; }
+  .hk-btn{ display:block; width:100%; margin-top:12px; padding:12px; border-radius:12px; border:1.5px dashed var(--lime); background:transparent; color:var(--lime); font-weight:800; font-size:14px; }
+  .wr-teaser{ display:flex; align-items:center; gap:12px; width:100%; text-align:left; margin:0 0 12px; padding:13px 14px; border-radius:16px;
+    border:1px solid color-mix(in srgb, var(--lime) 40%, transparent); background:color-mix(in srgb, var(--lime) 12%, transparent); color:var(--ink); }
+  .wr-teaser span{ font-size:22px; } .wr-teaser div{ flex:1; display:flex; flex-direction:column; gap:2px; }
+  .wr-teaser b{ font-size:14.5px; } .wr-teaser small{ font-size:12px; color:var(--ink-dim); } .wr-teaser em{ font-style:normal; font-size:22px; color:var(--lime); }
+  .wr-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 12px; }
+  .wr-head > div{ text-align:center; display:flex; flex-direction:column; } .wr-head b{ font-size:18px; } .wr-head span{ font-size:12.5px; color:var(--ink-dim); }
+  .wr-rec{ display:flex; gap:11px; padding:10px 0; border-bottom:1px solid var(--line); }
+  .wr-rec:last-of-type{ border-bottom:none; }
+  .wr-rec > span{ font-size:19px; line-height:1.3; } .wr-rec div{ display:flex; flex-direction:column; gap:3px; }
+  .wr-rec b{ font-size:14px; } .wr-rec small{ font-size:12.5px; color:var(--ink-dim); line-height:1.5; }
+  .sc-steps{ padding-left:20px; margin:10px 0 0; font-size:13px; line-height:1.6; color:var(--ink); }
+  .sc-steps li{ margin-bottom:8px; } .sc-steps i{ color:var(--lime); font-style:normal; font-weight:700; }
+  .sc-tpl{ margin:8px 0; padding:10px; border-radius:10px; background:var(--bg2); border:1px solid var(--line); font-family:ui-monospace,monospace; font-size:11.5px; word-break:break-all; user-select:all; -webkit-user-select:all; }
   /* ================= v12: Kopfzeile kompakt, mehr Platz für Inhalt ================= */
   header.top{ padding: calc(6px + env(safe-area-inset-top, 0px)) 18px 8px !important; }
   header.top .eyebrow{ font-size:9.5px !important; letter-spacing:.14em; margin-bottom:1px !important; opacity:.8; }
@@ -1053,7 +1087,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v12.1</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v13.0</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1691,12 +1725,17 @@
   </section>
 
   <section class="view" id="view-analyse"></section>
+  <section class="view" id="view-woche"><div id="weekReport"></div></section>
   <section class="view" id="view-motivation"><div id="motivBox"></div></section>
   <section class="view" id="view-koerper"></section>
   <section class="view" id="view-einstellungen">
     <div class="card accent">
       <div class="card-title">Farbschema</div>
       <div id="themePicker" class="theme-grid"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Werte aus Apple Health übernehmen</div>
+      <div id="hkGuide"></div>
     </div>
     <div class="card">
       <div class="card-title">App-Sperre</div>
@@ -2235,7 +2274,7 @@ const navGroups = [
   {id:'food', title:'Ernährung', icon:'M6 3v8a3 3 0 006 0V3M9 11v10M17 3c-1.5 2-2 4-2 6s.5 3 2 3 2-1 2-3-.5-4-2-6zM17 12v9',
    views:[{v:'ernaehrung', label:'Tagebuch'}]},
   {id:'analyse', title:'Analyse', icon:'M3 3v18h18M7 15l4-4 3 3 5-6',
-   views:[{v:'analyse', label:'Leistung'},{v:'motivation', label:'Motivation'},{v:'koerper', label:'Körper'},{v:'health', label:'Schlaf & Schritte'}]},
+   views:[{v:'analyse', label:'Leistung'},{v:'woche', label:'Wochenbericht'},{v:'motivation', label:'Motivation'},{v:'koerper', label:'Körper'},{v:'health', label:'Schlaf & Schritte'}]},
   {id:'mehr', title:'Mehr', icon:'M5 12h.01M12 12h.01M19 12h.01M5 12a1 1 0 100-.01M12 12a1 1 0 100-.01M19 12a1 1 0 100-.01',
    views:[{v:'woche', label:'Wochenplan'},{v:'training', label:'Übungen'},{v:'roadmap', label:'Roadmap'},{v:'supps', label:'Supps'},
           {v:'mahlzeiten', label:'Ernährungsplan'},{v:'bewegung', label:'Prinzipien'},{v:'ziel', label:'Profil'},{v:'einstellungen', label:'Design & Daten'}]},
@@ -2244,6 +2283,7 @@ const navGroups = [
 const viewMeta = {
   dashboard:{title:'Cockpit', sub:'Tagesstand, Check-in & Körperwerte'},
   analyse:{title:'Analyse', sub:'Leistung, Hebel & Zusammenhänge'},
+  woche:{title:'Wochenbericht', sub:'Bilanz und Anpassungen für die neue Woche'},
   motivation:{title:'Motivation', sub:'Was deine Lust auf Training beeinflusst'},
   koerper:{title:'Körper', sub:'Gewicht, Kalorien, Schlaf & Schritte im Verlauf'},
   einstellungen:{title:'Design & Daten', sub:'Farbschema, Import & Backup'},
@@ -2276,7 +2316,9 @@ function showView(viewId){
   if (viewId==='analyse') { const ov = document.getElementById('progOverview'); if (ov) ov.style.display = 'block'; try { renderOverview(); } catch(e) {} }
   if (viewId==='progress') { try { currentProgTab = 'today'; switchProgView(); } catch(e) {} }
   if (viewId==='einstellungen') renderSettings();
+  if (viewId==='ernaehrung') { try { renderNutToday(); } catch(e) {} }
   if (viewId==='motivation') { try { renderMotivation(); } catch(e) {} }
+  if (viewId==='woche') { try { renderWeekReport(); } catch(e) {} }
   if (viewId==='ziel') renderProfile();
   window.scrollTo(0,0);
 }
@@ -2800,6 +2842,7 @@ function renderTodayEntry(){
     </div>`;
   }).join('');
 
+  try { if (deloadActive()) listEl.insertAdjacentHTML('afterbegin', `<div class="ins ins-info" style="margin-bottom:12px"><div class="ins-ic">🧘</div><div class="ins-b"><div class="ins-t">Deload-Woche</div><div class="ins-s">Etwa 60 % deiner üblichen Gewichte, je Übung ein Satz weniger. Saubere Technik statt Rekorde.</div></div></div>`); } catch(e) {}
   // Kopf antippen = ein-/ausklappen
   listEl.querySelectorAll('.qcard-head').forEach(hd => hd.onclick = () => {
     const card = hd.closest('.qcard');
@@ -4366,6 +4409,7 @@ function renderInsights(){
 
   items.sort((a, b) => a.p - b.p);
   let nt = ''; try { nt = nextTargetsHTML(); } catch(e) {}
+  try { nt = kcalAdviceHTML() + deloadCardHTML() + nt; } catch(e) {}
   el.innerHTML = nt + (items.length
     ? items.slice(0, 8).map(i => `<div class="ins ins-${i.tone}"><div class="ins-ic">${i.ic}</div>
         <div class="ins-b"><div class="ins-t">${svgEsc(i.t)}</div><div class="ins-s">${i.s}</div></div></div>`).join('')
@@ -4602,6 +4646,8 @@ function applyTheme(id){
 }
 function renderSettings(){
   try { renderLockSettings(); } catch(e) {}
+  try { const g = document.getElementById('hkGuide'); if (g && !g.dataset.done) { g.innerHTML = healthShortcutGuide(); g.dataset.done = '1';
+    document.getElementById('scCopy').onclick = async () => { try { await navigator.clipboard.writeText(document.getElementById('scTpl').textContent); document.getElementById('scCopy').textContent = '✓ kopiert'; } catch(e) { document.getElementById('scCopy').textContent = 'Bitte manuell markieren'; } }; } } catch(e) {}
   const el = document.getElementById('themePicker');
   if (!el) return;
   const cur = currentTheme();
@@ -4961,16 +5007,17 @@ function computeAutoGoals(cfg){
     const h = s.height || 178, a = s.age || 35;
     bmr = 10 * w + 6.25 * h - 5 * a + (cfg.sex === 'w' ? -161 : 5); method = 'Mifflin-St Jeor · Größe, Gewicht, Alter';
   }
-  const tdee = bmr * cfg.activity;
+  let tdee = bmr * cfg.activity, measured = null;
+  if (cfg.useMeasured) { try { const ad = adaptiveTDEE(); if (ad.ok) { tdee = ad.tdee; measured = ad; } } catch(e) {} }
   let delta = 0, deltaTxt = 'Erhaltung';
   if (cfg.goal === 'cut') { delta = -(cfg.rate / 100) * w * 7700 / 7; deltaTxt = `−${String(cfg.rate).replace('.', ',')} % Körpergewicht pro Woche ≈ −${fmtNum(Math.round(cfg.rate / 100 * w * 100) / 100)} kg`; }
   if (cfg.goal === 'bulk') { delta = cfg.rate >= 0.5 ? 350 : 200; deltaTxt = `+${delta} kcal · langsamer Muskelaufbau mit wenig Fettzunahme`; }
-  let kcal = Math.round((tdee + delta) / 10) * 10;
+  let kcal = Math.round((tdee + delta + (cfg.adjust || 0)) / 10) * 10;
   kcal = Math.max(kcal, Math.round(bmr / 10) * 10);          // nie unter den Grundumsatz
   const p = Math.round(w * (cfg.goal === 'cut' ? 2.2 : 1.8));
   const f = Math.round(Math.max(0.7 * w, kcal * 0.25 / 9));
   const c = Math.max(50, Math.round((kcal - p * 4 - f * 9) / 4));
-  return { kcal: p * 4 + c * 4 + f * 9, p, c, f, bmr: Math.round(bmr), tdee: Math.round(tdee), delta: Math.round(delta), method, deltaTxt, weight: w, bf: s.bf };
+  return { kcal: p * 4 + c * 4 + f * 9, p, c, f, bmr: Math.round(bmr), tdee: Math.round(tdee), delta: Math.round(delta), method, deltaTxt, weight: w, bf: s.bf, measured, adjust: cfg.adjust || 0 };
 }
 function baseGoals(){
   const cfg = loadGoalCfg(); if (!cfg) return null;
@@ -5075,12 +5122,16 @@ function renderGoalSheet(){
     <div class="gs-sec">Aktivität im Alltag</div>
     <div class="gs-row">${chip('activity',1.45,'wenig',GS.activity)}${chip('activity',1.6,'mittel',GS.activity)}${chip('activity',1.75,'hoch',GS.activity)}${chip('activity',1.9,'sehr hoch',GS.activity)}</div>
     <div class="gs-hint">Mittel ≈ Bürojob + 3–4 Krafteinheiten + 8–10k Schritte. Hoch ≈ zusätzlich Läufe und 12k+ Schritte.</div>
+    <div class="gs-sec">Verbrauch</div>
+    ${(() => { const ad = adaptiveTDEE(); return `<div class="gs-row">${chip('useMeasured', '', 'Formel (Schätzung)', GS.useMeasured ? 'x' : '')}${ad.ok ? chip('useMeasured', '1', 'Aus deinen Daten', GS.useMeasured ? '1' : 'x') : ''}</div>
+      <div class="gs-hint">${ad.ok ? `<b>Gemessen: ${ad.tdee} kcal/Tag</b> — Ø ${ad.avgK} kcal gegessen, Gewicht ${ad.slopeWeek > 0 ? '+' : ''}${fmtNum(Math.round(ad.slopeWeek * 100) / 100)} kg/Woche (${ad.nN} Ernährungstage, ${ad.nW} Wiegungen über ${ad.span} Tage). Genauer als jede Formel, solange du vollständig einträgst.` : 'Dein echter Verbrauch lässt sich noch nicht berechnen: ' + ad.reason + '.'}</div>`; })()}
     <div class="gs-sec">Geschlecht <span>(nur ohne Körperfettwert relevant)</span></div>
     <div class="gs-row">${chip('sex','m','männlich',GS.sex)}${chip('sex','w','weiblich',GS.sex)}</div>
 
     <div class="gs-calc">
       <div><span>Grundumsatz</span><b>${a.bmr} kcal</b><small>${a.method}</small></div>
-      <div><span>Gesamtumsatz</span><b>${a.tdee} kcal</b><small>× ${String(GS.activity).replace('.', ',')} Aktivität</small></div>
+      <div><span>Gesamtumsatz</span><b>${a.tdee} kcal</b><small>${a.measured ? 'gemessen aus deinen Daten der letzten ' + a.measured.days + ' Tage' : '× ' + String(GS.activity).replace('.', ',') + ' Aktivität (Schätzung)'}</small></div>
+      ${a.adjust ? `<div><span>Anpassung aus Verlauf</span><b>${a.adjust > 0 ? '+' : ''}${a.adjust} kcal</b><small>übernommene Empfehlungen · <a href="#" id="gsAdjReset">zurücksetzen</a></small></div>` : ''}
       <div><span>${GS.goal === 'cut' ? 'Defizit' : GS.goal === 'bulk' ? 'Überschuss' : 'Anpassung'}</span><b>${a.delta > 0 ? '+' : ''}${a.delta} kcal</b><small>${a.deltaTxt}</small></div>
       <div class="gs-res"><span>Berechnetes Tagesziel</span><b>${a.kcal} kcal</b><small>E ${a.p} g · K ${a.c} g · F ${a.f} g — Basis: ${fmtNum(a.weight)} kg${a.bf ? ', ' + fmtNum(a.bf) + ' % Körperfett' : ''}</small></div>
     </div>
@@ -5105,6 +5156,7 @@ function renderGoalSheet(){
 
   document.querySelectorAll('#gsBody .gs-chip').forEach(b => b.onclick = () => {
     const g = b.dataset.g; let v = b.dataset.v; if (['rate','activity'].includes(g)) v = parseFloat(v);
+    if (g === 'useMeasured') v = v === '1';
     GS[g] = v;
     if (g === 'goal') GS.rate = v === 'cut' ? 0.5 : 0.25;
     if (g === 'mode' && v === 'manual' && !GS.p) { const x = computeAutoGoals(GS); Object.assign(GS, { p: x.p, c: x.c, f: x.f }); }
@@ -5119,9 +5171,12 @@ function renderGoalSheet(){
   ['gsP','gsC','gsF'].forEach(id => { const el = document.getElementById(id); if (el) el.oninput = upd; });
   const rs = document.getElementById('gsReset'); if (rs) rs.onclick = () => { Object.assign(GS, { p: a.p, c: a.c, f: a.f }); renderGoalSheet(); };
   document.getElementById('gsCycle').onchange = e => { GS.carbCycle = e.target.checked; };
+  const ar = document.getElementById('gsAdjReset'); if (ar) ar.onclick = (ev) => { ev.preventDefault(); GS.adjust = 0; renderGoalSheet(); };
   document.getElementById('gsSave').onclick = () => {
     upd();
-    const cfg = { mode: GS.mode, goal: GS.goal, rate: GS.rate, activity: GS.activity, sex: GS.sex, carbCycle: GS.carbCycle, trainTime: GS.trainTime };
+    const prevCfg = loadGoalCfg() || {};
+    const cfg = { mode: GS.mode, goal: GS.goal, rate: GS.rate, activity: GS.activity, sex: GS.sex, carbCycle: GS.carbCycle, trainTime: GS.trainTime,
+                  useMeasured: !!GS.useMeasured, adjust: GS.adjust || 0, lastAdjust: prevCfg.lastAdjust };
     if (GS.mode === 'manual') Object.assign(cfg, { p: Math.round(GS.p), c: Math.round(GS.c), f: Math.round(GS.f), kcal: Math.round(GS.p * 4 + GS.c * 4 + GS.f * 9) });
     saveGoalCfg(cfg); closeGoalSheet();
     try { renderNutToday(); } catch(e) {} try { renderHeute(); } catch(e) {}
@@ -5210,10 +5265,33 @@ function weekBalanceHTML(today){
   </div>`;
 }
 
+// Ausgewählter Tag im Cockpit (null = heute, live). Wird mit der Ernährung geteilt.
+let cockpitDate = null, cockpitWeekOff = 0;
+function selectDay(d){
+  const real = localDateStr(Date.now());
+  if (d > real) return;
+  cockpitDate = d === real ? null : d;
+  currentNutDate = d;
+  const mw = mondayOf(real), md = mondayOf(d);
+  cockpitWeekOff = Math.round((new Date(md + 'T12:00:00') - new Date(mw + 'T12:00:00')) / (7 * 864e5));
+}
+document.addEventListener('visibilitychange', () => {   // neuer Tag, nichts gewählt → wieder "heute"
+  if (!document.hidden && !cockpitDate) { const r = localDateStr(Date.now()); if (currentNutDate !== r) currentNutDate = r; }
+});
+function dayLabel(d){
+  const real = localDateStr(Date.now());
+  if (d === real) return 'heute';
+  if (d === addDays(real, -1)) return 'gestern';
+  const wd = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'][new Date(d + 'T12:00:00').getDay()];
+  return wd + ', ' + fmtDate(d);
+}
 function renderHeute(){
   const el = document.getElementById('heuteTop'); if (!el) return;
-  const today = localDateStr(Date.now());
-  const st = weekWorkoutStatus(today), k = suggestedWorkout();
+  const realToday = localDateStr(Date.now());
+  if (cockpitDate && cockpitDate >= realToday) cockpitDate = null;
+  const today = cockpitDate || realToday;        // alle Einträge beziehen sich auf den gewählten Tag
+  const isPast = today !== realToday;
+  const st = weekWorkoutStatus(realToday), k = suggestedWorkout();
   const nDone = Object.keys(st.done).length;
   const ci = loadCheckins()[today] || {};
   let s = {}, sl = {}; try { s = JSON.parse(localStorage.getItem('cutplan_steps_v1') || '{}') || {}; } catch(e) {}
@@ -5222,12 +5300,14 @@ function renderHeute(){
   const g = goalsForDate(today), t = dayTotals(today);
   const kPct = Math.min(100, Math.round(t.kcal / Math.max(1, g.kcal) * 100));
 
-  const monW = mondayOf(today), pst = loadProgress();
+  if (cockpitWeekOff > 0) cockpitWeekOff = 0;
+  const monW = mondayOf(addDays(realToday, cockpitWeekOff * 7)), pst = loadProgress();
   let nTrainDays = 0;
   const chips = WORKOUT_ORDER.map((x, i) => {
-    const d = addDays(monW, i), fut = d > today, tr = !fut && trainedOn(d, pst);
+    const d = addDays(monW, i), fut = d > realToday, tr = !fut && trainedOn(d, pst);
     if (tr) nTrainDays++;
-    return `<button class="mw-chip${tr ? ' done' : ''}${d === today ? ' sel' : ''}${fut ? ' fut' : ''}" data-d="${d}"><span>${x.charAt(0).toUpperCase() + x.slice(1)}</span><b>${tr ? '✓' : '·'}</b></button>`; }).join('');
+    return `<button class="mw-chip${tr ? ' done' : ''}${d === today ? ' sel' : ''}${fut ? ' fut' : ''}${d === realToday ? ' now' : ''}" data-d="${d}"><span>${x.charAt(0).toUpperCase() + x.slice(1)}</span><b>${tr ? '✓' : '·'}</b><small>${d.slice(8)}.</small></button>`; }).join('');
+  const balRef = cockpitWeekOff ? addDays(monW, 6) : realToday;
   const qHTML = CHECK_Q.map(([key, lbl, words]) => `<div class="ci-q"><div class="ci-l">${lbl}<span id="ciw-${key}">${ci[key] ? words[ci[key] - 1] : ''}</span></div>
       <div class="ci-scale">${[1,2,3,4,5].map(v => `<button class="ci-b${ci[key] === v ? ' on' : ''}" data-k="${key}" data-v="${v}">${v}</button>`).join('')}</div></div>`).join('');
   const fHTML = CHECK_FLAGS.map(([key, lbl]) => `<button class="ci-flag${ci[key] ? ' on' : ''}" data-f="${key}">${lbl}</button>`).join('');
@@ -5241,15 +5321,18 @@ function renderHeute(){
   const fm = b.w && b.bf ? Math.round(b.w * b.bf / 100 * 10) / 10 : null;
 
   el.innerHTML = `
+    ${!isPast && [0, 1].includes(new Date(realToday + 'T12:00:00').getDay()) ? `<button class="wr-teaser" id="ckReport"><span>📋</span><div><b>Dein Wochenbericht ist da</b><small>Bilanz der Woche und was du nächste Woche anpassen solltest</small></div><em>›</em></button>` : ''}
+    ${isPast ? `<div class="ck-past"><span>✎ Du trägst für <b>${dayLabel(today)}</b> nach</span><button id="ckToday">Zu heute</button></div>` : ''}
     <div class="card ck-kcal">
-      <div class="ck-top"><div><div class="card-title" style="margin:0">Kalorien heute</div><div class="ck-sub">${svgEsc(g.label || '')}</div></div>
+      <div class="ck-top"><div><div class="card-title" style="margin:0">Kalorien ${dayLabel(today)}</div><div class="ck-sub">${svgEsc(g.label || '')}</div></div>
         <div class="ck-num"><b>${t.kcal}</b><span>/ ${g.kcal} kcal</span></div></div>
       <div class="bar"><span style="width:${kPct}%; background:${t.kcal > g.kcal ? 'var(--down)' : 'var(--lime)'}"></span></div>
       <div class="ck-macros"><span>E <b>${t.p}</b>/${g.p} g</span><span>K <b>${t.c}</b>/${g.c} g</span><span>F <b>${t.f}</b>/${g.f} g</span></div>
+      <button class="ck-link" id="ckFood">Ernährung ${dayLabel(today)} öffnen ›</button>
     </div>
 
     <div class="card">
-      <div class="card-title">Check-in · wie geht's dir heute?</div>
+      <div class="card-title">Check-in · ${isPast ? dayLabel(today) : "wie geht's dir heute?"}</div>
       ${qHTML}
       <div class="ci-flags">${fHTML}</div>
       <details class="ci-priv"><summary>🔒 Privat</summary>
@@ -5261,7 +5344,10 @@ function renderHeute(){
     </div>
 
     <div class="card">
-      <div class="card-title">Diese Woche · ${nTrainDays} ${nTrainDays === 1 ? 'Trainingstag' : 'Trainingstage'}</div>
+      <div class="mw-head"><button class="mw-nav" id="mwPrev" aria-label="Vorwoche">‹</button>
+        <div class="card-title" style="margin:0">${cockpitWeekOff ? 'Woche ab ' + fmtDate(monW) : 'Diese Woche'} · ${nTrainDays} ${nTrainDays === 1 ? 'Trainingstag' : 'Trainingstage'}</div>
+        <button class="mw-nav" id="mwNext" aria-label="nächste Woche" ${cockpitWeekOff ? '' : 'disabled'}>›</button></div>
+      <div class="ci-hint" style="margin:0 0 8px">Tag antippen, um Schritte, Schlaf, Check-in, Körperwerte und Ernährung dieses Tages zu sehen und nachzutragen.</div>
       <div class="mw-grid">${chips}</div>
     </div>
 
@@ -5269,8 +5355,10 @@ function renderHeute(){
       <div class="card-title">Schritte & Schlaf</div>
       <div class="quick-grid two">
         <label class="quick"><span>Schritte</span><input type="number" inputmode="numeric" id="qS" value="${s[today] ?? ''}" placeholder="Anzahl"></label>
-        <label class="quick"><span>Schlaf letzte Nacht</span><input type="number" step="0.1" inputmode="decimal" id="qL" value="${sl[today] && sl[today].h ? sl[today].h : ''}" placeholder="Stunden"></label>
+        <label class="quick"><span>Schlaf ${isPast ? 'Nacht davor' : 'letzte Nacht'}</span><input type="number" step="0.1" inputmode="decimal" id="qL" value="${sl[today] && sl[today].h ? sl[today].h : ''}" placeholder="Stunden"></label>
       </div>
+      <button class="hk-btn" id="hkPaste">⤓ Aus Apple Health einfügen</button>
+      <div id="pasteBox" style="display:none"><textarea class="ci-note" rows="2" placeholder="Hier lang drücken → Einsetzen"></textarea></div>
       <div class="quick-msg" id="quickMsg"></div>
     </div>
 
@@ -5285,9 +5373,20 @@ function renderHeute(){
       <div class="ci-hint">Morgens nüchtern nach dem Toilettengang wiegen — so sind die Werte vergleichbar. Bioimpedanz schwankt mit dem Wasserhaushalt: auf den Trend achten, nicht auf einzelne Tage.</div>
     </div>
 
-    ${weekBalanceHTML(today)}`;
+    ${weekBalanceHTML(balRef)}`;
 
-  el.querySelectorAll('.mw-chip').forEach(bt => bt.onclick = () => switchTab('train'));
+  el.querySelectorAll('.mw-chip').forEach(bt => bt.onclick = () => {
+    if (bt.classList.contains('fut')) return;
+    selectDay(bt.dataset.d); renderHeute();
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e) {}
+  });
+  const pv = document.getElementById('mwPrev'); if (pv) pv.onclick = () => { cockpitWeekOff--; renderHeute(); };
+  const nx = document.getElementById('mwNext'); if (nx) nx.onclick = () => { if (cockpitWeekOff < 0) { cockpitWeekOff++; renderHeute(); } };
+  const ct = document.getElementById('ckToday'); if (ct) ct.onclick = () => { selectDay(realToday); cockpitWeekOff = 0; renderHeute(); };
+  const cf = document.getElementById('ckFood'); if (cf) cf.onclick = () => { currentNutDate = today; switchTab('food'); };
+  const hk = document.getElementById('hkPaste'); if (hk) hk.onclick = importFromClipboard;
+  const pb = document.querySelector('#pasteBox textarea'); if (pb) pb.oninput = () => { const p = parseHealthPayload(pb.value); if (p) { const r = applyHealthPayload(p, today); renderHeute(); const m = document.getElementById('quickMsg'); if (m) { m.textContent = `✓ Übernommen für ${dayLabel(r.d)}: ${r.done.join(' · ')}`; m.className = 'quick-msg c-up'; } } };
+  const rp = document.getElementById('ckReport'); if (rp) rp.onclick = () => { switchTab('analyse'); showView('woche'); reportWeekOff = new Date(realToday + 'T12:00:00').getDay() === 1 ? -1 : 0; renderWeekReport(); };
   const saveCI = (fn) => { const all = loadCheckins(); all[today] = all[today] || {}; fn(all[today]); all[today].ts = Date.now(); saveCheckins(all); };
   el.querySelectorAll('.ci-b').forEach(bt => bt.onclick = () => {
     const key = bt.dataset.k, v = +bt.dataset.v; let now;
@@ -5354,7 +5453,8 @@ function nextTargetsFor(k){
     const n = parseSetCount(ex.sets), [lo, hi] = rr;
     const repsTxt = atTop.map(x => x.reps).join('/');
     let target;
-    if (atTop.length >= n && atTop.every(x => x.reps >= hi)) target = `<b>${fmtNum(topW + weightStep(ex.name))} kg</b> × ${lo} — Gewicht erhöhen, alle Sätze am oberen Ende geschafft`;
+    if (deloadActive()) target = `<b>${fmtNum(Math.round(topW * 0.6 / weightStep(ex.name)) * weightStep(ex.name))} kg</b> × ${lo}–${hi}, ${Math.max(1, n - 1)} ${n - 1 === 1 ? 'Satz' : 'Sätze'} — Deload-Woche`;
+    else if (atTop.length >= n && atTop.every(x => x.reps >= hi)) target = `<b>${fmtNum(topW + weightStep(ex.name))} kg</b> × ${lo} — Gewicht erhöhen, alle Sätze am oberen Ende geschafft`;
     else { const minR = Math.min(...atTop.map(x => x.reps)); target = `<b>${fmtNum(topW)} kg</b> × ${Math.min(hi, minR + 1)} in jedem Satz — zuletzt ${repsTxt}`; }
     rows.push(`<div class="nt-row"><div class="nt-n">${svgEsc(ex.name.split(' (')[0])}</div><div class="nt-t">${target}</div></div>`);
     if (prev) {   // Umgesetzt? Gewicht oder Volumen gegenüber dem Mal davor gesteigert
@@ -5569,6 +5669,261 @@ function renderLockSettings(){
 function trainedOn(date, store){
   try { if (workoutCandidates(date, store).length) return true; } catch(e) {}
   return loadSessions().some(s => s.date === date && s.durationMin >= 10);
+}
+
+// ================= 1. VERBRAUCH AUS ECHTEN DATEN (Energiebilanz) =================
+function weightSeries(){
+  let w = {}; try { w = JSON.parse(localStorage.getItem('cutplan_weight_v1') || '{}') || {}; } catch(e) {}
+  return Object.keys(w).filter(d => !isNaN(parseFloat(w[d]))).sort().map(d => ({ d, v: +w[d] }));
+}
+function weightSlope(start, end){
+  const ws = weightSeries().filter(x => x.d >= start && x.d <= end);
+  if (ws.length < 4) return null;
+  const t0 = new Date(ws[0].d + 'T12:00:00').getTime();
+  const xs = ws.map(p => (new Date(p.d + 'T12:00:00').getTime() - t0) / 864e5), ys = ws.map(p => p.v);
+  const span = xs[xs.length - 1]; if (span < 9) return null;
+  const n = xs.length, mx = xs.reduce((a, b) => a + b, 0) / n, my = ys.reduce((a, b) => a + b, 0) / n;
+  let num = 0, den = 0; xs.forEach((x, i) => { num += (x - mx) * (ys[i] - my); den += (x - mx) ** 2; });
+  return den ? { perDay: num / den, n, span: Math.round(span), last: ys[n - 1] } : null;
+}
+let _adCache = null;
+function adaptiveTDEE(endDate, days){
+  endDate = endDate || localDateStr(Date.now()); days = days || 21;
+  const key = endDate + '|' + days;
+  if (_adCache && _adCache.k === key && Date.now() - _adCache.t < 3000) return _adCache.v;
+  const start = addDays(endDate, -days + 1), res = { ok: false, days };
+  const sl = weightSlope(start, endDate);
+  const nut = loadNutrition();
+  const nd = Object.keys(nut).filter(d => d >= start && d <= endDate).map(d => dayTotals(d).kcal).filter(k => k >= 1000);
+  const need = Math.ceil(days * 0.6);
+  if (!sl) res.reason = `braucht mind. 4 Wiegungen über mind. 10 Tage im Zeitraum`;
+  else if (nd.length < need) res.reason = `braucht an mind. ${need} von ${days} Tagen vollständig eingetragene Ernährung (bisher ${nd.length})`;
+  else {
+    const avgK = nd.reduce((a, b) => a + b, 0) / nd.length;
+    const tdee = Math.round((avgK - sl.perDay * 7700) / 10) * 10;
+    if (tdee < 1500 || tdee > 5000) res.reason = 'Ergebnis unplausibel — vermutlich unvollständig eingetragene Tage';
+    else Object.assign(res, { ok: true, tdee, avgK: Math.round(avgK), slopeWeek: sl.perDay * 7, nN: nd.length, nW: sl.n, span: sl.span });
+  }
+  _adCache = { k: key, t: Date.now(), v: res };
+  return res;
+}
+// Kalorien-Empfehlung aus dem Gewichtstrend der letzten 14 Tage
+function kcalAdvice(){
+  const today = localDateStr(Date.now()), cfg = loadGoalCfg();
+  const goal = (cfg || GOAL_DEFAULTS).goal, rate = (cfg || GOAL_DEFAULTS).rate;
+  if (cfg && cfg.lastAdjust && (new Date(today) - new Date(cfg.lastAdjust)) / 864e5 < 10) return null;
+  const sl = weightSlope(addDays(today, -13), today); if (!sl) return null;
+  const wk = sl.perDay * 7, w = sl.last;
+  if (goal === 'cut') {
+    const target = -(rate / 100) * w;
+    if (wk > target * 0.4) return { delta: -150, wk, target, text: `Dein Gewicht ändert sich seit ${sl.span} Tagen kaum (${wk > 0 ? '+' : ''}${fmtNum(Math.round(wk * 100) / 100)} kg/Woche, Ziel ${fmtNum(Math.round(target * 100) / 100)} kg).` };
+    if (wk < target * 1.7) return { delta: 150, wk, target, text: `Du nimmst schneller ab als geplant (${fmtNum(Math.round(wk * 100) / 100)} kg/Woche, Ziel ${fmtNum(Math.round(target * 100) / 100)} kg). Das kostet Muskeln.` };
+  } else if (goal === 'bulk') {
+    if (wk < 0.05) return { delta: 150, wk, target: 0.2, text: `Dein Gewicht steigt kaum (${fmtNum(Math.round(wk * 100) / 100)} kg/Woche).` };
+    if (wk > 0.4) return { delta: -150, wk, target: 0.2, text: `Du nimmst schneller zu als sinnvoll (${fmtNum(Math.round(wk * 100) / 100)} kg/Woche) — vor allem Fett.` };
+  }
+  return null;
+}
+function applyKcalAdjust(delta){
+  const today = localDateStr(Date.now());
+  let cfg = loadGoalCfg();
+  if (!cfg) {   // noch keine eigenen Ziele: Wochenschnitt des bisherigen Plans als Ausgangspunkt
+    const ds = data.days || [], avg = k => Math.round(ds.reduce((a, d) => a + (d[k] || 0), 0) / Math.max(1, ds.length));
+    cfg = Object.assign({}, GOAL_DEFAULTS, { mode: 'manual', p: avg('p'), c: avg('c'), f: avg('f') });
+    cfg.kcal = cfg.p * 4 + cfg.c * 4 + cfg.f * 9;
+  }
+  if (cfg.mode === 'manual') { cfg.c = Math.max(50, Math.round(cfg.c + delta / 4)); cfg.kcal = cfg.p * 4 + cfg.c * 4 + cfg.f * 9; }
+  else cfg.adjust = (cfg.adjust || 0) + delta;
+  cfg.lastAdjust = today; saveGoalCfg(cfg);
+  try { renderInsights(); } catch(e) {} try { renderWeekReport(); } catch(e) {}
+}
+
+// ================= 2. IMPORT AUS APPLE HEALTH (Kurzbefehl → Zwischenablage) =================
+function parseNumDE(s, intLike){
+  s = String(s || '').replace(/[^\d.,-]/g, ''); if (!s) return NaN;
+  if (intLike) return parseInt(s.replace(/[.,]/g, ''), 10);
+  if (s.includes(',') && s.includes('.')) s = s.replace(/\./g, '').replace(',', '.'); else s = s.replace(',', '.');
+  return parseFloat(s);
+}
+function parseHealthPayload(text){
+  const t = String(text || ''); if (!/CUTPLAN/i.test(t)) return null;
+  const out = {};
+  t.split(/[;&\n|]/).forEach(part => {
+    const m = part.match(/^\s*([a-zA-Z]+)\s*[=:]\s*(.+)\s*$/); if (!m) return;
+    const k = m[1].toLowerCase(), v = m[2].trim();
+    if (k === 'd' && /^\d{4}-\d{2}-\d{2}$/.test(v)) out.d = v;
+    else if (k === 'steps') { const n = parseNumDE(v, true); if (n >= 0 && n < 100000) out.steps = n; }
+    else if (k === 'sleep') { let h = parseNumDE(v); if (h > 3600) h /= 3600; else if (h > 16) h /= 60; if (h > 0 && h <= 16) out.sleep = Math.round(h * 10) / 10; }
+    else if (['w', 'bf', 'lean', 'muscle', 'hr', 'water', 'bone', 'visceral'].includes(k)) {
+      let n = parseNumDE(v); if (k === 'bf' && n > 0 && n <= 1) n *= 100; if (k === 'water' && n > 0 && n <= 1) n *= 100;
+      if (!isNaN(n) && n > 0) out[k] = Math.round(n * 10) / 10;
+    }
+  });
+  return Object.keys(out).filter(k => k !== 'd').length ? out : null;
+}
+function applyHealthPayload(p, fallbackDate){
+  const d = p.d || fallbackDate || localDateStr(Date.now()), done = [];
+  const put = (key, fn) => { let o = {}; try { o = JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch(e) {} fn(o); localStorage.setItem(key, JSON.stringify(o)); };
+  if (p.steps !== undefined) { put('cutplan_steps_v1', o => { o[d] = p.steps; }); done.push(`Schritte ${p.steps.toLocaleString('de-DE')}`); }
+  if (p.sleep !== undefined) { put('cutplan_sleep_v1', o => { o[d] = Object.assign({}, o[d] || {}, { h: p.sleep }); }); done.push(`Schlaf ${fmtNum(p.sleep)} h`); }
+  [['w','Gewicht','kg'],['bf','Körperfett','%'],['lean','Fettfreie Masse','kg'],['muscle','Muskelmasse','kg'],['water','Wasser','%'],['bone','Knochen','kg'],['visceral','Viszeralfett',''],['hr','Puls','bpm']]
+    .forEach(([k, l, u]) => { if (p[k] !== undefined) { saveBodyField(d, k, p[k]); done.push(`${l} ${fmtNum(p[k])}${u ? ' ' + u : ''}`); } });
+  return { d, done };
+}
+async function importFromClipboard(){
+  const msg = document.getElementById('quickMsg');
+  const day = (typeof cockpitDate !== 'undefined' && cockpitDate) || localDateStr(Date.now());
+  const handle = text => {
+    const p = parseHealthPayload(text);
+    if (!p) { msg.innerHTML = 'In der Zwischenablage stehen keine Cut-Plan-Daten. Erst den Kurzbefehl ausführen (Anleitung: Mehr → Design &amp; Daten).'; msg.className = 'quick-msg c-down'; return; }
+    const r = applyHealthPayload(p, day);
+    renderHeute();
+    const m2 = document.getElementById('quickMsg'); if (m2) { m2.textContent = `✓ Übernommen für ${dayLabel(r.d)}: ${r.done.join(' · ')}`; m2.className = 'quick-msg c-up'; }
+  };
+  try { const text = await navigator.clipboard.readText(); handle(text); }
+  catch(e) {
+    const box = document.getElementById('pasteBox'); if (box) { box.style.display = 'block'; const ta = box.querySelector('textarea'); ta.value = ''; ta.focus(); }
+    msg.textContent = 'Zugriff auf die Zwischenablage nicht erlaubt — Text unten lang drücken und „Einsetzen".'; msg.className = 'quick-msg';
+  }
+}
+function healthShortcutGuide(){
+  const tpl = 'CUTPLAN;steps=[Schritte];sleep=[Schlaf];w=[Gewicht];bf=[Körperfett];lean=[Magere Körpermasse]';
+  return `<div class="ana-note" style="margin-top:0">Ein iPhone-Kurzbefehl liest jeden Abend deine Werte aus Apple Health (Withings synchronisiert dorthin) und legt sie in die Zwischenablage. Du öffnest die App und tippst im Cockpit auf <b>„Aus Apple Health einfügen"</b>.</div>
+    <ol class="sc-steps">
+      <li>App <b>Kurzbefehle</b> → <b>+</b> → Name „Cut Plan Export".</li>
+      <li>Aktion <b>Health-Samples suchen</b>: Typ <i>Schritte</i>, Startdatum <i>ist heute</i>. Danach <b>Statistiken berechnen</b> → <i>Summe</i>.</li>
+      <li>Aktion <b>Health-Samples suchen</b>: Typ <i>Schlafanalyse</i>, Startdatum <i>in den letzten 1 Tagen</i>, Wert <i>ist Schlafend</i> (Kern, Tief, REM). Danach <b>Details von Health-Samples abrufen</b> → <i>Dauer</i>, dann <b>Statistiken berechnen</b> → <i>Summe</i>. Sekunden, Minuten oder Stunden erkennt die App selbst.</li>
+      <li>Je einmal <b>Health-Samples suchen</b> für <i>Gewicht</i>, <i>Körperfettanteil</i> und <i>Magere Körpermasse</i>: sortiert nach Startdatum, neueste zuerst, Limit 1.</li>
+      <li>Aktion <b>Text</b> mit genau diesem Aufbau — die eckigen Klammern durch die Ergebnisse der Aktionen ersetzen (antippen → Variable wählen):
+        <div class="sc-tpl" id="scTpl">${tpl}</div><button class="gs-sec-btn" id="scCopy">Vorlage kopieren</button></li>
+      <li><b>In Zwischenablage kopieren</b>, dann <b>Mitteilung anzeigen</b>: „Daten bereit — Cut Plan öffnen".</li>
+      <li>Reiter <b>Automation</b> → <b>Neue Automation</b> → <b>Tageszeit</b> 21:30, täglich → <b>Sofort ausführen</b> → Kurzbefehl „Cut Plan Export".</li>
+    </ol>
+    <div class="ana-note">Fehlt ein Wert (z. B. an einem Tag ohne Wiegen), lässt die App ihn einfach aus. Werte für einen anderen Tag: im Cockpit erst den Tag antippen, dann einfügen — oder im Text <b>d=2026-10-03</b> ergänzen.</div>`;
+}
+
+// ================= 3. DELOAD-ERKENNUNG =================
+const DELOAD_KEY = 'cutplan_deload_v1';
+function deloadCfg(){ try { return JSON.parse(localStorage.getItem(DELOAD_KEY) || '{}') || {}; } catch(e) { return {}; } }
+function weeklyVolumes(){
+  const all = collectAllExercises(), wv = {};
+  Object.keys(all).forEach(n => { if (kindForExercise(n, all[n]) !== 'reps') return;
+    buildSessions(all[n], 'reps', n).forEach(s => { const w = mondayOf(s.date); wv[w] = (wv[w] || 0) + s.volume; }); });
+  return wv;
+}
+function deloadActive(){ const c = deloadCfg(); const mon = mondayOf(localDateStr(Date.now())); return !!(c.start && c.start === mon); }
+function deloadCheck(){
+  const today = localDateStr(Date.now()), mon = mondayOf(today), c = deloadCfg();
+  if (deloadActive()) return { active: true };
+  const reasons = [];
+  const pd = Object.keys(performanceByDate()).sort();
+  const firstTrain = (() => { const d = Object.keys(weeklyVolumes()).sort(); return d[0]; })();
+  const since = c.start || firstTrain;
+  const weeks = since ? Math.floor((new Date(mon) - new Date(since)) / (7 * 864e5)) : 0;
+  const wv = weeklyVolumes(), full = Object.keys(wv).sort().filter(w => w < mon).slice(-3);
+  if (full.length === 3) { const [a, b, x] = full.map(w => wv[w]); if (b < a * 0.97 && x < b * 0.97) reasons.push(`Wochenvolumen zwei Wochen in Folge gesunken (${fmtVolume(a)} → ${fmtVolume(b)} → ${fmtVolume(x)})`); }
+  const perf = performanceByDate(), last4 = pd.slice(-4).map(d => perf[d].pi);
+  if (last4.length >= 3) { const m = last4.reduce((a, b) => a + b, 0) / last4.length; if (m < -4) reasons.push(`Leistung der letzten ${last4.length} Trainings im Schnitt ${fmtPct(m)} unter deinem Niveau`); }
+  const ci = loadCheckins(), last7 = Object.keys(ci).filter(d => d > addDays(today, -7)).map(d => ci[d]);
+  const avg = k => { const v = last7.filter(x => x[k]).map(x => x[k]); return v.length >= 3 ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+  const lu = avg('lust'), so = avg('sore'), en = avg('energy');
+  if (lu !== null && lu <= 2.5) reasons.push(`Lust auf Training im Schnitt nur ${fmtNum(Math.round(lu * 10) / 10)} von 5`);
+  if (so !== null && so >= 3.5) reasons.push(`anhaltender Muskelkater (Ø ${fmtNum(Math.round(so * 10) / 10)} von 5)`);
+  if (en !== null && en <= 2.5) reasons.push(`wenig Energie (Ø ${fmtNum(Math.round(en * 10) / 10)} von 5)`);
+  const due = weeks >= 5;
+  const recommend = reasons.length >= 2 || (due && reasons.length >= 1) || weeks >= 8;
+  return { active: false, recommend, reasons, weeks, due };
+}
+function startDeload(){
+  const c = deloadCfg(); c.start = mondayOf(localDateStr(Date.now())); c.history = (c.history || []).concat([c.start]);
+  localStorage.setItem(DELOAD_KEY, JSON.stringify(c));
+  try { renderInsights(); } catch(e) {} try { renderWeekReport(); } catch(e) {}
+}
+function deloadCardHTML(){
+  const dc = deloadCheck();
+  if (dc.active) return `<div class="ins ins-info"><div class="ins-ic">🧘</div><div class="ins-b"><div class="ins-t">Deload-Woche läuft</div>
+    <div class="ins-s">Gleiche Übungen, etwa 60 % deiner üblichen Gewichte, je Übung ein Satz weniger, Fokus auf saubere Technik. Ab Montag geht es normal weiter — meist mit spürbar mehr Kraft.</div></div></div>`;
+  if (!dc.recommend) return dc.weeks ? `<div class="ins ins-up"><div class="ins-ic">🔋</div><div class="ins-b"><div class="ins-t">Erholung im grünen Bereich</div>
+    <div class="ins-s">${dc.weeks} ${dc.weeks === 1 ? 'Woche' : 'Wochen'} seit ${deloadCfg().start ? 'der letzten Deload-Woche' : 'Trainingsbeginn'}. Kein Signal für Überlastung. Planmäßig ist eine Deload-Woche alle 5–6 Wochen sinnvoll.</div></div></div>` : '';
+  return `<div class="ins ins-down"><div class="ins-ic">🧘</div><div class="ins-b"><div class="ins-t">Deload-Woche empfohlen</div>
+    <div class="ins-s">${dc.reasons.length ? dc.reasons.join(' · ') + '. ' : ''}${dc.weeks} Wochen ohne Entlastung. Eine Woche mit ~60 % Gewicht und einem Satz weniger lässt Sehnen und Nervensystem nachziehen — danach steigen die Werte meist schneller.</div>
+    <button class="ins-btn" onclick="startDeload()">Deload-Woche jetzt starten</button></div></div>`;
+}
+function kcalAdviceHTML(){
+  const a = kcalAdvice(); if (!a) return '';
+  return `<div class="ins ins-down"><div class="ins-ic">🍽</div><div class="ins-b"><div class="ins-t">Kalorienziel anpassen: ${a.delta > 0 ? '+' : ''}${a.delta} kcal</div>
+    <div class="ins-s">${a.text} ${a.delta < 0 ? 'Vorschlag: 150 kcal weniger, am einfachsten über Kohlenhydrate.' : 'Vorschlag: 150 kcal mehr über Kohlenhydrate.'} Voraussetzung: Deine Ernährung ist vollständig eingetragen — sonst stimmt die Bilanz nicht.</div>
+    <button class="ins-btn" onclick="applyKcalAdjust(${a.delta})">Übernehmen</button></div></div>`;
+}
+
+// ================= 4. WOCHENBERICHT =================
+let reportWeekOff = 0;
+function renderWeekReport(){
+  const el = document.getElementById('weekReport'); if (!el) return;
+  const real = localDateStr(Date.now());
+  if (reportWeekOff > 0) reportWeekOff = 0;
+  const mon = mondayOf(addDays(real, reportWeekOff * 7)), sun = addDays(mon, 6), ref = sun < real ? sun : real;
+  const pmon = addDays(mon, -7), psun = addDays(mon, -1);
+  const wv = weeklyVolumes(), vol = wv[mon] || 0, pvol = wv[pmon] || 0;
+  const ses = loadSessionsLive().filter(s => s.date >= mon && s.date <= sun);
+  const pst = loadProgress(); let trDays = 0; for (let i = 0; i < 7; i++) { const d = addDays(mon, i); if (d <= real && trainedOn(d, pst)) trDays++; }
+  const wkst = weekWorkoutStatus(ref), nW = Object.keys(wkst.done).length;
+  // Bestwerte in dieser Woche
+  let prs = 0; const all = collectAllExercises();
+  Object.keys(all).forEach(n => { if (kindForExercise(n, all[n]) !== 'reps') return;
+    const ss = buildSessions(all[n], 'reps', n).filter(s => s.volume > 0);
+    ss.forEach((s, i) => { if (s.date >= mon && s.date <= sun && i > 0 && s.volume > Math.max(...ss.slice(0, i).map(x => x.volume))) prs++; }); });
+  const bodyAt = (from, to, key) => { const b = loadBody(); let w = {}; try { w = JSON.parse(localStorage.getItem('cutplan_weight_v1') || '{}') || {}; } catch(e) {}
+    const ds = [...new Set([...Object.keys(b), ...(key === 'w' ? Object.keys(w) : [])])].filter(d => d >= from && d <= to).sort();
+    const vals = ds.map(d => key === 'w' ? ((b[d] && b[d].w !== undefined) ? b[d].w : w[d]) : (b[d] || {})[key]).filter(v => v !== undefined && v !== null && v !== '');
+    return vals.length ? { first: +vals[0], last: +vals[vals.length - 1], n: vals.length } : null; };
+  const bw = bodyAt(mon, sun, 'w'), bbf = bodyAt(mon, sun, 'bf'), bmu = bodyAt(mon, sun, 'muscle');
+  const ci = loadCheckins(), cw = Object.keys(ci).filter(d => d >= mon && d <= sun).map(d => ci[d]);
+  const cavg = k => { const v = cw.filter(x => x[k]).map(x => x[k]); return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length * 10) / 10 : null; };
+  const dur = ses.length ? Math.round(ses.reduce((a, s) => a + s.durationMin, 0) / ses.length) : null;
+  const vp = pctChange(vol, pvol);
+  const delta = (x, unit, goodNeg) => x && x.n >= 2 ? (() => { const d = Math.round((x.last - x.first) * 10) / 10; return `<b class="${(goodNeg ? d <= 0 : d >= 0) ? 'c-up' : 'c-down'}">${d > 0 ? '+' : ''}${fmtNum(d)} ${unit}</b>`; })() : '–';
+
+  // Empfehlungen für die neue Woche
+  const recs = [];
+  const dc = deloadCheck(); if (dc.recommend && !dc.active) recs.push(['🧘', 'Deload-Woche einplanen', dc.reasons[0] || `${dc.weeks} Wochen ohne Entlastung`]);
+  const ka = kcalAdvice(); if (ka) recs.push(['🍽', `Kalorienziel ${ka.delta > 0 ? '+' : ''}${ka.delta} kcal`, ka.text]);
+  let steps = {}, sleep = {}; try { steps = JSON.parse(localStorage.getItem('cutplan_steps_v1') || '{}') || {}; } catch(e) {}
+  try { sleep = JSON.parse(localStorage.getItem('cutplan_sleep_v1') || '{}') || {}; } catch(e) {}
+  const days = []; for (let i = 0; i < 7; i++) { const d = addDays(mon, i); if (d <= real) days.push(d); }
+  const st = days.filter(d => steps[d]).map(d => +steps[d]); const stAvg = st.length ? st.reduce((a, b) => a + b, 0) / st.length : null;
+  if (stAvg !== null && stAvg < 11000) recs.push(['🚶', `Schritte: +${Math.round((12000 - stAvg) / 100) * 100} pro Tag`, `Ø ${Math.round(stAvg).toLocaleString('de-DE')} — Schritte waren in deiner erfolgreichsten Phase der stärkste Hebel. Zwei Spaziergänge à 15 min nach dem Essen reichen.`]);
+  const sl = days.filter(d => sleep[d] && sleep[d].h).map(d => +sleep[d].h); const slAvg = sl.length ? sl.reduce((a, b) => a + b, 0) / sl.length : null;
+  if (slAvg !== null && slAvg < 6.8) recs.push(['😴', 'Schlaf: 30 min früher ins Bett', `Ø ${fmtNum(Math.round(slAvg * 10) / 10)} h. Unter 7 h leiden Regeneration und Muskelerhalt im Defizit messbar.`]);
+  const nut = loadNutrition(), nd = days.filter(d => nut[d] && dayTotals(d).kcal > 800);
+  const pAvg = nd.length ? nd.reduce((a, d) => a + dayTotals(d).p, 0) / nd.length : null, pGoal = goalsForDate(ref).p;
+  if (pAvg !== null && pAvg < pGoal * 0.9) recs.push(['🥩', `Eiweiß: +${Math.round(pGoal - pAvg)} g pro Tag`, `Ø ${Math.round(pAvg)} g statt ${pGoal} g — ein Shake oder ein Skyr schließt die Lücke.`]);
+  if (nd.length < Math.min(days.length, 7) * 0.7) recs.push(['📝', 'Ernährung vollständiger eintragen', `${nd.length} von ${days.length} Tagen eingetragen. Ohne vollständige Tage kann die App deinen Verbrauch nicht berechnen.`]);
+  if (nW < Math.min(7, days.length) - 2) recs.push(['🏋', 'Trainings nachholen', `${nW} von 7 Trainings erledigt. Die offenen findest du im Cockpit und im Training-Tab.`]);
+
+  el.innerHTML = `
+    <div class="wr-head"><button class="mw-nav" id="wrPrev">‹</button><div><b>KW ${isoWeek(mon)}</b><span>${fmtDate(mon)} – ${fmtDate(sun)}${sun > real ? ' · läuft noch' : ''}</span></div>
+      <button class="mw-nav" id="wrNext" ${reportWeekOff ? '' : 'disabled'}>›</button></div>
+    <div class="card accent"><div class="card-title">Für die neue Woche</div>
+      ${recs.length ? recs.map(([ic, t, s]) => `<div class="wr-rec"><span>${ic}</span><div><b>${t}</b><small>${s}</small></div></div>`).join('') : '<div class="ana-note" style="margin:0">Alles im Plan — weiter so. Halte Ernährung, Schritte und Schlaf auf diesem Niveau.</div>'}
+      ${ka ? `<button class="ins-btn" onclick="applyKcalAdjust(${ka.delta})">Kalorienziel ${ka.delta > 0 ? '+' : ''}${ka.delta} kcal übernehmen</button>` : ''}
+      ${dc.recommend && !dc.active ? `<button class="ins-btn" onclick="startDeload()">Deload-Woche starten</button>` : ''}
+    </div>
+    <div class="card"><div class="card-title">Training</div><div class="ana-kpis">
+      ${kpi('Trainingstage', trDays, nW + ' von 7 Trainings erledigt')}
+      ${kpi('Volumen', fmtVolume(vol), vp === null ? 'Vorwoche ' + (pvol ? fmtVolume(pvol) : '–') : fmtPct(vp) + ' zur Vorwoche', pctClass(vp))}
+      ${kpi('Neue Bestwerte', prs, prs ? 'Volumen-Rekorde je Übung' : 'diese Woche keine')}
+      ${kpi('Ø Dauer', dur ? fmtMin(dur) : '–', ses.length + ' gemessene Trainings')}
+    </div></div>
+    ${weekBalanceHTML(ref)}
+    <div class="card"><div class="card-title">Körper & Befinden</div><div class="ana-kpis">
+      ${kpi('Gewicht', bw ? fmtNum(bw.last) + ' kg' : '–', 'Woche: ' + delta(bw, 'kg', (loadGoalCfg() || GOAL_DEFAULTS).goal === 'cut'))}
+      ${kpi('Körperfett', bbf ? fmtNum(bbf.last) + ' %' : '–', 'Woche: ' + delta(bbf, '%', true))}
+      ${kpi('Muskelmasse', bmu ? fmtNum(bmu.last) + ' kg' : '–', 'Woche: ' + delta(bmu, 'kg', false))}
+      ${kpi('Ø Lust · Energie · Stress', [cavg('lust'), cavg('energy'), cavg('stress')].map(v => v === null ? '–' : fmtNum(v)).join(' · '), cw.length + ' Check-ins')}
+    </div></div>`;
+  document.getElementById('wrPrev').onclick = () => { reportWeekOff--; renderWeekReport(); };
+  document.getElementById('wrNext').onclick = () => { if (reportWeekOff < 0) { reportWeekOff++; renderWeekReport(); } };
 }
 
 refreshProgressSafeCopy();
@@ -6067,8 +6422,18 @@ function renderNutToday(){
   dateInput.value = currentNutDate;
   if (!dateInput.dataset.bound) {
     dateInput.dataset.bound = '1';
-    dateInput.onchange = () => { currentNutDate = dateInput.value; renderNutToday(); };
+    dateInput.onchange = () => { if (!dateInput.value) return; try { selectDay(dateInput.value); } catch(e) { currentNutDate = dateInput.value; } renderNutToday(); };
   }
+  // Tagesleiste: ‹ Tag ›  — wie bei Yazio
+  let dn = document.getElementById('nutDayNav');
+  if (!dn) { dn = document.createElement('div'); dn.id = 'nutDayNav'; dn.className = 'nut-daynav';
+    const card = dateInput.closest('.card'); card.parentNode.insertBefore(dn, card); }
+  const realT = localDateStr(Date.now());
+  dn.innerHTML = `<button id="ndPrev" aria-label="Vortag">‹</button><div><b>${dayLabel(currentNutDate).replace(/^./, c => c.toUpperCase())}</b>${currentNutDate !== realT ? `<button id="ndToday">Heute</button>` : ''}</div><button id="ndNext" aria-label="Folgetag" ${currentNutDate >= realT ? 'disabled' : ''}>›</button>`;
+  const go = d => { try { selectDay(d); } catch(e) { currentNutDate = d; } renderNutToday(); };
+  document.getElementById('ndPrev').onclick = () => go(addDays(currentNutDate, -1));
+  document.getElementById('ndNext').onclick = () => { if (currentNutDate < realT) go(addDays(currentNutDate, 1)); };
+  const ndt = document.getElementById('ndToday'); if (ndt) ndt.onclick = () => go(realT);
 
   const goals = goalsForDate(currentNutDate);
   const tot = dayTotals(currentNutDate);
