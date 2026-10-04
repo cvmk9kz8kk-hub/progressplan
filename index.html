@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<script>(function(){try{var t=localStorage.getItem('cutplan_theme_v1')||'sand';document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','sand');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('cutplan_theme_v1');if(!localStorage.getItem('cutplan_theme_mig14')){t='performance';localStorage.setItem('cutplan_theme_v1',t);localStorage.setItem('cutplan_theme_mig14','1');}document.documentElement.setAttribute('data-theme',t||'performance');}catch(e){document.documentElement.setAttribute('data-theme','performance');}})();</script>
 
 <meta charset="UTF-8">
 <link rel="manifest" href="manifest.json">
@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<script>(function(){try{var t=localStorage.getItem('cutplan_theme_v1')||'sand';var dark=(t==='walnuss'||t==='graphit'||t==='original'||(t==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches));var m=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');if(m)m.setAttribute('content',dark?'black-translucent':'default');}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('cutplan_theme_v1')||'performance';var dark=(t==='performance'||t==='walnuss'||t==='graphit'||t==='original'||(t==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches));var m=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');if(m)m.setAttribute('content',dark?'black-translucent':'default');}catch(e){}})();</script>
 <meta name="apple-mobile-web-app-title" content="Cut Plan">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -62,13 +62,13 @@
 
   .day-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:2px;}
   .day-name{ font-weight:800; font-size:18.5px; }
-  .day-kcal{ font-family:ui-monospace,monospace; font-weight:700; font-size:18.5px; color:var(--lime); }
+  .day-kcal{ font-family:var(--num-font); font-weight:700; font-size:18.5px; color:var(--lime); }
   .day-type{ font-size:13.5px; color:var(--ink-dim); margin-bottom:12px; }
   .day-type b{ color:var(--ink); }
   .macro-row{ display:flex; gap:8px; margin-bottom:8px; }
   .macro-pill{ flex:1; background:var(--bg2); border-radius:10px; padding:8px 10px; display:flex; flex-direction:column; gap:2px;}
   .macro-pill .label{ font-size:11.5px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.06em;}
-  .macro-pill .val{ font-family:ui-monospace,monospace; font-weight:700; font-size:16px; }
+  .macro-pill .val{ font-family:var(--num-font); font-weight:700; font-size:16px; }
   .macro-pill.p .val{ color:var(--protein); } .macro-pill.c .val{ color:var(--carb); } .macro-pill.f .val{ color:var(--fat); }
   .macro-pill.s .val{ color:var(--steps); }
   .bar{ height:6px; border-radius:4px; background:var(--bg2); overflow:hidden; display:flex; margin-top:2px;}
@@ -88,10 +88,10 @@
 
   .meal{ display:flex; gap:12px; padding:14px 0; border-bottom:1px solid var(--line); }
   .meal:last-child{ border-bottom:none; }
-  .meal-time{ flex:0 0 68px; font-family:ui-monospace,monospace; font-size:13px; color:var(--lime); font-weight:700; padding-top:2px; }
+  .meal-time{ flex:0 0 68px; font-family:var(--num-font); font-size:13px; color:var(--lime); font-weight:700; padding-top:2px; }
   .meal-body{ flex:1; }
   .meal-name{ font-weight:700; font-size:16px; margin-bottom:3px; }
-  .meal-macros{ display:flex; gap:10px; font-family:ui-monospace,monospace; font-size:13px; margin-bottom:6px; }
+  .meal-macros{ display:flex; gap:10px; font-family:var(--num-font); font-size:13px; margin-bottom:6px; }
   .meal-macros .p{ color:var(--protein); } .meal-macros .c{ color:var(--carb); } .meal-macros .f{ color:var(--fat); }
   .meal-note{ font-size:14px; color:var(--ink-dim); line-height:1.45; }
   .meal-sum{ display:flex; justify-content:space-between; padding:14px 2px 4px; font-weight:700; }
@@ -107,7 +107,7 @@
   .supp.moderat{ border-left:3px solid var(--amber); }
   .supp.nein{ border-left:3px solid #555; opacity:.65; }
   .supp-top{ display:flex; justify-content:space-between; font-weight:700; font-size:15.5px; }
-  .supp-dose{ font-family:ui-monospace,monospace; font-size:13.5px; color:var(--ink-dim); }
+  .supp-dose{ font-family:var(--num-font); font-size:13.5px; color:var(--ink-dim); }
   .supp-time{ font-size:13px; color:var(--ink-dim); margin-top:4px; }
   .supp-why{ font-size:14px; color:var(--ink); margin-top:6px; line-height:1.4; }
   .supp.optional{ border-left:3px solid #5CC8FF; }
@@ -127,7 +127,7 @@
 
   .kpi-row{ display:flex; flex-wrap:wrap; justify-content:space-between; padding:13px 2px; border-bottom:1px solid var(--line); gap:4px 12px; }
   .kpi-label{ font-size:14.5px; color:var(--ink-dim); flex:1.3; }
-  .kpi-val{ font-family:ui-monospace,monospace; font-weight:700; font-size:15.5px; text-align:right; flex:1; }
+  .kpi-val{ font-family:var(--num-font); font-weight:700; font-size:15.5px; text-align:right; flex:1; }
   .kpi-note{ font-size:12.5px; color:var(--ink-dim); flex-basis:100%; margin-top:2px; }
 
   .prog-label{ display:block; font-size:12px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
@@ -146,7 +146,7 @@
   }
   .prog-hist-row:last-child{ border-bottom:none; }
   .prog-hist-date{ color:var(--ink-dim); }
-  .prog-hist-val{ font-family:ui-monospace,monospace; font-weight:700; }
+  .prog-hist-val{ font-family:var(--num-font); font-weight:700; }
   .prog-del{ color:var(--clay); font-size:12px; font-weight:700; }
   .qcard{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 15px; margin-bottom:10px; }
   .qcard-name{ font-weight:700; font-size:15px; margin-bottom:2px; }
@@ -161,7 +161,7 @@
   .set-idx{ flex:0 0 20px; font-size:13px; color:var(--ink-dim); font-weight:700; text-align:center; }
   .set-input{
     flex:1; min-width:0; background:var(--bg2); border:1px solid var(--line); border-radius:9px;
-    padding:9px 10px; color:var(--ink); font-size:15px; font-family:ui-monospace,monospace; text-align:center;
+    padding:9px 10px; color:var(--ink); font-size:15px; font-family:var(--num-font); text-align:center;
   }
   .set-input:focus{ outline:none; border-color:var(--lime); }
   .set-x{ color:var(--ink-dim); font-size:13px; }
@@ -175,7 +175,7 @@
   .nut-res:last-child{ border-bottom:none; }
   .nut-res-body{ flex:1; min-width:0; }
   .nut-res-name{ font-size:14.5px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .nut-res-macros{ font-size:12px; color:var(--ink-dim); font-family:ui-monospace,monospace; margin-top:2px; }
+  .nut-res-macros{ font-size:12px; color:var(--ink-dim); font-family:var(--num-font); margin-top:2px; }
   .nut-res-add{ flex:0 0 auto; background:var(--lime); color:var(--acc-ink); border:none; border-radius:8px; padding:8px 12px; font-weight:800; font-size:14px; }
   .nut-src{ font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; padding:2px 6px; border-radius:5px; margin-left:6px; }
   .nut-src.local{ background:rgba(111,227,166,0.16); color:var(--steps); }
@@ -184,13 +184,13 @@
   .meal-block{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 15px; margin-bottom:10px; }
   .meal-block-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
   .meal-block-name{ font-weight:800; font-size:15px; }
-  .meal-block-kcal{ font-family:ui-monospace,monospace; color:var(--lime); font-weight:700; font-size:14px; }
+  .meal-block-kcal{ font-family:var(--num-font); color:var(--lime); font-weight:700; font-size:14px; }
   .food-row{ display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--line); }
   .food-row:last-child{ border-bottom:none; }
   .food-info{ flex:1; min-width:0; }
   .food-name{ font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .food-macros{ font-size:11.5px; color:var(--ink-dim); font-family:ui-monospace,monospace; }
-  .food-amt{ width:64px; background:var(--bg2); border:1px solid var(--line); border-radius:7px; padding:6px; color:var(--ink); font-size:13.5px; text-align:center; font-family:ui-monospace,monospace; }
+  .food-macros{ font-size:11.5px; color:var(--ink-dim); font-family:var(--num-font); }
+  .food-amt{ width:64px; background:var(--bg2); border:1px solid var(--line); border-radius:7px; padding:6px; color:var(--ink); font-size:13.5px; text-align:center; font-family:var(--num-font); }
   .food-del{ color:var(--clay); font-size:15px; font-weight:700; padding:0 3px; }
   .meal-empty{ font-size:12.5px; color:var(--ink-dim); font-style:italic; }
   .cf-row{ display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--line); font-size:13.5px; }
@@ -202,9 +202,9 @@
   .nut-panel.open{ display:block; }
   .np-label{ font-size:11.5px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
   .np-presets{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
-  .np-chip{ background:var(--bg2); border:1px solid var(--line); border-radius:8px; padding:8px 11px; color:var(--ink-dim); font-size:14px; font-weight:700; font-family:ui-monospace,monospace; }
+  .np-chip{ background:var(--bg2); border:1px solid var(--line); border-radius:8px; padding:8px 11px; color:var(--ink-dim); font-size:14px; font-weight:700; font-family:var(--num-font); }
   .np-chip.on{ background:var(--lime); color:var(--acc-ink); border-color:var(--lime); }
-  .np-amt{ width:70px; background:var(--bg2); border:1px solid var(--line); border-radius:8px; padding:8px; color:var(--ink); font-size:14px; text-align:center; font-family:ui-monospace,monospace; }
+  .np-amt{ width:70px; background:var(--bg2); border:1px solid var(--line); border-radius:8px; padding:8px; color:var(--ink); font-size:14px; text-align:center; font-family:var(--num-font); }
   .np-amt:focus{ outline:none; border-color:var(--lime); }
   .np-unit{ font-size:13px; color:var(--ink-dim); }
   .np-slots{ display:flex; gap:6px; flex-wrap:wrap; }
@@ -232,15 +232,15 @@
   .hl-goalbar span{ display:block; height:100%; background:var(--sleep); transition:width .3s; }
   .st-row{ display:flex; justify-content:space-between; padding:11px 2px; border-bottom:1px solid var(--line); font-size:14px; }
   .st-row:last-child{ border-bottom:none; }
-  .st-row b{ font-family:ui-monospace,monospace; }
-  textarea.prog-input{ font-family:ui-monospace,monospace; font-size:13px; resize:vertical; }
+  .st-row b{ font-family:var(--num-font); }
+  textarea.prog-input{ font-family:var(--num-font); font-size:13px; resize:vertical; }
   .dash-today{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px; }
   .dash-cell{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 6px; text-align:center; }
   .dash-ico{ width:28px; height:28px; border-radius:9px; margin:0 auto 7px; display:flex; align-items:center; justify-content:center; font-size:15px; }
   .dash-val{ font-size:17.5px; font-weight:800; line-height:1.1; }
   .dash-lbl{ font-size:10.5px; color:var(--ink-dim); margin-top:3px; }
   .goal-line{ display:flex; justify-content:space-between; align-items:baseline; font-size:13.5px; margin-bottom:5px; }
-  .goal-line b{ font-family:ui-monospace,monospace; }
+  .goal-line b{ font-family:var(--num-font); }
   .subnav{ display:flex; gap:6px; overflow-x:auto; padding:0 0 12px; scrollbar-width:none; }
   .subnav::-webkit-scrollbar{ display:none; }
   .subnav-btn{ flex:0 0 auto; padding:7px 13px; border-radius:999px; border:1px solid var(--line);
@@ -248,15 +248,15 @@
   .subnav-btn.active{ background:var(--card); color:var(--lime); border-color:var(--lime); }
   .imp-err{ background:rgba(224,114,74,0.12); border:1px solid var(--clay); color:var(--clay);
     border-radius:11px; padding:12px; margin-top:12px; font-weight:700; font-size:14px; line-height:1.5; }
-  .imp-snip{ display:block; font-family:ui-monospace,monospace; font-size:11.5px; color:var(--ink-dim); font-weight:400; margin-top:6px; word-break:break-all; }
+  .imp-snip{ display:block; font-family:var(--num-font); font-size:11.5px; color:var(--ink-dim); font-weight:400; margin-top:6px; word-break:break-all; }
   .imp-ok{ background:rgba(111,227,166,0.14); border:1px solid var(--steps); color:var(--steps);
     border-radius:11px; padding:12px; margin-top:12px; text-align:center; font-weight:700; font-size:14.5px; line-height:1.5; }
   .chart-fallback{ font-size:13px; }
   .cf-bar{ display:flex; align-items:center; gap:8px; padding:5px 0; }
-  .cf-bar-label{ flex:0 0 46px; font-size:11.5px; color:var(--ink-dim); font-family:ui-monospace,monospace; }
+  .cf-bar-label{ flex:0 0 46px; font-size:11.5px; color:var(--ink-dim); font-family:var(--num-font); }
   .cf-bar-track{ flex:1; height:14px; background:var(--bg2); border-radius:4px; overflow:hidden; }
   .cf-bar-fill{ height:100%; border-radius:4px; }
-  .cf-bar-val{ flex:0 0 52px; text-align:right; font-size:12px; font-family:ui-monospace,monospace; color:var(--ink); }
+  .cf-bar-val{ flex:0 0 52px; text-align:right; font-size:12px; font-family:var(--num-font); color:var(--ink); }
   .cf-note{ font-size:12px; color:var(--ink-dim); margin-bottom:8px; }
   .fav-star{ flex:0 0 auto; font-size:20.5px; color:var(--line); padding:0 4px; }
   .fav-star.on{ color:var(--amber); }
@@ -331,20 +331,20 @@
   .set-line{ flex-wrap:nowrap; }
 
   /* ---------- Letzte Werte im Tracker ---------- */
-  .set-prev{ flex:0 0 auto; font-size:11.5px; font-family:ui-monospace,monospace; color:var(--ink-dim);
+  .set-prev{ flex:0 0 auto; font-size:11.5px; font-family:var(--num-font); color:var(--ink-dim);
     min-width:52px; text-align:right; white-space:nowrap; }
   .set-prev.empty{ opacity:.35; }
   .prev-line{ font-size:12.5px; line-height:1.5; margin-bottom:8px; overflow-wrap:anywhere; }
-  .prev-line b{ color:var(--lime); font-family:ui-monospace,monospace; }
+  .prev-line b{ color:var(--lime); font-family:var(--num-font); }
 
   /* ---------- Trainingsvolumen ---------- */
   .vol-box{ margin-top:10px; }
   .vol-row{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;
     padding:8px 10px; background:var(--bg2); border-radius:9px; font-size:12.5px; }
   .vol-label{ color:var(--ink-dim); }
-  .vol-val{ font-family:ui-monospace,monospace; font-weight:800; font-size:14px; color:var(--lime); }
-  .vol-prev{ color:var(--ink-dim); font-family:ui-monospace,monospace; margin-left:auto; }
-  .vol-delta{ font-family:ui-monospace,monospace; font-weight:800; font-size:12.5px;
+  .vol-val{ font-family:var(--num-font); font-weight:800; font-size:14px; color:var(--lime); }
+  .vol-prev{ color:var(--ink-dim); font-family:var(--num-font); margin-left:auto; }
+  .vol-delta{ font-family:var(--num-font); font-weight:800; font-size:12.5px;
     padding:2px 7px; border-radius:999px; white-space:nowrap; }
   .vol-delta.up{ background:color-mix(in srgb, var(--lime) 16%, transparent); color:var(--lime); }
   .vol-delta.down{ background:rgba(242,179,61,.16); color:var(--amber); }
@@ -357,7 +357,7 @@
   .vol-col{ flex:1; min-width:0; text-align:center; }
   .vol-col-lbl{ font-size:10.5px; color:var(--ink-dim); text-transform:uppercase;
     letter-spacing:.04em; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .vol-col-val{ font-family:ui-monospace,monospace; font-weight:800; font-size:16px; line-height:1.2; }
+  .vol-col-val{ font-family:var(--num-font); font-weight:800; font-size:16px; line-height:1.2; }
   .vol-col-val.prev{ color:var(--ink-dim); }
   .vol-col-val.now{ color:var(--lime); }
   .vol-col-sub{ font-size:10.5px; color:var(--ink-dim); margin-top:3px; overflow-wrap:anywhere; line-height:1.35; }
@@ -373,13 +373,13 @@
   .vol-extra-row{ display:flex; align-items:baseline; gap:8px; font-size:12.5px;
     background:var(--bg2); border-radius:8px; padding:8px 10px; flex-wrap:wrap; }
   .vol-extra-row span:first-child{ color:var(--ink-dim); }
-  .vol-extra-row b{ font-family:ui-monospace,monospace; color:var(--lime); font-size:14px; }
+  .vol-extra-row b{ font-family:var(--num-font); color:var(--lime); font-size:14px; }
   .vol-extra-row .vol-prev{ margin-left:auto; }
 
 
   .data-status{ margin-bottom:12px; }
   .ds-ok{ background:var(--bg2); border-radius:10px; padding:10px 12px; font-size:12.5px; color:var(--ink-dim); line-height:1.6; }
-  .ds-ok b{ color:var(--lime); font-family:ui-monospace,monospace; }
+  .ds-ok b{ color:var(--lime); font-family:var(--num-font); }
   .ds-warn{ background:rgba(242,179,61,.12); border:1px solid rgba(242,179,61,.3); border-radius:10px;
     padding:11px 13px; font-size:13px; color:var(--amber); font-weight:700; line-height:1.55; }
   .ds-sub{ display:block; margin-top:5px; font-weight:400; color:var(--ink-dim); font-size:12px; }
@@ -391,7 +391,7 @@
   .set-check.pre{ color:var(--lime); opacity:.38; }
   .set-check:not(.on){ font-size:18.5px; }
   .sess-rest{ margin-top:8px; font-size:13.5px; color:var(--violet, #B794F6); }
-  .sess-rest b{ font-family:ui-monospace,monospace; font-size:16px; color:#B794F6; }
+  .sess-rest b{ font-family:var(--num-font); font-size:16px; color:#B794F6; }
   .ins{ display:flex; gap:11px; background:var(--card, #1F231A); border:1px solid var(--line); border-left:4px solid var(--dim, #9AA08C);
     border-radius:12px; padding:12px; margin-bottom:9px; }
   .ins-up{ border-left-color:var(--lime); } .ins-down{ border-left-color:var(--amber); } .ins-info{ border-left-color:#5CC8FF; }
@@ -423,7 +423,7 @@
   .sess-live{ font-size:12.5px; color:var(--lime); font-weight:700; display:flex; align-items:center; justify-content:center; gap:7px; }
   .sess-dot{ width:8px; height:8px; border-radius:50%; background:var(--lime); animation:sessPulse 1.4s infinite; }
   @keyframes sessPulse{ 0%,100%{ opacity:1; } 50%{ opacity:.25; } }
-  .sess-clock{ font-family:ui-monospace,monospace; font-size:49.5px; font-weight:800; color:var(--ink); margin:6px 0 2px; letter-spacing:.02em; }
+  .sess-clock{ font-family:var(--num-font); font-size:49.5px; font-weight:800; color:var(--ink); margin:6px 0 2px; letter-spacing:.02em; }
   .sess-day{ font-size:13px; color:var(--ink-dim); margin-bottom:10px; }
   .sess-bar{ height:7px; background:var(--bg2); border-radius:99px; overflow:hidden; }
   .sess-bar i{ display:block; height:100%; background:var(--lime); border-radius:99px; transition:width .4s; }
@@ -440,7 +440,7 @@
   .sess-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
   .sess-grid div{ display:flex; flex-direction:column; }
   .sess-grid span{ font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.04em; }
-  .sess-grid b{ font-family:ui-monospace,monospace; font-size:16px; margin-top:2px; }
+  .sess-grid b{ font-family:var(--num-font); font-size:16px; margin-top:2px; }
   .sess-skip{ font-size:12.5px; color:var(--amber); margin-top:10px; line-height:1.5; }
   .sess-cmp{ font-size:13px; margin-top:9px; line-height:1.5; color:var(--ink-dim); }
   .sess-cmp b{ color:var(--ink); }
@@ -469,7 +469,7 @@
   .ana-kpis{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:8px; }
   .kpi{ background:var(--bg2); border-radius:11px; padding:10px 11px; min-width:0; }
   .kpi-l{ font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.04em; line-height:1.3; }
-  .kpi-v{ font-family:ui-monospace,monospace; font-weight:800; font-size:18.5px; margin-top:4px; line-height:1.15;
+  .kpi-v{ font-family:var(--num-font); font-weight:800; font-size:18.5px; margin-top:4px; line-height:1.15;
     overflow-wrap:anywhere; }
   .kpi-s{ font-size:11.5px; color:var(--ink-dim); margin-top:3px; line-height:1.35; overflow-wrap:anywhere; }
   .kpi.wide{ grid-column:1 / -1; }
@@ -482,17 +482,17 @@
   .pr-b{ flex:1; min-width:0; }
   .pr-n{ font-size:14px; font-weight:700; overflow-wrap:anywhere; }
   .pr-s{ font-size:12px; color:var(--ink-dim); margin-top:2px; }
-  .pr-v{ flex:0 0 auto; font-family:ui-monospace,monospace; font-weight:800; color:var(--lime); font-size:14px; }
+  .pr-v{ flex:0 0 auto; font-family:var(--num-font); font-weight:800; color:var(--lime); font-size:14px; }
   .hist-sess{ padding:10px 0; border-bottom:1px solid var(--line); }
   .hist-sess:last-child{ border-bottom:none; }
   .hist-top{ display:flex; align-items:baseline; gap:8px; }
   .hist-d{ font-weight:700; font-size:14px; }
-  .hist-v{ margin-left:auto; font-family:ui-monospace,monospace; font-weight:800; font-size:14px; }
-  .hist-sets{ font-size:12.5px; color:var(--ink-dim); margin-top:4px; font-family:ui-monospace,monospace; overflow-wrap:anywhere; }
+  .hist-v{ margin-left:auto; font-family:var(--num-font); font-weight:800; font-size:14px; }
+  .hist-sets{ font-size:12.5px; color:var(--ink-dim); margin-top:4px; font-family:var(--num-font); overflow-wrap:anywhere; }
 
   .vol-day{ margin-top:14px; }
   .vol-hero{ display:flex; justify-content:space-between; align-items:flex-end; gap:12px; padding:6px 0 2px; }
-  .vol-hero-num{ font-family:ui-monospace,monospace; font-weight:800; font-size:28px; color:var(--lime); line-height:1.1; }
+  .vol-hero-num{ font-family:var(--num-font); font-weight:800; font-size:28px; color:var(--lime); line-height:1.1; }
   .vol-hero-num.prev{ font-size:21.5px; color:var(--ink-dim); }
   .vol-hero-lbl{ font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.05em; margin-top:3px; }
   .vol-hint{ font-size:13px; line-height:1.55; color:var(--ink); background:var(--bg2);
@@ -565,17 +565,17 @@
   .yz-body{ flex:1; min-width:0; cursor:pointer; }
   .yz-name{ font-size:15.5px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .yz-sub{ font-size:13px; color:var(--ink-dim); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .yz-kcal{ flex:0 0 auto; font-family:ui-monospace,monospace; font-weight:800; font-size:15px; color:var(--lime); text-align:right; min-width:64px; }
+  .yz-kcal{ flex:0 0 auto; font-family:var(--num-font); font-weight:800; font-size:15px; color:var(--lime); text-align:right; min-width:64px; }
   .yz-add{ flex:0 0 auto; width:34px; height:34px; border-radius:50%; background:var(--lime); color:var(--acc-ink);
     border:none; font-size:21.5px; font-weight:800; display:flex; align-items:center; justify-content:center; line-height:1; }
   .yz-add:active{ transform:scale(0.92); }
 
   .kcal-hero{ text-align:center; padding:18px 0 14px; }
-  .kcal-hero-num{ font-size:47.5px; font-weight:800; color:var(--lime); font-family:ui-monospace,monospace; line-height:1; }
+  .kcal-hero-num{ font-size:47.5px; font-weight:800; color:var(--lime); font-family:var(--num-font); line-height:1; }
   .kcal-hero-lbl{ font-size:12px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
   .macro-hero-row{ display:flex; justify-content:space-around; padding:10px 0 4px; border-top:1px solid var(--line); margin-top:8px; }
   .macro-hero-cell{ text-align:center; }
-  .macro-hero-val{ font-size:17.5px; font-weight:800; font-family:ui-monospace,monospace; }
+  .macro-hero-val{ font-size:17.5px; font-weight:800; font-family:var(--num-font); }
   .macro-hero-lbl{ font-size:11px; color:var(--ink-dim); margin-top:2px; text-transform:uppercase; letter-spacing:.04em; }
 
   .scan-photo-hint{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center;
@@ -695,7 +695,7 @@
     display:flex; align-items:center; gap:7px; }
   .hero-title{ font-size:22.5px; font-weight:800; margin-top:5px; line-height:1.25; }
   .hero-sub{ font-size:13.5px; color:var(--ink-dim); margin-top:4px; line-height:1.45; }
-  .hero-clock{ font-family:ui-monospace,monospace; font-size:43px; font-weight:800; margin:8px 0 2px; }
+  .hero-clock{ font-family:var(--num-font); font-size:43px; font-weight:800; margin:8px 0 2px; }
   .hero-btn{ display:block; width:100%; margin-top:14px; background:var(--lime); color:var(--acc-ink); border:none;
     border-radius:14px; padding:15px; font-size:16.5px; font-weight:800; }
   .hero-btn.ghost{ background:transparent; color:var(--ink-dim); border:1px solid var(--line); margin-top:8px; padding:11px; font-size:14px; font-weight:700; }
@@ -710,7 +710,7 @@
   .quick{ display:flex; flex-direction:column; gap:5px; min-width:0; }
   .quick span{ font-size:11.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-dim); }
   .quick input{ width:100%; min-width:0; background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:11px 10px;
-    font-size:17.5px; font-family:ui-monospace,monospace; color:var(--ink); }
+    font-size:17.5px; font-family:var(--num-font); color:var(--ink); }
   .quick-msg{ font-size:12.5px; margin-top:8px; min-height:15px; }
   /* ---------- Design-Auswahl ---------- */
   .theme-grid{ display:flex; flex-direction:column; gap:8px; }
@@ -815,11 +815,11 @@
   .as-fav{ flex:0 0 40px; height:40px; border-radius:50%; border:1px solid var(--line); background:var(--bg2); color:var(--ink-dim); font-size:19.5px; }
   .as-fav.on{ color:#D4A23C; border-color:#D4A23C; }
   .as-kcal{ text-align:center; margin:18px 0 6px; }
-  .as-kcal b{ font-size:47.5px; font-weight:800; font-family:ui-monospace,monospace; color:var(--ink); }
+  .as-kcal b{ font-size:47.5px; font-weight:800; font-family:var(--num-font); color:var(--ink); }
   .as-kcal span{ font-size:15px; color:var(--ink-dim); margin-left:6px; }
   .as-macros{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:16px; }
   .as-macros div{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px 6px; text-align:center; display:flex; flex-direction:column; }
-  .as-macros b{ font-family:ui-monospace,monospace; font-size:18.5px; }
+  .as-macros b{ font-family:var(--num-font); font-size:18.5px; }
   .as-macros div:nth-child(1) b{ color:var(--protein); } .as-macros div:nth-child(2) b{ color:var(--carb); } .as-macros div:nth-child(3) b{ color:var(--fat); }
   .as-macros span{ font-size:11.5px; color:var(--ink-dim); margin-top:2px; }
   .as-units{ display:flex; gap:7px; flex-wrap:wrap; margin-bottom:12px; }
@@ -829,7 +829,7 @@
   .as-unit.on{ border-color:var(--lime); box-shadow:0 0 0 1px var(--lime) inset; }
   .as-amount{ display:flex; align-items:stretch; gap:10px; }
   .as-step{ flex:0 0 58px; border-radius:14px; border:1px solid var(--line); background:var(--bg2); font-size:28px; font-weight:700; color:var(--ink); }
-  .as-amount input{ flex:1; min-width:0; text-align:center; font-size:34.5px; font-weight:800; font-family:ui-monospace,monospace;
+  .as-amount input{ flex:1; min-width:0; text-align:center; font-size:34.5px; font-weight:800; font-family:var(--num-font);
     padding:14px 8px; border-radius:14px; border:2px solid var(--lime); background:var(--card); color:var(--ink); }
   .as-amt-lbl{ text-align:center; font-size:13.5px; color:var(--ink-dim); margin-top:8px; }
   .as-hint{ font-size:13px; color:var(--ink-dim); text-align:center; margin-top:6px; line-height:1.5; }
@@ -981,7 +981,7 @@
   .wr-rec b{ font-size:14px; } .wr-rec small{ font-size:12.5px; color:var(--ink-dim); line-height:1.5; }
   .sc-steps{ padding-left:20px; margin:10px 0 0; font-size:13px; line-height:1.6; color:var(--ink); }
   .sc-steps li{ margin-bottom:8px; } .sc-steps i{ color:var(--lime); font-style:normal; font-weight:700; }
-  .sc-tpl{ margin:8px 0; padding:10px; border-radius:10px; background:var(--bg2); border:1px solid var(--line); font-family:ui-monospace,monospace; font-size:11.5px; word-break:break-all; user-select:all; -webkit-user-select:all; }
+  .sc-tpl{ margin:8px 0; padding:10px; border-radius:10px; background:var(--bg2); border:1px solid var(--line); font-family:var(--num-font); font-size:11.5px; word-break:break-all; user-select:all; -webkit-user-select:all; }
 
   /* ---------- Körperzusammensetzung ---------- */
   .bd-pct{ color:var(--ink-dim); font-size:11px; }
@@ -991,7 +991,7 @@
   .comp-leg{ display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; }
   .comp-leg span{ display:grid; grid-template-columns:12px 1fr auto; column-gap:7px; align-items:center; font-size:12.5px; }
   .comp-leg span i{ width:10px; height:10px; border-radius:3px; display:block; }
-  .comp-leg b{ font-family:ui-monospace,monospace; font-size:13px; }
+  .comp-leg b{ font-family:var(--num-font); font-size:13px; }
   .comp-note{ font-size:11px; color:var(--ink-dim); margin-top:10px; line-height:1.5; }
   .comp-leg em{ grid-column:2 / -1; font-style:normal; font-size:11px; color:var(--ink-dim); }
 
@@ -1006,12 +1006,22 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v13.3: Analyse kompakter, Diagramme breiter ---------- */
-  .perf-tabs{ position:sticky; top:calc(env(safe-area-inset-top, 0px) + 46px); z-index:15; display:flex; gap:6px; overflow-x:auto;
-    padding:8px 2px 10px; margin:0 -2px 4px; scrollbar-width:none; background:linear-gradient(var(--bg) 70%, transparent); }
+  /* ---------- v14.0: Analyse kompakter, Diagramme breiter ---------- */
+  /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
+  #subNav{ padding:0 14px 10px !important; }
+  #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
+    background:color-mix(in srgb, var(--ink) 7%, transparent); }
+  #subNav.seg .subnav-btn{ flex:1 1 auto; min-width:0; padding:7px 6px; border:none; border-radius:8px; background:transparent;
+    color:var(--ink-dim); font-size:13px; font-weight:700; text-align:center; overflow:hidden; text-overflow:ellipsis; }
+  #subNav.seg .subnav-btn.active{ background:var(--card); color:var(--ink); box-shadow:0 1px 3px rgba(40,30,20,.16), 0 0 0 .5px rgba(40,30,20,.06); }
+  /* mehr als 5 Bereiche (Mehr): kompakte, scrollbare Leiste */
+  #subNav:not(.seg) .subnav-btn{ padding:7px 12px; font-size:13px; }
+  /* Ebene 3: Unterstrich-Tabs, nicht klebend */
+  .perf-tabs{ display:flex; gap:0; margin:0 0 12px; border-bottom:1px solid var(--line); overflow-x:auto; scrollbar-width:none; }
   .perf-tabs::-webkit-scrollbar{ display:none; }
-  .perf-tab{ flex:0 0 auto; padding:8px 13px; border-radius:99px; border:1px solid var(--line); background:var(--card); font-size:13px; font-weight:700; color:var(--ink-dim); }
-  .perf-tab.on{ background:var(--lime); border-color:var(--lime); color:var(--acc-ink); }
+  .perf-tab{ flex:1 0 auto; padding:9px 8px 10px; border:none; background:transparent; font-size:13.5px; font-weight:700;
+    color:var(--ink-dim); border-bottom:2.5px solid transparent; margin-bottom:-1px; }
+  .perf-tab.on{ color:var(--ink); border-bottom-color:var(--lime); }
   #view-analyse .card, #view-koerper .card, #view-woche .card, #view-motivation .card{ padding:14px 12px; margin-bottom:10px; }
   .svgc{ margin:0 -4px; }
   .svgc-scroll{ border-radius:8px; }
@@ -1024,6 +1034,17 @@
   .ana-note.open{ -webkit-line-clamp:unset; display:block; }
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
+
+  /* ---------- v14.0: Cockpit kompakter ---------- */
+  .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
+  .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
+  .card .ci-q .ci-l span{ font-size:11.5px; }
+  .card .ci-q .ci-l span:empty{ display:none; }
+  .card .ci-q .ci-scale{ flex:0 0 auto; display:flex; gap:5px; }
+  .card .ci-q .ci-b{ width:36px; height:36px; padding:0; border-radius:50%; font-size:14px; }
+  .quick-msg:empty{ display:none; }
+  body{ min-height:100vh; }
+  html{ background-image:var(--page-grad); background-attachment:fixed; }
   /* ================= v12: Kopfzeile kompakt, mehr Platz für Inhalt ================= */
   header.top{ padding: calc(6px + env(safe-area-inset-top, 0px)) 18px 8px !important; }
   header.top .eyebrow{ font-size:9.5px !important; letter-spacing:.14em; margin-bottom:1px !important; opacity:.8; }
@@ -1036,10 +1057,10 @@
   .ck-top{ display:flex; align-items:flex-end; justify-content:space-between; gap:10px; margin-bottom:10px; }
   .ck-sub{ font-size:12px; color:var(--ink-dim); margin-top:3px; }
   .ck-num{ text-align:right; white-space:nowrap; }
-  .ck-num b{ font-family:ui-monospace,monospace; font-size:28px; font-weight:800; }
+  .ck-num b{ font-family:var(--num-font); font-size:28px; font-weight:800; }
   .ck-num span{ font-size:13px; color:var(--ink-dim); margin-left:4px; }
   .ck-macros{ display:flex; justify-content:space-between; gap:6px; margin-top:10px; font-size:12.5px; color:var(--ink-dim); }
-  .ck-macros b{ color:var(--ink); font-family:ui-monospace,monospace; }
+  .ck-macros b{ color:var(--ink); font-family:var(--num-font); }
   .ci-q{ margin-bottom:12px; }
   .ci-l{ display:flex; justify-content:space-between; font-size:13.5px; font-weight:700; margin-bottom:6px; }
   .ci-l span{ font-weight:600; color:var(--lime); font-size:12.5px; }
@@ -1056,18 +1077,18 @@
   .bd-f{ display:flex; flex-direction:column; gap:4px; min-width:0; }
   .bd-f > span{ font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-dim); }
   .bd-in{ display:flex; align-items:center; background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:0 10px; }
-  .bd-in input{ flex:1; min-width:0; border:none; background:transparent; padding:11px 0; font-size:16px; font-family:ui-monospace,monospace; color:var(--ink); outline:none; }
+  .bd-in input{ flex:1; min-width:0; border:none; background:transparent; padding:11px 0; font-size:16px; font-family:var(--num-font); color:var(--ink); outline:none; }
   .bd-in em{ font-style:normal; font-size:12px; color:var(--ink-dim); }
   .bd-f small{ font-size:11px; }
   .bd-calc{ display:flex; gap:14px; flex-wrap:wrap; margin-top:12px; font-size:12.5px; color:var(--ink-dim); }
-  .bd-calc b{ color:var(--ink); font-family:ui-monospace,monospace; }
+  .bd-calc b{ color:var(--ink); font-family:var(--num-font); }
   .bd-more{ margin-top:12px; }
   .bd-more summary{ cursor:pointer; font-weight:700; color:var(--lime); font-size:13px; padding:4px 0 10px; }
   .wb-row{ padding:9px 0; border-bottom:1px solid var(--line); }
   .wb-row:last-child{ border-bottom:none; }
   .wb-top{ display:flex; align-items:baseline; gap:8px; margin-bottom:6px; font-size:13.5px; }
   .wb-top span{ flex:1; }
-  .wb-top b{ font-family:ui-monospace,monospace; font-size:15px; }
+  .wb-top b{ font-family:var(--num-font); font-size:15px; }
   .wb-top em{ font-style:normal; font-size:12px; color:var(--ink-dim); }
   .wb-none{ font-family:inherit !important; font-size:12px !important; font-weight:500; color:var(--ink-dim); }
   .wb-sub{ font-size:11.5px; color:var(--ink-dim); margin-top:5px; }
@@ -1082,7 +1103,7 @@
   .mp-row{ padding:8px 0; }
   .mp-top{ display:flex; align-items:baseline; gap:8px; margin-bottom:6px; font-size:14px; }
   .mp-role{ font-size:11px; font-weight:700; color:var(--lime); background:color-mix(in srgb, var(--lime) 12%, transparent); padding:2px 7px; border-radius:99px; }
-  .mp-k{ margin-left:auto; font-family:ui-monospace,monospace; font-size:13px; }
+  .mp-k{ margin-left:auto; font-family:var(--num-font); font-size:13px; }
   .mp-m{ font-size:11.5px; color:var(--ink-dim); margin-top:5px; }
   .mp-note{ font-size:11.5px; color:var(--ink-dim); margin-top:10px; line-height:1.5; }
   .gs-sec{ font-size:11.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-dim); margin:18px 0 8px; }
@@ -1094,14 +1115,14 @@
   .gs-calc{ margin-top:16px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:4px 14px; }
   .gs-calc > div{ display:grid; grid-template-columns:1fr auto; gap:2px 10px; padding:10px 0; border-bottom:1px solid var(--line); }
   .gs-calc > div:last-child{ border-bottom:none; }
-  .gs-calc span{ font-size:13.5px; } .gs-calc b{ font-family:ui-monospace,monospace; font-size:15px; text-align:right; }
+  .gs-calc span{ font-size:13.5px; } .gs-calc b{ font-family:var(--num-font); font-size:15px; text-align:right; }
   .gs-calc small{ grid-column:1 / -1; font-size:11.5px; color:var(--ink-dim); }
   .gs-res b{ color:var(--lime); font-size:18px !important; }
   .gs-macros{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:6px; }
   .gs-macros label{ display:flex; flex-direction:column; gap:5px; }
   .gs-macros span{ font-size:11px; font-weight:700; color:var(--ink-dim); text-transform:uppercase; }
-  .gs-macros input{ padding:12px 8px; border-radius:11px; border:1.5px solid var(--line); background:var(--card); font-size:20px; font-weight:800; text-align:center; font-family:ui-monospace,monospace; color:var(--ink); }
-  .gs-total{ margin-top:10px; font-size:14px; } .gs-total b{ font-family:ui-monospace,monospace; font-size:18px; }
+  .gs-macros input{ padding:12px 8px; border-radius:11px; border:1.5px solid var(--line); background:var(--card); font-size:20px; font-weight:800; text-align:center; font-family:var(--num-font); color:var(--ink); }
+  .gs-total{ margin-top:10px; font-size:14px; } .gs-total b{ font-family:var(--num-font); font-size:18px; }
   .gs-total span{ font-size:12px; color:var(--ink-dim); margin-left:6px; }
   .gs-sec-btn{ margin-top:10px; border:1px dashed var(--line); background:transparent; color:var(--ink-dim); border-radius:10px; padding:9px 12px; font-size:12.5px; }
   .gs-toggle{ display:flex; gap:12px; align-items:flex-start; margin-top:18px; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px; font-size:12.5px; color:var(--ink-dim); line-height:1.45; }
@@ -1113,7 +1134,7 @@
   .nt-row:last-of-type{ border-bottom:none; }
   .nt-n{ font-weight:700; font-size:13.5px; }
   .nt-t{ font-size:12.5px; color:var(--ink-dim); margin-top:3px; line-height:1.45; }
-  .nt-t b{ color:var(--lime); font-family:ui-monospace,monospace; }
+  .nt-t b{ color:var(--lime); font-family:var(--num-font); }
   .nt-done{ margin-top:10px; font-size:12px; color:var(--ink-dim); line-height:1.5; background:color-mix(in srgb, var(--up) 10%, transparent); border-radius:10px; padding:9px 11px; }
   .nt-done b{ color:var(--up); }
   .mo-row{ padding:10px 0; border-bottom:1px solid var(--line); }
@@ -1124,12 +1145,72 @@
   .mo-bar i{ position:absolute; top:0; bottom:0; border-radius:99px; }
   .mo-txt{ font-size:12px; color:var(--ink-dim); line-height:1.5; }
   .mo-txt b{ color:var(--ink); }
+
+
+  /* Unterreiter (Ernährung, Gesundheit) als Segment-Schalter */
+  .subtabs{ display:flex; flex-wrap:nowrap; gap:2px; padding:3px; margin:0 0 12px; border-radius:11px; background:color-mix(in srgb, var(--ink) 7%, transparent); }
+  .subtab-btn{ flex:1 1 auto; min-width:0; padding:7px 6px; border:none !important; border-radius:8px; background:transparent !important;
+    color:var(--ink-dim) !important; font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .subtab-btn.active{ background:var(--card) !important; color:var(--ink) !important; box-shadow:0 1px 3px rgba(0,0,0,.2); }
+  /* ================= v14: PERFORMANCE (nach WHOOP-Vorbild) ================= */
+  :root{ --num-font: ui-monospace, monospace; --rec-hi:#2BB673; --rec-mid:#E3B23C; --rec-lo:#E5484D; --strain:#3B82C4; --ring-track: color-mix(in srgb, var(--ink) 10%, transparent); }
+  :root[data-theme="performance"]{
+    --bg:#07090B; --bg2:#1A1F25; --card:#12161B; --line:#232A31; --ink:#F3F5F7; --ink-dim:#8C96A0;
+    --lime:#3FA9F5; --acc-ink:#03111C; --amber:#FF9F43; --clay:#FF6B5E;
+    --up:#2DD4BF; --down:#FF9F43; --goal:#6B7680;
+    --protein:#5EB8FF; --carb:#FFC857; --fat:#FF8FA3; --sleep:#A5B4FC; --steps:#2DD4BF;
+    --rec-hi:#22E07A; --rec-mid:#FFD43B; --rec-lo:#FF4D5E; --strain:#3FA9F5; --ring-track:#1E252C;
+    --page-grad: radial-gradient(130% 45% at 50% -8%, #18222D 0%, rgba(24,34,45,0) 62%), linear-gradient(180deg, #0B0E12 0%, #050607 100%);
+    --num-font: "DIN Alternate", "DIN Condensed", "Barlow Semi Condensed", "Helvetica Neue", system-ui, sans-serif;
+    --bar-bg: rgba(7,9,11,0.88);
+  }
+  :root[data-theme="performance"] .card, :root[data-theme="performance"] .qcard, :root[data-theme="performance"] .supp, :root[data-theme="performance"] .ins{
+    background:var(--card); border:1px solid var(--line); box-shadow:none; border-radius:16px; }
+  :root[data-theme="performance"] .card.accent{ border-color:#25313C; background:linear-gradient(180deg, #151B21 0%, #11151A 100%); }
+  :root[data-theme="performance"] .card-title{ color:var(--ink-dim); letter-spacing:.14em; font-size:11.5px; }
+  :root[data-theme="performance"] header.top, :root[data-theme="performance"] footer.tabbar{ background:var(--bar-bg) !important; -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); border-color:var(--line); }
+  :root[data-theme="performance"] header.top .eyebrow{ color:var(--ink-dim); }
+  :root[data-theme="performance"] h1, :root[data-theme="performance"] .hero-title{ letter-spacing:-.01em; }
+  :root[data-theme="performance"] .set-input, :root[data-theme="performance"] .prog-input{ background:#0E1216; border-color:var(--line); color:var(--ink); }
+  :root[data-theme="performance"] .kpi{ background:#0E1216; border:1px solid var(--line); }
+  :root[data-theme="performance"] .kpi-v, :root[data-theme="performance"] .ck-num b, :root[data-theme="performance"] .as-kcal b{ font-family:var(--num-font); letter-spacing:.01em; }
+  /* Ringe (Schlaf · Erholung · Belastung) */
+  .dial-card{ padding:16px 8px 14px !important; }
+  .dials{ display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+  .dial{ background:transparent; border:none; padding:0; display:flex; flex-direction:column; align-items:center; color:var(--ink); }
+  .ring{ display:block; }
+  .ring-v{ font-family:var(--num-font); font-size:30px; font-weight:700; }
+  .ring-u{ font-size:10px; font-weight:700; letter-spacing:.08em; }
+  .ring-l{ font-size:11px; font-weight:800; letter-spacing:.14em; margin-top:6px; }
+  .coach{ margin:14px 8px 2px; padding-top:12px; border-top:1px solid var(--line); font-size:13px; line-height:1.55; color:var(--ink-dim); }
+  .coach b{ color:var(--ink); }
+  .sc-head{ display:flex; flex-direction:column; align-items:center; padding:6px 0 4px; }
+  .sc-head .ring-v{ font-size:44px; } .sc-head .ring-l{ font-size:12px; }
+  .sc-day{ font-size:12.5px; color:var(--ink-dim); margin-top:4px; }
+  .sc-sec{ font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-dim); margin:20px 0 10px; }
+  .sc-part{ margin-bottom:11px; } .sc-pt{ display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:5px; }
+  .sc-pt b{ font-family:var(--num-font); }
+  .sc-pen{ font-size:13px; color:var(--rec-lo); margin:4px 0; } .sc-pen b{ font-family:var(--num-font); }
+  .sc-txt{ font-size:13.5px; line-height:1.55; } .sc-txt b{ color:var(--ink); font-family:var(--num-font); }
+  .sc-note{ font-size:11.5px; color:var(--ink-dim); line-height:1.5; margin-top:12px; }
+  .sc-plan{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .sc-plan > div{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:4px; }
+  .sc-plan span{ font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-dim); }
+  .sc-plan b{ font-family:var(--num-font); font-size:20px; }
+  .sc-plan input{ background:transparent; border:none; color:var(--ink); font-family:var(--num-font); font-size:20px; padding:0; width:100%; }
+  .sc-target{ position:relative; height:12px; border-radius:6px; background:var(--ring-track); margin:4px 0 10px; }
+  .sc-target i{ position:absolute; top:0; bottom:0; border-radius:6px; background:color-mix(in srgb, var(--strain) 45%, transparent); }
+  .sc-target em{ position:absolute; top:-4px; width:4px; height:20px; border-radius:2px; background:var(--ink); transform:translateX(-2px); }
+  .trend-sw{ display:flex; gap:2px; padding:3px; border-radius:11px; background:color-mix(in srgb, var(--ink) 7%, transparent); margin-bottom:10px; }
+  .trend-sw button{ flex:1; border:none; background:transparent; padding:7px; border-radius:8px; font-weight:700; font-size:13px; color:var(--ink-dim); }
+  .trend-sw button.on{ background:var(--card); color:var(--ink); }
+  .sec-h{ font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim); margin:18px 4px 8px; }
 </style>
 </head>
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v13.3</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v14.0</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1206,6 +1287,7 @@
     </div>
   </section>
 
+  <section class="view" id="view-trends"><div id="trendBox"></div></section>
   <section class="view" id="view-woche">
     <div class="insight"><b>Datenbasierter Fund:</b> Deine beste je gemessene Phase (Mai–Aug 2023) lief bei ⌀ 13.546 Schritten/Tag und 4× Training/Woche — Fett runter (16,8%→14,9%), Magermasse sogar leicht rauf. Die schlechteste Phase hatte nur 11.071 Schritte und 2,4× Training. Schritte sind bei dir ein größerer Hebel als reines Kalorienzählen.</div>
     <div class="avg-card">
@@ -1503,11 +1585,13 @@
             <div class="bar" style="height:4px; margin-top:5px;"><span id="nutFBar" style="width:0%; background:var(--fat)"></span></div>
           </div>
         </div>
-        <div class="date-block">
+        <div class="date-block" style="display:none">
           <label class="prog-label">Datum</label>
           <input type="date" id="nutDate" class="prog-input">
         </div>
       </div>
+
+      <div class="card" id="nutMealPlan"></div>
 
       <div class="card add-card">
         <div class="search-row">
@@ -1521,7 +1605,6 @@
             </svg>
           </button>
         </div>
-      <div class="card" id="nutMealPlan"></div>
         <div class="add-recents-lbl">Zuletzt gegessen · antippen zum Hinzufügen</div>
         <div class="add-recents" id="addRecentsRow"></div>
         <div style="display:none">
@@ -1833,6 +1916,13 @@
     <button class="lock-forgot" id="lockForgot">PIN vergessen?</button>
   </div>
 </div>
+
+<div id="scoreSheet" class="as-overlay">
+  <div class="as-panel">
+    <div class="as-head"><button class="as-close" onclick="closeScoreSheet()" aria-label="schließen">✕</button><div class="as-title">Details</div><span style="width:36px"></span></div>
+    <div class="as-scroll" id="scBody"></div>
+  </div>
+</div>
 <div id="goalSheet" class="as-overlay">
   <div class="as-panel">
     <div class="as-head"><button class="as-close" onclick="closeGoalSheet()" aria-label="schließen">✕</button><div class="as-title">Ernährungsziele</div><span style="width:36px"></span></div>
@@ -1901,7 +1991,7 @@ function syncThemeColors(){
     cyan: v('--protein') || '#5CC8FF', violet: v('--sleep') || '#B794F6', clay: v('--clay') || '#E07A5F',
     protein: v('--protein') || '#7EC4CF', sleep: v('--sleep') || '#B79CFF', steps: v('--steps') || '#6FE3A6',
     ink: v('--ink') || '#EDEFE6', dim: v('--ink-dim') || '#9AA08C', grid: v('--line') || '#2C3024',
-    muted: v('--ink-dim') || '#9AA08C'
+    muted: v('--ink-dim') || '#9AA08C', strain: v('--strain') || '#3FA9F5'
   });
 }
 syncThemeColors();
@@ -2316,17 +2406,18 @@ const navGroups = [
   {id:'food', title:'Ernährung', icon:'M6 3v8a3 3 0 006 0V3M9 11v10M17 3c-1.5 2-2 4-2 6s.5 3 2 3 2-1 2-3-.5-4-2-6zM17 12v9',
    views:[{v:'ernaehrung', label:'Tagebuch'}]},
   {id:'analyse', title:'Analyse', icon:'M3 3v18h18M7 15l4-4 3 3 5-6',
-   views:[{v:'analyse', label:'Leistung'},{v:'woche', label:'Wochenbericht'},{v:'motivation', label:'Motivation'},{v:'koerper', label:'Körper'},{v:'health', label:'Schlaf & Schritte'}]},
+   views:[{v:'trends', label:'Trends'},{v:'analyse', label:'Leistung'},{v:'woche', label:'Woche'},{v:'motivation', label:'Journal'},{v:'koerper', label:'Körper'}]},
   {id:'mehr', title:'Mehr', icon:'M5 12h.01M12 12h.01M19 12h.01M5 12a1 1 0 100-.01M12 12a1 1 0 100-.01M19 12a1 1 0 100-.01',
    views:[{v:'woche', label:'Wochenplan'},{v:'training', label:'Übungen'},{v:'roadmap', label:'Roadmap'},{v:'supps', label:'Supps'},
-          {v:'mahlzeiten', label:'Ernährungsplan'},{v:'bewegung', label:'Prinzipien'},{v:'ziel', label:'Profil'},{v:'einstellungen', label:'Design & Daten'}]},
+          {v:'mahlzeiten', label:'Ernährungsplan'},{v:'bewegung', label:'Prinzipien'},{v:'ziel', label:'Profil'},{v:'health', label:'Schlaf & Schritte'},{v:'einstellungen', label:'Design & Daten'}]},
 ];
 
 const viewMeta = {
   dashboard:{title:'Cockpit', sub:'Tagesstand, Check-in & Körperwerte'},
   analyse:{title:'Analyse', sub:'Leistung, Hebel & Zusammenhänge'},
+  trends:{title:'Trends', sub:'Erholung, Belastung und Schlaf im Verlauf'},
   woche:{title:'Wochenbericht', sub:'Bilanz und Anpassungen für die neue Woche'},
-  motivation:{title:'Motivation', sub:'Was deine Lust auf Training beeinflusst'},
+  motivation:{title:'Journal', sub:'Was deine Lust und Erholung beeinflusst'},
   koerper:{title:'Körper', sub:'Gewicht, Kalorien, Schlaf & Schritte im Verlauf'},
   einstellungen:{title:'Design & Daten', sub:'Farbschema, Import & Backup'},
   woche:{title:'Wochenplan', sub:'Kalorien & Makros je Tag'},
@@ -2361,6 +2452,7 @@ function showView(viewId){
   if (viewId==='ernaehrung') { try { renderNutToday(); } catch(e) {} }
   if (viewId==='motivation') { try { renderMotivation(); } catch(e) {} }
   if (viewId==='woche') { try { renderWeekReport(); } catch(e) {} }
+  if (viewId==='trends') { try { renderTrends(); } catch(e) {} }
   if (viewId==='ziel') renderProfile();
   window.scrollTo(0,0);
 }
@@ -2372,6 +2464,7 @@ function switchTab(groupId){
   const sn = document.getElementById('subNav');
   if (g.views.length > 1) {
     sn.style.display = 'flex';
+    sn.classList.toggle('seg', g.views.length <= 5);
     sn.innerHTML = g.views.map(v=>`<button class="subnav-btn" data-v="${v.v}">${v.label}</button>`).join('');
     sn.querySelectorAll('.subnav-btn').forEach(b=>{ b.onclick = ()=> showView(b.dataset.v); });
   } else {
@@ -2394,6 +2487,9 @@ function renderNav(){
 
 // ================= NEUE STRUKTUR: Inhalte in die neuen Bereiche verschieben =================
 function restructureViews(){
+  // Ernährung: Suche oben, Verteilung unter den Mahlzeiten
+  try { const mp = document.getElementById('nutMealPlan'), ml = document.getElementById('nutMeals');
+    if (mp && ml) { const host = ml.closest('.card') || ml; host.parentNode.insertBefore(mp, host.nextSibling); } } catch(e) {}
   const an = document.getElementById('view-analyse'), ov = document.getElementById('progOverview');
   if (an && ov && ov.parentNode !== an) { an.appendChild(ov); ov.style.display = 'block'; }
   const ko = document.getElementById('view-koerper');
@@ -2405,7 +2501,7 @@ function restructureViews(){
   if (sc) sc.style.display = 'none';      // doppelt zur Analyse → Leistung
   const gb = document.getElementById('goBackup');
   if (gb) gb.onclick = () => {
-    switchTab('analyse'); showView('health');
+    switchTab('mehr'); showView('health');
     setTimeout(() => { const b = [...document.querySelectorAll('#hlSubtabs .subtab-btn')].find(x => x.dataset.t === 'import'); if (b) b.click(); }, 50);
   };
 }
@@ -3204,7 +3300,7 @@ function svgBarChart(el, o){
   const maxV = Math.max(...totals, ...ovMax, 1);
   const step = niceStep(maxV / 4);
   const top = Math.ceil(maxV * 1.05 / step) * step;
-  const avail = chartWidth(el), padL = o.padL || 46, padR = 8, minSlot = o.slot || (compact ? 30 : 46);
+  const avail = chartWidth(el), padL = o.padL || 46, padR = 8, minSlot = o.slot || (n > 9 ? Math.max(18, Math.min(46, (avail - padL - padR) / n)) : 46);
   const slot = Math.max(minSlot, (avail - padL - padR) / n), padT = o.pcts ? 40 : 26, padB = o.sub ? 42 : 28, H = o.height || 250;
   const W = Math.max(padL + padR + n * slot, avail);
   const plotH = H - padT - padB;
@@ -3250,7 +3346,7 @@ function svgBarChart(el, o){
       s += `<rect x="${x.toFixed(1)}" y="${yv.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0, padT + plotH - yv).toFixed(1)}" rx="4" fill="${col}"/>`;
     }
     // Wert über dem Balken
-    if (totals[i] > 0 && (!compact || i === n - 1)) s += `<text x="${cx.toFixed(1)}" y="${(y(totals[i]) - 5).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="${ANA_COL.ink}">${svgEsc(valFmt(totals[i]))}</text>`;
+    if (totals[i] > 0 && ((!compact && slot >= 28) || i === n - 1)) s += `<text x="${cx.toFixed(1)}" y="${(y(totals[i]) - 5).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="${ANA_COL.ink}">${svgEsc(valFmt(totals[i]))}</text>`;
     // Prozent-Veränderung darüber
     if (!compact && o.pcts && o.pcts[i] !== null && o.pcts[i] !== undefined && totals[i] > 0) {
       const p = o.pcts[i];
@@ -3258,7 +3354,7 @@ function svgBarChart(el, o){
       s += `<text x="${cx.toFixed(1)}" y="${(y(totals[i]) - 18).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="800" fill="${pc}">${svgEsc(fmtPct(p))}</text>`;
     }
     // X-Achse
-    if (!compact || i % Math.ceil(n / 7) === 0 || i === n - 1) s += `<text x="${cx.toFixed(1)}" y="${H - padB + 15}" text-anchor="middle" font-size="10.5" fill="${ANA_COL.ink}">${svgEsc(o.labels[i])}</text>`;
+    if (slot >= 44 || (i % Math.ceil(n / 7) === 0 && n - 1 - i >= Math.ceil(n / 7) * 0.6) || i === n - 1) s += `<text x="${cx.toFixed(1)}" y="${H - padB + 15}" text-anchor="middle" font-size="10.5" fill="${ANA_COL.ink}">${svgEsc(o.labels[i])}</text>`;
     if (o.sub) s += `<text x="${cx.toFixed(1)}" y="${H - padB + 28}" text-anchor="middle" font-size="9" fill="${ANA_COL.dim}">${svgEsc(o.sub[i])}</text>`;
     s += `</g>`;
   }
@@ -3344,7 +3440,7 @@ function svgLineChart(el, o){
     });
   });
   for (let i = 0; i < n; i++) {
-    if (!compact || i % Math.ceil(n / 7) === 0 || i === n - 1) s += `<text x="${xAt(i).toFixed(1)}" y="${H - padB + 15}" text-anchor="middle" font-size="10.5" fill="${ANA_COL.ink}">${svgEsc(o.labels[i])}</text>`;
+    if (!compact || (i % Math.ceil(n / 7) === 0 && n - 1 - i >= Math.ceil(n / 7) * 0.6) || i === n - 1) s += `<text x="${xAt(i).toFixed(1)}" y="${H - padB + 15}" text-anchor="middle" font-size="10.5" fill="${ANA_COL.ink}">${svgEsc(o.labels[i])}</text>`;
     if (o.sub) s += `<text x="${xAt(i).toFixed(1)}" y="${H - padB + 28}" text-anchor="middle" font-size="9" fill="${ANA_COL.dim}">${svgEsc(o.sub[i])}</text>`;
   }
   const legend = `<div class="svgc-legend">${o.series.map(se => `<span><i style="background:${se.color}"></i>${svgEsc(se.name)}</span>`).join('')}</div>`;
@@ -4394,8 +4490,11 @@ function renderInsights(){
     const hist = all[ex.name]; if (!top || !hist) return;
     const ss = buildSessions(hist, 'reps', ex.name); const last = ss[ss.length - 1];
     if (!last || !last.topWeight) return;
-    const done = last.sets.filter(s => s.reps >= top);
-    if (last.sets.length >= n && done.length >= n) {
+    // doppelte Progression: alle Arbeitssätze mit dem höchsten Gewicht am oberen Ende der Spanne
+    const done = last.sets.filter(s => +s.weight === +last.topWeight && s.reps >= top);
+    // Übungen des nächsten Trainings stehen schon in "Nächstes Training" — nicht doppelt melden
+    let inNext = false; try { inNext = ((data.trainingDays[nextTargetsKey()] || {}).exercises || []).some(x => x.name === ex.name); } catch(e) {}
+    if (!inNext && last.sets.length >= n && done.length >= n) {
       readyKeys.add(aliasKey(ex.name));
       const inc = weightStep(ex.name);
       items.push({ p: 1, tone: 'up', ic: '⬆', t: ex.name.split(' (')[0] + ': Gewicht erhöhen',
@@ -4696,13 +4795,14 @@ function renderHeuteAlt(){
 
 // ================= DESIGN-AUSWAHL =================
 const THEMES = [
-  { id:'sand', name:'Sand & Stein', sub:'Hell · Standard', sw:['#EEE8DD','#FFFCF7','#8B5E3C','#5E7F52','#B8662F'] },
+  { id:'performance', name:'Performance', sub:'Dunkel · Standard · nach WHOOP-Vorbild', sw:['#07090B','#12161B','#3FA9F5','#22E07A','#FFD43B'] },
+  { id:'sand', name:'Sand & Stein', sub:'Hell · natürlich', sw:['#EEE8DD','#FFFCF7','#8B5E3C','#5E7F52','#B8662F'] },
   { id:'walnuss', name:'Walnuss', sub:'Dunkel · für abends', sw:['#1A1714','#2E2923','#D4A979','#9DBA8A','#E08A5A'] },
   { id:'auto', name:'Automatisch', sub:'Folgt der Hell/Dunkel-Einstellung des iPhones', sw:['#EEE8DD','#8B5E3C','#1A1714','#D4A979'] },
   { id:'graphit', name:'Graphit & Blau', sub:'Dunkel · sachlich', sw:['#0E1014','#171A21','#4DA3FF','#34D399','#F59E0B'] },
   { id:'original', name:'Original', sub:'Dunkel · Lime', sw:['#12140F','#1E2118','#C8FF4D','#6FE3A6','#F2B33D'] },
 ];
-function currentTheme(){ try { return localStorage.getItem('cutplan_theme_v1') || 'sand'; } catch(e) { return 'sand'; } }
+function currentTheme(){ try { return localStorage.getItem('cutplan_theme_v1') || 'performance'; } catch(e) { return 'performance'; } }
 function syncMetaTheme(){
   const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#EEE8DD';
   document.querySelectorAll('meta[name="theme-color"]').forEach(m => m.setAttribute('content', bg));
@@ -5402,8 +5502,18 @@ function renderHeute(){
   const ffm = fm !== null ? Math.round((refW - fm) * 10) / 10 : null;
 
   el.innerHTML = `
+    <div class="card dial-card">${dialsHTML(today)}</div>
     ${!isPast && [0, 1].includes(new Date(realToday + 'T12:00:00').getDay()) ? `<button class="wr-teaser" id="ckReport"><span>📋</span><div><b>Dein Wochenbericht ist da</b><small>Bilanz der Woche und was du nächste Woche anpassen solltest</small></div><em>›</em></button>` : ''}
     ${isPast ? `<div class="ck-past"><span>✎ Du trägst für <b>${dayLabel(today)}</b> nach</span><button id="ckToday">Zu heute</button></div>` : ''}
+    <div class="card">
+      <div class="mw-head"><button class="mw-nav" id="mwPrev" aria-label="Vorwoche">‹</button>
+        <div class="card-title" style="margin:0">${cockpitWeekOff ? 'Woche ab ' + fmtDate(monW) : 'Diese Woche'} · ${nTrainDays} ${nTrainDays === 1 ? 'Trainingstag' : 'Trainingstage'}</div>
+        <button class="mw-nav" id="mwNext" aria-label="nächste Woche" ${cockpitWeekOff ? '' : 'disabled'}>›</button></div>
+      <div class="ci-hint" style="margin:0 0 8px">Tag antippen zum Ansehen und Nachtragen.</div>
+      <div class="mw-grid">${chips}</div>
+    </div>
+
+    <div class="sec-h">Mein Tag</div>
     <div class="card ck-kcal">
       <div class="ck-top"><div><div class="card-title" style="margin:0">Kalorien ${dayLabel(today)}</div><div class="ck-sub">${svgEsc(g.label || '')}</div></div>
         <div class="ck-num"><b>${t.kcal}</b><span>/ ${g.kcal} kcal</span></div></div>
@@ -5424,13 +5534,6 @@ function renderHeute(){
       <div class="ci-hint">Dauert 15 Sekunden. Nach 2–3 Wochen zeigt <b>Analyse → Motivation</b>, was deine Lust auf Training wirklich beeinflusst.</div>
     </div>
 
-    <div class="card">
-      <div class="mw-head"><button class="mw-nav" id="mwPrev" aria-label="Vorwoche">‹</button>
-        <div class="card-title" style="margin:0">${cockpitWeekOff ? 'Woche ab ' + fmtDate(monW) : 'Diese Woche'} · ${nTrainDays} ${nTrainDays === 1 ? 'Trainingstag' : 'Trainingstage'}</div>
-        <button class="mw-nav" id="mwNext" aria-label="nächste Woche" ${cockpitWeekOff ? '' : 'disabled'}>›</button></div>
-      <div class="ci-hint" style="margin:0 0 8px">Tag antippen, um Schritte, Schlaf, Check-in, Körperwerte und Ernährung dieses Tages zu sehen und nachzutragen.</div>
-      <div class="mw-grid">${chips}</div>
-    </div>
 
     <div class="card">
       <div class="card-title">Schritte & Schlaf</div>
@@ -5443,6 +5546,7 @@ function renderHeute(){
       <div class="quick-msg" id="quickMsg"></div>
     </div>
 
+    <div class="sec-h">Körper</div>
     <div class="card">
       <div class="card-title">Körperwerte · Withings</div>
       <div class="bd-grid">${BODY_FIELDS.map(field).join('')}</div>
@@ -5466,6 +5570,7 @@ function renderHeute(){
   const ct = document.getElementById('ckToday'); if (ct) ct.onclick = () => { selectDay(realToday); cockpitWeekOff = 0; renderHeute(); };
   const cf = document.getElementById('ckFood'); if (cf) cf.onclick = () => { currentNutDate = today; switchTab('food'); };
   const hk = document.getElementById('hkPaste'); if (hk) hk.onclick = importFromClipboard;
+  el.querySelectorAll('.dial').forEach(dl => dl.onclick = () => openScoreSheet(dl.dataset.sc, today));
   const pb = document.querySelector('#pasteBox textarea'); if (pb) pb.oninput = () => { const p = parseHealthPayload(pb.value); if (p) { const r = applyHealthPayload(p, today); renderHeute(); const m = document.getElementById('quickMsg'); if (m) { m.textContent = `✓ Übernommen für ${dayLabel(r.d)}: ${r.done.join(' · ')}`; m.className = 'quick-msg c-up'; } } };
   const rp = document.getElementById('ckReport'); if (rp) rp.onclick = () => { switchTab('analyse'); showView('woche'); reportWeekOff = new Date(realToday + 'T12:00:00').getDay() === 1 ? -1 : 0; renderWeekReport(); };
   const saveCI = (fn) => { const all = loadCheckins(); all[today] = all[today] || {}; fn(all[today]); all[today].ts = Date.now(); saveCheckins(all); };
@@ -5515,13 +5620,14 @@ function repRange(setsStr){
   const m = (setsStr || '').match(/×\s*(\d+)\s*[–-]\s*(\d+)/); if (m) return [+m[1], +m[2]];
   const m2 = (setsStr || '').match(/×\s*(\d+)/); return m2 ? [+m2[1], +m2[1]] : null;
 }
-function nextTargetsHTML(){
+function nextTargetsKey(){
   const today = localDateStr(Date.now()), wk = weekWorkoutStatus(today);
   const strength = ['mo','di','do','fr'];
   const cands = [suggestedWorkout(), ...strength.filter(x => !wk.done[x]), ...strength];
-  for (const k of cands) { const html = nextTargetsFor(k); if (html) return html; }
-  return '';
+  for (const k of cands) { if (nextTargetsFor(k)) return k; }
+  return null;
 }
+function nextTargetsHTML(){ const k = nextTargetsKey(); return k ? nextTargetsFor(k) : ''; }
 function nextTargetsFor(k){
   const day = data.trainingDays[k]; if (!day) return '';
   const rows = [], done = [];
@@ -5559,15 +5665,20 @@ function nextTargetsFor(k){
 }
 
 // ================= MOTIVATION: was beeinflusst deine Lust auf Training? =================
+let motivTarget = 'lust';
 function renderMotivation(){
   const el = document.getElementById('motivBox'); if (!el) return;
-  const ci = loadCheckins();
-  const dates = Object.keys(ci).filter(d => ci[d] && ci[d].lust).sort();
+  const ci = loadCheckins(), tgt = motivTarget, C = d => ci[d] || {};
+  const Yv = d => tgt === 'rec' ? ((recoveryScore(d) || {}).score || null) : (C(d).lust || null);
+  const dates = [...new Set([...Object.keys(ci), ...Object.keys(_js('cutplan_sleep_v1'))])].filter(d => Yv(d)).sort();
+  const tLbl = tgt === 'rec' ? 'Erholung' : 'Lust', tUnit = tgt === 'rec' ? ' %' : ' / 5';
+  const sw = `<div class="trend-sw">${[['lust','Lust auf Training'],['rec','Erholung']].map(([k, l]) => `<button class="${k === tgt ? 'on' : ''}" data-t="${k}">${l}</button>`).join('')}</div>`;
   let sleep = {}, steps = {};
   try { sleep = JSON.parse(localStorage.getItem('cutplan_sleep_v1') || '{}') || {}; } catch(e) {}
   try { steps = JSON.parse(localStorage.getItem('cutplan_steps_v1') || '{}') || {}; } catch(e) {}
   if (dates.length < 2) {
-    el.innerHTML = `<div class="card"><div class="card-title">Motivation</div><div class="ana-empty">Trag im <b>Cockpit</b> täglich deinen Check-in ein — vor allem „Lust auf Training". Ab etwa 8 Tagen erkennt die App erste Muster, ab 3–4 Wochen werden sie belastbar.<br><br>Bisher: ${dates.length} Einträge.</div></div>`;
+    el.innerHTML = sw + `<div class="card"><div class="card-title">Journal</div><div class="ana-empty">Trag im <b>Cockpit</b> täglich deinen Check-in ein — vor allem „Lust auf Training". Ab etwa 8 Tagen erkennt die App erste Muster, ab 3–4 Wochen werden sie belastbar.<br><br>Bisher: ${dates.length} Einträge.</div></div>`;
+    el.querySelectorAll('.trend-sw button').forEach(b => b.onclick = () => { motivTarget = b.dataset.t; renderMotivation(); });
     return;
   }
   // Trainingsbelastung der zwei Vortage (kg-Volumen)
@@ -5581,26 +5692,27 @@ function renderMotivation(){
   const prevNut = d => { const p = addDays(d, -1); return nut[p] && dayTotals(p).kcal > 300 ? dayTotals(p) : null; };
   const F = [
     ['Schlafdauer', d => sleep[d] && sleep[d].h ? +sleep[d].h : null, 'mehr Schlaf', 'weniger Schlaf'],
-    ['Schlafqualität', d => ci[d].sleepQ || null, 'besserer Schlaf', 'schlechterer Schlaf'],
-    ['Energie', d => ci[d].energy || null, 'mehr Energie', 'weniger Energie'],
-    ['Stimmung', d => ci[d].mood || null, 'bessere Stimmung', 'schlechtere Stimmung'],
-    ['Stress', d => ci[d].stress || null, 'mehr Stress', 'weniger Stress'],
-    ['Muskelkater', d => ci[d].sore || null, 'mehr Muskelkater', 'weniger Muskelkater'],
+    ['Schlafqualität', d => C(d).sleepQ || null, 'besserer Schlaf', 'schlechterer Schlaf'],
+    ['Energie', d => C(d).energy || null, 'mehr Energie', 'weniger Energie'],
+    ['Stimmung', d => C(d).mood || null, 'bessere Stimmung', 'schlechtere Stimmung'],
+    ['Stress', d => C(d).stress || null, 'mehr Stress', 'weniger Stress'],
+    ['Muskelkater', d => C(d).sore || null, 'mehr Muskelkater', 'weniger Muskelkater'],
     ['Kalorien am Vortag', d => { const t = prevNut(d); return t ? t.kcal : null; }, 'mehr Kalorien am Vortag', 'weniger Kalorien am Vortag'],
     ['Kohlenhydrate am Vortag', d => { const t = prevNut(d); return t ? t.c : null; }, 'mehr Kohlenhydrate am Vortag', 'weniger Kohlenhydrate am Vortag'],
     ['Eiweiß am Vortag', d => { const t = prevNut(d); return t ? t.p : null; }, 'mehr Eiweiß am Vortag', 'weniger Eiweiß am Vortag'],
     ['Schritte am Vortag', d => steps[addDays(d, -1)] ? +steps[addDays(d, -1)] : null, 'mehr Schritte am Vortag', 'weniger Schritte am Vortag'],
     ['Trainingsbelastung der 2 Vortage', d => (loadByDate[addDays(d, -1)] || 0) + (loadByDate[addDays(d, -2)] || 0), 'mehr Belastung davor', 'weniger Belastung davor'],
     ['Tage seit letztem Training', d => { const p = trainDays.filter(x => x < d).pop(); return p ? Math.round((new Date(d) - new Date(p)) / 864e5) : null; }, 'längere Pause', 'kürzere Pause'],
-    ['Alkohol am Vorabend', d => ci[d].alc ? 1 : 0, 'Alkohol', 'kein Alkohol', true],
-    ['Koffein vor dem Training', d => ci[d].coffee ? 1 : 0, 'Koffein', 'kein Koffein', true],
-    ['Sexuelle Aktivität (24 h) 🔒', d => (ci[d].sexA || ci[d].sexM) ? 1 : 0, 'sexuelle Aktivität', 'keine', true],
-    ['Krank / angeschlagen', d => ci[d].sick ? 1 : 0, 'angeschlagen', 'gesund', true],
-    ['Freier Tag', d => ci[d].off ? 1 : 0, 'freier Tag', 'Arbeitstag', true],
+    ['Alkohol am Vorabend', d => C(d).alc ? 1 : 0, 'Alkohol', 'kein Alkohol', true],
+    ['Koffein vor dem Training', d => C(d).coffee ? 1 : 0, 'Koffein', 'kein Koffein', true],
+    ['Sexuelle Aktivität (24 h) 🔒', d => (C(d).sexA || C(d).sexM) ? 1 : 0, 'sexuelle Aktivität', 'keine', true],
+    ['Krank / angeschlagen', d => C(d).sick ? 1 : 0, 'angeschlagen', 'gesund', true],
+    ['Freier Tag', d => C(d).off ? 1 : 0, 'freier Tag', 'Arbeitstag', true],
   ];
   const res = [];
-  F.forEach(([name, fx, hi, lo, bin]) => {
-    const pairs = dates.map(d => ({ x: fx(d), y: ci[d].lust })).filter(p => p.x !== null && p.x !== undefined && !isNaN(p.x));
+  const FF = tgt === 'rec' ? F.filter(f => !['Schlafdauer','Schlafqualität','Energie','Stimmung','Stress','Muskelkater','Krank / angeschlagen','Alkohol am Vorabend'].includes(f[0])) : F;
+  FF.forEach(([name, fx, hi, lo, bin]) => {
+    const pairs = dates.map(d => ({ x: fx(d), y: Yv(d) })).filter(p => p.x !== null && p.x !== undefined && !isNaN(p.x));
     if (pairs.length < 5) return;
     const r = pearson(pairs.map(p => p.x), pairs.map(p => p.y)); if (r === null) return;
     let extra = '';
@@ -5608,44 +5720,48 @@ function renderMotivation(){
       const a = pairs.filter(p => p.x === 1).map(p => p.y), b = pairs.filter(p => p.x === 0).map(p => p.y);
       if (a.length < 2 || b.length < 2) return;
       const ma = a.reduce((s, v) => s + v, 0) / a.length, mb = b.reduce((s, v) => s + v, 0) / b.length;
-      extra = `Ø Lust ${fmtNum(Math.round(ma * 10) / 10)} bei „${hi}" gegenüber ${fmtNum(Math.round(mb * 10) / 10)} bei „${lo}" (${a.length} / ${b.length} Tage)`;
+      extra = `Ø ${tLbl} ${fmtNum(Math.round(ma * 10) / 10)} bei „${hi}" gegenüber ${fmtNum(Math.round(mb * 10) / 10)} bei „${lo}" (${a.length} / ${b.length} Tage)`;
     }
     res.push({ name, r, n: pairs.length, sig: isSignificant(r, pairs.length), dir: r > 0 ? hi : lo, extra });
   });
   res.sort((a, b) => (b.sig - a.sig) || Math.abs(b.r) - Math.abs(a.r));
-  const last14 = dates.slice(-14).map(d => ci[d].lust);
+  const last14 = dates.slice(-14).map(d => Yv(d));
   const avg = last14.reduce((a, b) => a + b, 0) / last14.length;
   const tr = trendPct(last14);
-  const pPairs = dates.filter(d => perf[d]).map(d => ({ x: ci[d].lust, y: perf[d].pi }));
+  const pPairs = dates.filter(d => perf[d]).map(d => ({ x: Yv(d), y: perf[d].pi }));
   const pr = pPairs.length >= 5 ? pearson(pPairs.map(p => p.x), pPairs.map(p => p.y)) : null;
 
-  el.innerHTML = `
+  el.innerHTML = sw + `
     <div class="card accent">
-      <div class="card-title">Lust auf Training</div>
+      <div class="card-title">${tgt === 'rec' ? 'Erholung' : 'Lust auf Training'}</div>
       <div class="ana-kpis">
-        ${kpi('Ø letzte 14 Tage', fmtNum(Math.round(avg * 10) / 10) + ' / 5', dates.length + ' Check-ins insgesamt')}
+        ${kpi('Ø letzte 14 Tage', fmtNum(Math.round(avg * 10) / 10) + tUnit, dates.length + ' Check-ins insgesamt')}
         ${kpi('Trend', tr === null ? '–' : fmtPct(tr) + '/Tag', 'Richtung der letzten Einträge', pctClass(tr))}
         ${kpi('Lust → Leistung', pr === null ? '–' : 'r = ' + pr.toFixed(2).replace('.', ','), pr === null ? 'braucht 5 Trainingstage mit Check-in' : (Math.abs(pr) < 0.2 ? 'Lust sagt deine Leistung kaum voraus — Training lohnt sich auch an Tagen mit wenig Lust' : pr > 0 ? 'mehr Lust geht mit mehr Leistung einher' : 'kein positiver Zusammenhang'), '', true)}
       </div>
     </div>
     <div class="card"><div class="card-title">Verlauf</div><div id="motivChart" class="svgc"></div></div>
     <div class="card">
-      <div class="card-title">Was deine Lust beeinflusst</div>
+      <div class="card-title">Was deine ${tLbl} beeinflusst</div>
       ${dates.length < 8 ? `<div class="ci-hint" style="margin-top:0">Noch ${8 - dates.length} Check-ins bis zu ersten Mustern. Alles unten ist vorläufig.</div>` : ''}
       ${res.length ? res.map(x => `<div class="mo-row">
           <div class="mo-top"><b>${x.name}</b><span class="${x.sig ? 'corr-sig' : 'corr-tend'}">${x.sig ? '✓ belastbar' : Math.abs(x.r) < 0.2 ? 'kein Effekt' : 'Tendenz'}</span></div>
           <div class="mo-bar"><i style="left:50%; width:${Math.abs(x.r) * 50}%; ${x.r < 0 ? 'transform:translateX(-100%);' : ''} background:${x.r >= 0 ? 'var(--up)' : 'var(--down)'}"></i></div>
-          <div class="mo-txt">${Math.abs(x.r) < 0.2 ? 'Kein erkennbarer Zusammenhang' : `<b>${x.dir} → ${x.r > 0 ? 'mehr' : 'mehr'} Lust</b>`} · r = ${x.r.toFixed(2).replace('.', ',')} · ${x.n} Tage${x.extra ? '<br>' + x.extra : ''}</div>
+          <div class="mo-txt">${Math.abs(x.r) < 0.2 ? 'Kein erkennbarer Zusammenhang' : `<b>${x.dir} → ${tgt === 'rec' ? 'bessere Erholung' : 'mehr Lust'}</b>`} · r = ${x.r.toFixed(2).replace('.', ',')} · ${x.n} Tage${x.extra ? '<br>' + x.extra : ''}</div>
         </div>`).join('') : '<div class="ana-empty">Noch zu wenige gemeinsame Daten.</div>'}
       <div class="ci-hint">Grüner Balken: geht mit mehr Lust einher, orange: mit weniger. Als belastbar gilt ein Muster erst, wenn es bei deiner Datenmenge nicht mehr durch Zufall erklärbar ist.</div>
     </div>`;
   const ds = dates.slice(-30);
   svgBarChart(document.getElementById('motivChart'), {
     labels: ds.map(fmtDate), sub: ds.map(d => WD_SHORT[new Date(d + 'T12:00:00').getDay()]),
-    values: ds.map(d => ci[d].lust), colors: ds.map(d => ci[d].lust >= 4 ? ANA_COL.up : ci[d].lust <= 2 ? ANA_COL.down : ANA_COL.acc),
-    axisFmt: v => String(Math.round(v)), valFmt: v => String(v), height: 190, yTitle: 'Lust 1–5'
+    values: ds.map(d => Yv(d)), colors: ds.map(d => { const v = Yv(d), cs = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+      if (tgt === 'rec') return v >= 67 ? cs('--rec-hi') : v >= 34 ? cs('--rec-mid') : cs('--rec-lo');
+      return v >= 4 ? ANA_COL.up : v <= 2 ? ANA_COL.down : ANA_COL.acc; }),
+    axisFmt: v => String(Math.round(v)), valFmt: v => String(v), height: 190, yTitle: tgt === 'rec' ? 'Erholung %' : 'Lust 1–5'
   });
+  el.querySelectorAll('.trend-sw button').forEach(b => b.onclick = () => { motivTarget = b.dataset.t; renderMotivation(); });
 }
+
 
 // ================= PRIVATSPHÄRE: private Check-in-Felder, Backup, App-Sperre =================
 const PRIVATE_FIELDS = ['sexA', 'sexM', 'sex2h'];
@@ -6243,7 +6359,7 @@ function showBrandImport(){
 
 
 // ================= ANALYSE · LEISTUNG: Themen statt einer langen Seite =================
-const PERF_SECTIONS = [['hebel','Hebel'],['volumen','Volumen'],['zeit','Zeit & Pausen'],['zus','Zusammenhänge'],['uebung','Übung']];
+const PERF_SECTIONS = [['hebel','Hebel'],['volumen','Volumen'],['zeit','Zeit'],['zus','Einflüsse'],['uebung','Übung']];
 let perfSection = 'hebel';
 function setupPerfSections(){
   const ov = document.getElementById('progOverview'); if (!ov || ov.dataset.sec) return;
@@ -6270,6 +6386,190 @@ function showPerfSection(s){
 }
 // Erklärtexte: auf zwei Zeilen gekürzt, Antippen klappt auf
 document.addEventListener('click', e => { const n = e.target.closest && e.target.closest('.ana-note'); if (n) n.classList.toggle('open'); });
+
+// ================= SCORES: Schlaf · Erholung · Belastung (nach WHOOP-Prinzip) =================
+function _js(k){ try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch(e) { return {}; } }
+const SLEEP_BASE = 7.5;
+let _scoreCache = { t: 0, m: {} };
+function _sc(key, fn){ if (Date.now() - _scoreCache.t > 1500) _scoreCache = { t: Date.now(), m: {} }; if (!(key in _scoreCache.m)) _scoreCache.m[key] = fn(); return _scoreCache.m[key]; }
+
+// Belastung 0–21 (logarithmisch): Krafttraining, Ausdauerminuten, Schritte
+function strainScore(date){
+  return _sc('s' + date, () => {
+    const all = collectAllExercises(); let vol = 0, cardioMin = 0;
+    Object.keys(all).forEach(n => {
+      const kind = kindForExercise(n, all[n]); const today = all[n].filter(e => e.date === date);
+      if (!today.length) return;
+      if (kind === 'reps') { const s = buildSessions(today, 'reps', n)[0]; if (s) vol += s.volume; }
+      else if (kind === 'duration' && /lauf|run|geh|rad|cardio|walk/i.test(n)) cardioMin += today.reduce((a, e) => a + (+e.reps || 0), 0);
+    });
+    const ses = loadSessions().filter(s => s.date === date);
+    const trainMin = ses.reduce((a, s) => a + (s.durationMin || 0), 0);
+    const steps = +(_js('cutplan_steps_v1')[date] || 0);
+    if (!vol && !cardioMin && !trainMin && !steps) return null;
+    const load = vol / 1000 + cardioMin / 10 * 1.2 + Math.max(0, trainMin - cardioMin) / 10 * 0.4 + steps / 1000 * 0.5;
+    const s = 21 * (1 - Math.exp(-load / 15));
+    return { score: Math.round(s * 10) / 10, vol: Math.round(vol), cardioMin, trainMin, steps };
+  });
+}
+function sleepNeed(date){
+  const prev = strainScore(addDays(date, -1));
+  let debt = 0; const sl = _js('cutplan_sleep_v1');
+  for (let i = 1; i <= 3; i++) { const d = addDays(date, -i), h = sl[d] && sl[d].h; if (h) debt += Math.max(0, SLEEP_BASE - h); }
+  const strainAdd = prev ? Math.max(0, prev.score - 10) * 0.06 : 0;
+  const need = SLEEP_BASE + strainAdd + Math.min(0.75, debt * 0.25);
+  return { need: Math.round(need * 10) / 10, strainAdd: Math.round(strainAdd * 10) / 10, debtAdd: Math.round(Math.min(0.75, debt * 0.25) * 10) / 10 };
+}
+// Schlafleistung: Stunden gegen Bedarf, Schlafqualität aus dem Check-in als Feinanpassung
+function sleepScore(date){
+  return _sc('l' + date, () => {
+    const sl = _js('cutplan_sleep_v1')[date]; const h = sl && sl.h ? +sl.h : null;
+    if (!h) return null;
+    const n = sleepNeed(date), q = (loadCheckins()[date] || {}).sleepQ;
+    let pct = h / n.need * 100 + (q ? (q - 3) * 3 : 0);
+    return { score: Math.max(1, Math.min(100, Math.round(pct))), hours: h, need: n.need, q, n };
+  });
+}
+// Erholung 1–99 %: Schlaf, Check-in, Vortagesbelastung; Alkohol und Krankheit ziehen ab
+function recoveryScore(date){
+  return _sc('r' + date, () => {
+    const c = loadCheckins()[date] || {}, sl = sleepScore(date), ps = strainScore(addDays(date, -1));
+    const parts = [];
+    if (sl) parts.push(['Schlafleistung', Math.min(1, sl.score / 100), 0.35, sl.score + ' %']);
+    if (c.energy) parts.push(['Energie', (c.energy - 1) / 4, 0.18, c.energy + ' / 5']);
+    if (c.sore) parts.push(['Muskelkater', (5 - c.sore) / 4, 0.14, c.sore + ' / 5']);
+    if (c.stress) parts.push(['Stress', (5 - c.stress) / 4, 0.12, c.stress + ' / 5']);
+    if (c.sleepQ) parts.push(['Schlafqualität', (c.sleepQ - 1) / 4, 0.08, c.sleepQ + ' / 5']);
+    if (c.mood) parts.push(['Stimmung', (c.mood - 1) / 4, 0.05, c.mood + ' / 5']);
+    if (ps) parts.push(['Belastung gestern', 1 - Math.min(1, ps.score / 21), 0.08, fmtNum(ps.score)]);
+    if (parts.length < 2) return null;
+    const wsum = parts.reduce((a, p) => a + p[2], 0);
+    let r = parts.reduce((a, p) => a + p[1] * p[2], 0) / wsum * 100;
+    const pen = [];
+    if (c.alc) { r -= 12; pen.push(['Alkohol gestern', -12]); }
+    if (c.sick) { r -= 20; pen.push(['Krank / angeschlagen', -20]); }
+    r = Math.max(1, Math.min(99, Math.round(r)));
+    return { score: r, zone: r >= 67 ? 'hi' : r >= 34 ? 'mid' : 'lo', parts, pen };
+  });
+}
+function recColor(z){ return z === 'hi' ? 'var(--rec-hi)' : z === 'mid' ? 'var(--rec-mid)' : 'var(--rec-lo)'; }
+function strainTarget(rec){
+  if (!rec) return null;
+  return rec.zone === 'hi' ? [14, 18, 'Dein Körper ist bereit — heute darf es hart werden.']
+       : rec.zone === 'mid' ? [10, 14, 'Moderat trainieren: Technik und Volumen ja, keine Rekordversuche.']
+       : [0, 10, 'Aktive Erholung: Gehen, Mobility, leichtes Core — kein schweres Training.'];
+}
+function streakDays(){
+  const ci = loadCheckins(); let n = 0, d = localDateStr(Date.now());
+  if (!ci[d]) d = addDays(d, -1);
+  while (ci[d] && Object.keys(ci[d]).filter(k => k !== 'ts').length) { n++; d = addDays(d, -1); }
+  return n;
+}
+function ringSVG(pct, color, size, label, valTxt, unit){
+  const r = size / 2 - 7, C = 2 * Math.PI * r, p = Math.max(0, Math.min(1, pct || 0));
+  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" class="ring">
+    <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="var(--ring-track)" stroke-width="7"/>
+    <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${color}" stroke-width="7" stroke-linecap="round"
+      stroke-dasharray="${(C * p).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 ${size / 2} ${size / 2})"/>
+    <text x="50%" y="${size / 2 + 2}" text-anchor="middle" class="ring-v" fill="var(--ink)">${valTxt}</text>
+    <text x="50%" y="${size / 2 + 19}" text-anchor="middle" class="ring-u" fill="var(--ink-dim)">${unit || ''}</text>
+  </svg><div class="ring-l" style="color:${color}">${label}</div>`;
+}
+function dialsHTML(day){
+  const sl = sleepScore(day), rc = recoveryScore(day), st = strainScore(day);
+  const tg = strainTarget(rc);
+  const coach = rc ? `<b style="color:${recColor(rc.zone)}">${rc.score} % Erholung.</b> ${tg[2]} Ziel-Belastung <b>${tg[0]}–${tg[1]}</b>.`
+    : 'Trag Schlaf und Check-in ein — dann berechnet die App deine Erholung und eine Ziel-Belastung für heute.';
+  return `<div class="dials">
+      <button class="dial" data-sc="sleep">${ringSVG(sl ? sl.score / 100 : 0, 'var(--sleep)', 104, 'SCHLAF', sl ? sl.score : '–', sl ? '%' : '')}</button>
+      <button class="dial" data-sc="rec">${ringSVG(rc ? rc.score / 100 : 0, rc ? recColor(rc.zone) : 'var(--ink-dim)', 104, 'ERHOLUNG', rc ? rc.score : '–', rc ? '%' : '')}</button>
+      <button class="dial" data-sc="strain">${ringSVG(st ? st.score / 21 : 0, 'var(--strain)', 104, 'BELASTUNG', st ? fmtNum(st.score) : '–', st ? 'von 21' : '')}</button>
+    </div>
+    <div class="coach">${coach}</div>`;
+}
+
+// ---------- Detailansicht je Score ----------
+function openScoreSheet(kind, day){
+  const ov = document.getElementById('scoreSheet'); if (!ov) return;
+  day = day || ((typeof cockpitDate !== 'undefined' && cockpitDate) || localDateStr(Date.now()));
+  const days = []; for (let i = 13; i >= 0; i--) days.push(addDays(day, -i));
+  let head = '', body = '', series = [], colors = [], unit = '';
+  const bar = (lbl, v, max, txt, col) => `<div class="sc-part"><div class="sc-pt"><span>${lbl}</span><b>${txt}</b></div><div class="bar"><span style="width:${Math.max(2, Math.min(100, v / max * 100))}%; background:${col}"></span></div></div>`;
+  if (kind === 'rec') {
+    const rc = recoveryScore(day), tg = strainTarget(rc);
+    head = ringSVG(rc ? rc.score / 100 : 0, rc ? recColor(rc.zone) : 'var(--ink-dim)', 150, 'ERHOLUNG', rc ? rc.score : '–', '%');
+    body = rc ? `<div class="sc-sec">Was zur Erholung beiträgt</div>${rc.parts.map(p => bar(p[0], p[1], 1, p[3], p[1] >= .67 ? 'var(--rec-hi)' : p[1] >= .34 ? 'var(--rec-mid)' : 'var(--rec-lo)')).join('')}
+      ${rc.pen.map(p => `<div class="sc-pen">${p[0]} <b>${p[1]} %</b></div>`).join('')}
+      <div class="sc-sec">Empfehlung</div><div class="sc-txt">Ziel-Belastung heute <b>${tg[0]}–${tg[1]}</b> von 21. ${tg[2]}</div>` : '<div class="sc-txt">Noch keine Daten für diesen Tag.</div>';
+    body += `<div class="sc-note">Geschätzt aus Schlaf, Check-in und Vortagesbelastung. WHOOP misst zusätzlich Herzfrequenzvariabilität und Ruhepuls — diese Sensordaten hat die App nicht. Grün ab 67 %, gelb ab 34 %.</div>`;
+    days.forEach(d => { const r = recoveryScore(d); series.push(r ? r.score : 0); colors.push(r ? recColor(r.zone).replace(/var\((--[\w-]+)\)/, (m, v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim()) : ANA_COL.grid); });
+    unit = '%';
+  } else if (kind === 'sleep') {
+    const sl = sleepScore(day), tonight = sleepNeed(addDays(day, 1));
+    const cfg = loadGoalCfg() || {}; const wake = cfg.wake || '06:30';
+    const [wh, wm] = wake.split(':').map(Number); const bedMin = ((wh * 60 + wm - Math.round(tonight.need * 60) - 15) + 1440) % 1440;
+    const bed = String(Math.floor(bedMin / 60)).padStart(2, '0') + ':' + String(bedMin % 60).padStart(2, '0');
+    head = ringSVG(sl ? sl.score / 100 : 0, 'var(--sleep)', 150, 'SCHLAF', sl ? sl.score : '–', '%');
+    body = (sl ? `<div class="sc-sec">Letzte Nacht</div>${bar('Geschlafen', sl.hours, sl.need, fmtNum(sl.hours) + ' h von ' + fmtNum(sl.need) + ' h Bedarf', 'var(--sleep)')}
+      <div class="sc-txt">Bedarf: ${fmtNum(SLEEP_BASE)} h Grundbedarf${sl.n.strainAdd ? ' + ' + fmtNum(sl.n.strainAdd) + ' h wegen hoher Belastung' : ''}${sl.n.debtAdd ? ' + ' + fmtNum(sl.n.debtAdd) + ' h Schlafschuld' : ''}.</div>` : '<div class="sc-txt">Für diesen Tag ist kein Schlaf eingetragen.</div>')
+      + `<div class="sc-sec">Heute Nacht · Schlafplaner</div>
+      <div class="sc-plan"><div><span>Bedarf</span><b>${fmtNum(tonight.need)} h</b></div><div><span>Wecker</span><input type="time" id="scWake" value="${wake}"></div><div><span>Ins Bett um</span><b>${bed}</b></div></div>
+      <div class="sc-note">Inklusive 15 Minuten zum Einschlafen. Regelmäßige Bettzeiten verbessern die Schlafqualität zusätzlich.</div>`;
+    days.forEach(d => { const s = sleepScore(d); series.push(s ? s.score : 0); colors.push(ANA_COL.sleep); });
+    unit = '%';
+  } else {
+    const st = strainScore(day), rc = recoveryScore(day), tg = strainTarget(rc);
+    head = ringSVG(st ? st.score / 21 : 0, 'var(--strain)', 150, 'BELASTUNG', st ? fmtNum(st.score) : '–', 'von 21');
+    body = st ? `<div class="sc-sec">Woraus sich die Belastung ergibt</div>
+      ${bar('Krafttraining', st.vol, 12000, st.vol ? fmtVolume(st.vol) : '–', 'var(--strain)')}
+      ${bar('Ausdauer', st.cardioMin, 90, st.cardioMin ? st.cardioMin + ' min' : '–', 'var(--strain)')}
+      ${bar('Schritte', st.steps, 15000, st.steps ? st.steps.toLocaleString('de-DE') : '–', 'var(--strain)')}` : '<div class="sc-txt">Für diesen Tag gibt es noch keine Belastung.</div>';
+    if (tg) body += `<div class="sc-sec">Ziel heute</div><div class="sc-target"><i style="left:${tg[0] / 21 * 100}%; width:${(tg[1] - tg[0]) / 21 * 100}%"></i>${st ? `<em style="left:${st.score / 21 * 100}%"></em>` : ''}</div>
+      <div class="sc-txt">Ziel-Belastung <b>${tg[0]}–${tg[1]}</b> bei ${rc.score} % Erholung. ${st ? (st.score < tg[0] ? 'Noch Luft nach oben.' : st.score > tg[1] ? 'Über dem Ziel — morgen eher ruhiger.' : 'Im Zielbereich.') : ''}</div>`;
+    body += `<div class="sc-note">Logarithmische Skala wie bei WHOOP: Von 0 auf 10 geht es schnell, jeder Punkt über 14 kostet deutlich mehr Arbeit.</div>`;
+    days.forEach(d => { const s = strainScore(d); series.push(s ? s.score : 0); colors.push(ANA_COL.strain || ANA_COL.acc); });
+    unit = '';
+  }
+  document.getElementById('scBody').innerHTML = `<div class="sc-head">${head}<div class="sc-day">${dayLabel(day).replace(/^./, c => c.toUpperCase())}</div></div>${body}
+    <div class="sc-sec">Letzte 14 Tage</div><div id="scChart" class="svgc"></div>`;
+  ov.classList.add('open'); document.body.classList.add('as-lock');
+  svgBarChart(document.getElementById('scChart'), { labels: days.map(d => fmtDate(d)), sub: days.map(d => WD_SHORT[new Date(d + 'T12:00:00').getDay()]),
+    values: series, colors, height: 190, axisFmt: v => String(Math.round(v)), valFmt: v => String(Math.round(v)) });
+  const wk = document.getElementById('scWake'); if (wk) wk.onchange = () => { const c = loadGoalCfg() || Object.assign({}, GOAL_DEFAULTS); c.wake = wk.value; saveGoalCfg(c); openScoreSheet('sleep', day); };
+}
+function closeScoreSheet(){ document.getElementById('scoreSheet').classList.remove('open'); document.body.classList.remove('as-lock'); }
+
+// ---------- Analyse → Trends ----------
+let trendDays = 14;
+function renderTrends(){
+  const el = document.getElementById('trendBox'); if (!el) return;
+  const today = localDateStr(Date.now()), days = [];
+  for (let i = trendDays - 1; i >= 0; i--) days.push(addDays(today, -i));
+  const R = days.map(recoveryScore), S = days.map(strainScore), L = days.map(sleepScore);
+  const avg = (arr, from, to) => { const v = arr.slice(from, to).filter(Boolean).map(x => x.score); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+  const half = Math.floor(trendDays / 2);
+  const kp = (lbl, arr, unit, dec) => { const a = avg(arr, 0, trendDays), p = avg(arr, 0, half), c = avg(arr, half, trendDays);
+    const d = p !== null && c !== null ? c - p : null;
+    return kpi(lbl, a === null ? '–' : fmtNum(Math.round(a * (dec ? 10 : 1)) / (dec ? 10 : 1)) + unit, d === null ? 'zu wenig Daten' : `<span class="${d >= 0 ? 'c-up' : 'c-down'}">${d >= 0 ? '+' : ''}${fmtNum(Math.round(d * 10) / 10)}${unit}</span> zweite Hälfte`, ''); };
+  const zones = R.filter(Boolean).reduce((a, r) => { a[r.zone]++; return a; }, { hi: 0, mid: 0, lo: 0 });
+  el.innerHTML = `
+    <div class="trend-sw">${[7, 14, 30].map(n => `<button class="${n === trendDays ? 'on' : ''}" data-n="${n}">${n} Tage</button>`).join('')}</div>
+    <div class="card"><div class="ana-kpis">${kp('Ø Erholung', R, ' %')}${kp('Ø Belastung', S, '', true)}${kp('Ø Schlaf', L, ' %')}
+      ${kpi('Erholungs-Zonen', `<span style="color:var(--rec-hi)">${zones.hi}</span> · <span style="color:var(--rec-mid)">${zones.mid}</span> · <span style="color:var(--rec-lo)">${zones.lo}</span>`, 'grün · gelb · rot (Tage)')}</div></div>
+    <div class="card"><div class="card-title">Erholung & Belastung</div><div id="trRS" class="svgc"></div>
+      <div class="ana-note">Balken: Erholung in Zonenfarbe. Linie: Belastung, auf dieselbe Skala umgerechnet (21 = 100). Liegt die Linie dauerhaft über den Balken, trainierst du mehr, als du dich erholst.</div></div>
+    <div class="card"><div class="card-title">Schlafleistung</div><div id="trSL" class="svgc"></div></div>
+    <div class="card"><div class="card-title">Belastung</div><div id="trST" class="svgc"></div></div>`;
+  el.querySelectorAll('.trend-sw button').forEach(b => b.onclick = () => { trendDays = +b.dataset.n; renderTrends(); });
+  const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const zc = { hi: cssv('--rec-hi') || '#22E07A', mid: cssv('--rec-mid') || '#FFD43B', lo: cssv('--rec-lo') || '#FF4D5E' };
+  const labels = days.map(d => fmtDate(d));
+  svgBarChart(document.getElementById('trRS'), { labels, values: R.map(r => r ? r.score : 0), colors: R.map(r => r ? zc[r.zone] : ANA_COL.grid),
+    overlay: [{ values: S.map(s => s ? Math.round(s.score / 21 * 100) : null), color: cssv('--strain') || ANA_COL.acc, name: 'Belastung' }],
+    legend: [{ name: 'Erholung %', color: zc.hi }, { name: 'Belastung (0–21)', color: cssv('--strain') || ANA_COL.acc }], height: 220, axisFmt: v => Math.round(v) + '', valFmt: v => Math.round(v) + '' });
+  svgBarChart(document.getElementById('trSL'), { labels, values: L.map(s => s ? s.score : 0), color: ANA_COL.sleep, height: 180, axisFmt: v => Math.round(v) + '', valFmt: v => Math.round(v) + '' });
+  svgBarChart(document.getElementById('trST'), { labels, values: S.map(s => s ? s.score : 0), color: cssv('--strain') || ANA_COL.acc, height: 180, axisFmt: v => Math.round(v) + '', valFmt: v => fmtNum(Math.round(v * 10) / 10) });
+}
 
 refreshProgressSafeCopy();
 migrateLegacyEntries();
