@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v14.0: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v14.3: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v14.0: Cockpit kompakter ---------- */
+  /* ---------- v14.3: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1152,6 +1152,36 @@
   .subtab-btn{ flex:1 1 auto; min-width:0; padding:7px 6px; border:none !important; border-radius:8px; background:transparent !important;
     color:var(--ink-dim) !important; font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .subtab-btn.active{ background:var(--card) !important; color:var(--ink) !important; box-shadow:0 1px 3px rgba(0,0,0,.2); }
+
+  /* Erläuterungen zum Aufklappen */
+  details.ex{ margin-top:10px; border-top:1px solid var(--line); padding-top:8px; }
+  details.ex summary{ list-style:none; cursor:pointer; font-size:12.5px; font-weight:700; color:var(--lime); display:flex; align-items:center; gap:6px; }
+  details.ex summary::-webkit-details-marker{ display:none; }
+  details.ex summary::before{ content:'›'; display:inline-block; font-size:16px; line-height:1; transition:transform .2s; }
+  details.ex[open] summary::before{ transform:rotate(90deg); }
+  details.ex > div{ font-size:12.5px; line-height:1.6; color:var(--ink-dim); padding:8px 2px 2px; }
+  details.ex b{ color:var(--ink); }
+  .svgc-legend i.lg-line{ height:3px; width:16px; border-radius:2px; vertical-align:3px; }
+
+  /* Tab-Leiste: fünf Bereiche gleichmäßig über die volle Breite */
+  footer.tabbar{ justify-content:space-between !important; gap:0 !important; padding-left:6px !important; padding-right:6px !important; overflow-x:visible !important; }
+  footer.tabbar .nav-btn{ flex:1 1 0 !important; min-width:0 !important; margin:0 !important; padding:7px 2px; }
+  footer.tabbar .nav-btn .nav-ico{ width:44px; height:28px; border-radius:10px; }
+  footer.tabbar .nav-btn svg{ width:21px; height:21px; }
+
+  .bw-line{ font-size:11.5px; color:var(--ink-dim); margin-top:4px; line-height:1.4; }
+  .bw-line b{ color:var(--ink); font-family:var(--num-font); }
+
+  .bw-box{ margin:8px 0 2px; padding:10px; border-radius:12px; background:color-mix(in srgb, var(--ink) 4%, transparent); border:1px solid var(--line); }
+  .bw-box.ask{ border-color:var(--lime); }
+  .bw-box .bw-line{ margin:0; }
+  .bw-q{ font-size:12px; font-weight:700; margin:9px 0 6px; color:var(--ink); }
+  .bw-opts{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .bw-opt{ display:flex; flex-direction:column; align-items:flex-start; gap:1px; padding:8px 10px; min-width:0; text-align:left; border-radius:10px; border:1.5px solid var(--line);
+    background:var(--bg2); color:var(--ink); font-size:12px; font-weight:700; }
+  .bw-opt small{ font-size:10.5px; font-weight:600; color:var(--ink-dim); font-family:var(--num-font); }
+  .bw-opt.on{ border-color:var(--lime); box-shadow:0 0 0 1px var(--lime) inset; }
+  .bw-note{ font-size:10.5px; color:var(--ink-dim); margin-top:7px; line-height:1.45; }
   /* ================= v14: PERFORMANCE (nach WHOOP-Vorbild) ================= */
   :root{ --num-font: ui-monospace, monospace; --rec-hi:#2BB673; --rec-mid:#E3B23C; --rec-lo:#E5484D; --strain:#3B82C4; --ring-track: color-mix(in srgb, var(--ink) 10%, transparent); }
   :root[data-theme="performance"]{
@@ -1210,7 +1240,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v14.0</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v14.3</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -2595,9 +2625,11 @@ function migrateProgressNames(){
 
 
 // ---- TRAININGSVOLUMEN (Gewicht × Wdh., über alle Sätze) ----
-function volumeOfSets(sets){
+function volumeOfSets(sets, exName, date){
+  const bw = exName && date && isBodyweightExercise(exName) ? bodyweightOn(date) : null;
   return sets.reduce((sum, e) => {
-    const w = parseFloat(e.weight);
+    let w = parseFloat(e.weight);
+    if (bw) { const f = bwFactor(exName, e.v); w = (!isNaN(w) && w >= bw * 0.8) ? w * f : bw * f + (isNaN(w) ? 0 : w); }
     const r = parseFloat(e.reps);
     if (isNaN(r) || r <= 0) return sum;
     // Körpergewichtsübungen ohne Zusatzgewicht: nur Wiederholungen zählen, kein kg-Volumen
@@ -2774,6 +2806,7 @@ function saveSet(exName, date, setIdx, weightVal, repsVal, unit, opts){
   target.reps = hasReps ? parseInt(repsVal, 10) : null;
   target.unit = unit || 'reps';
   target.ts = now;                       // letzte Bearbeitung (nur informativ)
+  if (isBodyweightExercise(exName)) { const vc = bwVarChoice(exName); if (vc) target.v = vc; }
 
   // Erledigt-Zeitpunkt für die Pausenmessung:
   // – wird EINMAL gesetzt, wenn die Wiederholungen eingetragen bzw. das Häkchen getippt wird
@@ -2845,6 +2878,21 @@ function miniHistory(el, exName, kind, today){
   const unit = useVol ? fmtVolume(vals[vals.length - 1]) : vals[vals.length - 1] + (kind === 'duration' ? ' min' : kind === 'hold' ? ' s' : ' Wdh.');
   el.innerHTML = `<div class="qh-row"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${bars}</svg>
     <div class="qh-txt"><b>Letzte ${ss.length} Einheiten</b><span>zuletzt ${unit}${tr !== null ? ' · Trend <span class="' + pctClass(tr) + '">' + fmtPct(tr) + '</span>' : ''}</span></div></div>`;
+}
+
+
+function bwBoxHTML(name, date){
+  const p = bwProfile(name), bw = bodyweightOn(date), ch = bwVarChoice(name), o = bwOption(name, ch);
+  const need = p.ask && !ch;
+  const line = bw
+    ? `⚖ <b>${fmtNum(bw)} kg</b> × ${Math.round(o[2] * 100)} % ≈ <b>${fmtNum(Math.round(bw * o[2] * 10) / 10)} kg</b> bewegte Last · Feld unten nur für Zusatzgewicht (z. B. Weste)`
+    : '⚖ Trag im Cockpit dein Gewicht ein — dann rechnet die App es hier automatisch ein';
+  return `<div class="bw-box${need ? ' ask' : ''}">
+    <div class="bw-line">${line}</div>
+    <div class="bw-q">${need ? '👉 ' : ''}${p.q}</div>
+    <div class="bw-opts">${p.opts.map(([k, l, f]) => `<button class="bw-opt${(ch || (!p.ask && p.opts[0][0])) === k ? ' on' : ''}" data-ex="${name}" data-v="${k}">${l}<small>${Math.round(f * 100)} %</small></button>`).join('')}</div>
+    ${p.est ? '<div class="bw-note">Anteile geschätzt aus Messungen an Liegestütz-Varianten. Wichtig ist, dieselbe Variante zu vergleichen.</div>' : ''}
+  </div>`;
 }
 
 let migrationDone = false;
@@ -2937,7 +2985,8 @@ function renderTodayEntry(){
             <span class="set-check ${saved && saved.reps !== null && saved.reps !== undefined ? (saved.prefill ? 'pre' : 'on') : ''}" data-ex="${ex.name}" data-set="${s}">&#10003;</span>
           </div>`);
       } else {
-        const wPh = (prev && prev.weight) ? fmtNum(prev.weight) : 'kg';
+        const bwNow = isBodyweightExercise(ex.name) ? bodyweightOn(today) : null;
+        const wPh = bwNow ? '+0' : (prev && prev.weight) ? fmtNum(prev.weight) : 'kg';
         const prevTag = prev
           ? `<span class="set-prev" title="letztes Mal">${prev.weight ? fmtNum(prev.weight) + 'kg' : ''}&times;${prev.reps}</span>`
           : `<span class="set-prev empty">–</span>`;
@@ -2964,6 +3013,7 @@ function renderTodayEntry(){
         <div class="qcard-hl">
           <div class="qcard-name">${ex.name}</div>
           <div class="qcard-target">Ziel: ${ex.sets}<span class="qc-sum" data-sumfor="${ex.name}"></span></div>
+          ${isBodyweightExercise(ex.name) && exerciseKind(ex.sets) === 'reps' ? bwBoxHTML(ex.name, today) : ''}
         </div>
         <span class="qc-chev">⌄</span>
       </div>
@@ -2981,6 +3031,7 @@ function renderTodayEntry(){
   }).join('');
 
   try { if (deloadActive()) listEl.insertAdjacentHTML('afterbegin', `<div class="ins ins-info" style="margin-bottom:12px"><div class="ins-ic">🧘</div><div class="ins-b"><div class="ins-t">Deload-Woche</div><div class="ins-s">Etwa 60 % deiner üblichen Gewichte, je Übung ein Satz weniger. Saubere Technik statt Rekorde.</div></div></div>`); } catch(e) {}
+  listEl.querySelectorAll('.bw-opt').forEach(b => b.onclick = (ev) => { ev.stopPropagation(); setBwVariant(b.dataset.ex, b.dataset.v); expandedEx.add(b.dataset.ex); renderTodayEntry(); });
   // Kopf antippen = ein-/ausklappen
   listEl.querySelectorAll('.qcard-head').forEach(hd => hd.onclick = () => {
     const card = hd.closest('.qcard');
@@ -3035,8 +3086,8 @@ function renderTodayEntry(){
       const prevDate = lastDateBefore(hist, today);
       const prevSets = prevDate ? setsOf(hist, prevDate) : [];
 
-      const vNow = volumeOfSets(todaySets);
-      const vPrev = volumeOfSets(prevSets);
+      const vNow = volumeOfSets(todaySets, ex.name, today);
+      const vPrev = volumeOfSets(prevSets, ex.name, prevDate);
       const kAgg = exerciseKind(ex.sets);
       // Nur Kraftübungen zählen ins kg-Gesamtvolumen; Dauer/Halte separat
       if (kAgg === 'reps') { dayNow += vNow; dayPrev += vPrev; }
@@ -3366,7 +3417,7 @@ function svgBarChart(el, o){
   s += `<line x1="${padL}" x2="${W - padR}" y1="${padT + plotH}" y2="${padT + plotH}" stroke="${ANA_COL.dim}" stroke-width="1"/>`;
 
   let legend = '';
-  if (o.legend) legend = `<div class="svgc-legend">${o.legend.map(st => `<span><i style="background:${st.color}"></i>${svgEsc(st.name)}</span>`).join('')}</div>`;
+  if (o.legend) legend = `<div class="svgc-legend">${o.legend.map(st => `<span><i class="${st.line ? 'lg-line' : ''}${st.dash ? ' lg-dash' : ''}" style="${st.dash ? `background:repeating-linear-gradient(90deg, ${st.color} 0 4px, transparent 4px 7px)` : `background:${st.color}`}"></i>${svgEsc(st.name)}</span>`).join('')}</div>`;
   if (o.stacks) legend = `<div class="svgc-legend">${o.stacks.map(st => `<span><i style="background:${st.color}"></i>${svgEsc(st.name)}</span>`).join('')}</div>`;
 
   el.innerHTML = `${legend}<div class="svgc-scroll"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${s}</svg></div>
@@ -3514,8 +3565,33 @@ function kindForExercise(exName, entries){
 
 
 // ---- Körpergewicht für Körpergewichtsübungen ----
-const BW_EX_RE = /klimmz|muscle|dips/i;
-function isBodyweightExercise(name){ return BW_EX_RE.test(name || ''); }
+// Eigengewichtsübungen: Anteil des Körpergewichts je Ausführung.
+// Liegestütz-Werte gemessen (Ebben et al. 2011, Kraftmessplatte); Pike-Werte daraus abgeschätzt.
+const BW_VARIANTS = [
+  { re: /pike/i, q: 'In welchem Winkel machst du sie?', ask: true, est: true,
+    opts: [['p45', 'Boden · ~45°', 0.60], ['p60', 'Boden, steiler · ~60°', 0.68], ['p75', 'Füße erhöht · ~75°', 0.80], ['p90', 'Wand-Handstand · 90°', 0.95]] },
+  { re: /liegestütz|push-?up/i, not: /pike|renegade|pushdown/i, q: 'Welche Variante?', ask: true,
+    opts: [['knee', 'Auf den Knien', 0.49], ['he', 'Hände erhöht', 0.55], ['std', 'Standard', 0.64], ['fe30', 'Füße 30 cm erhöht', 0.70], ['fe60', 'Füße 60 cm erhöht', 0.74]] },
+  { re: /dips/i, q: 'Unterstützung?', opts: [['full', 'Volles Körpergewicht', 1.0], ['band', 'Mit Band', 0.75], ['feet', 'Füße als Hilfe', 0.60]] },
+  { re: /klimmz|pull-?up|chin-?up/i, q: 'Unterstützung?', opts: [['full', 'Volles Körpergewicht', 1.0], ['band', 'Mit Band', 0.75]] },
+  { re: /muscle/i, q: 'Variante?', opts: [['full', 'Volle Muscle-Ups', 1.0], ['band', 'Mit Band', 0.75], ['jump', 'Mit Sprung/Fußhilfe', 0.60]] },
+];
+function bwProfile(name){ name = name || ''; if (/renegade/i.test(name)) return null; return BW_VARIANTS.find(p => p.re.test(name) && !(p.not && p.not.test(name))) || null; }
+function isBodyweightExercise(name){ return !!bwProfile(name); }
+function bwVarChoice(name){ try { return (JSON.parse(localStorage.getItem('cutplan_bwvar_v1') || '{}') || {})[name] || null; } catch(e) { return null; } }
+function bwOption(name, v){ const p = bwProfile(name); if (!p) return null; return p.opts.find(o => o[0] === v) || p.opts.find(o => o[0] === bwVarChoice(name)) || p.opts[0]; }
+function bwFactor(name, v){ const o = bwOption(name, v); return o ? o[2] : 1; }
+// Variante wählen: gilt ab sofort, und einmalig auch für frühere Einträge ohne Angabe
+function setBwVariant(name, key){
+  let m = {}; try { m = JSON.parse(localStorage.getItem('cutplan_bwvar_v1') || '{}') || {}; } catch(e) {}
+  const p = bwProfile(name);
+  // frühere Einträge ohne Angabe: bisherige Wahl — bzw. Standard (volles Körpergewicht); bei Pike gilt die erste Wahl rückwirkend
+  const prev = m[name] || (p && p.ask ? key : (p ? p.opts[0][0] : key));
+  m[name] = key; localStorage.setItem('cutplan_bwvar_v1', JSON.stringify(m));
+  const d = loadProgress(), today = localDateStr(Date.now());
+  Object.keys(d).filter(n => aliasKey(n) === aliasKey(name)).forEach(n => (d[n] || []).forEach(e => { if (e.date === today) e.v = key; else if (!e.v) e.v = prev; }));
+  saveProgress(d);
+}
 function bodyweightOn(date){
   let w = {};
   try { w = JSON.parse(localStorage.getItem('cutplan_weight_v1') || '{}') || {}; } catch(e) {}
@@ -3541,8 +3617,10 @@ function buildSessions(entries, kind, exName){
     const sets = byDate[date].slice().sort((a,b) => (a.setIdx||0) - (b.setIdx||0));
     const valid = sets.filter(s => s.reps !== null && s.reps !== undefined && !isNaN(s.reps) && s.reps > 0);
     const bw = bwEx ? bodyweightOn(date) : null;
-    // Bei Klimmzügen/Muscle-Ups/Dips: Körpergewicht + Zusatzgewicht = tatsächlich bewegte Last
-    const eff = s => bw ? bw + ((s.weight && !isNaN(s.weight)) ? s.weight : 0) : s.weight;
+    // Körpergewichtsübungen: Körpergewicht des Trainingstags + Zusatzgewicht = bewegte Last.
+    // Wurde früher das Körpergewicht selbst eingetippt (≥ 80 % davon), nicht doppelt zählen.
+    const eff = s => { const w = (s.weight && !isNaN(s.weight)) ? +s.weight : 0; if (!bw) return s.weight; const f = bwFactor(exName, s.v);
+      return Math.round((w >= bw * 0.8 ? w * f : bw * f + w) * 10) / 10; };
     const weighted = valid.filter(s => { const w = eff(s); return w !== null && w !== undefined && !isNaN(w) && w > 0; })
                           .map(s => ({ ...s, weight: eff(s) }));
     const volume = weighted.reduce((sum, s) => sum + s.weight * s.reps, 0);
@@ -6555,20 +6633,27 @@ function renderTrends(){
   el.innerHTML = `
     <div class="trend-sw">${[7, 14, 30].map(n => `<button class="${n === trendDays ? 'on' : ''}" data-n="${n}">${n} Tage</button>`).join('')}</div>
     <div class="card"><div class="ana-kpis">${kp('Ø Erholung', R, ' %')}${kp('Ø Belastung', S, '', true)}${kp('Ø Schlaf', L, ' %')}
-      ${kpi('Erholungs-Zonen', `<span style="color:var(--rec-hi)">${zones.hi}</span> · <span style="color:var(--rec-mid)">${zones.mid}</span> · <span style="color:var(--rec-lo)">${zones.lo}</span>`, 'grün · gelb · rot (Tage)')}</div></div>
+      ${kpi('Erholungs-Zonen', `<span style="color:var(--rec-hi)">${zones.hi}</span> · <span style="color:var(--rec-mid)">${zones.mid}</span> · <span style="color:var(--rec-lo)">${zones.lo}</span>`, 'grün · gelb · rot (Tage)')}</div>
+      <details class="ex"><summary>Was bedeuten die Zahlen?</summary><div>Durchschnitt über den gewählten Zeitraum. Die kleine farbige Zahl vergleicht die zweite Hälfte des Zeitraums mit der ersten: <span class="c-up">türkis</span> = besser geworden, <span class="c-down">orange</span> = schlechter. Bei der Belastung heißt „mehr" nur „mehr trainiert", nicht automatisch besser.</div></details></div>
     <div class="card"><div class="card-title">Erholung & Belastung</div><div id="trRS" class="svgc"></div>
-      <div class="ana-note">Balken: Erholung in Zonenfarbe. Linie: Belastung, auf dieselbe Skala umgerechnet (21 = 100). Liegt die Linie dauerhaft über den Balken, trainierst du mehr, als du dich erholst.</div></div>
-    <div class="card"><div class="card-title">Schlafleistung</div><div id="trSL" class="svgc"></div></div>
-    <div class="card"><div class="card-title">Belastung</div><div id="trST" class="svgc"></div></div>`;
+      <details class="ex"><summary>Wie lese ich das?</summary><div>Jeder <b>Balken</b> ist die Erholung eines Tages (0–100 %), eingefärbt nach Zone: <b style="color:var(--rec-hi)">grün</b> ab 67 % — bereit für hartes Training, <b style="color:var(--rec-mid)">gelb</b> 34–66 % — moderat, <b style="color:var(--rec-lo)">rot</b> bis 33 % — Erholung priorisieren. Die <b style="color:var(--strain)">blaue Linie</b> ist die Belastung desselben Tages, umgerechnet auf die gleiche Skala (21 = 100). Liegt die Linie über mehrere Tage über den Balken, trainierst du mehr, als du dich erholst.</div></details></div>
+    <div class="card"><div class="card-title">Schlafleistung</div><div id="trSL" class="svgc"></div>
+      <details class="ex"><summary>Wie lese ich das?</summary><div>Jeder <b style="color:var(--sleep)">Balken</b> zeigt, wie viel Prozent deines Schlafbedarfs du in der Nacht davor gedeckt hast. 100 % = Bedarf erfüllt. Der Bedarf liegt bei 7,5 h und steigt nach harten Tagen und bei Schlafschulden. Die <b>gestrichelte Linie</b> markiert 85 % — darüber gilt die Nacht als gut, unter 70 % als zu wenig.</div></details></div>
+    <div class="card"><div class="card-title">Belastung</div><div id="trST" class="svgc"></div>
+      <details class="ex"><summary>Wie lese ich das?</summary><div>Jeder <b style="color:var(--strain)">Balken</b> ist die Tagesbelastung auf der Skala 0–21 aus Krafttraining, Ausdauerminuten und Schritten. Grob: <b>unter 10</b> leicht, <b>10–13</b> moderat, <b>14–17</b> hoch, <b>ab 18</b> sehr hoch. Die Skala ist logarithmisch — die letzten Punkte kosten viel mehr Arbeit als die ersten. Die <b>gestrichelten Linien</b> markieren die Grenzen 10 und 14.</div></details></div>`;
   el.querySelectorAll('.trend-sw button').forEach(b => b.onclick = () => { trendDays = +b.dataset.n; renderTrends(); });
   const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
   const zc = { hi: cssv('--rec-hi') || '#22E07A', mid: cssv('--rec-mid') || '#FFD43B', lo: cssv('--rec-lo') || '#FF4D5E' };
   const labels = days.map(d => fmtDate(d));
   svgBarChart(document.getElementById('trRS'), { labels, values: R.map(r => r ? r.score : 0), colors: R.map(r => r ? zc[r.zone] : ANA_COL.grid),
     overlay: [{ values: S.map(s => s ? Math.round(s.score / 21 * 100) : null), color: cssv('--strain') || ANA_COL.acc, name: 'Belastung' }],
-    legend: [{ name: 'Erholung %', color: zc.hi }, { name: 'Belastung (0–21)', color: cssv('--strain') || ANA_COL.acc }], height: 220, axisFmt: v => Math.round(v) + '', valFmt: v => Math.round(v) + '' });
-  svgBarChart(document.getElementById('trSL'), { labels, values: L.map(s => s ? s.score : 0), color: ANA_COL.sleep, height: 180, axisFmt: v => Math.round(v) + '', valFmt: v => Math.round(v) + '' });
-  svgBarChart(document.getElementById('trST'), { labels, values: S.map(s => s ? s.score : 0), color: cssv('--strain') || ANA_COL.acc, height: 180, axisFmt: v => Math.round(v) + '', valFmt: v => fmtNum(Math.round(v * 10) / 10) });
+    legend: [{ name: 'Erholung ≥ 67 %', color: zc.hi }, { name: '34–66 %', color: zc.mid }, { name: '≤ 33 %', color: zc.lo }, { name: 'Belastung', color: cssv('--strain') || ANA_COL.acc, line: true }], height: 220, axisFmt: v => Math.round(v) + '', valFmt: v => Math.round(v) + '' });
+  svgBarChart(document.getElementById('trSL'), { labels, values: L.map(s => s ? s.score : 0), color: ANA_COL.sleep, height: 190,
+    overlay: [{ values: labels.map(() => 85), color: ANA_COL.dim, dash: true }],
+    legend: [{ name: 'Schlafleistung %', color: ANA_COL.sleep }, { name: 'gute Nacht ab 85 %', color: ANA_COL.dim, line: true, dash: true }], axisFmt: v => Math.round(v) + '', valFmt: v => Math.round(v) + '' });
+  svgBarChart(document.getElementById('trST'), { labels, values: S.map(s => s ? s.score : 0), color: cssv('--strain') || ANA_COL.acc, height: 190,
+    overlay: [{ values: labels.map(() => 10), color: ANA_COL.dim, dash: true }, { values: labels.map(() => 14), color: ANA_COL.dim, dash: true }],
+    legend: [{ name: 'Belastung 0–21', color: cssv('--strain') || ANA_COL.acc }, { name: 'Grenzen moderat (10) · hoch (14)', color: ANA_COL.dim, line: true, dash: true }], axisFmt: v => Math.round(v) + '', valFmt: v => fmtNum(Math.round(v * 10) / 10) });
 }
 
 refreshProgressSafeCopy();
