@@ -982,6 +982,18 @@
   .sc-steps{ padding-left:20px; margin:10px 0 0; font-size:13px; line-height:1.6; color:var(--ink); }
   .sc-steps li{ margin-bottom:8px; } .sc-steps i{ color:var(--lime); font-style:normal; font-weight:700; }
   .sc-tpl{ margin:8px 0; padding:10px; border-radius:10px; background:var(--bg2); border:1px solid var(--line); font-family:ui-monospace,monospace; font-size:11.5px; word-break:break-all; user-select:all; -webkit-user-select:all; }
+
+  /* ---------- Körperzusammensetzung ---------- */
+  .bd-pct{ color:var(--ink-dim); font-size:11px; }
+  .comp-bar{ display:flex; height:22px; border-radius:11px; overflow:hidden; margin:6px 0 12px; background:var(--bg2); }
+  .comp-bar i{ display:block; height:100%; }
+  .comp-bar i + i{ border-left:2px solid var(--card); }
+  .comp-leg{ display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; }
+  .comp-leg span{ display:grid; grid-template-columns:12px 1fr auto; column-gap:7px; align-items:center; font-size:12.5px; }
+  .comp-leg span i{ width:10px; height:10px; border-radius:3px; display:block; }
+  .comp-leg b{ font-family:ui-monospace,monospace; font-size:13px; }
+  .comp-note{ font-size:11px; color:var(--ink-dim); margin-top:10px; line-height:1.5; }
+  .comp-leg em{ grid-column:2 / -1; font-style:normal; font-size:11px; color:var(--ink-dim); }
   /* ================= v12: Kopfzeile kompakt, mehr Platz für Inhalt ================= */
   header.top{ padding: calc(6px + env(safe-area-inset-top, 0px)) 18px 8px !important; }
   header.top .eyebrow{ font-size:9.5px !important; letter-spacing:.14em; margin-bottom:1px !important; opacity:.8; }
@@ -1087,7 +1099,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v13.0</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v13.1</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1727,7 +1739,7 @@
   <section class="view" id="view-analyse"></section>
   <section class="view" id="view-woche"><div id="weekReport"></div></section>
   <section class="view" id="view-motivation"><div id="motivBox"></div></section>
-  <section class="view" id="view-koerper"></section>
+  <section class="view" id="view-koerper"><div id="bodyAna"></div></section>
   <section class="view" id="view-einstellungen">
     <div class="card accent">
       <div class="card-title">Farbschema</div>
@@ -2312,7 +2324,7 @@ function showView(viewId){
   document.querySelectorAll('.subnav-btn').forEach(b=>b.classList.toggle('active', b.dataset.v===viewId));
   currentViewId = viewId;
   if (viewId==='dashboard') { renderDashboard(); try { renderHeute(); } catch(e) {} }
-  if (viewId==='koerper') renderDashboard();
+  if (viewId==='koerper') { renderDashboard(); try { renderBodyAnalysis(); } catch(e) {} }
   if (viewId==='analyse') { const ov = document.getElementById('progOverview'); if (ov) ov.style.display = 'block'; try { renderOverview(); } catch(e) {} }
   if (viewId==='progress') { try { currentProgTab = 'today'; switchProgView(); } catch(e) {} }
   if (viewId==='einstellungen') renderSettings();
@@ -3264,14 +3276,28 @@ function svgLineChart(el, o){
     s += `<line x1="${padL}" x2="${W - padR}" y1="${yy}" y2="${yy}" stroke="${ANA_COL.grid}"/>`;
     s += `<text x="${padL - 6}" y="${(+yy + 3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="${ANA_COL.dim}">${svgEsc(fmt(v))}</text>`;
   }
-  o.series.forEach(se => {
+  if (o.zero && lo < 0 && hi > 0) s += `<line x1="${padL}" x2="${W - padR}" y1="${y(0).toFixed(1)}" y2="${y(0).toFixed(1)}" stroke="${ANA_COL.ink}" stroke-opacity=".45" stroke-width="1.2"/>`;
+  const gid = 'lg' + Math.random().toString(36).slice(2, 8);
+  o.series.forEach((se, si) => {
+    if (o.area && si === 0) {
+      const pts0 = se.values.map((v, i) => (v === null || v === undefined || isNaN(v)) ? null : [xAt(i), y(v)]).filter(Boolean);
+      if (pts0.length >= 2) {
+        s += `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${se.color}" stop-opacity=".28"/><stop offset="1" stop-color="${se.color}" stop-opacity="0"/></linearGradient></defs>`;
+        s += `<path d="M${pts0.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L')} L${pts0[pts0.length - 1][0].toFixed(1)} ${padT + plotH} L${pts0[0][0].toFixed(1)} ${padT + plotH} Z" fill="url(#${gid})"/>`;
+      }
+    }
     const pts = se.values.map((v, i) => (v === null || v === undefined || isNaN(v)) ? null : [xAt(i), y(v)]);
     let d = '', started = false;
     pts.forEach(p => { if (!p) return; d += (started ? ' L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); started = true; });
     s += `<path d="${d}" fill="none" stroke="${se.color}" stroke-width="2.5" ${se.dash ? 'stroke-dasharray="5 4"' : ''}/>`;
     pts.forEach((p, i) => {
       if (!p) return;
-      s += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="${se.color}"/>`;
+      // gestrichelte Hilfslinien ohne Punkte, nur mit Endwert (unter der Linie, damit nichts überlappt)
+      if (se.dash) {
+        if (i === se.values.length - 1 || pts.slice(i + 1).every(q => !q)) s += `<text x="${p[0].toFixed(1)}" y="${(p[1] + 15 > padT + plotH - 2 ? p[1] - 6 : p[1] + 15).toFixed(1)}" text-anchor="end" font-size="9.5" font-weight="700" fill="${se.color}">${svgEsc(fmt(se.values[i]))}</text>`;
+        return;
+      }
+      s += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${compact ? 3 : 4}" fill="${se.color}"/>`;
       if (!compact || i === n - 1) s += `<text x="${p[0].toFixed(1)}" y="${(p[1] - 8).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="700" fill="${se.color}">${svgEsc(fmt(se.values[i]))}</text>`;
     });
   });
@@ -5198,8 +5224,8 @@ const CHECK_Q = [
 const CHECK_FLAGS = [['alc', 'Alkohol gestern'], ['sick', 'Krank / angeschlagen'], ['off', 'Freier Tag'], ['coffee', 'Koffein vor dem Training']];
 const CHECK_PRIVATE = [['sexA', 'Sex (letzte 24 h)'], ['sexM', 'Selbstbefriedigung (letzte 24 h)'], ['sex2h', 'davon < 2 h vor dem Training']];
 const BODY_FIELDS = [
-  ['w', 'Gewicht', 'kg', 0.1], ['bf', 'Körperfett', '%', 0.1], ['muscle', 'Muskelmasse', 'kg', 0.1],
-  ['water', 'Wasseranteil', '%', 0.1], ['bone', 'Knochenmasse', 'kg', 0.1], ['visceral', 'Viszeralfett', 'Index', 1],
+  ['w', 'Gewicht', 'kg', 0.1], ['fatKg', 'Fettmasse', 'kg', 0.1], ['muscle', 'Muskelmasse', 'kg', 0.1],
+  ['waterKg', 'Wasser', 'kg', 0.1], ['bone', 'Knochenmasse', 'kg', 0.1], ['visceral', 'Viszeralfett', 'Index', 1],
 ];
 const BODY_MORE = [
   ['bmr', 'Grundumsatz', 'kcal', 1], ['hr', 'Puls im Stehen', 'bpm', 1], ['pwv', 'Pulswellengeschw.', 'm/s', 0.1],
@@ -5311,14 +5337,23 @@ function renderHeute(){
   const qHTML = CHECK_Q.map(([key, lbl, words]) => `<div class="ci-q"><div class="ci-l">${lbl}<span id="ciw-${key}">${ci[key] ? words[ci[key] - 1] : ''}</span></div>
       <div class="ci-scale">${[1,2,3,4,5].map(v => `<button class="ci-b${ci[key] === v ? ' on' : ''}" data-k="${key}" data-v="${v}">${v}</button>`).join('')}</div></div>`).join('');
   const fHTML = CHECK_FLAGS.map(([key, lbl]) => `<button class="ci-flag${ci[key] ? ' on' : ''}" data-f="${key}">${lbl}</button>`).join('');
+  const refW = b.w !== undefined ? +b.w : ((weightOn(today) || {}).v || null);
+  const goalCut = (loadGoalCfg() || GOAL_DEFAULTS).goal !== 'bulk';
   const field = ([key, lbl, unit, step]) => {
     const pv = prevBody(today, key), v = b[key];
     const dlt = (v !== undefined && pv) ? Math.round((v - pv.v) * 10) / 10 : null;
+    const good = key === 'w' ? (goalCut ? dlt < 0 : dlt > 0) : ['fatKg','bf','visceral'].includes(key) ? dlt < 0 : ['muscle'].includes(key) ? dlt > 0 : null;
+    // Anteil am Körpergewicht
+    let pct = '';
+    if (['fatKg','muscle','waterKg','bone'].includes(key) && v !== undefined && refW) pct = `${fmtNum(Math.round(v / refW * 1000) / 10)} % des Gewichts`;
+    else if (key === 'fatKg' && v === undefined && b.bf !== undefined) pct = `${fmtNum(b.bf)} % (aus Import)`;
     return `<label class="bd-f"><span>${lbl}</span><div class="bd-in"><input type="number" inputmode="decimal" step="${step}" data-b="${key}" value="${v ?? ''}" placeholder="${pv ? fmtNum(pv.v) : '–'}"><em>${unit}</em></div>
-      ${dlt !== null && dlt !== 0 ? `<small class="${(['bf','visceral'].includes(key) ? dlt < 0 : key === 'muscle' ? dlt > 0 : true) ? 'c-up' : 'c-down'}">${dlt > 0 ? '+' : ''}${fmtNum(dlt)} seit ${fmtDate(pv.d)}</small>` : ''}</label>`;
+      ${pct ? `<small class="bd-pct">${pct}</small>` : ''}
+      ${dlt !== null && dlt !== 0 ? `<small class="${good === null ? 'c-flat' : good ? 'c-up' : 'c-down'}">${dlt > 0 ? '+' : ''}${fmtNum(dlt)} ${unit === 'Index' ? '' : unit} seit ${fmtDate(pv.d)}</small>` : ''}</label>`;
   };
-  const ffm = b.w && b.bf ? Math.round(b.w * (1 - b.bf / 100) * 10) / 10 : null;
-  const fm = b.w && b.bf ? Math.round(b.w * b.bf / 100 * 10) / 10 : null;
+  const fmRaw = b.fatKg !== undefined ? +b.fatKg : (b.bf !== undefined && refW ? refW * b.bf / 100 : null);
+  const fm = fmRaw !== null && refW ? Math.round(fmRaw * 10) / 10 : null;
+  const ffm = fm !== null ? Math.round((refW - fm) * 10) / 10 : null;
 
   el.innerHTML = `
     ${!isPast && [0, 1].includes(new Date(realToday + 'T12:00:00').getDay()) ? `<button class="wr-teaser" id="ckReport"><span>📋</span><div><b>Dein Wochenbericht ist da</b><small>Bilanz der Woche und was du nächste Woche anpassen solltest</small></div><em>›</em></button>` : ''}
@@ -5365,7 +5400,7 @@ function renderHeute(){
     <div class="card">
       <div class="card-title">Körperwerte · Withings</div>
       <div class="bd-grid">${BODY_FIELDS.map(field).join('')}</div>
-      ${ffm ? `<div class="bd-calc"><span>Fettfreie Masse <b>${fmtNum(ffm)} kg</b></span><span>Fettmasse <b>${fmtNum(fm)} kg</b></span></div>` : ''}
+      ${ffm ? `<div class="bd-calc"><span>Fettfreie Masse <b>${fmtNum(ffm)} kg</b></span><span>Körperfett <b>${fmtNum(Math.round(fm / refW * 1000) / 10)} %</b></span></div>` : ''}
       <details class="bd-more"><summary>Herz, Nerven & Grundumsatz</summary><div class="bd-grid">${BODY_MORE.map(field).join('')}</div></details>
       <details class="bd-more"><summary>Segmente · Muskelmasse je Körperbereich</summary><div class="bd-grid">${BODY_SEG.map(([k2, l]) => field(['seg_' + k2, l, 'kg', 0.1])).join('')}</div>
         <div class="ci-hint">Unterschiede über ~5 % zwischen links und rechts deuten auf Ungleichgewichte hin.</div></details>
@@ -5412,15 +5447,20 @@ function renderHeute(){
   saveQ('cutplan_steps_v1', 'qS', v => Math.round(v), v => v >= 0 && v <= 100000, 'Schritte');
   saveQ('cutplan_sleep_v1', 'qL', (v, old) => Object.assign({}, old || {}, { h: Math.round(v * 10) / 10 }), v => v >= 0 && v <= 16, 'Schlaf');
 
-  const lim = { w: [30, 250], bf: [3, 60], muscle: [15, 120], water: [30, 80], bone: [1, 8], visceral: [1, 30], bmr: [800, 4000], hr: [30, 200], pwv: [3, 20], vasc: [10, 110], nerve: [0, 100] };
+  const lim = { w: [30, 250], bf: [3, 60], fatKg: [1, 90], waterKg: [15, 90], muscle: [15, 120], water: [30, 80], bone: [1, 8], visceral: [1, 30], bmr: [800, 4000], hr: [30, 200], pwv: [3, 20], vasc: [10, 110], nerve: [0, 100] };
   el.querySelectorAll('input[data-b]').forEach(inp => inp.onchange = () => {
     const key = inp.dataset.b, raw = String(inp.value).replace(',', '.'), msg = document.getElementById('bodyMsg');
     if (raw === '') { saveBodyField(today, key, null); msg.textContent = ''; return; }
     const v = parseFloat(raw), r = lim[key] || [0.5, 80];
     if (isNaN(v) || v < r[0] || v > r[1]) { msg.textContent = 'Wert außerhalb des plausiblen Bereichs — bitte prüfen.'; msg.className = 'quick-msg c-down'; return; }
     saveBodyField(today, key, Math.round(v * 10) / 10);
+    // Körperfett-% für Ziele und Auswertung mitführen (aus Fettmasse und Gewicht)
+    try {
+      const e = loadBody()[today] || {}, wt = e.w !== undefined ? +e.w : ((weightOn(today) || {}).v || null);
+      if (e.fatKg !== undefined && wt) saveBodyField(today, 'bf', Math.round(e.fatKg / wt * 1000) / 10);
+    } catch(err) {}
     msg.textContent = '✓ gespeichert'; msg.className = 'quick-msg c-up';
-    if (['w', 'bf'].includes(key)) setTimeout(renderHeute, 400);
+    setTimeout(renderHeute, 400);
   });
 }
 
@@ -5924,6 +5964,117 @@ function renderWeekReport(){
     </div></div>`;
   document.getElementById('wrPrev').onclick = () => { reportWeekOff--; renderWeekReport(); };
   document.getElementById('wrNext').onclick = () => { if (reportWeekOff < 0) { reportWeekOff++; renderWeekReport(); } };
+}
+
+// ================= KÖRPERZUSAMMENSETZUNG =================
+// Gewicht am oder vor einem Datum (für Prozentanteile)
+function weightOn(date){
+  const b = loadBody(); let w = {}; try { w = JSON.parse(localStorage.getItem('cutplan_weight_v1') || '{}') || {}; } catch(e) {}
+  const ds = [...new Set([...Object.keys(b).filter(d => b[d] && b[d].w !== undefined), ...Object.keys(w)])].filter(d => d <= date).sort();
+  if (!ds.length) return null;
+  const d = ds[ds.length - 1]; return { d, v: +((b[d] && b[d].w !== undefined) ? b[d].w : w[d]) };
+}
+// Zeitreihen aus Waagen-Einträgen, Import und Gewichtsverlauf
+function bodySeries(){
+  const b = loadBody(); let w = {}; try { w = JSON.parse(localStorage.getItem('cutplan_weight_v1') || '{}') || {}; } catch(e) {}
+  const dates = [...new Set([...Object.keys(b), ...Object.keys(w)])].sort();
+  const out = { w: [], fat: [], muscle: [], bf: [], lean: [], water: [], bone: [] };
+  dates.forEach(d => {
+    const e = b[d] || {}, wt = e.w !== undefined ? +e.w : (w[d] !== undefined ? +w[d] : null);
+    const ref = wt || (weightOn(d) || {}).v || null;
+    if (wt) out.w.push({ d, v: wt });
+    let fat = e.fatKg !== undefined ? +e.fatKg : (e.bf !== undefined && ref ? ref * e.bf / 100 : null);
+    if (fat) { out.fat.push({ d, v: fat }); if (ref) out.bf.push({ d, v: fat / ref * 100 }); }
+    else if (e.bf !== undefined) out.bf.push({ d, v: +e.bf });
+    if (e.muscle !== undefined) out.muscle.push({ d, v: +e.muscle });
+    if (e.lean !== undefined) out.lean.push({ d, v: +e.lean }); else if (fat && ref) out.lean.push({ d, v: ref - fat });
+    if (e.waterKg !== undefined) out.water.push({ d, v: +e.waterKg }); else if (e.water !== undefined && ref) out.water.push({ d, v: ref * e.water / 100 });
+    if (e.bone !== undefined) out.bone.push({ d, v: +e.bone });
+  });
+  return out;
+}
+function seriesChange(s, days){
+  if (s.length < 2) return null;
+  const last = s[s.length - 1];
+  const from = days ? s.filter(x => x.d >= addDays(last.d, -days)) : s;
+  if (from.length < 2 || from[0].d === last.d) return null;
+  return { v: last.v - from[0].v, since: from[0].d };
+}
+function movingAvg(s, win){
+  return s.map((p, i) => {
+    const from = addDays(p.d, -win + 1), sel = s.filter(x => x.d >= from && x.d <= p.d);
+    return sel.reduce((a, x) => a + x.v, 0) / sel.length;
+  });
+}
+function renderBodyAnalysis(){
+  const el = document.getElementById('bodyAna'); if (!el) return;
+  const S = bodySeries();
+  if (S.w.length < 2 && S.fat.length < 2 && S.muscle.length < 2) {
+    el.innerHTML = `<div class="card"><div class="card-title">Körperzusammensetzung</div><div class="ana-empty">Trag im <b>Cockpit</b> deine Waagenwerte ein — ab der zweiten Messung siehst du hier, wie sich Gewicht, Fett- und Muskelmasse entwickeln.</div></div>`;
+    return;
+  }
+  const r1 = v => Math.round(v * 10) / 10;
+  const kv = (lbl, s, unit, goodDown, days) => {
+    const last = s[s.length - 1]; if (!last) return kpi(lbl, '–', 'noch keine Messung');
+    const c30 = seriesChange(s, 30), all = seriesChange(s);
+    const cls = c => !c || Math.abs(c.v) < 0.05 ? 'c-flat' : ((goodDown ? c.v < 0 : c.v > 0) ? 'c-up' : 'c-down');
+    const f = c => c ? `<span class="${cls(c)}">${c.v > 0 ? '+' : ''}${fmtNum(r1(c.v))}</span>` : '–';
+    return kpi(lbl, fmtNum(r1(last.v)) + ' ' + unit, `30 Tage ${f(c30)} · gesamt ${f(all)}${all ? ' seit ' + fmtDate(all.since) : ''}`);
+  };
+  const cfg = loadGoalCfg() || GOAL_DEFAULTS;
+  const sl = weightSlope(addDays(localDateStr(Date.now()), -27), localDateStr(Date.now()));
+  // Zusammensetzung der letzten vollständigen Messung
+  const lastFat = S.fat[S.fat.length - 1], lastMus = S.muscle[S.muscle.length - 1];
+  let compHTML = '';
+  if (lastFat && lastMus) {
+    const wt = (weightOn(lastMus.d) || {}).v;
+    const bone = (S.bone.filter(x => x.d <= lastMus.d).pop() || {}).v || 0;
+    if (wt) {
+      const rest = Math.max(0, wt - lastFat.v - lastMus.v - bone);
+      const parts = [['Fett', lastFat.v, 'var(--down)'], ['Muskeln', lastMus.v, 'var(--up)'], ['Knochen', bone, 'var(--goal)'], ['Rest (Organe, Wasser u. a.)', rest, 'var(--line)']].filter(p => p[1] > 0);
+      compHTML = `<div class="card"><div class="card-title">Zusammensetzung · ${fmtDate(lastMus.d)}</div>
+        <div class="comp-bar">${parts.map(([l, v, c]) => `<i style="width:${v / wt * 100}%; background:${c}"></i>`).join('')}</div>
+        <div class="comp-leg">${parts.map(([l, v, c]) => `<span><i style="background:${c}"></i>${l}<b>${fmtNum(r1(v))} kg</b><em>${fmtNum(r1(v / wt * 100))} %</em></span>`).join('')}</div>
+        <div class="comp-note">Die Muskelmasse der Waage enthält das Wasser im Muskelgewebe — deshalb ist sie so viel größer als die Fettmasse.</div></div>`;
+    }
+  }
+  el.innerHTML = `
+    <div class="card accent"><div class="card-title">Körperzusammensetzung</div>
+      <div class="ana-kpis">
+        ${kv('Gewicht', S.w, 'kg', cfg.goal !== 'bulk')}
+        ${kv('Fettmasse', S.fat, 'kg', true)}
+        ${kv('Muskelmasse', S.muscle, 'kg', false)}
+        ${kv('Körperfett', S.bf, '%', true)}
+        ${sl ? kpi('Tempo · 4 Wochen', (sl.perDay * 7 > 0 ? '+' : '') + fmtNum(Math.round(sl.perDay * 7 * 100) / 100) + ' kg/Wo.', cfg.goal === 'cut' ? 'Ziel ' + fmtNum(-Math.round(cfg.rate / 100 * sl.last * 100) / 100) + ' kg/Woche' : '', '', true) : ''}
+      </div></div>
+    ${compHTML}
+    <div class="card"><div class="card-title">Gewicht</div><div id="baW" class="svgc"></div>
+      <div class="ana-note">Gestrichelt: 7-Tage-Schnitt. Einzelne Tage schwanken mit Wasser und Darminhalt um bis zu 1 kg — entscheidend ist der Schnitt.</div></div>
+    ${S.fat.length >= 2 || S.muscle.length >= 2 ? `<div class="card"><div class="card-title">Fett & Muskeln · Veränderung seit Beginn</div><div id="baFM" class="svgc"></div>
+      <div class="ana-note">Das Bild einer gelungenen Diät: die Fettlinie fällt, die Muskellinie bleibt oben. Fällt auch die Muskellinie deutlich, ist das Defizit zu groß oder das Eiweiß zu niedrig.</div></div>` : ''}
+    ${S.bf.length >= 2 ? `<div class="card"><div class="card-title">Körperfettanteil</div><div id="baBF" class="svgc"></div></div>` : ''}
+    ${S.muscle.length >= 2 ? `<div class="card"><div class="card-title">Muskelmasse</div><div id="baMU" class="svgc"></div></div>` : ''}`;
+
+  const tail = (s, n) => s.slice(-n);
+  const wS = tail(S.w, 60);
+  if (wS.length >= 2) {
+    const ma = movingAvg(S.w, 7).slice(-wS.length);
+    const goalW = (() => { try { const g = parseFloat(loadProfile().goalWeight); return g > 0 ? g : null; } catch(e) { return null; } })();
+    const series = [{ name: 'Gewicht', color: ANA_COL.acc, values: wS.map(x => r1(x.v)) }, { name: '7-Tage-Schnitt', color: ANA_COL.ink, values: ma.map(r1), dash: true }];
+    if (goalW) series.push({ name: 'Zielgewicht', color: ANA_COL.goal, values: wS.map(() => goalW), dash: true });
+    svgLineChart(document.getElementById('baW'), { labels: wS.map(x => fmtDate(x.d)), fmt: v => fmtNum(r1(v)), area: true, series });
+  }
+  if (document.getElementById('baFM')) {
+    const dates = [...new Set([...S.fat.map(x => x.d), ...S.muscle.map(x => x.d)])].sort().slice(-40);
+    const base = (s) => s.length ? s[0].v : null;
+    const f0 = base(S.fat), m0 = base(S.muscle);
+    const val = (s, b, d) => { const p = s.find(x => x.d === d); return p && b !== null ? r1(p.v - b) : null; };
+    svgLineChart(document.getElementById('baFM'), { labels: dates.map(fmtDate), fmt: v => (v > 0 ? '+' : '') + fmtNum(r1(v)), zero: true,
+      series: [{ name: 'Fettmasse Δ kg', color: ANA_COL.down, values: dates.map(d => val(S.fat, f0, d)) },
+               { name: 'Muskelmasse Δ kg', color: ANA_COL.up, values: dates.map(d => val(S.muscle, m0, d)) }] });
+  }
+  if (document.getElementById('baBF')) { const s = tail(S.bf, 40); svgLineChart(document.getElementById('baBF'), { labels: s.map(x => fmtDate(x.d)), fmt: v => fmtNum(r1(v)) + ' %', area: true, series: [{ name: 'Körperfett %', color: ANA_COL.down, values: s.map(x => r1(x.v)) }] }); }
+  if (document.getElementById('baMU')) { const s = tail(S.muscle, 40); svgLineChart(document.getElementById('baMU'), { labels: s.map(x => fmtDate(x.d)), fmt: v => fmtNum(r1(v)), area: true, series: [{ name: 'Muskelmasse kg', color: ANA_COL.up, values: s.map(x => r1(x.v)) }] }); }
 }
 
 refreshProgressSafeCopy();
