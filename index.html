@@ -1005,6 +1005,25 @@
   .bi-add{ display:flex; gap:8px; margin-top:14px; }
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
+
+  /* ---------- v13.3: Analyse kompakter, Diagramme breiter ---------- */
+  .perf-tabs{ position:sticky; top:calc(env(safe-area-inset-top, 0px) + 46px); z-index:15; display:flex; gap:6px; overflow-x:auto;
+    padding:8px 2px 10px; margin:0 -2px 4px; scrollbar-width:none; background:linear-gradient(var(--bg) 70%, transparent); }
+  .perf-tabs::-webkit-scrollbar{ display:none; }
+  .perf-tab{ flex:0 0 auto; padding:8px 13px; border-radius:99px; border:1px solid var(--line); background:var(--card); font-size:13px; font-weight:700; color:var(--ink-dim); }
+  .perf-tab.on{ background:var(--lime); border-color:var(--lime); color:var(--acc-ink); }
+  #view-analyse .card, #view-koerper .card, #view-woche .card, #view-motivation .card{ padding:14px 12px; margin-bottom:10px; }
+  .svgc{ margin:0 -4px; }
+  .svgc-scroll{ border-radius:8px; }
+  .ana-kpis{ gap:7px; }
+  .kpi{ padding:9px 10px; }
+  .kpi-v{ font-size:17px; }
+  .kpi-s{ font-size:11px; }
+  .ana-note{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; cursor:pointer; margin-top:8px; }
+  .ana-note::before{ content:'ⓘ '; color:var(--lime); font-weight:700; }
+  .ana-note.open{ -webkit-line-clamp:unset; display:block; }
+  .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
+  .svgc-legend{ margin-bottom:6px; }
   /* ================= v12: Kopfzeile kompakt, mehr Platz für Inhalt ================= */
   header.top{ padding: calc(6px + env(safe-area-inset-top, 0px)) 18px 8px !important; }
   header.top .eyebrow{ font-size:9.5px !important; letter-spacing:.14em; margin-bottom:1px !important; opacity:.8; }
@@ -1110,7 +1129,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v13.2</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v13.3</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -2336,7 +2355,7 @@ function showView(viewId){
   currentViewId = viewId;
   if (viewId==='dashboard') { renderDashboard(); try { renderHeute(); } catch(e) {} }
   if (viewId==='koerper') { renderDashboard(); try { renderBodyAnalysis(); } catch(e) {} }
-  if (viewId==='analyse') { const ov = document.getElementById('progOverview'); if (ov) ov.style.display = 'block'; try { renderOverview(); } catch(e) {} }
+  if (viewId==='analyse') { const ov = document.getElementById('progOverview'); if (ov) ov.style.display = 'block'; try { setupPerfSections(); showPerfSection(); } catch(e) {} try { renderOverview(); } catch(e) {} }
   if (viewId==='progress') { try { currentProgTab = 'today'; switchProgView(); } catch(e) {} }
   if (viewId==='einstellungen') renderSettings();
   if (viewId==='ernaehrung') { try { renderNutToday(); } catch(e) {} }
@@ -3163,6 +3182,16 @@ function isoWeek(dateStr){
 function svgEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // Balkendiagramm: o = { labels, sub (2. Zeile x-Achse), values | stacks, axisFmt, valFmt, pcts, details, colorByTrend }
+
+// Verfügbare Breite eines Diagramm-Containers (Fallback, solange er unsichtbar ist)
+function chartWidth(el){
+  let w = 0;
+  try { w = el.getBoundingClientRect().width; } catch(e) {}
+  if (!w || w < 120) { const p = el.closest && el.closest('.card'); if (p) { try { w = p.getBoundingClientRect().width - 18; } catch(e) {} } }
+  if (!w || w < 120) w = Math.min(window.innerWidth || 375, 520) - 30;
+  return Math.max(280, Math.round(w));
+}
+
 function svgBarChart(el, o){
   if (!el) return;
   const n = o.labels.length;
@@ -3175,8 +3204,9 @@ function svgBarChart(el, o){
   const maxV = Math.max(...totals, ...ovMax, 1);
   const step = niceStep(maxV / 4);
   const top = Math.ceil(maxV * 1.05 / step) * step;
-  const slot = o.slot || (compact ? 30 : 58), padL = o.padL || 62, padR = 12, padT = o.pcts ? 40 : 26, padB = o.sub ? 42 : 28, H = o.height || 250;
-  const W = Math.max(padL + padR + n * slot, 300);
+  const avail = chartWidth(el), padL = o.padL || 46, padR = 8, minSlot = o.slot || (compact ? 30 : 46);
+  const slot = Math.max(minSlot, (avail - padL - padR) / n), padT = o.pcts ? 40 : 26, padB = o.sub ? 42 : 28, H = o.height || 250;
+  const W = Math.max(padL + padR + n * slot, avail);
   const plotH = H - padT - padB;
   const y = v => padT + plotH - (v / top) * plotH;
   const axisFmt = o.axisFmt || (v => v.toLocaleString('de-DE'));
@@ -3197,7 +3227,7 @@ function svgBarChart(el, o){
     s += `<line x1="${padL}" x2="${W - padR}" y1="${by}" y2="${by}" stroke="rgba(237,239,230,.35)" stroke-dasharray="4 4" stroke-width="1"/>`;
   }
 
-  const bw = slot * 0.62;
+  const bw = Math.min(slot * 0.62, 44);
   for (let i = 0; i < n; i++) {
     const x = padL + i * slot + (slot - bw) / 2;
     const cx = x + bw / 2;
@@ -3275,8 +3305,9 @@ function svgLineChart(el, o){
   const step = niceStep((hi - lo) / 4);
   lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
   const compact = n > 12;
-  const slot = compact ? 34 : 58, padL = 52, padR = 16, padT = 16, padB = o.sub ? 42 : 28, H = 220;
-  const W = Math.max(padL + padR + n * slot, 300);
+  const avail = chartWidth(el), padL = 44, padR = 14, minSlot = compact ? 26 : 40;
+  const slot = Math.max(minSlot, (avail - padL - padR) / n), padT = 16, padB = o.sub ? 42 : 28, H = 220;
+  const W = Math.max(padL + padR + n * slot, avail);
   const plotH = H - padT - padB;
   const xAt = i => padL + i * slot + slot / 2;
   const y = v => padT + plotH - ((v - lo) / (hi - lo)) * plotH;
@@ -3955,8 +3986,9 @@ function svgDivergeBars(el, o){
   const vals = o.values;
   const mx = Math.max(5, ...vals.filter(v => v !== null).map(v => Math.abs(v)));
   const step = niceStep(mx / 2), lim = Math.ceil(mx * 1.15 / step) * step;
-  const slot = Math.max(54, Math.min(80, 300 / n)), padL = 44, padR = 10, padT = 22, padB = 40, H = 210;
-  const W = Math.max(padL + padR + n * slot, 300), plotH = H - padT - padB;
+  const avail = chartWidth(el), padL = 40;
+  const slot = Math.max(50, (avail - padL - 10) / n), padR = 10, padT = 22, padB = 40, H = 210;
+  const W = Math.max(padL + padR + n * slot, avail), plotH = H - padT - padB;
   const y = v => padT + plotH / 2 - (v / lim) * (plotH / 2);
   let s = '';
   for (let v = -lim; v <= lim + 1e-9; v += step) {
@@ -3964,7 +3996,7 @@ function svgDivergeBars(el, o){
     s += `<line x1="${padL}" x2="${W-padR}" y1="${yy}" y2="${yy}" stroke="${v === 0 ? ANA_COL.dim : ANA_COL.grid}" stroke-width="${v === 0 ? 1.2 : 1}"/>`;
     s += `<text x="${padL-6}" y="${(+yy+3.5).toFixed(1)}" text-anchor="end" font-size="10" fill="${ANA_COL.dim}">${(v>0?'+':'') + Math.round(v)}%</text>`;
   }
-  const bw = slot * 0.6;
+  const bw = Math.min(slot * 0.6, 52);
   for (let i = 0; i < n; i++) {
     const cx = padL + i * slot + slot / 2, v = vals[i];
     const weak = o.counts && o.counts[i] < 2;
@@ -3993,7 +4025,7 @@ function svgScatter(el, o){
   if (x1 === x0) { x1 += 1; x0 -= 1; } if (y1 === y0) { y1 += 1; y0 = Math.max(0, y0 - 1); }
   const sx = niceStep((x1-x0)/4), sy = niceStep((y1-y0)/4);
   x0 = Math.floor(x0/sx)*sx; x1 = Math.ceil(x1/sx)*sx; y0 = Math.floor(y0/sy)*sy; y1 = Math.ceil(y1/sy)*sy;
-  const W = 330, H = 230, padL = 54, padR = 12, padT = 12, padB = 38;
+  const W = chartWidth(el), H = 240, padL = 46, padR = 12, padT = 12, padB = 38;
   const X = v => padL + (v-x0)/(x1-x0)*(W-padL-padR), Y = v => padT + (H-padT-padB) - (v-y0)/(y1-y0)*(H-padT-padB);
   let s = '';
   for (let v = y0; v <= y1+1e-9; v += sy) s += `<line x1="${padL}" x2="${W-padR}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="${ANA_COL.grid}"/><text x="${padL-6}" y="${(Y(v)+3.5).toFixed(1)}" text-anchor="end" font-size="9.5" fill="${ANA_COL.dim}">${svgEsc(o.yFmt ? o.yFmt(v) : v)}</text>`;
@@ -6208,6 +6240,36 @@ function showBrandImport(){
     run({ name: n, tags: [brandTag(n), brandTag(n).replace(/-/g, '')] }, e.target);
   };
 }
+
+
+// ================= ANALYSE · LEISTUNG: Themen statt einer langen Seite =================
+const PERF_SECTIONS = [['hebel','Hebel'],['volumen','Volumen'],['zeit','Zeit & Pausen'],['zus','Zusammenhänge'],['uebung','Übung']];
+let perfSection = 'hebel';
+function setupPerfSections(){
+  const ov = document.getElementById('progOverview'); if (!ov || ov.dataset.sec) return;
+  ov.dataset.sec = '1';
+  const kids = [...ov.children]; let cur = null, idx = -1;
+  kids.forEach(k => {
+    if (k.classList.contains('ana-head')) {
+      idx++; cur = document.createElement('div');
+      cur.className = 'perf-sec'; cur.dataset.s = (PERF_SECTIONS[idx] || ['x'])[0];
+      ov.insertBefore(cur, k); k.remove();
+    } else if (cur) cur.appendChild(k);
+  });
+  const bar = document.createElement('div'); bar.className = 'perf-tabs'; bar.id = 'perfTabs';
+  ov.insertBefore(bar, ov.firstChild);
+}
+function showPerfSection(s){
+  perfSection = s || perfSection;
+  document.querySelectorAll('#progOverview .perf-sec').forEach(x => x.style.display = x.dataset.s === perfSection ? '' : 'none');
+  const bar = document.getElementById('perfTabs');
+  if (bar) {
+    bar.innerHTML = PERF_SECTIONS.map(([k, l]) => `<button class="perf-tab${k === perfSection ? ' on' : ''}" data-s="${k}">${l}</button>`).join('');
+    bar.querySelectorAll('.perf-tab').forEach(b => b.onclick = () => { showPerfSection(b.dataset.s); try { renderOverview(); } catch(e) {} try { window.scrollTo({ top: 0 }); } catch(e) {} });
+  }
+}
+// Erklärtexte: auf zwei Zeilen gekürzt, Antippen klappt auf
+document.addEventListener('click', e => { const n = e.target.closest && e.target.closest('.ana-note'); if (n) n.classList.toggle('open'); });
 
 refreshProgressSafeCopy();
 migrateLegacyEntries();
