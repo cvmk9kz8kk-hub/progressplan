@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v14.4: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v14.5: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v14.4: Cockpit kompakter ---------- */
+  /* ---------- v14.5: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1182,6 +1182,19 @@
   .bw-opt small{ font-size:10.5px; font-weight:600; color:var(--ink-dim); font-family:var(--num-font); }
   .bw-opt.on{ border-color:var(--lime); box-shadow:0 0 0 1px var(--lime) inset; }
   .bw-note{ font-size:10.5px; color:var(--ink-dim); margin-top:7px; line-height:1.45; }
+
+  .hk-pick{ display:block; text-align:center; margin-top:14px; padding:14px; border-radius:14px; background:var(--lime); color:var(--acc-ink); font-weight:800; font-size:15px; cursor:pointer; }
+  .hk-range{ display:flex; gap:16px; justify-content:center; margin-top:10px; font-size:13px; color:var(--ink-dim); }
+  .hk-range input{ accent-color:var(--lime); margin-right:5px; }
+  .hk-status{ margin-top:14px; }
+  .hk-bar{ height:8px; border-radius:4px; background:var(--ring-track); overflow:hidden; }
+  .hk-bar i{ display:block; height:100%; background:var(--lime); transition:width .25s; }
+  #hkPct{ font-size:12px; color:var(--ink-dim); margin-top:6px; text-align:center; }
+  .hk-sum{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .hk-sum > div{ background:var(--bg2); border:1px solid var(--line); border-radius:12px; padding:10px; display:flex; flex-direction:column; gap:2px; }
+  .hk-sum span{ font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-dim); }
+  .hk-sum b{ font-family:var(--num-font); font-size:17px; } .hk-sum small{ font-size:11px; color:var(--ink-dim); }
+  .hk-link{ display:block; width:100%; margin-top:8px; background:transparent; border:none; color:var(--ink-dim); font-size:12.5px; text-decoration:underline; }
   /* ================= v14: PERFORMANCE (nach WHOOP-Vorbild) ================= */
   :root{ --num-font: ui-monospace, monospace; --rec-hi:#2BB673; --rec-mid:#E3B23C; --rec-lo:#E5484D; --strain:#3B82C4; --ring-track: color-mix(in srgb, var(--ink) 10%, transparent); }
   :root[data-theme="performance"]{
@@ -1240,7 +1253,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v14.4</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v14.5</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1844,6 +1857,7 @@
     </div>
 
     <div id="hlImport" style="display:none;">
+      <div class="card accent" id="hkImporter"></div>
       <div class="insight"><b>So kommst du ohne Umwege an deine Daten:</b> Exportiere aus Sleep Cycle oder Apple Health, öffne die Datei, kopiere den Inhalt und füge ihn hier ein. Die App erkennt das Format automatisch — du brauchst dafür niemanden.</div>
 
       <div class="card">
@@ -2458,7 +2472,7 @@ const viewMeta = {
   progress:{title:'Training', sub:'Dein gewähltes Training — Satz für Satz'},
   roadmap:{title:'Roadmap', sub:'Monats- & Wochenziele'},
   ernaehrung:{title:'Ernährung', sub:'Tagebuch, Auswertung, Kraft-Bezug'},
-  health:{title:'Health', sub:'Schlaf, Schritte & Datenimport'},
+  health:{title:'Schlaf & Schritte', sub:'Einträge, Apple-Health-Import und Backup'},
   supps:{title:'Supplements', sub:'Priorisiert nach Evidenzstärke'},
 };
 
@@ -5621,6 +5635,7 @@ function renderHeute(){
         <label class="quick"><span>Schlaf ${isPast ? 'Nacht davor' : 'letzte Nacht'}</span><input type="number" step="0.1" inputmode="decimal" id="qL" value="${sl[today] && sl[today].h ? sl[today].h : ''}" placeholder="Stunden"></label>
       </div>
       <button class="hk-btn" id="hkPaste">⤓ Aus Apple Health einfügen</button>
+      <button class="hk-link" id="hkGoImport">oder kompletten Apple-Health-Export importieren ›</button>
       <div id="pasteBox" style="display:none"><textarea class="ci-note" rows="2" placeholder="Hier lang drücken → Einsetzen"></textarea></div>
       <div class="quick-msg" id="quickMsg"></div>
     </div>
@@ -5649,6 +5664,7 @@ function renderHeute(){
   const ct = document.getElementById('ckToday'); if (ct) ct.onclick = () => { selectDay(realToday); cockpitWeekOff = 0; renderHeute(); };
   const cf = document.getElementById('ckFood'); if (cf) cf.onclick = () => { currentNutDate = today; switchTab('food'); };
   const hk = document.getElementById('hkPaste'); if (hk) hk.onclick = importFromClipboard;
+  const hg = document.getElementById('hkGoImport'); if (hg) hg.onclick = () => { switchTab('mehr'); showView('health'); setTimeout(() => { const b = [...document.querySelectorAll('#hlSubtabs .subtab-btn')].find(x => x.dataset.t === 'import'); if (b) b.click(); }, 50); };
   el.querySelectorAll('.dial').forEach(dl => dl.onclick = () => openScoreSheet(dl.dataset.sc, today));
   const pb = document.querySelector('#pasteBox textarea'); if (pb) pb.oninput = () => { const p = parseHealthPayload(pb.value); if (p) { const r = applyHealthPayload(p, today); renderHeute(); const m = document.getElementById('quickMsg'); if (m) { m.textContent = `✓ Übernommen für ${dayLabel(r.d)}: ${r.done.join(' · ')}`; m.className = 'quick-msg c-up'; } } };
   const rp = document.getElementById('ckReport'); if (rp) rp.onclick = () => { switchTab('analyse'); showView('woche'); reportWeekOff = new Date(realToday + 'T12:00:00').getDay() === 1 ? -1 : 0; renderWeekReport(); };
@@ -6035,6 +6051,7 @@ function parseHealthPayload(text){
     if (k === 'd' && /^\d{4}-\d{2}-\d{2}$/.test(v)) out.d = v;
     else if (k === 'steps') { const n = parseNumDE(v, true); if (n >= 0 && n < 100000) out.steps = n; }
     else if (k === 'sleep') { let h = parseNumDE(v); if (h > 3600) h /= 3600; else if (h > 16) h /= 60; if (h > 0 && h <= 16) out.sleep = Math.round(h * 10) / 10; }
+    else if (k === 'hrv' || k === 'rhr') { const n = parseNumDE(v); if (n > 0 && n < 300) out[k] = Math.round(n * 10) / 10; }
     else if (['w', 'bf', 'lean', 'muscle', 'hr', 'water', 'bone', 'visceral'].includes(k)) {
       let n = parseNumDE(v); if (k === 'bf' && n > 0 && n <= 1) n *= 100; if (k === 'water' && n > 0 && n <= 1) n *= 100;
       if (!isNaN(n) && n > 0) out[k] = Math.round(n * 10) / 10;
@@ -6047,6 +6064,8 @@ function applyHealthPayload(p, fallbackDate){
   const put = (key, fn) => { let o = {}; try { o = JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch(e) {} fn(o); localStorage.setItem(key, JSON.stringify(o)); };
   if (p.steps !== undefined) { put('cutplan_steps_v1', o => { o[d] = p.steps; }); done.push(`Schritte ${p.steps.toLocaleString('de-DE')}`); }
   if (p.sleep !== undefined) { put('cutplan_sleep_v1', o => { o[d] = Object.assign({}, o[d] || {}, { h: p.sleep }); }); done.push(`Schlaf ${fmtNum(p.sleep)} h`); }
+  if (p.hrv !== undefined || p.rhr !== undefined) { put('cutplan_vitals_v1', o => { o[d] = Object.assign({}, o[d] || {}); if (p.hrv !== undefined) o[d].hrv = p.hrv; if (p.rhr !== undefined) o[d].rhr = Math.round(p.rhr); });
+    if (p.hrv !== undefined) done.push(`HRV ${fmtNum(p.hrv)} ms`); if (p.rhr !== undefined) done.push(`Ruhepuls ${Math.round(p.rhr)}`); }
   [['w','Gewicht','kg'],['bf','Körperfett','%'],['lean','Fettfreie Masse','kg'],['muscle','Muskelmasse','kg'],['water','Wasser','%'],['bone','Knochen','kg'],['visceral','Viszeralfett',''],['hr','Puls','bpm']]
     .forEach(([k, l, u]) => { if (p[k] !== undefined) { saveBodyField(d, k, p[k]); done.push(`${l} ${fmtNum(p[k])}${u ? ' ' + u : ''}`); } });
   return { d, done };
@@ -6068,13 +6087,13 @@ async function importFromClipboard(){
   }
 }
 function healthShortcutGuide(){
-  const tpl = 'CUTPLAN;steps=[Schritte];sleep=[Schlaf];w=[Gewicht];bf=[Körperfett];lean=[Magere Körpermasse]';
+  const tpl = 'CUTPLAN;steps=[Schritte];sleep=[Schlaf];w=[Gewicht];bf=[Körperfett];lean=[Magere Körpermasse];hrv=[Herzfrequenzvariabilität];rhr=[Ruhepuls]';
   return `<div class="ana-note" style="margin-top:0">Ein iPhone-Kurzbefehl liest jeden Abend deine Werte aus Apple Health (Withings synchronisiert dorthin) und legt sie in die Zwischenablage. Du öffnest die App und tippst im Cockpit auf <b>„Aus Apple Health einfügen"</b>.</div>
     <ol class="sc-steps">
       <li>App <b>Kurzbefehle</b> → <b>+</b> → Name „Cut Plan Export".</li>
       <li>Aktion <b>Health-Samples suchen</b>: Typ <i>Schritte</i>, Startdatum <i>ist heute</i>. Danach <b>Statistiken berechnen</b> → <i>Summe</i>.</li>
       <li>Aktion <b>Health-Samples suchen</b>: Typ <i>Schlafanalyse</i>, Startdatum <i>in den letzten 1 Tagen</i>, Wert <i>ist Schlafend</i> (Kern, Tief, REM). Danach <b>Details von Health-Samples abrufen</b> → <i>Dauer</i>, dann <b>Statistiken berechnen</b> → <i>Summe</i>. Sekunden, Minuten oder Stunden erkennt die App selbst.</li>
-      <li>Je einmal <b>Health-Samples suchen</b> für <i>Gewicht</i>, <i>Körperfettanteil</i> und <i>Magere Körpermasse</i>: sortiert nach Startdatum, neueste zuerst, Limit 1.</li>
+      <li>Je einmal <b>Health-Samples suchen</b> für <i>Gewicht</i>, <i>Körperfettanteil</i>, <i>Magere Körpermasse</i>, <i>Herzfrequenzvariabilität</i> und <i>Ruhepuls</i>: sortiert nach Startdatum, neueste zuerst, Limit 1.</li>
       <li>Aktion <b>Text</b> mit genau diesem Aufbau — die eckigen Klammern durch die Ergebnisse der Aktionen ersetzen (antippen → Variable wählen):
         <div class="sc-tpl" id="scTpl">${tpl}</div><button class="gs-sec-btn" id="scCopy">Vorlage kopieren</button></li>
       <li><b>In Zwischenablage kopieren</b>, dann <b>Mitteilung anzeigen</b>: „Daten bereit — Cut Plan öffnen".</li>
@@ -6514,6 +6533,9 @@ function recoveryScore(date){
   return _sc('r' + date, () => {
     const c = loadCheckins()[date] || {}, sl = sleepScore(date), ps = strainScore(addDays(date, -1));
     const parts = [];
+    const vt = vitalsOf(date), cl = x => Math.max(0, Math.min(1, x));
+    if (vt && vt.hrv) { const b = vitalBaseline(date, 'hrv'); if (b) parts.push(['HRV', cl(0.5 + (vt.hrv / b - 1) * 1.6), 0.35, `${fmtNum(vt.hrv)} ms · Ø ${Math.round(b)}`]); }
+    if (vt && vt.rhr) { const b = vitalBaseline(date, 'rhr'); if (b) parts.push(['Ruhepuls', cl(0.5 - (vt.rhr - b) / b * 4), 0.15, `${vt.rhr} bpm · Ø ${Math.round(b)}`]); }
     if (sl) parts.push(['Schlafleistung', Math.min(1, sl.score / 100), 0.35, sl.score + ' %']);
     if (c.energy) parts.push(['Energie', (c.energy - 1) / 4, 0.18, c.energy + ' / 5']);
     if (c.sore) parts.push(['Muskelkater', (5 - c.sore) / 4, 0.14, c.sore + ' / 5']);
@@ -6530,6 +6552,12 @@ function recoveryScore(date){
     r = Math.max(1, Math.min(99, Math.round(r)));
     return { score: r, zone: r >= 67 ? 'hi' : r >= 34 ? 'mid' : 'lo', parts, pen };
   });
+}
+function vitalsOf(d){ return _js('cutplan_vitals_v1')[d] || null; }
+function vitalBaseline(d, key){
+  const v = _js('cutplan_vitals_v1'), vals = [];
+  for (let i = 1; i <= 30; i++) { const x = v[addDays(d, -i)]; if (x && x[key]) vals.push(+x[key]); }
+  return vals.length >= 5 ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
 }
 function recColor(z){ return z === 'hi' ? 'var(--rec-hi)' : z === 'mid' ? 'var(--rec-mid)' : 'var(--rec-lo)'; }
 function strainTarget(rec){
@@ -6580,7 +6608,8 @@ function openScoreSheet(kind, day){
     body = rc ? `<div class="sc-sec">Was zur Erholung beiträgt</div>${rc.parts.map(p => bar(p[0], p[1], 1, p[3], p[1] >= .67 ? 'var(--rec-hi)' : p[1] >= .34 ? 'var(--rec-mid)' : 'var(--rec-lo)')).join('')}
       ${rc.pen.map(p => `<div class="sc-pen">${p[0]} <b>${p[1]} %</b></div>`).join('')}
       <div class="sc-sec">Empfehlung</div><div class="sc-txt">Ziel-Belastung heute <b>${tg[0]}–${tg[1]}</b> von 21. ${tg[2]}</div>` : '<div class="sc-txt">Noch keine Daten für diesen Tag.</div>';
-    body += `<div class="sc-note">Geschätzt aus Schlaf, Check-in und Vortagesbelastung. WHOOP misst zusätzlich Herzfrequenzvariabilität und Ruhepuls — diese Sensordaten hat die App nicht. Grün ab 67 %, gelb ab 34 %.</div>`;
+    const hasV = rc && rc.parts.some(p => p[0] === 'HRV' || p[0] === 'Ruhepuls');
+    body += `<div class="sc-note">${hasV ? 'Mit HRV und Ruhepuls aus Apple Health, jeweils verglichen mit deinem eigenen Schnitt der letzten 30 Tage — höhere HRV und niedrigerer Ruhepuls als üblich sprechen für gute Erholung.' : 'Geschätzt aus Schlaf, Check-in und Vortagesbelastung. Mit HRV und Ruhepuls aus Apple Health wird die Erholung deutlich genauer — importiere dazu deinen Apple-Health-Export.'} Grün ab 67 %, gelb ab 34 %.</div>`;
     days.forEach(d => { const r = recoveryScore(d); series.push(r ? r.score : 0); colors.push(r ? recColor(r.zone).replace(/var\((--[\w-]+)\)/, (m, v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim()) : ANA_COL.grid); });
     unit = '%';
   } else if (kind === 'sleep') {
@@ -6655,6 +6684,198 @@ function renderTrends(){
   svgBarChart(document.getElementById('trST'), { labels, values: S.map(s => s ? s.score : 0), color: cssv('--strain') || ANA_COL.acc, height: 190,
     overlay: [{ values: labels.map(() => 10), color: ANA_COL.dim, dash: true }, { values: labels.map(() => 14), color: ANA_COL.dim, dash: true }],
     legend: [{ name: 'Belastung 0–21', color: cssv('--strain') || ANA_COL.acc }, { name: 'Grenzen moderat (10) · hoch (14)', color: ANA_COL.dim, line: true, dash: true }], axisFmt: v => Math.round(v) + '', valFmt: v => fmtNum(Math.round(v * 10) / 10) });
+}
+
+// ================= APPLE-HEALTH-EXPORT (Export.zip) direkt einlesen =================
+// Liest die ZIP-Datei im Datenstrom: entpacken und auswerten Stück für Stück, ohne die ~2 GB je komplett zu laden.
+const HK_TYPES = {
+  'HKQuantityTypeIdentifierStepCount': 'steps', 'HKCategoryTypeIdentifierSleepAnalysis': 'sleep',
+  'HKQuantityTypeIdentifierBodyMass': 'mass', 'HKQuantityTypeIdentifierBodyFatPercentage': 'fat',
+  'HKQuantityTypeIdentifierLeanBodyMass': 'lean', 'HKQuantityTypeIdentifierHeartRateVariabilitySDNN': 'hrv',
+  'HKQuantityTypeIdentifierRestingHeartRate': 'rhr',
+};
+async function zipFindEntry(file, nameRe){
+  const tailLen = Math.min(file.size, 70000);
+  const tail = new DataView(await file.slice(file.size - tailLen).arrayBuffer());
+  let eocd = -1;
+  for (let i = tailLen - 22; i >= 0; i--) if (tail.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  if (eocd < 0) throw new Error('Keine gültige ZIP-Datei');
+  let cdOff = tail.getUint32(eocd + 16, true), cdSize = tail.getUint32(eocd + 12, true);
+  if (cdOff === 0xFFFFFFFF || cdSize === 0xFFFFFFFF) {           // ZIP64
+    const loc = eocd - 20;
+    if (loc >= 0 && tail.getUint32(loc, true) === 0x07064b50) {
+      const z64 = Number(tail.getBigUint64(loc + 8, true));
+      const zv = new DataView(await file.slice(z64, z64 + 56).arrayBuffer());
+      cdSize = Number(zv.getBigUint64(40, true)); cdOff = Number(zv.getBigUint64(48, true));
+    }
+  }
+  const cd = new DataView(await file.slice(cdOff, cdOff + cdSize).arrayBuffer());
+  const dec = new TextDecoder();
+  let p = 0;
+  while (p + 46 <= cd.byteLength && cd.getUint32(p, true) === 0x02014b50) {
+    const method = cd.getUint16(p + 10, true); let csize = cd.getUint32(p + 20, true), usize = cd.getUint32(p + 24, true);
+    const nl = cd.getUint16(p + 28, true), el = cd.getUint16(p + 30, true), cl = cd.getUint16(p + 32, true);
+    let lho = cd.getUint32(p + 42, true);
+    const name = dec.decode(new Uint8Array(cd.buffer, cd.byteOffset + p + 46, nl));
+    let q = p + 46 + nl, qe = q + el;                              // ZIP64-Zusatzfeld
+    while (q + 4 <= qe) { const id = cd.getUint16(q, true), sz = cd.getUint16(q + 2, true); let r = q + 4;
+      if (id === 1) { if (usize === 0xFFFFFFFF) { usize = Number(cd.getBigUint64(r, true)); r += 8; } if (csize === 0xFFFFFFFF) { csize = Number(cd.getBigUint64(r, true)); r += 8; } if (lho === 0xFFFFFFFF) { lho = Number(cd.getBigUint64(r, true)); } }
+      q += 4 + sz; }
+    if (nameRe.test(name)) {
+      const lh = new DataView(await file.slice(lho, lho + 30).arrayBuffer());
+      const dataOff = lho + 30 + lh.getUint16(26, true) + lh.getUint16(28, true);
+      return { name, method, csize, usize, dataOff };
+    }
+    p += 46 + nl + el + cl;
+  }
+  throw new Error('Export.xml nicht in der ZIP-Datei gefunden');
+}
+// "2026-08-20 06:42:41 +0200" → Zeitstempel. Safari versteht "+0200" nicht, daher "+02:00".
+function hkTime(s){ const m = /^(\d{4}-\d\d-\d\d) (\d\d:\d\d:\d\d) ?([+-]\d\d):?(\d\d)$/.exec(s || ''); return m ? Date.parse(`${m[1]}T${m[2]}${m[3]}:${m[4]}`) : NaN; }
+async function parseHealthExport(file, onProgress, sinceDate){
+  if (typeof DecompressionStream === 'undefined' || typeof TextDecoderStream === 'undefined')
+    throw new Error('Dein iOS ist zu alt für den direkten Import (nötig: iOS 16.4 oder neuer)');
+  let raw, total;
+  const head = new Uint8Array(await file.slice(0, 4).arrayBuffer());
+  if (head[0] === 0x50 && head[1] === 0x4b) {
+    const ent = await zipFindEntry(file, /(^|\/)export\.xml$/i);
+    raw = file.slice(ent.dataOff, ent.dataOff + ent.csize).stream(); total = ent.csize;
+    if (ent.method === 8) raw = withProgress(raw, total, onProgress).pipeThrough(new DecompressionStream('deflate-raw'));
+    else raw = withProgress(raw, total, onProgress);
+  } else { total = file.size; raw = withProgress(file.stream(), total, onProgress); }
+  const R = { steps: {}, sleep: {}, mass: {}, fat: {}, lean: {}, hrv: {}, rhr: {}, lines: 0 };
+  const reader = raw.pipeThrough(new TextDecoderStream()).getReader();
+  const attrRe = /(\w+)="([^"]*)"/g;
+  let buf = '';
+  const handle = (line) => {
+    const t0 = line.indexOf('<Record type="'); if (t0 < 0) return;
+    const t1 = line.indexOf('"', t0 + 14), type = line.slice(t0 + 14, t1), k = HK_TYPES[type]; if (!k) return;
+    const a = {}; let m; attrRe.lastIndex = t1;
+    while ((m = attrRe.exec(line))) a[m[1]] = m[2];
+    const sd = a.startDate || '', day = sd.slice(0, 10); if (!day || (sinceDate && day < sinceDate)) return;
+    const v = parseFloat(a.value), src = a.sourceName || '?';
+    R.lines++;
+    if (k === 'steps') { const d = R.steps[day] || (R.steps[day] = {}); d[src] = (d[src] || 0) + v; }
+    else if (k === 'sleep') {
+      if (!/Asleep/.test(a.value || '')) return;                    // nur Schlafphasen, nicht „im Bett"
+      const ed = a.endDate || '', h = (hkTime(ed) - hkTime(sd)) / 3.6e6;
+      if (!(h > 0 && h < 16)) return;
+      const n = ed.slice(0, 10), d = R.sleep[n] || (R.sleep[n] = {}); d[src] = (d[src] || 0) + h;
+    }
+    else if (k === 'mass') { let kg = v; if (a.unit === 'lb') kg = v * 0.453592; R.mass[sd] = { v: kg, src }; }
+    else if (k === 'fat') R.fat[sd] = v <= 1 ? v * 100 : v;
+    else if (k === 'lean') R.lean[sd] = a.unit === 'lb' ? v * 0.453592 : v;
+    else if (k === 'hrv') (R.hrv[day] = R.hrv[day] || []).push(v);
+    else if (k === 'rhr') (R.rhr[day] = R.rhr[day] || []).push(v);
+  };
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buf += value;
+    const cut = buf.lastIndexOf('\n'); if (cut < 0) continue;
+    const chunk = buf.slice(0, cut); buf = buf.slice(cut + 1);
+    let s = 0, e;
+    while ((e = chunk.indexOf('\n', s)) >= 0) { const ln = chunk.slice(s, e); if (ln.length > 60 && ln.charCodeAt(1) === 60) handle(ln); else if (ln.indexOf('<Record') >= 0) handle(ln); s = e + 1; }
+    const last = chunk.slice(s); if (last.indexOf('<Record') >= 0) handle(last);
+  }
+  if (buf.indexOf('<Record') >= 0) handle(buf);
+  return R;
+}
+function withProgress(stream, total, cb){
+  let n = 0, lastT = 0;
+  return stream.pipeThrough(new TransformStream({ transform(ch, c){ n += ch.byteLength; const t = Date.now(); if (cb && t - lastT > 250) { lastT = t; cb(n / total); } c.enqueue(ch); } }));
+}
+// Rohdaten → Tageswerte. Doppelte Quellen: je Tag die vollständigste Quelle.
+// Gewicht: zweite Person über Abstand zum eigenen Verlauf ausfiltern; Fett/Magermasse nur zu akzeptierten Wiegungen.
+function summarizeHealth(R, anchorKg){
+  const steps = {}; Object.keys(R.steps).forEach(d => { steps[d] = Math.round(Math.max(...Object.values(R.steps[d]))); });
+  const sleep = {}; Object.keys(R.sleep).forEach(d => { const h = Math.max(...Object.values(R.sleep[d])); if (h >= 2) sleep[d] = Math.round(h * 10) / 10; });
+  const ts = Object.keys(R.mass).sort().reverse();                 // vom neuesten zum ältesten
+  let track = anchorKg || null, lastT = null; const accepted = {}, rejected = [];
+  if (!track && ts.length) { const recent = ts.slice(0, 40).map(t => R.mass[t].v).sort((a, b) => a - b); track = recent[Math.floor(recent.length * 0.75)]; }
+  ts.forEach(t => {
+    const v = R.mass[t].v, days = lastT ? Math.abs(Date.parse(lastT.slice(0, 10)) - Date.parse(t.slice(0, 10))) / 864e5 : 0;
+    const tol = Math.min(9, 3.5 + days * 0.08);
+    if (track === null || Math.abs(v - track) <= tol) { accepted[t] = v; track = v; lastT = t; } else rejected.push({ t, v });
+  });
+  const body = {};
+  Object.keys(accepted).forEach(t => {
+    const d = t.slice(0, 10), b = body[d] || (body[d] = {});
+    if (!b._t || t < b._t) {                                          // erste Wiegung des Tages (morgens)
+      b._t = t; b.w = Math.round(accepted[t] * 10) / 10;
+      if (R.fat[t] !== undefined) b.bf = Math.round(R.fat[t] * 10) / 10; else delete b.bf;
+      if (R.lean[t] !== undefined) b.lean = Math.round(R.lean[t] * 10) / 10; else delete b.lean;
+    }
+  });
+  Object.values(body).forEach(b => delete b._t);
+  const avg = a => a.reduce((x, y) => x + y, 0) / a.length;
+  const hrv = {}, rhr = {};
+  Object.keys(R.hrv).forEach(d => { hrv[d] = Math.round(avg(R.hrv[d]) * 10) / 10; });
+  Object.keys(R.rhr).forEach(d => { rhr[d] = Math.round(avg(R.rhr[d])); });
+  return { steps, sleep, body, hrv, rhr, rejected };
+}
+function applyHealthImport(S){
+  const put = (key, fn) => { let o = {}; try { o = JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch(e) {} const n = fn(o); localStorage.setItem(key, JSON.stringify(o)); return n; };
+  const c = {};
+  c.steps = put('cutplan_steps_v1', o => { let n = 0; Object.keys(S.steps).forEach(d => { if (!o[d] || S.steps[d] > +o[d]) { o[d] = S.steps[d]; n++; } }); return n; });
+  c.sleep = put('cutplan_sleep_v1', o => { let n = 0; Object.keys(S.sleep).forEach(d => { if (!o[d] || !o[d].h) { o[d] = Object.assign({}, o[d] || {}, { h: S.sleep[d] }); n++; } }); return n; });
+  let nb = 0; const body = loadBody(); let w = {}; try { w = JSON.parse(localStorage.getItem('cutplan_weight_v1') || '{}') || {}; } catch(e) {}
+  Object.keys(S.body).forEach(d => {                                 // eigene Einträge haben Vorrang
+    const cur = body[d] || {}, b = S.body[d];
+    if (cur.w === undefined && w[d] === undefined && b.w) { saveBodyField(d, 'w', b.w); nb++; }
+    if (cur.bf === undefined && cur.fatKg === undefined && b.bf !== undefined) saveBodyField(d, 'bf', b.bf);
+    if (cur.lean === undefined && b.lean !== undefined) saveBodyField(d, 'lean', b.lean);
+  });
+  c.body = nb;
+  c.vitals = put('cutplan_vitals_v1', o => { let n = 0; const ds = new Set([...Object.keys(S.hrv), ...Object.keys(S.rhr)]);
+    ds.forEach(d => { o[d] = Object.assign({}, o[d] || {}); if (S.hrv[d] !== undefined) o[d].hrv = S.hrv[d]; if (S.rhr[d] !== undefined) o[d].rhr = S.rhr[d]; n++; }); return n; });
+  return c;
+}
+let HK_PENDING = null;
+function renderHealthImporter(){
+  const el = document.getElementById('hkImporter'); if (!el || el.dataset.done) return;
+  el.dataset.done = '1';
+  el.innerHTML = `
+    <div class="card-title">Apple-Health-Export importieren</div>
+    <ol class="sc-steps">
+      <li><b>Health-App</b> öffnen → oben rechts auf dein <b>Profilbild</b> tippen.</li>
+      <li>Ganz nach unten: <b>„Alle Gesundheitsdaten exportieren"</b> → <b>Exportieren</b>. Das dauert 1–5 Minuten.</li>
+      <li>Im Teilen-Menü <b>„In Dateien sichern"</b> wählen, z. B. „Auf meinem iPhone". Die Datei heißt <i>Export.zip</i> — <b>nicht entpacken</b>.</li>
+      <li>Hier auf <b>„Export.zip wählen"</b> tippen und die Datei auswählen. Die App liest sie direkt auf dem iPhone, nichts wird hochgeladen.</li>
+    </ol>
+    <label class="hk-pick"><input type="file" id="hkFile" accept=".zip,.xml,application/zip,text/xml" hidden>⤓ Export.zip wählen</label>
+    <div class="hk-range"><label><input type="radio" name="hkRange" value="365" checked> Letzte 12 Monate</label><label><input type="radio" name="hkRange" value="0"> Alles</label></div>
+    <div id="hkStatus" class="hk-status"></div>`;
+  document.getElementById('hkFile').onchange = async (ev) => {
+    const f = ev.target.files && ev.target.files[0]; if (!f) return;
+    const st = document.getElementById('hkStatus');
+    const range = +(document.querySelector('input[name="hkRange"]:checked') || {}).value;
+    const since = range ? addDays(localDateStr(Date.now()), -range) : null;
+    const t0 = Date.now();
+    st.innerHTML = `<div class="hk-bar"><i id="hkBarFill" style="width:2%"></i></div><div id="hkPct">Lese ${(f.size / 1e6).toFixed(0)} MB …</div>`;
+    try {
+      const R = await parseHealthExport(f, p => { const b = document.getElementById('hkBarFill'); if (b) b.style.width = Math.max(2, Math.round(p * 100)) + '%';
+        const t = document.getElementById('hkPct'); if (t) t.textContent = `${Math.round(p * 100)} % gelesen · ${Math.round((Date.now() - t0) / 1000)} s`; }, since);
+      const anchor = (weightOn(localDateStr(Date.now())) || {}).v || parseFloat((loadProfile() || {}).startWeight) || null;
+      const S = summarizeHealth(R, anchor); HK_PENDING = S;
+      const n = o => Object.keys(o).length, last = o => { const k = Object.keys(o).sort(); return k.length ? fmtDate(k[k.length - 1]) + k[k.length - 1].slice(2, 4) : '–'; };
+      st.innerHTML = `<div class="hk-sum">
+        <div><span>Schritte</span><b>${n(S.steps)} Tage</b><small>bis ${last(S.steps)}</small></div>
+        <div><span>Schlaf</span><b>${n(S.sleep)} Nächte</b><small>bis ${last(S.sleep)}</small></div>
+        <div><span>Waage</span><b>${n(S.body)} Tage</b><small>${S.rejected.length ? S.rejected.length + ' fremde Messungen aussortiert' : 'bis ' + last(S.body)}</small></div>
+        <div><span>HRV · Ruhepuls</span><b>${n(S.hrv)} · ${n(S.rhr)} Tage</b><small>für die Erholung</small></div></div>
+        <div class="ci-hint">In ${Math.round((Date.now() - t0) / 1000)} s gelesen. Doppelte Quellen (Watch, iPhone, Withings, Yazio) sind bereinigt. Deine eigenen Einträge bleiben erhalten — die App ergänzt nur fehlende Tage, bei Schritten übernimmt sie den höheren Wert.</div>
+        <button class="hero-btn" id="hkApply">Übernehmen</button>`;
+      document.getElementById('hkApply').onclick = () => {
+        const c = applyHealthImport(HK_PENDING); HK_PENDING = null;
+        st.innerHTML = `<div class="quick-msg c-up">✓ Übernommen: ${c.steps} Tage Schritte, ${c.sleep} Nächte Schlaf, ${c.body} Tage Waage, ${c.vitals} Tage HRV/Ruhepuls.</div>`;
+        try { renderHeute(); } catch(e) {}
+      };
+    } catch(e) {
+      st.innerHTML = `<div class="quick-msg c-down">Import fehlgeschlagen: ${svgEsc(e.message)}</div>`;
+    }
+    ev.target.value = '';
+  };
 }
 
 refreshProgressSafeCopy();
@@ -7825,6 +8046,7 @@ function renderHlSubtabs(){
   });
 }
 function switchHlView(){
+  try { renderHealthImporter(); } catch(e) {}
   document.getElementById('hlSleep').style.display = currentHlTab==='sleep'?'block':'none';
   document.getElementById('hlSteps').style.display = currentHlTab==='steps'?'block':'none';
   document.getElementById('hlImport').style.display = currentHlTab==='import'?'block':'none';
