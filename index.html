@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v14.5: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v15.0: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v14.5: Cockpit kompakter ---------- */
+  /* ---------- v15.0: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1195,6 +1195,30 @@
   .hk-sum span{ font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-dim); }
   .hk-sum b{ font-family:var(--num-font); font-size:17px; } .hk-sum small{ font-size:11px; color:var(--ink-dim); }
   .hk-link{ display:block; width:100%; margin-top:8px; background:transparent; border:none; color:var(--ink-dim); font-size:12.5px; text-decoration:underline; }
+
+  /* ---------- v15: Protokolle & Journal ---------- */
+  .pr-item{ display:flex; align-items:center; gap:10px; padding:9px 0 2px; border-top:1px solid var(--line); }
+  .pr-item:first-of-type{ border-top:none; }
+  .pr-main{ flex:1; min-width:0; }
+  .pr-t{ font-size:13.5px; font-weight:700; line-height:1.3; }
+  .pr-s{ font-size:11.5px; color:var(--ink-dim); margin-top:2px; line-height:1.4; } .pr-s b{ color:var(--lime); font-weight:700; }
+  .ev{ display:inline-block; font-size:9.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; padding:1px 6px; border-radius:99px; vertical-align:2px; margin-left:4px; }
+  .ev-stark{ color:var(--up); background:color-mix(in srgb, var(--up) 14%, transparent); }
+  .ev-mittel{ color:var(--lime); background:color-mix(in srgb, var(--lime) 14%, transparent); }
+  .ev-begrenzt{ color:var(--ink-dim); background:color-mix(in srgb, var(--ink) 8%, transparent); }
+  .pr-tog{ flex:0 0 36px; width:36px; height:36px; border-radius:50%; border:1.5px solid var(--line); background:var(--bg2); color:var(--acc-ink); font-weight:900; font-size:16px; }
+  .pr-tog.on{ background:var(--up); border-color:var(--up); color:#06130F; }
+  .pr-num{ flex:0 0 auto; display:flex; align-items:center; gap:4px; background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:0 8px; }
+  .pr-num input{ width:42px; border:none; background:transparent; color:var(--ink); font-family:var(--num-font); font-size:16px; padding:8px 0; text-align:right; outline:none; }
+  .pr-num em{ font-style:normal; font-size:11px; color:var(--ink-dim); }
+  .pr-ev{ margin:2px 0 6px; } .pr-ev summary{ list-style:none; cursor:pointer; font-size:11px; color:var(--ink-dim); text-decoration:underline; }
+  .pr-ev summary::-webkit-details-marker{ display:none; }
+  .pr-ev div{ font-size:12px; line-height:1.55; color:var(--ink-dim); padding:6px 0 2px; }
+  .jr-sw{ display:flex; gap:6px; overflow-x:auto; margin-bottom:10px; scrollbar-width:none; }
+  .jr-sw::-webkit-scrollbar{ display:none; }
+  .jr-sw button{ flex:0 0 auto; padding:8px 12px; border-radius:99px; border:1px solid var(--line); background:var(--card); color:var(--ink-dim); font-weight:700; font-size:13px; }
+  .jr-sw button.on{ background:var(--lime); border-color:var(--lime); color:var(--acc-ink); }
+  .jr-top{ margin-top:12px; font-size:13px; line-height:1.55; color:var(--ink-dim); } .jr-top b{ color:var(--ink); }
   /* ================= v14: PERFORMANCE (nach WHOOP-Vorbild) ================= */
   :root{ --num-font: ui-monospace, monospace; --rec-hi:#2BB673; --rec-mid:#E3B23C; --rec-lo:#E5484D; --strain:#3B82C4; --ring-track: color-mix(in srgb, var(--ink) 10%, transparent); }
   :root[data-theme="performance"]{
@@ -1253,7 +1277,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v14.5</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v15.0</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -5459,6 +5483,8 @@ const CHECK_Q = [
   ['stress', 'Stress', ['keiner', 'wenig', 'mittel', 'hoch', 'extrem']],
   ['sore', 'Muskelkater', ['keiner', 'leicht', 'spürbar', 'stark', 'heftig']],
   ['sleepQ', 'Schlafqualität', ['sehr schlecht', 'schlecht', 'okay', 'gut', 'sehr gut']],
+  ['focus', 'Fokus', ['zerstreut', 'unkonzentriert', 'okay', 'klar', 'messerscharf']],
+  ['satisf', 'Zufriedenheit', ['sehr unzufrieden', 'unzufrieden', 'neutral', 'zufrieden', 'sehr zufrieden']],
 ];
 const CHECK_FLAGS = [['alc', 'Alkohol gestern'], ['sick', 'Krank / angeschlagen'], ['off', 'Freier Tag'], ['coffee', 'Koffein vor dem Training']];
 const CHECK_PRIVATE = [['sexA', 'Sex (letzte 24 h)'], ['sexM', 'Selbstbefriedigung (letzte 24 h)'], ['sex2h', 'davon < 2 h vor dem Training']];
@@ -5624,9 +5650,11 @@ function renderHeute(){
         <div class="ci-hint" style="margin-top:4px">Bleibt nur auf diesem iPhone. Nicht im Backup, außer du schließt es dort ausdrücklich ein.</div>
       </details>
       <input class="ci-note" id="ciNote" placeholder="Notiz (optional) — z. B. Deadline, schlecht gegessen, Reise" value="${svgEsc(ci.note || '')}">
-      <div class="ci-hint">Dauert 15 Sekunden. Nach 2–3 Wochen zeigt <b>Analyse → Motivation</b>, was deine Lust auf Training wirklich beeinflusst.</div>
+      <div class="ci-hint">Dauert 15 Sekunden. Nach 2–3 Wochen zeigt <b>Analyse → Journal</b>, was deine Lust, Stimmung, Erholung und deinen Fokus wirklich beeinflusst.</div>
     </div>
 
+
+    ${protocolsCardHTML(today, isPast ? dayLabel(today) : 'heute')}
 
     <div class="card">
       <div class="card-title">Schritte & Schlaf</div>
@@ -5652,7 +5680,8 @@ function renderHeute(){
       <div class="ci-hint">Morgens nüchtern nach dem Toilettengang wiegen — so sind die Werte vergleichbar. Bioimpedanz schwankt mit dem Wasserhaushalt: auf den Trend achten, nicht auf einzelne Tage.</div>
     </div>
 
-    ${weekBalanceHTML(balRef)}`;
+    ${weekBalanceHTML(balRef)}
+    ${protocolsWeekHTML(balRef)}`;
 
   el.querySelectorAll('.mw-chip').forEach(bt => bt.onclick = () => {
     if (bt.classList.contains('fut')) return;
@@ -5666,6 +5695,7 @@ function renderHeute(){
   const hk = document.getElementById('hkPaste'); if (hk) hk.onclick = importFromClipboard;
   const hg = document.getElementById('hkGoImport'); if (hg) hg.onclick = () => { switchTab('mehr'); showView('health'); setTimeout(() => { const b = [...document.querySelectorAll('#hlSubtabs .subtab-btn')].find(x => x.dataset.t === 'import'); if (b) b.click(); }, 50); };
   el.querySelectorAll('.dial').forEach(dl => dl.onclick = () => openScoreSheet(dl.dataset.sc, today));
+  try { bindProtocols(el, today); } catch(e) {}
   const pb = document.querySelector('#pasteBox textarea'); if (pb) pb.oninput = () => { const p = parseHealthPayload(pb.value); if (p) { const r = applyHealthPayload(p, today); renderHeute(); const m = document.getElementById('quickMsg'); if (m) { m.textContent = `✓ Übernommen für ${dayLabel(r.d)}: ${r.done.join(' · ')}`; m.className = 'quick-msg c-up'; } } };
   const rp = document.getElementById('ckReport'); if (rp) rp.onclick = () => { switchTab('analyse'); showView('woche'); reportWeekOff = new Date(realToday + 'T12:00:00').getDay() === 1 ? -1 : 0; renderWeekReport(); };
   const saveCI = (fn) => { const all = loadCheckins(); all[today] = all[today] || {}; fn(all[today]); all[today].ts = Date.now(); saveCheckins(all); };
@@ -5690,8 +5720,8 @@ function renderHeute(){
       msg.textContent = '✓ ' + label + ' gespeichert'; msg.className = 'quick-msg c-up';
     };
   };
-  saveQ('cutplan_steps_v1', 'qS', v => Math.round(v), v => v >= 0 && v <= 100000, 'Schritte');
-  saveQ('cutplan_sleep_v1', 'qL', (v, old) => Object.assign({}, old || {}, { h: Math.round(v * 10) / 10 }), v => v >= 0 && v <= 16, 'Schlaf');
+  saveQ('cutplan_steps_v1', 'qS', v => { hkUnmark('steps', today); return Math.round(v); }, v => v >= 0 && v <= 100000, 'Schritte');
+  saveQ('cutplan_sleep_v1', 'qL', (v, old) => { hkUnmark('sleep', today); return Object.assign({}, old || {}, { h: Math.round(v * 10) / 10 }); }, v => v >= 0 && v <= 16, 'Schlaf');
 
   const lim = { w: [30, 250], bf: [3, 60], fatKg: [1, 90], waterKg: [15, 90], muscle: [15, 120], water: [30, 80], bone: [1, 8], visceral: [1, 30], bmr: [800, 4000], hr: [30, 200], pwv: [3, 20], vasc: [10, 110], nerve: [0, 100] };
   el.querySelectorAll('input[data-b]').forEach(inp => inp.onchange = () => {
@@ -5700,6 +5730,7 @@ function renderHeute(){
     const v = parseFloat(raw), r = lim[key] || [0.5, 80];
     if (isNaN(v) || v < r[0] || v > r[1]) { msg.textContent = 'Wert außerhalb des plausiblen Bereichs — bitte prüfen.'; msg.className = 'quick-msg c-down'; return; }
     saveBodyField(today, key, Math.round(v * 10) / 10);
+    hkUnmark('body', today);
     // Körperfett-% für Ziele und Auswertung mitführen (aus Fettmasse und Gewicht)
     try {
       const e = loadBody()[today] || {}, wt = e.w !== undefined ? +e.w : ((weightOn(today) || {}).v || null);
@@ -5761,7 +5792,7 @@ function nextTargetsFor(k){
 
 // ================= MOTIVATION: was beeinflusst deine Lust auf Training? =================
 let motivTarget = 'lust';
-function renderMotivation(){
+function renderMotivationAlt(){
   const el = document.getElementById('motivBox'); if (!el) return;
   const ci = loadCheckins(), tgt = motivTarget, C = d => ci[d] || {};
   const Yv = d => tgt === 'rec' ? ((recoveryScore(d) || {}).score || null) : (C(d).lust || null);
@@ -5990,8 +6021,7 @@ function adaptiveTDEE(endDate, days){
   if (_adCache && _adCache.k === key && Date.now() - _adCache.t < 3000) return _adCache.v;
   const start = addDays(endDate, -days + 1), res = { ok: false, days };
   const sl = weightSlope(start, endDate);
-  const nut = loadNutrition();
-  const nd = Object.keys(nut).filter(d => d >= start && d <= endDate).map(d => dayTotals(d).kcal).filter(k => k >= 1000);
+  const nd = []; for (let i = 0; i < days; i++) { const t = intakeOf(addDays(start, i)); if (t) nd.push(t.kcal); }
   const need = Math.ceil(days * 0.6);
   if (!sl) res.reason = `braucht mind. 4 Wiegungen über mind. 10 Tage im Zeitraum`;
   else if (nd.length < need) res.reason = `braucht an mind. ${need} von ${days} Tagen vollständig eingetragene Ernährung (bisher ${nd.length})`;
@@ -6216,6 +6246,7 @@ function renderWeekReport(){
       ${kpi('Ø Dauer', dur ? fmtMin(dur) : '–', ses.length + ' gemessene Trainings')}
     </div></div>
     ${weekBalanceHTML(ref)}
+    ${protocolsWeekHTML(ref)}
     <div class="card"><div class="card-title">Körper & Befinden</div><div class="ana-kpis">
       ${kpi('Gewicht', bw ? fmtNum(bw.last) + ' kg' : '–', 'Woche: ' + delta(bw, 'kg', (loadGoalCfg() || GOAL_DEFAULTS).goal === 'cut'))}
       ${kpi('Körperfett', bbf ? fmtNum(bbf.last) + ' %' : '–', 'Woche: ' + delta(bbf, '%', true))}
@@ -6503,11 +6534,13 @@ function strainScore(date){
     });
     const ses = loadSessions().filter(s => s.date === date);
     const trainMin = ses.reduce((a, s) => a + (s.durationMin || 0), 0);
-    const steps = +(_js('cutplan_steps_v1')[date] || 0);
-    if (!vol && !cardioMin && !trainMin && !steps) return null;
-    const load = vol / 1000 + cardioMin / 10 * 1.2 + Math.max(0, trainMin - cardioMin) / 10 * 0.4 + steps / 1000 * 0.5;
+    const steps = +(_js('cutplan_steps_v1')[date] || 0), hx = hkDaily(date);
+    if (!vol && !cardioMin && !trainMin && !steps && !hx.active) return null;
+    // Mit Apple Watch: gemessene aktive Energie (enthält Schritte, Ausdauer und Bewegung), plus Krafttrainingsvolumen
+    const load = hx.active ? vol / 1000 + hx.active / 100
+      : vol / 1000 + cardioMin / 10 * 1.2 + Math.max(0, trainMin - cardioMin) / 10 * 0.4 + steps / 1000 * 0.5;
     const s = 21 * (1 - Math.exp(-load / 15));
-    return { score: Math.round(s * 10) / 10, vol: Math.round(vol), cardioMin, trainMin, steps };
+    return { score: Math.round(s * 10) / 10, vol: Math.round(vol), cardioMin: cardioMin || hx.woC || 0, trainMin, steps, active: hx.active || 0 };
   });
 }
 function sleepNeed(date){
@@ -6536,6 +6569,9 @@ function recoveryScore(date){
     const vt = vitalsOf(date), cl = x => Math.max(0, Math.min(1, x));
     if (vt && vt.hrv) { const b = vitalBaseline(date, 'hrv'); if (b) parts.push(['HRV', cl(0.5 + (vt.hrv / b - 1) * 1.6), 0.35, `${fmtNum(vt.hrv)} ms · Ø ${Math.round(b)}`]); }
     if (vt && vt.rhr) { const b = vitalBaseline(date, 'rhr'); if (b) parts.push(['Ruhepuls', cl(0.5 - (vt.rhr - b) / b * 4), 0.15, `${vt.rhr} bpm · Ø ${Math.round(b)}`]); }
+    const hxr = hkDaily(date);
+    if (hxr.resp) { const dl = _js('cutplan_hkdaily_v1'), bv = []; for (let i = 1; i <= 30; i++) { const x = dl[addDays(date, -i)]; if (x && x.resp) bv.push(x.resp); }
+      if (bv.length >= 5) { const b = bv.reduce((a, c) => a + c, 0) / bv.length; parts.push(['Atemfrequenz', cl(0.5 - (hxr.resp - b) / b * 6), 0.08, `${fmtNum(hxr.resp)} /min · Ø ${fmtNum(Math.round(b * 10) / 10)}`]); } }
     if (sl) parts.push(['Schlafleistung', Math.min(1, sl.score / 100), 0.35, sl.score + ' %']);
     if (c.energy) parts.push(['Energie', (c.energy - 1) / 4, 0.18, c.energy + ' / 5']);
     if (c.sore) parts.push(['Muskelkater', (5 - c.sore) / 4, 0.14, c.sore + ' / 5']);
@@ -6631,7 +6667,8 @@ function openScoreSheet(kind, day){
     body = st ? `<div class="sc-sec">Woraus sich die Belastung ergibt</div>
       ${bar('Krafttraining', st.vol, 12000, st.vol ? fmtVolume(st.vol) : '–', 'var(--strain)')}
       ${bar('Ausdauer', st.cardioMin, 90, st.cardioMin ? st.cardioMin + ' min' : '–', 'var(--strain)')}
-      ${bar('Schritte', st.steps, 15000, st.steps ? st.steps.toLocaleString('de-DE') : '–', 'var(--strain)')}` : '<div class="sc-txt">Für diesen Tag gibt es noch keine Belastung.</div>';
+      ${bar('Schritte', st.steps, 15000, st.steps ? st.steps.toLocaleString('de-DE') : '–', 'var(--strain)')}
+      ${st.active ? bar('Aktive Energie (Watch)', st.active, 1200, st.active + ' kcal', 'var(--strain)') : ''}` : '<div class="sc-txt">Für diesen Tag gibt es noch keine Belastung.</div>';
     if (tg) body += `<div class="sc-sec">Ziel heute</div><div class="sc-target"><i style="left:${tg[0] / 21 * 100}%; width:${(tg[1] - tg[0]) / 21 * 100}%"></i>${st ? `<em style="left:${st.score / 21 * 100}%"></em>` : ''}</div>
       <div class="sc-txt">Ziel-Belastung <b>${tg[0]}–${tg[1]}</b> bei ${rc.score} % Erholung. ${st ? (st.score < tg[0] ? 'Noch Luft nach oben.' : st.score > tg[1] ? 'Über dem Ziel — morgen eher ruhiger.' : 'Im Zielbereich.') : ''}</div>`;
     body += `<div class="sc-note">Logarithmische Skala wie bei WHOOP: Von 0 auf 10 geht es schnell, jeder Punkt über 14 kostet deutlich mehr Arbeit.</div>`;
@@ -6670,7 +6707,7 @@ function renderTrends(){
     <div class="card"><div class="card-title">Schlafleistung</div><div id="trSL" class="svgc"></div>
       <details class="ex"><summary>Wie lese ich das?</summary><div>Jeder <b style="color:var(--sleep)">Balken</b> zeigt, wie viel Prozent deines Schlafbedarfs du in der Nacht davor gedeckt hast. 100 % = Bedarf erfüllt. Der Bedarf liegt bei 7,5 h und steigt nach harten Tagen und bei Schlafschulden. Die <b>gestrichelte Linie</b> markiert 85 % — darüber gilt die Nacht als gut, unter 70 % als zu wenig.</div></details></div>
     <div class="card"><div class="card-title">Belastung</div><div id="trST" class="svgc"></div>
-      <details class="ex"><summary>Wie lese ich das?</summary><div>Jeder <b style="color:var(--strain)">Balken</b> ist die Tagesbelastung auf der Skala 0–21 aus Krafttraining, Ausdauerminuten und Schritten. Grob: <b>unter 10</b> leicht, <b>10–13</b> moderat, <b>14–17</b> hoch, <b>ab 18</b> sehr hoch. Die Skala ist logarithmisch — die letzten Punkte kosten viel mehr Arbeit als die ersten. Die <b>gestrichelten Linien</b> markieren die Grenzen 10 und 14.</div></details></div>`;
+      <details class="ex"><summary>Wie lese ich das?</summary><div>Jeder <b style="color:var(--strain)">Balken</b> ist die Tagesbelastung auf der Skala 0–21 aus Krafttraining, Ausdauerminuten und Schritten. Grob: <b>unter 10</b> leicht, <b>10–13</b> moderat, <b>14–17</b> hoch, <b>ab 18</b> sehr hoch. Die Skala ist logarithmisch — die letzten Punkte kosten viel mehr Arbeit als die ersten. Die <b>gestrichelten Linien</b> markieren die Grenzen 10 und 14.</div></details></div>` + trendsExtraHTML();
   el.querySelectorAll('.trend-sw button').forEach(b => b.onclick = () => { trendDays = +b.dataset.n; renderTrends(); });
   const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
   const zc = { hi: cssv('--rec-hi') || '#22E07A', mid: cssv('--rec-mid') || '#FFD43B', lo: cssv('--rec-lo') || '#FF4D5E' };
@@ -6684,6 +6721,7 @@ function renderTrends(){
   svgBarChart(document.getElementById('trST'), { labels, values: S.map(s => s ? s.score : 0), color: cssv('--strain') || ANA_COL.acc, height: 190,
     overlay: [{ values: labels.map(() => 10), color: ANA_COL.dim, dash: true }, { values: labels.map(() => 14), color: ANA_COL.dim, dash: true }],
     legend: [{ name: 'Belastung 0–21', color: cssv('--strain') || ANA_COL.acc }, { name: 'Grenzen moderat (10) · hoch (14)', color: ANA_COL.dim, line: true, dash: true }], axisFmt: v => Math.round(v) + '', valFmt: v => fmtNum(Math.round(v * 10) / 10) });
+  try { renderTrendsExtra(days); } catch(e) {}
 }
 
 // ================= APPLE-HEALTH-EXPORT (Export.zip) direkt einlesen =================
@@ -6693,7 +6731,16 @@ const HK_TYPES = {
   'HKQuantityTypeIdentifierBodyMass': 'mass', 'HKQuantityTypeIdentifierBodyFatPercentage': 'fat',
   'HKQuantityTypeIdentifierLeanBodyMass': 'lean', 'HKQuantityTypeIdentifierHeartRateVariabilitySDNN': 'hrv',
   'HKQuantityTypeIdentifierRestingHeartRate': 'rhr',
+  'HKQuantityTypeIdentifierTimeInDaylight': 'daylight', 'HKQuantityTypeIdentifierAppleExerciseTime': 'exMin',
+  'HKQuantityTypeIdentifierActiveEnergyBurned': 'active', 'HKQuantityTypeIdentifierVO2Max': 'vo2',
+  'HKQuantityTypeIdentifierRespiratoryRate': 'resp', 'HKQuantityTypeIdentifierWalkingHeartRateAverage': 'walkHr',
+  'HKCategoryTypeIdentifierMindfulSession': 'mindful',
+  'HKQuantityTypeIdentifierDietaryEnergyConsumed': 'kcalIn', 'HKQuantityTypeIdentifierDietaryProtein': 'pIn',
+  'HKQuantityTypeIdentifierDietaryCarbohydrates': 'cIn', 'HKQuantityTypeIdentifierDietaryFatTotal': 'fIn',
 };
+const HK_SUM = ['daylight', 'exMin', 'active', 'kcalIn', 'pIn', 'cIn', 'fIn'];   // Tagessumme je Quelle, dann vollständigste Quelle
+const HK_AVG = ['vo2', 'walkHr'];
+const HK_STRENGTH = /StrengthTraining|HighIntensityIntervalTraining|CrossTraining|CoreTraining/;
 async function zipFindEntry(file, nameRe){
   const tailLen = Math.min(file.size, 70000);
   const tail = new DataView(await file.slice(file.size - tailLen).arrayBuffer());
@@ -6743,11 +6790,21 @@ async function parseHealthExport(file, onProgress, sinceDate){
     if (ent.method === 8) raw = withProgress(raw, total, onProgress).pipeThrough(new DecompressionStream('deflate-raw'));
     else raw = withProgress(raw, total, onProgress);
   } else { total = file.size; raw = withProgress(file.stream(), total, onProgress); }
-  const R = { steps: {}, sleep: {}, mass: {}, fat: {}, lean: {}, hrv: {}, rhr: {}, lines: 0 };
+  const R = { steps: {}, sleep: {}, mass: {}, fat: {}, lean: {}, hrv: {}, rhr: {}, lines: 0, sums: {}, avgs: {}, resp: {}, mindful: {}, wo: {}, seen: new Set() };
   const reader = raw.pipeThrough(new TextDecoderStream()).getReader();
   const attrRe = /(\w+)="([^"]*)"/g;
   let buf = '';
   const handle = (line) => {
+    const w0 = line.indexOf('<Workout workoutActivityType="');
+    if (w0 >= 0) {                                                   // Workouts: Art und Dauer je Tag
+      const a = {}; let m; attrRe.lastIndex = w0; while ((m = attrRe.exec(line))) a[m[1]] = m[2];
+      const day = (a.startDate || '').slice(0, 10); if (!day || (sinceDate && day < sinceDate)) return;
+      let min = parseFloat(a.duration) || 0; if (a.durationUnit === 'sec' || a.durationUnit === 's') min /= 60; if (a.durationUnit === 'hr' || a.durationUnit === 'h') min *= 60;
+      const d = R.wo[day] || (R.wo[day] = { s: 0, c: 0, n: 0, types: {} });
+      const t = (a.workoutActivityType || '').replace('HKWorkoutActivityType', '');
+      if (HK_STRENGTH.test(t)) d.s += min; else d.c += min; d.n++; d.types[t] = (d.types[t] || 0) + Math.round(min);
+      return;
+    }
     const t0 = line.indexOf('<Record type="'); if (t0 < 0) return;
     const t1 = line.indexOf('"', t0 + 14), type = line.slice(t0 + 14, t1), k = HK_TYPES[type]; if (!k) return;
     const a = {}; let m; attrRe.lastIndex = t1;
@@ -6767,6 +6824,16 @@ async function parseHealthExport(file, onProgress, sinceDate){
     else if (k === 'lean') R.lean[sd] = a.unit === 'lb' ? v * 0.453592 : v;
     else if (k === 'hrv') (R.hrv[day] = R.hrv[day] || []).push(v);
     else if (k === 'rhr') (R.rhr[day] = R.rhr[day] || []).push(v);
+    else if (HK_SUM.includes(k)) {
+      // Yazio schreibt jeden Ernährungseintrag doppelt in Apple Health — exakte Doppel (Quelle, Zeitpunkt, Wert) nur einmal zählen
+      if (k === 'kcalIn' || k === 'pIn' || k === 'cIn' || k === 'fIn') { const key = k + '|' + src + '|' + sd + '|' + a.value; if (R.seen.has(key)) return; R.seen.add(key); }
+      const kk = R.sums[k] || (R.sums[k] = {}), d = kk[day] || (kk[day] = {}); let x = v; if (k === 'active' && a.unit === 'kJ') x = v / 4.184; d[src] = (d[src] || 0) + x; }
+    else if (HK_AVG.includes(k)) { const kk = R.avgs[k] || (R.avgs[k] = {}); (kk[day] = kk[day] || []).push(v); }
+    else if (k === 'resp') {                                        // nachts gemessen → dem Morgen zuordnen
+      const hr = +sd.slice(11, 13); if (hr >= 8 && hr < 21) return;
+      const key = hr >= 21 ? addDays(day, 1) : day; (R.resp[key] = R.resp[key] || []).push(v);
+    }
+    else if (k === 'mindful') { const mins = (hkTime(a.endDate) - hkTime(sd)) / 60000; if (mins > 0 && mins < 240) R.mindful[day] = (R.mindful[day] || 0) + mins; }
   };
   while (true) {
     const { value, done } = await reader.read();
@@ -6812,23 +6879,59 @@ function summarizeHealth(R, anchorKg){
   const hrv = {}, rhr = {};
   Object.keys(R.hrv).forEach(d => { hrv[d] = Math.round(avg(R.hrv[d]) * 10) / 10; });
   Object.keys(R.rhr).forEach(d => { rhr[d] = Math.round(avg(R.rhr[d])); });
-  return { steps, sleep, body, hrv, rhr, rejected };
+  const daily = {};
+  const set = (d, k, v) => { (daily[d] = daily[d] || {})[k] = v; };
+  Object.keys(R.sums).forEach(k => Object.keys(R.sums[k]).forEach(d => set(d, k, Math.round(Math.max(...Object.values(R.sums[k][d]))))));
+  Object.keys(R.avgs).forEach(k => Object.keys(R.avgs[k]).forEach(d => set(d, k, Math.round(avg(R.avgs[k][d]) * 10) / 10)));
+  Object.keys(R.resp).forEach(d => { if (R.resp[d].length >= 3) set(d, 'resp', Math.round(avg(R.resp[d]) * 10) / 10); });
+  Object.keys(R.mindful).forEach(d => set(d, 'mindful', Math.round(R.mindful[d])));
+  Object.keys(R.wo).forEach(d => { const w = R.wo[d]; set(d, 'woS', Math.round(w.s)); set(d, 'woC', Math.round(w.c)); set(d, 'woN', w.n); set(d, 'woT', w.types); });
+  return { steps, sleep, body, hrv, rhr, rejected, daily };
 }
+// Import zusammenführen — pro Tag genau ein Wert, nie doppelt.
+// Werte aus früheren Importen werden aktualisiert (z. B. nachsynchronisierter Schlaf),
+// selbst eingetragene oder korrigierte Werte bleiben unangetastet.
+function hkMarks(){ try { return JSON.parse(localStorage.getItem('cutplan_hkmarks_v1') || '{}') || {}; } catch(e) { return {}; } }
+function hkUnmark(kind, d){ const m = hkMarks(); if (m[kind] && m[kind][d]) { delete m[kind][d]; localStorage.setItem('cutplan_hkmarks_v1', JSON.stringify(m)); } }
 function applyHealthImport(S){
-  const put = (key, fn) => { let o = {}; try { o = JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch(e) {} const n = fn(o); localStorage.setItem(key, JSON.stringify(o)); return n; };
-  const c = {};
-  c.steps = put('cutplan_steps_v1', o => { let n = 0; Object.keys(S.steps).forEach(d => { if (!o[d] || S.steps[d] > +o[d]) { o[d] = S.steps[d]; n++; } }); return n; });
-  c.sleep = put('cutplan_sleep_v1', o => { let n = 0; Object.keys(S.sleep).forEach(d => { if (!o[d] || !o[d].h) { o[d] = Object.assign({}, o[d] || {}, { h: S.sleep[d] }); n++; } }); return n; });
-  let nb = 0; const body = loadBody(); let w = {}; try { w = JSON.parse(localStorage.getItem('cutplan_weight_v1') || '{}') || {}; } catch(e) {}
-  Object.keys(S.body).forEach(d => {                                 // eigene Einträge haben Vorrang
-    const cur = body[d] || {}, b = S.body[d];
-    if (cur.w === undefined && w[d] === undefined && b.w) { saveBodyField(d, 'w', b.w); nb++; }
-    if (cur.bf === undefined && cur.fatKg === undefined && b.bf !== undefined) saveBodyField(d, 'bf', b.bf);
-    if (cur.lean === undefined && b.lean !== undefined) saveBodyField(d, 'lean', b.lean);
+  const marks = hkMarks(); ['steps','sleep','body'].forEach(k => marks[k] = marks[k] || {});
+  const get = k => { try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch(e) { return {}; } };
+  const c = { steps: 0, sleep: 0, body: 0, vitals: 0, kept: 0 };
+  // Schritte: höherer Wert gewinnt (ein Tag kann nur mehr Schritte bekommen)
+  const st = get('cutplan_steps_v1');
+  Object.keys(S.steps).forEach(d => { const cur = +st[d] || 0;
+    if (!cur || (S.steps[d] > cur && (marks.steps[d] || S.steps[d] > cur))) { if (S.steps[d] !== cur) { st[d] = S.steps[d]; marks.steps[d] = 1; c.steps++; } } });
+  localStorage.setItem('cutplan_steps_v1', JSON.stringify(st));
+  // Schlaf: leere Nächte füllen, importierte Nächte aktualisieren, eigene Einträge behalten
+  const sl = get('cutplan_sleep_v1');
+  Object.keys(S.sleep).forEach(d => { const cur = sl[d] && sl[d].h;
+    if (!cur || (marks.sleep[d] && cur !== S.sleep[d])) { sl[d] = Object.assign({}, sl[d] || {}, { h: S.sleep[d] }); marks.sleep[d] = 1; c.sleep++; }
+    else if (cur && !marks.sleep[d] && cur !== S.sleep[d]) c.kept++; });
+  localStorage.setItem('cutplan_sleep_v1', JSON.stringify(sl));
+  // Waage: gleiche Logik je Tag
+  const body = loadBody(), wst = get('cutplan_weight_v1');
+  Object.keys(S.body).forEach(d => {
+    const cur = body[d] || {}, b = S.body[d], curW = cur.w !== undefined ? +cur.w : (wst[d] !== undefined ? +wst[d] : undefined);
+    const own = curW !== undefined && !marks.body[d];
+    if (own) { if (curW !== b.w) c.kept++; return; }
+    let changed = false;
+    if (b.w && curW !== b.w) { saveBodyField(d, 'w', b.w); changed = true; }
+    if (b.bf !== undefined && cur.fatKg === undefined && cur.bf !== b.bf) { saveBodyField(d, 'bf', b.bf); changed = true; }
+    if (b.lean !== undefined && cur.lean !== b.lean) { saveBodyField(d, 'lean', b.lean); changed = true; }
+    if (changed) { marks.body[d] = 1; c.body++; }
   });
-  c.body = nb;
-  c.vitals = put('cutplan_vitals_v1', o => { let n = 0; const ds = new Set([...Object.keys(S.hrv), ...Object.keys(S.rhr)]);
-    ds.forEach(d => { o[d] = Object.assign({}, o[d] || {}); if (S.hrv[d] !== undefined) o[d].hrv = S.hrv[d]; if (S.rhr[d] !== undefined) o[d].rhr = S.rhr[d]; n++; }); return n; });
+  // HRV & Ruhepuls: kommen nur aus Apple Health — Tageswert setzen, zählen nur bei Änderung
+  const vt = get('cutplan_vitals_v1');
+  new Set([...Object.keys(S.hrv), ...Object.keys(S.rhr)]).forEach(d => {
+    const o = Object.assign({}, vt[d] || {}), before = JSON.stringify(o);
+    if (S.hrv[d] !== undefined) o.hrv = S.hrv[d]; if (S.rhr[d] !== undefined) o.rhr = S.rhr[d];
+    if (JSON.stringify(o) !== before) { vt[d] = o; c.vitals++; } });
+  localStorage.setItem('cutplan_vitals_v1', JSON.stringify(vt));
+  // Weitere Tageswerte (Licht, Workouts, Energie, Atemfrequenz, VO2max, Yazio-Ernährung): Tageswert setzen
+  const dl = get('cutplan_hkdaily_v1'); c.daily = 0;
+  Object.keys(S.daily || {}).forEach(d => { const o = Object.assign({}, dl[d] || {}, S.daily[d]); if (JSON.stringify(o) !== JSON.stringify(dl[d] || {})) { dl[d] = o; c.daily++; } });
+  localStorage.setItem('cutplan_hkdaily_v1', JSON.stringify(dl));
+  localStorage.setItem('cutplan_hkmarks_v1', JSON.stringify(marks));
   return c;
 }
 let HK_PENDING = null;
@@ -6863,12 +6966,17 @@ function renderHealthImporter(){
         <div><span>Schritte</span><b>${n(S.steps)} Tage</b><small>bis ${last(S.steps)}</small></div>
         <div><span>Schlaf</span><b>${n(S.sleep)} Nächte</b><small>bis ${last(S.sleep)}</small></div>
         <div><span>Waage</span><b>${n(S.body)} Tage</b><small>${S.rejected.length ? S.rejected.length + ' fremde Messungen aussortiert' : 'bis ' + last(S.body)}</small></div>
-        <div><span>HRV · Ruhepuls</span><b>${n(S.hrv)} · ${n(S.rhr)} Tage</b><small>für die Erholung</small></div></div>
+        <div><span>HRV · Ruhepuls</span><b>${n(S.hrv)} · ${n(S.rhr)} Tage</b><small>für die Erholung</small></div>
+        <div><span>Licht · Workouts · Energie</span><b>${n(S.daily)} Tage</b><small>${Object.values(S.daily).filter(x => x.daylight).length} Tage mit Tageslicht</small></div>
+        <div><span>Ernährung (Yazio)</span><b>${Object.values(S.daily).filter(x => x.kcalIn).length} Tage</b><small>für den echten Verbrauch</small></div></div>
         <div class="ci-hint">In ${Math.round((Date.now() - t0) / 1000)} s gelesen. Doppelte Quellen (Watch, iPhone, Withings, Yazio) sind bereinigt. Deine eigenen Einträge bleiben erhalten — die App ergänzt nur fehlende Tage, bei Schritten übernimmt sie den höheren Wert.</div>
         <button class="hero-btn" id="hkApply">Übernehmen</button>`;
       document.getElementById('hkApply').onclick = () => {
         const c = applyHealthImport(HK_PENDING); HK_PENDING = null;
-        st.innerHTML = `<div class="quick-msg c-up">✓ Übernommen: ${c.steps} Tage Schritte, ${c.sleep} Nächte Schlaf, ${c.body} Tage Waage, ${c.vitals} Tage HRV/Ruhepuls.</div>`;
+        const tot = c.steps + c.sleep + c.body + c.vitals + (c.daily || 0);
+        st.innerHTML = tot
+          ? `<div class="quick-msg c-up">✓ Neu oder aktualisiert: ${[[c.steps, 'Tag', 'Tage', 'Schritte'], [c.sleep, 'Nacht', 'Nächte', 'Schlaf'], [c.body, 'Tag', 'Tage', 'Waage'], [c.vitals, 'Tag', 'Tage', 'HRV/Ruhepuls'], [c.daily || 0, 'Tag', 'Tage', 'Licht, Workouts & weitere Werte']].filter(x => x[0]).map(x => `${x[0]} ${x[0] === 1 ? x[1] : x[2]} ${x[3]}`).join(', ')}. Alles andere war schon aktuell.${c.kept ? ` ${c.kept === 1 ? 'Einen selbst eingetragenen Wert' : c.kept + ' selbst eingetragene Werte'} hast du behalten.` : ''}</div>`
+          : `<div class="quick-msg c-up">✓ Alles schon aktuell — dieser Export enthält keine neuen Daten.${c.kept ? ` ${c.kept === 1 ? 'Einen selbst eingetragenen Wert' : c.kept + ' selbst eingetragene Werte'} hast du behalten.` : ''}</div>`;
         try { renderHeute(); } catch(e) {}
       };
     } catch(e) {
@@ -6876,6 +6984,213 @@ function renderHealthImporter(){
     }
     ev.target.value = '';
   };
+}
+
+// ================= v15: PROTOKOLLE · MENTALE GESUNDHEIT · ERWEITERTES JOURNAL =================
+function hkDaily(d){ return _js('cutplan_hkdaily_v1')[d] || {}; }
+// Ernährung eines Tages: App-Tagebuch, sonst Yazio-Werte aus Apple Health
+function intakeOf(d){
+  try { const t = dayTotals(d); if (t.kcal >= 1000) return { kcal: t.kcal, p: t.p, c: t.c, f: t.f, src: 'app' }; } catch(e) {}
+  const x = hkDaily(d); if (x.kcalIn >= 1000) return { kcal: x.kcalIn, p: x.pIn || 0, c: x.cIn || 0, f: x.fIn || 0, src: 'health' };
+  return null;
+}
+// Ev = Studienlage: stark · mittel · begrenzt
+const PROTOCOLS = [
+  { k: 'sun', l: 'Morgenlicht', s: '10–30 min draußen in der ersten Stunde nach dem Aufstehen', t: 'bool', ev: 'stark',
+    n: 'Morgendliches Tageslicht stabilisiert den Schlaf-wach-Rhythmus und verbessert nachweislich Einschlafen und Stimmung.' },
+  { k: 'caf90', l: 'Koffein ≥ 90 min nach dem Aufwachen', t: 'bool', ev: 'begrenzt',
+    n: 'Huberman-Empfehlung gegen das Nachmittagstief. Direkte Studien dazu fehlen — probier es aus und lass das Journal entscheiden.' },
+  { k: 'cafCut', l: 'Kein Koffein nach 14 Uhr', t: 'bool', ev: 'stark',
+    n: 'Koffein noch 6 h vor dem Schlafen verkürzt den Schlaf messbar, auch wenn man es nicht merkt.' },
+  { k: 'zone2', l: 'Zone-2-Cardio', t: 'num', u: 'min', wk: 150, ev: 'stark',
+    n: 'Ruhiges Ausdauertraining, bei dem du noch sprechen kannst. 150 min/Woche ist die WHO-Empfehlung — gut für Herz, VO2max und Erholung.' },
+  { k: 'cold', l: 'Kälte (Dusche, Eisbad)', t: 'num', u: 'min', wk: 11, ev: 'mittel',
+    n: 'Hebt Wachheit und Stimmung für Stunden. Wichtig für dich: nicht in den 6 h nach dem Krafttraining — Kälte direkt danach bremst den Muskelaufbau (Roberts et al. 2015).' },
+  { k: 'sauna', l: 'Sauna', t: 'num', u: 'min', wk: 57, ev: 'mittel',
+    n: 'Regelmäßige Sauna geht in großen Beobachtungsstudien mit besserer Herzgesundheit einher. Huberman nennt ~57 min pro Woche.' },
+  { k: 'nsdr', l: 'NSDR · Meditation · Yoga Nidra', t: 'num', u: 'min', ev: 'mittel',
+    n: 'Gezielte Tiefenentspannung senkt Stress und hilft bei Schlafmangel. Achtsamkeitsminuten aus Apple Health werden angezeigt.' },
+  { k: 'sigh', l: 'Zyklisches Seufzen · 5 min', t: 'bool', ev: 'mittel',
+    n: 'Doppelt einatmen, lang ausatmen. In einer Studie (Balban et al. 2023) besser für die Stimmung als Meditation.' },
+  { k: 'eveLight', l: 'Abends gedimmtes Licht, wenig Bildschirm', t: 'bool', ev: 'mittel',
+    n: 'Helles Licht am Abend unterdrückt Melatonin und verschiebt das Einschlafen.' },
+  { k: 'lastMeal', l: 'Letzte Mahlzeit ≥ 2–3 h vor dem Schlaf', t: 'bool', ev: 'begrenzt',
+    n: 'Kann Schlafqualität und Ruhepuls in der Nacht verbessern — individuell sehr unterschiedlich.' },
+  { k: 'wake', l: 'Gleiche Aufstehzeit (± 30 min)', t: 'bool', ev: 'stark',
+    n: 'Ein regelmäßiger Rhythmus ist einer der stärksten Hebel für Schlafqualität und Tagesenergie.' },
+  { k: 'social', l: 'Zeit mit Menschen oder in der Natur', t: 'bool', ev: 'stark',
+    n: 'Soziale Verbundenheit ist einer der am besten belegten Faktoren für psychische Gesundheit.' },
+  { k: 'grat', l: 'Dankbarkeit (3 Dinge)', t: 'bool', ev: 'mittel',
+    n: 'Kurze Dankbarkeitsübungen verbessern in Studien Stimmung und Zufriedenheit leicht, aber messbar.' },
+];
+function protoHint(k, d){
+  const x = hkDaily(d);
+  if (k === 'sun' && x.daylight !== undefined) return `Watch: ${x.daylight} min Tageslicht heute`;
+  if (k === 'nsdr' && x.mindful) return `Apple Health: ${x.mindful} min Achtsamkeit`;
+  if (k === 'zone2' && x.woC) return `Watch: ${x.woC} min Ausdauer-Workout`;
+  return '';
+}
+function protocolsCardHTML(day, label){
+  const ci = loadCheckins()[day] || {}, p = ci.p || {};
+  const done = PROTOCOLS.filter(x => x.t === 'bool' ? p[x.k] : +p[x.k] > 0).length;
+  return `<div class="card" id="protoCard">
+    <div class="card-title">Protokolle ${label} · ${done} von ${PROTOCOLS.length}</div>
+    ${PROTOCOLS.map(x => {
+      const v = p[x.k], hint = protoHint(x.k, day);
+      return `<div class="pr-item">
+        <div class="pr-main">
+          <div class="pr-t">${x.l} <span class="ev ev-${x.ev}">${x.ev}</span></div>
+          ${x.s || hint ? `<div class="pr-s">${x.s || ''}${x.s && hint ? ' · ' : ''}${hint ? `<b>${hint}</b>` : ''}</div>` : ''}
+        </div>
+        ${x.t === 'bool'
+          ? `<button class="pr-tog${v ? ' on' : ''}" data-pk="${x.k}" aria-label="${x.l}">${v ? '✓' : ''}</button>`
+          : `<label class="pr-num"><input type="number" inputmode="numeric" data-pk="${x.k}" value="${v ?? ''}" placeholder="0"><em>${x.u}</em></label>`}
+      </div>
+      <details class="pr-ev"><summary>Warum?</summary><div>${x.n}</div></details>`;
+    }).join('')}
+  </div>`;
+}
+function bindProtocols(el, day){
+  const save = fn => { const all = loadCheckins(); all[day] = all[day] || {}; all[day].p = all[day].p || {}; fn(all[day].p); all[day].ts = Date.now(); saveCheckins(all); };
+  el.querySelectorAll('.pr-tog').forEach(b => b.onclick = () => { let on; save(p => { p[b.dataset.pk] = !p[b.dataset.pk]; on = p[b.dataset.pk]; }); b.classList.toggle('on', on); b.textContent = on ? '✓' : ''; updateProtoTitle(day); });
+  el.querySelectorAll('.pr-num input').forEach(i => i.onchange = () => { const v = parseFloat(String(i.value).replace(',', '.')); save(p => { if (isNaN(v) || v <= 0) delete p[i.dataset.pk]; else p[i.dataset.pk] = Math.round(v); }); updateProtoTitle(day); });
+}
+function updateProtoTitle(day){
+  const c = document.querySelector('#protoCard .card-title'); if (!c) return;
+  const p = (loadCheckins()[day] || {}).p || {};
+  const done = PROTOCOLS.filter(x => x.t === 'bool' ? p[x.k] : +p[x.k] > 0).length;
+  c.textContent = c.textContent.replace(/· \d+ von/, `· ${done} von`);
+}
+// Wochenstand der Protokolle (für Cockpit und Wochenbericht)
+function protocolsWeekHTML(ref){
+  const mon = mondayOf(ref), days = []; for (let i = 0; i < 7; i++) { const d = addDays(mon, i); if (d <= ref) days.push(d); }
+  const ci = loadCheckins();
+  const rows = PROTOCOLS.map(x => {
+    if (x.t === 'num') {
+      let sum = 0; days.forEach(d => { const v = +(((ci[d] || {}).p || {})[x.k] || 0); sum += v; if (x.k === 'nsdr' && !v) sum += hkDaily(d).mindful || 0; if (x.k === 'zone2' && !v) sum += hkDaily(d).woC || 0; });
+      if (!x.wk) return sum ? [x.l, sum, null, ' min'] : null;
+      return [x.l, sum, x.wk, ' min'];
+    }
+    const n = days.filter(d => ((ci[d] || {}).p || {})[x.k]).length;
+    return n ? [x.l, n, days.length, ' Tage'] : null;
+  }).filter(Boolean);
+  if (!rows.length) return '';
+  return `<div class="card"><div class="card-title">Protokolle diese Woche</div>
+    ${rows.map(([l, v, g, u]) => `<div class="wb-row"><div class="wb-top"><span>${l}</span><b class="${g && v >= g ? 'c-up' : ''}">${v}${u}</b>${g ? `<em>Ziel ${g}${u}</em>` : ''}</div>
+      ${g ? `<div class="bar"><span style="width:${Math.min(100, v / g * 100)}%; background:${v >= g ? 'var(--up)' : 'var(--lime)'}"></span></div>` : ''}</div>`).join('')}
+  </div>`;
+}
+
+// ---------- Journal: Ziel wählen, Einflüsse entdecken ----------
+const JOURNAL_TARGETS = [
+  ['lust', 'Lust auf Training', d => (loadCheckins()[d] || {}).lust || null, ' / 5'],
+  ['rec', 'Erholung', d => (recoveryScore(d) || {}).score || null, ' %'],
+  ['mood', 'Stimmung', d => (loadCheckins()[d] || {}).mood || null, ' / 5'],
+  ['focus', 'Fokus', d => (loadCheckins()[d] || {}).focus || null, ' / 5'],
+  ['sleepQ', 'Schlafqualität', d => (loadCheckins()[d] || {}).sleepQ || null, ' / 5'],
+  ['hrv', 'HRV', d => ((_js('cutplan_vitals_v1')[d]) || {}).hrv || null, ' ms'],
+];
+const NIGHT_TARGETS = ['rec', 'sleepQ', 'hrv'];   // hier wirkt vor allem der Vortag
+function journalFactors(tgt){
+  const ci = loadCheckins(), C = d => ci[d] || {}, P = d => (ci[d] || {}).p, sl = _js('cutplan_sleep_v1'), st = _js('cutplan_steps_v1');
+  const lag = NIGHT_TARGETS.includes(tgt), L = d => lag ? addDays(d, -1) : d, sfx = lag ? ' (Vortag)' : '';
+  const F = [];
+  PROTOCOLS.forEach(x => F.push([x.l + sfx, d => { const p = P(L(d)); if (!p && !Object.keys(C(L(d))).length) return null; const v = (p || {})[x.k]; return x.t === 'bool' ? (v ? 1 : 0) : (+v || 0); }, x.t === 'bool', x.t === 'bool' ? x.l : 'mehr ' + x.l]));
+  F.push(['Tageslicht' + sfx, d => { const v = hkDaily(L(d)).daylight; return v === undefined ? null : v; }, false, 'mehr Tageslicht']);
+  F.push(['Achtsamkeit (Health)' + sfx, d => { const v = hkDaily(L(d)).mindful; return v === undefined ? null : v; }, false, 'mehr Achtsamkeit']);
+  F.push(['Ausdauer-Workouts' + sfx, d => { const x = hkDaily(L(d)); return x.woN === undefined && x.active === undefined ? null : (x.woC || 0); }, false, 'mehr Ausdauer']);
+  F.push(['Krafttraining (Vortag)', d => { const x = hkDaily(addDays(d, -1)); return x.active === undefined && x.woN === undefined ? null : (x.woS || 0); }, false, 'mehr Krafttraining am Vortag']);
+  F.push(['Belastung (Vortag)', d => { const s = strainScore(addDays(d, -1)); return s ? s.score : null; }, false, 'höhere Belastung am Vortag']);
+  F.push(['Schritte (Vortag)', d => st[addDays(d, -1)] ? +st[addDays(d, -1)] : null, false, 'mehr Schritte am Vortag']);
+  F.push(['Kalorien (Vortag)', d => { const t = intakeOf(addDays(d, -1)); return t ? t.kcal : null; }, false, 'mehr Kalorien am Vortag']);
+  F.push(['Kohlenhydrate (Vortag)', d => { const t = intakeOf(addDays(d, -1)); return t ? t.c : null; }, false, 'mehr Kohlenhydrate am Vortag']);
+  F.push(['Eiweiß (Vortag)', d => { const t = intakeOf(addDays(d, -1)); return t ? t.p : null; }, false, 'mehr Eiweiß am Vortag']);
+  if (tgt !== 'rec') {
+    F.push(['Schlafdauer', d => sl[d] && sl[d].h ? +sl[d].h : null, false, 'mehr Schlaf']);
+    if (tgt !== 'hrv') F.push(['HRV', d => ((_js('cutplan_vitals_v1')[d]) || {}).hrv || null, false, 'höhere HRV']);
+    F.push(['Ruhepuls', d => ((_js('cutplan_vitals_v1')[d]) || {}).rhr || null, false, 'höherer Ruhepuls']);
+    F.push(['Stress', d => C(d).stress || null, false, 'mehr Stress']);
+    F.push(['Muskelkater', d => C(d).sore || null, false, 'mehr Muskelkater']);
+  }
+  F.push(['Alkohol am Vorabend', d => Object.keys(C(d)).length ? (C(d).alc ? 1 : 0) : null, true, 'Alkohol']);
+  F.push(['Koffein vor dem Training', d => Object.keys(C(d)).length ? (C(d).coffee ? 1 : 0) : null, true, 'Koffein']);
+  F.push(['Sexuelle Aktivität (24 h) 🔒', d => Object.keys(C(d)).length ? ((C(d).sexA || C(d).sexM) ? 1 : 0) : null, true, 'sexuelle Aktivität']);
+  F.push(['Freier Tag', d => Object.keys(C(d)).length ? (C(d).off ? 1 : 0) : null, true, 'freier Tag']);
+  return F;
+}
+function renderMotivation(){
+  const el = document.getElementById('motivBox'); if (!el) return;
+  const T = JOURNAL_TARGETS.find(t => t[0] === motivTarget) || JOURNAL_TARGETS[0], tgt = T[0], Y = T[2], unit = T[3];
+  const ci = loadCheckins(), vit = _js('cutplan_vitals_v1');
+  const pool = [...new Set([...Object.keys(ci), ...Object.keys(_js('cutplan_sleep_v1')), ...Object.keys(vit)])].sort();
+  const today = localDateStr(Date.now()), from = addDays(today, -180);
+  const dates = pool.filter(d => d >= from && d <= today && Y(d) !== null && Y(d) !== undefined);
+  const sw = `<div class="jr-sw">${JOURNAL_TARGETS.map(([k, l]) => `<button class="${k === tgt ? 'on' : ''}" data-t="${k}">${l}</button>`).join('')}</div>`;
+  const bind = () => el.querySelectorAll('.jr-sw button').forEach(b => b.onclick = () => { motivTarget = b.dataset.t; renderMotivation(); });
+  if (dates.length < 5) {
+    el.innerHTML = sw + `<div class="card"><div class="card-title">${T[1]}</div><div class="ana-empty">Noch zu wenige Tage mit „${T[1]}" (${dates.length}). ${['lust', 'mood', 'focus', 'sleepQ'].includes(tgt) ? 'Trag im Cockpit täglich deinen Check-in ein.' : 'Importiere deinen Apple-Health-Export oder trag Schlaf und Check-in ein.'} Erste Muster ab etwa 8 Tagen, belastbar nach 3–4 Wochen.</div></div>`;
+    bind(); return;
+  }
+  const res = [];
+  journalFactors(tgt).forEach(([name, fx, bin, dir]) => {
+    const pairs = dates.map(d => ({ x: fx(d), y: +Y(d) })).filter(p => p.x !== null && p.x !== undefined && !isNaN(p.x));
+    if (pairs.length < 6) return;
+    if (bin) { const a = pairs.filter(p => p.x === 1), b = pairs.filter(p => p.x === 0); if (a.length < 2 || b.length < 2) return; }
+    const r = pearson(pairs.map(p => p.x), pairs.map(p => p.y)); if (r === null) return;
+    let extra = '';
+    if (bin) { const a = pairs.filter(p => p.x === 1).map(p => p.y), b = pairs.filter(p => p.x === 0).map(p => p.y), m = v => v.reduce((s, x) => s + x, 0) / v.length;
+      extra = `Ø ${fmtNum(Math.round(m(a) * 10) / 10)}${unit} mit · ${fmtNum(Math.round(m(b) * 10) / 10)}${unit} ohne (${a.length} / ${b.length} Tage)`; }
+    // immer als "Ursache → Ziel ↑" formulieren: bei negativem Zusammenhang die Ursache umkehren
+    const inv = bin ? 'ohne ' + dir : dir.replace(/^mehr /, 'weniger ').replace(/^höhere /, 'niedrigere ').replace(/^höherer /, 'niedrigerer ');
+    res.push({ name, r, n: pairs.length, sig: isSignificant(r, pairs.length), dir: r > 0 ? dir : inv, extra });
+  });
+  res.sort((a, b) => (b.sig - a.sig) || Math.abs(b.r) - Math.abs(a.r));
+  const top = res.filter(x => x.sig && Math.abs(x.r) >= 0.2);
+  const vals = dates.slice(-14).map(d => +Y(d)), avg = vals.reduce((a, b) => a + b, 0) / vals.length, tr = trendPct(vals);
+  el.innerHTML = sw + `
+    <div class="card accent"><div class="card-title">${T[1]}</div><div class="ana-kpis">
+      ${kpi('Ø letzte 14 Tage', fmtNum(Math.round(avg * 10) / 10) + unit, dates.length + ' Tage mit Daten')}
+      ${kpi('Trend', tr === null ? '–' : fmtPct(tr) + ' / Tag', 'Richtung der letzten Tage', pctClass(tr))}</div>
+      ${top.length ? `<div class="jr-top"><b>Deine stärksten Hebel:</b> ${top.slice(0, 3).map(x => `${x.dir} → ${T[1]} ↑`).join(' · ')}</div>` : ''}
+    </div>
+    <div class="card"><div class="card-title">Verlauf</div><div id="motivChart" class="svgc"></div></div>
+    <div class="card"><div class="card-title">Was mit deiner ${T[1]} zusammenhängt</div>
+      ${res.length ? res.map(x => `<div class="mo-row"><div class="mo-top"><b>${x.name}</b><span class="${x.sig && Math.abs(x.r) >= 0.2 ? 'corr-sig' : 'corr-tend'}">${Math.abs(x.r) < 0.1 ? 'kein Effekt' : Math.abs(x.r) < 0.2 ? (x.sig ? 'schwach' : 'kein Effekt') : x.sig ? '✓ belastbar' : 'Tendenz'}</span></div>
+        <div class="mo-bar"><i style="left:50%; width:${Math.abs(x.r) * 50}%; ${x.r < 0 ? 'transform:translateX(-100%);' : ''} background:${x.r >= 0 ? 'var(--up)' : 'var(--down)'}"></i></div>
+        <div class="mo-txt">${Math.abs(x.r) < 0.1 ? 'Kein erkennbarer Zusammenhang' : Math.abs(x.r) < 0.2 ? `Sehr schwach: ${x.dir} → ${T[1]} ↑` : `<b>${x.dir} → ${T[1]} ↑</b>`} · r = ${x.r.toFixed(2).replace('.', ',')} · ${x.n} Tage${x.extra ? '<br>' + x.extra : ''}</div></div>`).join('') : '<div class="ana-empty">Noch zu wenige gemeinsame Daten.</div>'}
+      <details class="ex"><summary>Wie lese ich das?</summary><div>Grüner Balken nach rechts: geht mit einer höheren ${T[1]} einher. Orange nach links: mit einer niedrigeren. Je länger der Balken, desto enger der Zusammenhang. „Belastbar" heißt: bei deiner Datenmenge nicht mehr durch Zufall erklärbar und groß genug, um eine Rolle zu spielen. „Schwach" heißt: statistisch vorhanden, praktisch aber kaum spürbar. ${NIGHT_TARGETS.includes(tgt) ? 'Bei Schlaf, Erholung und HRV zählen Gewohnheiten vom Vortag — eine Sauna am Abend wirkt auf die Nacht danach.' : ''} Ein Zusammenhang ist noch kein Beweis für Ursache und Wirkung — aber ein guter Hinweis, was du gezielt ausprobieren solltest.</div></details>
+    </div>`;
+  const ds = dates.slice(-30), cs = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  svgBarChart(document.getElementById('motivChart'), { labels: ds.map(fmtDate), values: ds.map(d => +Y(d)),
+    colors: ds.map(d => { const v = +Y(d); if (tgt === 'rec') return v >= 67 ? cs('--rec-hi') : v >= 34 ? cs('--rec-mid') : cs('--rec-lo'); if (tgt === 'hrv') return ANA_COL.sleep; return v >= 4 ? ANA_COL.up : v <= 2 ? ANA_COL.down : ANA_COL.acc; }),
+    axisFmt: v => String(Math.round(v)), valFmt: v => String(Math.round(v)), height: 190 });
+  bind();
+}
+
+// ---------- Trends: Herz & Fitness, Licht ----------
+function trendsExtraHTML(){
+  return `<div class="card"><div class="card-title">Herz & Fitness</div><div id="trHRV" class="svgc"></div><div id="trRHR" class="svgc"></div>
+      <details class="ex"><summary>Wie lese ich das?</summary><div><b>HRV</b> (Herzfrequenzvariabilität): höher = entspannteres Nervensystem, bessere Erholung. Wichtig ist dein eigener Verlauf, nicht der Vergleich mit anderen. <b>Ruhepuls</b>: sinkt mit besserer Fitness, steigt bei Stress, Schlafmangel, Alkohol oder beginnendem Infekt. Gestrichelt jeweils dein 7-Tage-Schnitt.</div></details></div>
+    <div class="card"><div class="card-title">VO2max · Ausdauer-Fitness</div><div id="trVO2" class="svgc"></div>
+      <details class="ex"><summary>Wie lese ich das?</summary><div>Die maximale Sauerstoffaufnahme in ml/kg/min, geschätzt von der Apple Watch bei Outdoor-Gehen und -Laufen. Sie gilt als einer der stärksten Marker für Langlebigkeit. Für Männer Ende 30 liegt „überdurchschnittlich" etwa ab 45, „sehr gut" ab 50. Zone-2-Cardio und Intervalle heben sie, Gewichtsverlust verbessert sie zusätzlich.</div></details></div>
+    <div class="card"><div class="card-title">Tageslicht</div><div id="trSun" class="svgc"></div>
+      <details class="ex"><summary>Wie lese ich das?</summary><div>Minuten im Tageslicht laut Apple Watch. Die gestrichelte Linie markiert 30 Minuten. Mehr Licht am Tag — besonders morgens — verbessert Schlaf, Stimmung und Energie.</div></details></div>`;
+}
+function renderTrendsExtra(days){
+  const vit = _js('cutplan_vitals_v1'), dl = _js('cutplan_hkdaily_v1'), labels = days.map(d => fmtDate(d));
+  const ma = arr => arr.map((v, i) => { const w = arr.slice(Math.max(0, i - 6), i + 1).filter(x => x !== null); return w.length ? Math.round(w.reduce((a, b) => a + b, 0) / w.length * 10) / 10 : null; });
+  const hrv = days.map(d => (vit[d] || {}).hrv ?? null), rhr = days.map(d => (vit[d] || {}).rhr ?? null);
+  const box = id => document.getElementById(id);
+  if (hrv.some(v => v !== null)) svgLineChart(box('trHRV'), { labels, fmt: v => Math.round(v) + '', series: [{ name: 'HRV ms', color: ANA_COL.sleep, values: hrv }, { name: '7-Tage-Schnitt', color: ANA_COL.dim, values: ma(hrv), dash: true }] });
+  else box('trHRV').innerHTML = '<div class="ana-empty">Noch keine HRV-Werte — importiere deinen Apple-Health-Export.</div>';
+  if (rhr.some(v => v !== null)) svgLineChart(box('trRHR'), { labels, fmt: v => Math.round(v) + '', series: [{ name: 'Ruhepuls bpm', color: ANA_COL.down, values: rhr }, { name: '7-Tage-Schnitt', color: ANA_COL.dim, values: ma(rhr), dash: true }] });
+  const vo = Object.keys(dl).filter(d => dl[d].vo2).sort().slice(-24);
+  if (vo.length >= 2) svgLineChart(box('trVO2'), { labels: vo.map(fmtDate), fmt: v => fmtNum(Math.round(v * 10) / 10), area: true, series: [{ name: 'VO2max', color: ANA_COL.up, values: vo.map(d => dl[d].vo2) }] });
+  else box('trVO2').innerHTML = '<div class="ana-empty">Noch keine VO2max-Werte.</div>';
+  const sun = days.map(d => (dl[d] || {}).daylight ?? 0);
+  if (sun.some(v => v > 0)) svgBarChart(box('trSun'), { labels, values: sun, color: '#F5C451', overlay: [{ values: days.map(() => 30), color: ANA_COL.dim, dash: true }],
+    legend: [{ name: 'Tageslicht min', color: '#F5C451' }, { name: '30 min', color: ANA_COL.dim, line: true, dash: true }], height: 180, axisFmt: v => Math.round(v) + '', valFmt: v => Math.round(v) + '' });
+  else box('trSun').innerHTML = '<div class="ana-empty">Noch keine Tageslicht-Werte.</div>';
 }
 
 refreshProgressSafeCopy();
