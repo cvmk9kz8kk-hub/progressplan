@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v20.4: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v20.5: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v20.4: Cockpit kompakter ---------- */
+  /* ---------- v20.5: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1292,7 +1292,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v20.4: verschlankt ---------- */
+  /* ---------- v20.5: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1406,6 +1406,9 @@
   .sf-row{ display:grid; grid-template-columns:1.7fr 1fr .65fr; gap:6px; margin-bottom:6px; }
   .sf-row input{ min-width:0; padding:10px 9px; border-radius:9px; border:1px solid var(--line); background:var(--bg2); color:var(--ink); font-size:15px; }
   .sf-row .sf-a{ font-family:var(--num-font); text-align:right; } .sf-row .sf-u{ text-align:center; color:var(--ink-dim); }
+
+  .db-store{ margin-top:10px; } .db-store > div:first-child{ display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:5px; }
+  .db-store span{ color:var(--ink-dim); } .db-store b{ font-family:var(--num-font); }
   /* ================= v14: PERFORMANCE (nach WHOOP-Vorbild) ================= */
   :root{ --num-font: ui-monospace, monospace; --rec-hi:#2BB673; --rec-mid:#E3B23C; --rec-lo:#E5484D; --strain:#3B82C4; --ring-track: color-mix(in srgb, var(--ink) 10%, transparent); }
   :root[data-theme="performance"]{
@@ -1464,7 +1467,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.4</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.5</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -5918,7 +5921,8 @@ function renderHeute(){
     </details>
 
     ${weekMiniHTML(balRef)}
-    ${isPast ? '' : backupReminderHTML()}`;
+    ${isPast ? '' : backupReminderHTML()}
+    ${(() => { try { const mb = storageUsage().total / 1048576; return !isPast && mb > 4.2 ? `<div class="card bk-rem"><div><b>⚠ Speicher fast voll</b><small>${mb.toFixed(1).replace('.', ',')} von ca. 5 MB — neue Einträge könnten nicht mehr gespeichert werden.</small></div><button class="ck-c-btn" onclick="switchTab('mehr'); showView('mydb')">Ansehen</button></div>` : ''; } catch(e) { return ''; } })()}`;
 
   el.querySelectorAll('.mw-chip').forEach(bt => bt.onclick = () => {
     if (bt.classList.contains('fut')) return;
@@ -7985,7 +7989,7 @@ function closeExerciseStats(){
 // ================= GERADE JETZT: Befinden & Einnahmen jederzeit =================
 const MOM_KEY = 'cutplan_moments_v1', INTAKE_KEY = 'cutplan_intake_v1', EXP_KEY = 'cutplan_experiments_v1';
 const loadArr = k => { try { return JSON.parse(localStorage.getItem(k) || '[]') || []; } catch(e) { return []; } };
-const saveArr = (k, a) => { try { localStorage.setItem(k, JSON.stringify(a)); } catch(e) {} };
+const saveArr = (k, a) => { try { localStorage.setItem(k, JSON.stringify(a)); return true; } catch(e) { return false; } };
 const MOM_TAGS = ['Nach dem Training', 'Nach Kaffee', 'Nach dem Essen', 'Hungrig', 'Müde', 'Arbeit / Meeting', 'Bildschirm', 'Draußen', 'Mit Menschen', 'Allein', 'Unterwegs'];
 const INTAKES = [['coffee', '☕', 'Kaffee', 80, 'caf'], ['espresso', '☕', 'Espresso', 65, 'caf'], ['energy', '🥤', 'Energy Drink', 80, 'caf'], ['prewo', '⚡', 'Pre-Workout', 200, 'caf'],
   ['creatine', '💪', 'Kreatin', 0], ['whey', '🥛', 'Whey', 0], ['magn', '🌙', 'Magnesium', 0], ['vitd', '☀️', 'Vitamin D', 0], ['omega', '🐟', 'Omega-3', 0],
@@ -8423,13 +8427,15 @@ function scanReview(){
       if (kcal === null) { document.getElementById('scMsg').innerHTML = '<div class="quick-msg c-down">Kalorien fehlen.</div>'; return; }
       const pg = v('srPg'), pl = (document.getElementById('srPl').value || '').trim();
       const fd = { n: name, brand, kcal: Math.round(kcal), p: pp, c: cc, f: ff, sugar: v('srS'), satfat: v('srSF'), fiber: v('srFi'), salt: v('srSa'), por: pg ? [[pl || '1 Portion', pg]] : null, origin: 'photo', src: 'own', added: localDateStr(Date.now()) };
-      const list = loadCustomFoods().filter(x => x.n !== name); list.unshift(fd); saveCustomFoods(list);
+      if (!storeWithCleanup(() => { const list = loadCustomFoods().filter(x => x.n !== name); list.unshift(fd); return saveCustomFoods(list); }, () => loadCustomFoods().some(x => x.n === name))) {
+        document.getElementById('scMsg').innerHTML = saveFailHTML(); return; }
       if (CR && CR.opts && CR.opts.slot) { const slot = CR.opts.slot; closeScan(); openAddSheet(slot, fd); return; }   // direkt Menge wählen und hinzufügen
     } else {
       readRows();
       const sp = { id: 's' + Date.now().toString(36), n: name, brand, unit: (document.getElementById('srU').value || 'Kapsel').trim(), perDay: v('srSpd') || 1, caf: v('srCaf') || 0,
         items: (s.perServing || []).filter(x => x.name && x.amount !== null && !isNaN(x.amount)), added: localDateStr(Date.now()) };
-      const list = loadArr(SUPP_KEY).filter(x => x.n !== name); list.unshift(sp); saveArr(SUPP_KEY, list);
+      if (!storeWithCleanup(() => { const list = loadArr(SUPP_KEY).filter(x => x.n !== name); list.unshift(sp); return saveArr(SUPP_KEY, list); }, () => loadArr(SUPP_KEY).some(x => x.n === name))) {
+        document.getElementById('scMsg').innerHTML = saveFailHTML(); return; }
     }
     b.innerHTML = `<div class="ck-done">✓</div><div class="ck-q" style="text-align:center">„${svgEsc(name)}" gespeichert.</div>
       <div class="ci-hint" style="text-align:center">${food ? 'Du findest es ab sofort in der Lebensmittel-Suche.' : 'Du findest es ab sofort unter „＋ Jetzt" → Einnahme. Die App rechnet die Inhaltsstoffe in deine Tageswerte ein.'}</div>
@@ -8543,7 +8549,10 @@ function renderMyDb(){
   const F = loadCustomFoods().filter(f => !f.origin || f.origin === 'photo'), S = loadArr(SUPP_KEY), brands = loadCustomFoods().length - F.length;
   persistStatus().then(ok => { const s = document.getElementById('dbPersist'); if (s) s.innerHTML = ok ? '✓ iOS hat dauerhaften Speicher gewährt.' : 'iOS garantiert den Speicher nicht dauerhaft — sichere regelmäßig ein Backup.'; });
   el.innerHTML = `<div class="card"><div class="db-acts"><button class="ck-c-btn" id="dbScanF">＋ Lebensmittel</button><button class="ck-c-btn" id="dbScanS">＋ Supplement</button></div>
-      <div class="ci-hint" id="dbPersist"></div><button class="ck-c-btn ghost" id="dbBackup" style="width:100%;margin-top:8px">🛡 Backup in Dateien sichern</button>
+      <div class="ci-hint" id="dbPersist"></div>
+      ${(() => { const u = storageUsage(), mb = u.total / 1048576, pct = Math.min(100, mb / 5 * 100);
+        return `<div class="db-store"><div><span>Speicher</span><b class="${mb > 4 ? 'c-down' : ''}">${mb.toFixed(1).replace('.', ',')} von ca. 5 MB</b></div><div class="bar"><span style="width:${pct}%;background:${mb > 4 ? 'var(--down)' : 'var(--lime)'}"></span></div>
+          ${mb > 3 ? `<button class="ck-c-btn ghost" id="dbClean" style="width:100%;margin-top:8px">🧹 Speicher aufräumen</button><div class="ci-hint">Entfernt nur Entbehrliches: nie benutzte importierte Markenprodukte, Notkopien und ältere Erkenntnis-Verläufe. Deine eigenen Einträge bleiben.</div>` : ''}</div>`; })()}<button class="ck-c-btn ghost" id="dbBackup" style="width:100%;margin-top:8px">🛡 Backup in Dateien sichern</button>
       <label class="ck-c-btn ghost" style="display:block;text-align:center;margin-top:8px">↺ Backup aus Datei wiederherstellen<input type="file" id="dbRestore" accept=".json,application/json" hidden></label>
       <div class="ci-hint">KI-Erkennung: ${localStorage.getItem(KZ_KEY) ? '✓ API-Schlüssel hinterlegt · <a href="#" id="dbKeyDel">entfernen</a>' : 'kein API-Schlüssel — wird beim ersten Foto abgefragt'}</div></div>
     <div class="card"><div class="card-title">Meine Lebensmittel · ${F.length}${brands ? ` <small style="text-transform:none;letter-spacing:0">(+ ${brands} importierte Markenprodukte)</small>` : ''}</div>
@@ -8555,6 +8564,7 @@ function renderMyDb(){
   document.getElementById('dbRestore').onchange = async (ev) => { const f = ev.target.files && ev.target.files[0]; if (!f) return;
     try { const dump = JSON.parse(await f.text()); if (!confirm('Backup vom ' + (f.name.match(/\d{4}-\d\d-\d\d/) || ['unbekannten Datum'])[0] + ' wiederherstellen? Aktuelle Daten werden ersetzt.')) return; restoreBackup(dump); alert('Wiederhergestellt — die App lädt neu.'); location.reload(); }
     catch(e) { alert('Diese Datei ist kein gültiges Backup.'); } };
+  const dc = document.getElementById('dbClean'); if (dc) dc.onclick = () => { const f = storageCleanup(); alert(`${(f / 1024).toFixed(0)} KB frei geräumt.`); renderMyDb(); };
   const kd = document.getElementById('dbKeyDel'); if (kd) kd.onclick = (ev) => { ev.preventDefault(); localStorage.removeItem(KZ_KEY); renderMyDb(); };
   el.querySelectorAll('[data-df]').forEach(b => b.onclick = () => { if (!confirm('„' + b.dataset.df + '" löschen?')) return; saveCustomFoods(loadCustomFoods().filter(f => f.n !== b.dataset.df)); renderMyDb(); });
   el.querySelectorAll('[data-ds]').forEach(b => b.onclick = () => { if (!confirm('Supplement löschen?')) return; saveArr(SUPP_KEY, loadArr(SUPP_KEY).filter(s => s.id !== b.dataset.ds)); renderMyDb(); });
@@ -8723,10 +8733,50 @@ function suppForm(key, pre){
     const caf = (items.find(i => /koffein|caffein/i.test(i.name)) || {}).amount || 0;
     const name = st.n + (st.form && !st.n.toLowerCase().includes(st.form.toLowerCase()) ? ' ' + st.form : '');
     const sp = { id: 's' + Date.now().toString(36), n: name, brand: st.brand, unit: st.unit, perDay: st.perDay, caf, items, cat: key, added: localDateStr(Date.now()) };
-    const list = loadArr(SUPP_KEY).filter(x => x.n !== name); list.unshift(sp); saveArr(SUPP_KEY, list);
+    if (!storeWithCleanup(() => { const list = loadArr(SUPP_KEY).filter(x => x.n !== name); list.unshift(sp); return saveArr(SUPP_KEY, list); }, () => loadArr(SUPP_KEY).some(x => x.n === name))) {
+      document.getElementById('scMsg').innerHTML = saveFailHTML(); return; }
     b.innerHTML = `<div class="ck-done">✓</div><div class="ck-q" style="text-align:center">„${svgEsc(name)}" gespeichert.</div>
       <div class="ci-hint" style="text-align:center">Je ${st.unit}: ${items.map(i => `${i.name} ${fmtNum(i.amount)} ${i.unit}`).join(' · ')}<br>Du findest es unter „＋ Jetzt" → Einnahme.</div>
       <button class="ck-go" onclick="closeScan()">Fertig</button><button class="ck-c-btn ghost" style="width:100%;margin-top:10px" onclick="openCreate('supp')">Nächstes anlegen</button>`; };
+}
+
+
+// ================= SPEICHER: ehrlich melden, sicher aufräumen =================
+function storageUsage(){ let t = 0; const per = []; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i), v = localStorage.getItem(k) || ''; const b = (k.length + v.length) * 2; t += b; per.push([k, b]); }
+  return { total: t, per: per.sort((a, b) => b[1] - a[1]) }; }
+// Entfernt nur Entbehrliches: Notkopien, nie genutzte importierte Markenprodukte, alte Erkenntnis-Verläufe
+function storageCleanup(){
+  let freed = storageUsage().total;
+  for (let i = localStorage.length - 1; i >= 0; i--) { const k = localStorage.key(i); if (k && k.startsWith('cutplan_progress_corrupt_')) localStorage.removeItem(k); }
+  try { const used = new Set([...foodHistory().map(x => x.n), ...loadFavs().map(x => x.n)]);
+    const keep = loadCustomFoods().filter(f => !(f.origin || '').startsWith('brand:') || used.has(f.n));
+    localStorage.setItem(CUSTOM_FOOD_KEY, JSON.stringify(keep)); } catch(e) {}
+  try { const H = loadInsightsStore(); Object.values(H).forEach(x => { if (x.rs && x.rs.length > 30) x.rs = x.rs.slice(-30); }); localStorage.setItem(INS_KEY, JSON.stringify(H)); } catch(e) {}
+  freed -= storageUsage().total; return Math.max(0, freed);
+}
+function storeWithCleanup(save, check){ if (save() && check()) return true; storageCleanup(); return save() && check(); }
+function saveFailHTML(){ const u = storageUsage();
+  return `<div class="quick-msg c-down"><b>Nicht gespeichert</b> — der Speicher der App ist voll (${(u.total / 1048576).toFixed(1).replace('.', ',')} MB belegt). Unter <b>Mehr → Meine Datenbank</b> siehst du, was Platz braucht.</div>`; }
+// Jeder fehlgeschlagene Speicherversuch wird sichtbar gemeldet — nie mehr still
+(function(){ const orig = Storage.prototype.setItem; let last = 0;
+  Storage.prototype.setItem = function(k, v){ try { return orig.call(this, k, v); } catch(e) {
+    if (/quota/i.test(e.name + e.message) && Date.now() - last > 5000) { last = Date.now(); try { const t = document.getElementById('undoToast');
+      if (typeof showToast === 'function') showToast('⚠ Speicher voll — letzte Änderung nicht gespeichert. Mehr → Meine Datenbank → Aufräumen'); else alert('Speicher voll — letzte Änderung nicht gespeichert. Mehr → Meine Datenbank → Aufräumen'); } catch(_) {} }
+    throw e; } }; })();
+
+// ================= SUCHE: fehlertolerant =================
+function normQ(s){ return String(s || '').toLowerCase().replace(/ä/g, 'a').replace(/ö/g, 'o').replace(/ü/g, 'u').replace(/ß/g, 'ss')
+  .replace(/ae/g, 'a').replace(/oe/g, 'o').replace(/ue/g, 'u').replace(/[-_/.,()+&]/g, ' ').replace(/\s+/g, ' ').trim(); }
+function editDist(a, b, max){ if (Math.abs(a.length - b.length) > max) return max + 1; const m = a.length, n = b.length; let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) { const cur = [i]; let best = i; for (let j = 1; j <= n; j++) { cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); best = Math.min(best, cur[j]); }
+    if (best > max) return max + 1; prev = cur; } return prev[n]; }
+function fuzzyScore(name, q){
+  const n = normQ(name), qn = normQ(q); if (!qn) return 99;
+  if (n.replace(/ /g, '').includes(qn.replace(/ /g, ''))) return 6;          // "linsensalat" ↔ "Linsen-Salat"
+  const words = n.split(' '), qt = qn.split(' ').filter(t => t.length >= 2);
+  const ok = qt.every(t => words.some(w => w.startsWith(t) || w.includes(t) || (t.length >= 4 && editDist(t, w.slice(0, t.length + 1), t.length >= 8 ? 2 : 1) <= (t.length >= 8 ? 2 : 1))
+    || (t.length >= 4 && editDist(t, w, t.length >= 8 ? 2 : 1) <= (t.length >= 8 ? 2 : 1))));
+  return ok ? 8 : 99;
 }
 
 refreshProgressSafeCopy();
@@ -9031,7 +9081,7 @@ const MEAL_SLOTS = ["Frühstück", "Mittagessen", "Abendessen", "Snack", "Import
 function loadNutrition(){ try { const r = localStorage.getItem(NUT_KEY); return r ? JSON.parse(r) : {}; } catch(e){ return {}; } }
 function saveNutrition(d){ try { localStorage.setItem(NUT_KEY, JSON.stringify(d)); } catch(e){} }
 function loadCustomFoods(){ try { const r = localStorage.getItem(CUSTOM_FOOD_KEY); return r ? JSON.parse(r) : []; } catch(e){ return []; } }
-function saveCustomFoods(d){ try { localStorage.setItem(CUSTOM_FOOD_KEY, JSON.stringify(d)); } catch(e){} }
+function saveCustomFoods(d){ try { localStorage.setItem(CUSTOM_FOOD_KEY, JSON.stringify(d)); return true; } catch(e){ return false; } }
 
 // Tagesziele aus dem Wochenplan ableiten
 const dayNameByKey = { so:"Sonntag", mo:"Montag", di:"Dienstag", mi:"Mittwoch", do:"Donnerstag", fr:"Freitag", sa:"Samstag" };
@@ -9325,7 +9375,8 @@ function renderNutToday(){
   renderMyMeals();
 }
 
-function rankScore(name, ql){
+function rankScore(name, ql){ const r = rankScoreExact(name, ql); return r < 99 ? r : fuzzyScore(name, ql); }
+function rankScoreExact(name, ql){
   const nl = name.toLowerCase();
   if (nl === ql) return 0;
   if (nl.startsWith(ql + ',') || nl.startsWith(ql + ' ') || nl.startsWith(ql + '(')) return 1;
