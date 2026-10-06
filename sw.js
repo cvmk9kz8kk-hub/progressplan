@@ -1,5 +1,5 @@
 // Service Worker — Offline-Betrieb & Installation
-const CACHE = 'cutplan-v17-1';
+const CACHE = 'cutplan-v20-1';
 const ASSETS = [
   './manifest.json',
   './icon-180.png',
@@ -26,6 +26,9 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = e.request.url;
+
+  // Nur GET-Anfragen der App selbst cachen; KI-Erkennung und alle POST-Anfragen immer direkt
+  if (e.request.method !== 'GET' || url.includes('api.anthropic.com')) return;
 
   // Wetter: immer live, nie aus dem Cache (sonst rechnet die Prognose mit altem Wetter)
   if (url.includes('open-meteo.com')) { e.respondWith(fetch(e.request)); return; }

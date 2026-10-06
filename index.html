@@ -11,15 +11,15 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>(function(){try{var t=localStorage.getItem('cutplan_theme_v1')||'performance';var dark=(t==='performance'||t==='walnuss'||t==='graphit'||t==='original'||(t==='auto'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches));var m=document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');if(m)m.setAttribute('content',dark?'black-translucent':'default');}catch(e){}})();</script>
-<meta name="apple-mobile-web-app-title" content="Cut Plan">
+<meta name="apple-mobile-web-app-title" content="Kaizen">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-<meta name="apple-mobile-web-app-title" content="Ultimate Cut">
+
 <meta name="theme-color" content="#EEE8DD">
-<title>Ultimate Cut Plan</title>
+<title>Kaizen Health</title>
 <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
 <style>
   :root{
@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v17.1: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v20.1: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v17.1: Cockpit kompakter ---------- */
+  /* ---------- v20.1: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1292,7 +1292,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v17.1: verschlankt ---------- */
+  /* ---------- v20.1: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1307,6 +1307,96 @@
   .mm-tx{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; } .mm-tx b{ font-size:14.5px; } .mm-tx small{ font-size:12px; color:var(--ink-dim); }
   .mm-row em{ font-style:normal; font-size:20px; color:var(--ink-dim); }
   .mm-back{ display:inline-block; margin:0 0 10px; padding:6px 2px; border:none; background:transparent; color:var(--lime); font-size:15px; font-weight:700; }
+
+  .qc-stats{ flex:0 0 auto; display:inline-flex; align-items:center; gap:5px; padding:6px 9px; margin-top:-1px; border-radius:99px;
+    border:1px solid var(--line); background:var(--bg2); color:var(--lime); font-size:11.5px; font-weight:800; line-height:1; }
+  .qc-stats svg{ width:13px; height:13px; }
+  .qc-stats:active{ border-color:var(--lime); }
+  .qcard.collapsed .qc-stats{ opacity:.85; }
+  #exPopBody .card{ margin-bottom:8px; padding:12px 11px !important; }
+  #exPopBody .card-title{ font-size:10.5px; margin-bottom:8px; }
+  #exPopBody .ana-kpis{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:5px; }
+  #exPopBody .kpi{ padding:7px 7px 8px; border-radius:9px; }
+  #exPopBody .kpi-l{ font-size:9px; letter-spacing:.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; overflow-wrap:normal; }
+  #exPopBody .kpi-v{ font-size:14.5px; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #exPopBody .kpi-s{ font-size:9.5px; margin-top:2px; line-height:1.3; }
+  #exPopBody .ana-note{ font-size:11px; }
+
+  /* ---------- Gerade jetzt ---------- */
+  .mom-fab{ position:fixed; right:16px; bottom:calc(84px + env(safe-area-inset-bottom, 0px)); z-index:40; border:none; border-radius:99px; padding:12px 16px;
+    background:var(--lime); color:var(--acc-ink); font-weight:800; font-size:14px; box-shadow:0 6px 20px rgba(0,0,0,.35); }
+  .mo-time{ font-size:12px; font-weight:700; color:var(--ink-dim); margin:12px 0 10px; letter-spacing:.06em; text-transform:uppercase; }
+  .mo-q{ display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+  .mo-ql{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; } .mo-ql b{ font-size:14.5px; } .mo-ql span{ font-size:11px; color:var(--ink-dim); }
+  .mo-sc{ display:flex; gap:5px; } .mo-sc button{ width:38px; height:38px; border-radius:50%; border:1.5px solid var(--line); background:var(--card); color:var(--ink); font-weight:800; font-size:15px; }
+  .mo-sc button.on{ background:var(--lime); border-color:var(--lime); color:var(--acc-ink); }
+  .mo-tags{ display:flex; flex-wrap:wrap; gap:7px; } .mo-tags button{ padding:8px 12px; border-radius:99px; border:1.5px solid var(--line); background:var(--card); color:var(--ink-dim); font-size:13px; font-weight:700; }
+  .mo-tags button.on{ border-color:var(--lime); color:var(--ink); background:color-mix(in srgb, var(--lime) 16%, var(--card)); }
+  .mo-int{ display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
+  .mo-int button{ display:flex; flex-direction:column; align-items:center; gap:3px; padding:11px 4px; border-radius:13px; border:1px solid var(--line); background:var(--card); color:var(--ink); }
+  .mo-int span{ font-size:20px; } .mo-int b{ font-size:12px; } .mo-int small{ font-size:9.5px; color:var(--ink-dim); }
+  .mo-int button:active{ border-color:var(--lime); }
+  .mo-list > div{ display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); font-size:13.5px; }
+  .mo-list span{ font-family:var(--num-font); color:var(--ink-dim); width:42px; } .mo-list b{ flex:1; font-weight:600; }
+  .mo-list button{ border:none; background:transparent; color:var(--ink-dim); font-size:13px; }
+  .mt-row{ display:grid; grid-template-columns:118px 1fr 30px 26px; align-items:center; gap:8px; padding:5px 0; font-size:12.5px; }
+  .mt-row span{ color:var(--ink-dim); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .mt-bar{ height:8px; border-radius:4px; background:var(--ring-track); overflow:hidden; } .mt-bar i{ display:block; height:100%; border-radius:4px; }
+  .mt-row b{ font-family:var(--num-font); text-align:right; } .mt-row small{ color:var(--ink-dim); font-size:10.5px; }
+  .ex-t{ display:flex; align-items:center; gap:10px; padding:10px 0; border-top:1px solid var(--line); }
+  .ex-t div{ flex:1; display:flex; flex-direction:column; gap:3px; } .ex-t b{ font-size:14px; } .ex-t small{ font-size:11.5px; color:var(--ink-dim); line-height:1.45; }
+  .ex-cur{ display:flex; flex-direction:column; gap:6px; } .ex-cur > b{ font-size:15px; } .ex-cur > span{ font-size:12px; font-weight:700; color:var(--lime); }
+  .ex-cur p{ margin:2px 0 6px; font-size:13px; color:var(--ink-dim); line-height:1.5; } .ex-cur p b{ color:var(--ink); }
+  .ex-r{ display:grid; grid-template-columns:1fr auto auto; gap:10px; align-items:center; padding:7px 0; border-top:1px solid var(--line); font-size:13px; }
+  .ex-r b{ font-family:var(--num-font); } .ex-r em{ font-style:normal; font-size:11.5px; color:var(--ink-dim); }
+  .ex-cur .ck-c-btn{ align-self:flex-start; margin-top:8px; }
+
+  /* ---------- v19: Ziele, Ausblick, Kategorien ---------- */
+  .lg-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px; }
+  .lg{ position:relative; display:flex; flex-direction:column; align-items:flex-start; gap:4px; padding:12px; border-radius:14px; border:1.5px solid var(--line); background:var(--bg2); color:var(--ink); text-align:left; }
+  .lg span{ font-size:20px; } .lg b{ font-size:13.5px; line-height:1.3; } .lg i{ position:absolute; top:10px; right:12px; font-style:normal; color:var(--lime); font-weight:900; }
+  .lg.on{ border-color:var(--lime); background:color-mix(in srgb, var(--lime) 12%, var(--bg2)); }
+  .rk-card .rk{ border-top:1px solid var(--line); } .rk-card .rk:first-of-type{ border-top:none; }
+  .rk summary{ list-style:none; cursor:pointer; display:grid; grid-template-columns:12px 1fr; column-gap:10px; padding:10px 0; }
+  .rk summary::-webkit-details-marker{ display:none; }
+  .rk summary b{ font-size:14px; } .rk summary span{ grid-column:2; font-size:12px; color:var(--ink-dim); }
+  .rk-dot{ width:10px; height:10px; border-radius:50%; margin-top:4px; } .rk-dot.hoch{ background:var(--rec-lo); } .rk-dot.mittel{ background:var(--rec-mid); }
+  .rk > div{ padding:0 0 10px 22px; font-size:12.5px; color:var(--ink-dim); line-height:1.5; } .rk ul{ margin:3px 0 6px; padding-left:16px; }
+  .rk-sec{ font-size:10px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-dim); margin-top:4px; }
+  .rk-ok{ font-size:13px; color:var(--up); }
+  .mc-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .mc-grid button{ display:flex; flex-direction:column; align-items:flex-start; gap:3px; padding:13px 12px; border-radius:14px; border:1px solid var(--line); background:var(--card); color:var(--ink); text-align:left; }
+  .mc-grid span{ font-size:22px; } .mc-grid b{ font-size:14px; } .mc-grid small{ font-size:11px; color:var(--ink-dim); line-height:1.35; }
+  .mc-grid button:active{ border-color:var(--lime); }
+
+  .nut-coach{ margin-top:12px; padding:10px 12px; border-radius:12px; background:color-mix(in srgb, var(--protein) 10%, transparent); border:1px solid color-mix(in srgb, var(--protein) 30%, transparent);
+    font-size:12.5px; line-height:1.5; color:var(--ink-dim); } .nut-coach b{ color:var(--ink); }
+  .nut-coach.ok{ background:color-mix(in srgb, var(--up) 10%, transparent); border-color:color-mix(in srgb, var(--up) 30%, transparent); color:var(--up); }
+
+  /* ---------- v20: Foto, Datenbank, Erkenntnisse ---------- */
+  .sc-imgs{ display:flex; gap:8px; margin-bottom:10px; } .sc-imgs div{ position:relative; } .sc-imgs img{ width:96px; height:96px; object-fit:cover; border-radius:12px; border:1px solid var(--line); }
+  .sc-imgs button{ position:absolute; top:4px; right:4px; width:24px; height:24px; border-radius:50%; border:none; background:rgba(0,0,0,.6); color:#fff; font-size:12px; }
+  .sc-key{ margin-top:14px; padding:12px; border-radius:12px; border:1px solid var(--line); font-size:12.5px; line-height:1.55; color:var(--ink-dim); } .sc-key b{ color:var(--ink); }
+  .sc-key input{ width:100%; margin:10px 0 8px; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--bg2); color:var(--ink); font-size:15px; }
+  .sr-f{ display:flex; flex-direction:column; gap:4px; margin-bottom:8px; } .sr-f span{ font-size:10.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-dim); }
+  .sr-f input{ width:100%; min-width:0; box-sizing:border-box; padding:10px; border-radius:10px; border:1px solid var(--line); background:var(--bg2); color:var(--ink); font-size:16px; } .sr-f em{ display:none; } .sr-f{ min-width:0; }
+  .sr-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 8px; }
+  .sr-row{ display:grid; grid-template-columns:1.6fr 1fr .7fr; gap:6px; margin-bottom:6px; } .sr-row input{ padding:9px; border-radius:9px; border:1px solid var(--line); background:var(--bg2); color:var(--ink); font-size:15px; min-width:0; }
+  .sd-row{ display:grid; grid-template-columns:1fr auto; gap:2px 10px; padding:7px 0; border-top:1px solid var(--line); font-size:13px; } .sd-row b{ font-family:var(--num-font); }
+  .sd-row em{ grid-column:1 / -1; font-style:normal; font-size:11.5px; color:var(--rec-lo); }
+  .db-acts{ display:grid; grid-template-columns:1fr 1fr; gap:8px; } .db-acts .ck-c-btn{ font-size:12.5px; padding:11px 8px; }
+  .db-row{ display:flex; align-items:center; gap:10px; padding:9px 0; border-top:1px solid var(--line); } .db-row div{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+  .db-row b{ font-size:13.5px; } .db-row small{ font-size:11.5px; color:var(--ink-dim); line-height:1.4; } .db-row button{ border:none; background:transparent; color:var(--ink-dim); font-size:14px; }
+  .bk-rem{ display:flex; align-items:center; gap:12px; } .bk-rem div{ flex:1; display:flex; flex-direction:column; gap:3px; } .bk-rem small{ font-size:12px; color:var(--ink-dim); }
+  .in-row{ padding:10px 0; border-top:1px solid var(--line); } .in-row:first-of-type{ border-top:none; }
+  .in-top{ display:flex; gap:6px; margin-bottom:4px; }
+  .in-st{ font-size:9.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; padding:2px 7px; border-radius:99px; }
+  .in-st.neu{ color:var(--lime); background:color-mix(in srgb, var(--lime) 15%, transparent); } .in-st.bestätigt{ color:var(--up); background:color-mix(in srgb, var(--up) 15%, transparent); }
+  .in-st.abgeschwächt{ color:var(--rec-mid); background:color-mix(in srgb, var(--rec-mid) 15%, transparent); } .in-st.widerlegt{ color:var(--ink-dim); background:color-mix(in srgb, var(--ink) 8%, transparent); }
+  .in-goal{ font-size:9.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-dim); padding:2px 0; }
+  .in-t{ font-size:14px; line-height:1.4; } .in-t s{ color:var(--ink-dim); } .in-s{ font-size:11.5px; color:var(--ink-dim); margin-top:2px; }
+  .in-row.widerlegt .in-t{ opacity:.75; }
+  .in-teaser{ display:block; width:100%; text-align:left; color:var(--ink); } .in-teaser .in-t{ margin:8px 0 4px; } .in-teaser em{ font-style:normal; font-size:12px; color:var(--lime); font-weight:700; }
   /* ================= v14: PERFORMANCE (nach WHOOP-Vorbild) ================= */
   :root{ --num-font: ui-monospace, monospace; --rec-hi:#2BB673; --rec-mid:#E3B23C; --rec-lo:#E5484D; --strain:#3B82C4; --ring-track: color-mix(in srgb, var(--ink) 10%, transparent); }
   :root[data-theme="performance"]{
@@ -1365,7 +1455,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v17.1</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.1</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1752,6 +1842,9 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
             <span>Lebensmittel suchen</span>
           </button>
+          <button class="scan-btn" title="Verpackung fotografieren" onclick="openScan('food')" aria-label="Neues Lebensmittel per Foto">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          </button>
           <button id="scanBtn" class="scan-btn" title="Barcode scannen">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2M7 12h10"/>
@@ -2007,6 +2100,8 @@
   <section class="view" id="view-wbericht"><div id="weekReport"></div></section>
   <section class="view" id="view-motivation"><div id="motivBox"></div></section>
   <section class="view" id="view-koerper"><div id="bodyAna"></div></section>
+  <section class="view" id="view-mydb"><div id="myDbBox"></div></section>
+  <section class="view" id="view-goals"><div id="goalsBox"></div></section>
   <section class="view" id="view-mehrmenu"><div id="mehrMenu"></div></section>
   <section class="view" id="view-einstellungen">
     <div class="card accent">
@@ -2073,6 +2168,28 @@
 </div>
 
 
+
+
+
+<div id="scanSheet" class="as-overlay">
+  <div class="as-panel">
+    <div class="as-head"><button class="as-close" onclick="closeScan()" aria-label="schließen">✕</button><div class="as-title">Neu per Foto</div><span style="width:36px"></span></div>
+    <div class="as-scroll" id="scanBody"></div>
+  </div>
+</div>
+<div id="momSheet" class="as-overlay">
+  <div class="as-panel">
+    <div class="as-head"><button class="as-close" onclick="closeMoment()" aria-label="schließen">✕</button><div class="as-title">Gerade jetzt</div><span style="width:36px"></span></div>
+    <div class="as-scroll" id="momBody"></div>
+  </div>
+</div>
+<button id="momFab" class="mom-fab" onclick="openMoment()" aria-label="Befinden oder Einnahme erfassen">＋ Jetzt</button>
+<div id="exPop" class="as-overlay">
+  <div class="as-panel">
+    <div class="as-head"><button class="as-close" onclick="closeExerciseStats()" aria-label="schließen">✕</button><div class="as-title" id="exPopTitle">Statistik</div><span style="width:36px"></span></div>
+    <div class="as-scroll" id="exPopBody"></div>
+  </div>
+</div>
 <div id="ckSheet" class="as-overlay">
   <div class="as-panel ck-panel">
     <div class="as-head"><button class="as-close" onclick="closeCheckout()" aria-label="schließen">✕</button><div class="as-title">Abend-Checkout</div><span style="width:36px"></span></div>
@@ -2568,9 +2685,9 @@ const navGroups = [
   {id:'food', title:'Ernährung', icon:'M6 3v8a3 3 0 006 0V3M9 11v10M17 3c-1.5 2-2 4-2 6s.5 3 2 3 2-1 2-3-.5-4-2-6zM17 12v9',
    views:[{v:'ernaehrung', label:'Tagebuch'}]},
   {id:'analyse', title:'Analyse', icon:'M3 3v18h18M7 15l4-4 3 3 5-6',
-   views:[{v:'trends', label:'Trends'},{v:'analyse', label:'Leistung'},{v:'wbericht', label:'Woche'},{v:'motivation', label:'Journal'},{v:'koerper', label:'Körper'}]},
+   views:[{v:'trends', label:'Trends'},{v:'analyse', label:'Leistung'},{v:'wbericht', label:'Woche'},{v:'motivation', label:'Erkenntnisse'},{v:'koerper', label:'Körper'}]},
   {id:'mehr', title:'Mehr', icon:'M5 12h.01M12 12h.01M19 12h.01M5 12a1 1 0 100-.01M12 12a1 1 0 100-.01M19 12a1 1 0 100-.01',
-   views:[{v:'mehrmenu', label:'Übersicht'},{v:'woche', label:'Wochenplan'},{v:'training', label:'Übungen'},{v:'roadmap', label:'Roadmap'},{v:'supps', label:'Supps'},
+   views:[{v:'mehrmenu', label:'Übersicht'},{v:'goals', label:'Deine Ziele'},{v:'mydb', label:'Meine Datenbank'},{v:'woche', label:'Wochenplan'},{v:'training', label:'Übungen'},{v:'roadmap', label:'Roadmap'},{v:'supps', label:'Supps'},
           {v:'mahlzeiten', label:'Ernährungsplan'},{v:'bewegung', label:'Prinzipien'},{v:'ziel', label:'Profil'},{v:'health', label:'Schlaf & Schritte'},{v:'einstellungen', label:'Design & Daten'}]},
 ];
 
@@ -2579,8 +2696,10 @@ const viewMeta = {
   analyse:{title:'Analyse', sub:'Leistung, Hebel & Zusammenhänge'},
   trends:{title:'Trends', sub:'Erholung, Belastung und Schlaf im Verlauf'},
   wbericht:{title:'Wochenbericht', sub:'Bilanz und Anpassungen für die neue Woche'},
-  motivation:{title:'Journal', sub:'Was deine Lust und Erholung beeinflusst'},
+  motivation:{title:'Erkenntnisse', sub:'Was die App über dich gelernt hat'},
   koerper:{title:'Körper', sub:'Gewicht, Kalorien, Schlaf & Schritte im Verlauf'},
+  mydb:{title:'Meine Datenbank', sub:'Lebensmittel, Supplements und Sicherung'},
+  goals:{title:'Deine Ziele', sub:'Worauf die App achten soll'},
   mehrmenu:{title:'Mehr', sub:'Plan, Daten und Einstellungen'},
   einstellungen:{title:'Design & Daten', sub:'Farbschema, Import & Backup'},
   woche:{title:'Wochenplan', sub:'Kalorien & Makros je Tag'},
@@ -2608,6 +2727,8 @@ function showView(viewId){
   document.querySelectorAll('.subnav-btn').forEach(b=>b.classList.toggle('active', b.dataset.v===viewId));
   currentViewId = viewId;
   if (viewId === 'mehrmenu') { try { renderMehrMenu(); } catch(e) {} }
+  if (viewId === 'goals') { try { renderGoalsView(); } catch(e) {} }
+  if (viewId === 'mydb') { try { renderMyDb(); } catch(e) {} }
   else if (currentGroup === 'mehr') { try { ensureMehrBack(viewId); } catch(e) {} }
   if (viewId==='dashboard') { renderDashboard(); try { renderHeute(); } catch(e) {} }
   if (viewId==='koerper') { renderDashboard(); try { renderBodyAnalysis(); } catch(e) {} }
@@ -2624,6 +2745,7 @@ function showView(viewId){
 
 function switchTab(groupId){
   currentGroup = groupId;
+  const fab = document.getElementById('momFab'); if (fab) fab.style.display = (groupId === 'dashboard' || groupId === 'train') ? '' : 'none';
   const g = navGroups.find(x=>x.id===groupId);
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.id===groupId));
   const sn = document.getElementById('subNav');
@@ -2766,7 +2888,7 @@ function volumeOfSets(sets, exName, date){
   const bw = exName && date && isBodyweightExercise(exName) ? bodyweightOn(date) : null;
   return sets.reduce((sum, e) => {
     let w = parseFloat(e.weight);
-    if (bw) { const f = bwFactor(exName, e.v); w = (!isNaN(w) && w >= bw * 0.8) ? w * f : bw * f + (isNaN(w) ? 0 : w); }
+    if (bw) { const f = bwFactor(exName, e.v); if (f > 0) w = (!isNaN(w) && w >= bw * 0.8) ? w * f : bw * f + (isNaN(w) ? 0 : w); }
     const r = parseFloat(e.reps);
     if (isNaN(r) || r <= 0) return sum;
     // Körpergewichtsübungen ohne Zusatzgewicht: nur Wiederholungen zählen, kein kg-Volumen
@@ -3021,8 +3143,8 @@ function miniHistory(el, exName, kind, today){
 function bwBoxHTML(name, date){
   const p = bwProfile(name), bw = bodyweightOn(date), ch = bwVarChoice(name), o = bwOption(name, ch);
   const need = p.ask && !ch;
-  const line = bw
-    ? `⚖ <b>${fmtNum(bw)} kg</b> × ${Math.round(o[2] * 100)} % ≈ <b>${fmtNum(Math.round(bw * o[2] * 10) / 10)} kg</b> bewegte Last · Feld unten nur für Zusatzgewicht (z. B. Weste)`
+  const line = o[2] === 0 ? '⚖ Es zählt nur das Gewicht, das du unten einträgst.'
+    : bw ? `⚖ <b>${fmtNum(bw)} kg</b> × ${Math.round(o[2] * 100)} % ≈ <b>${fmtNum(Math.round(bw * o[2] * 10) / 10)} kg</b> bewegte Last · Feld unten nur für Zusatzgewicht (z. B. Weste oder Kurzhanteln)`
     : '⚖ Trag im Cockpit dein Gewicht ein — dann rechnet die App es hier automatisch ein';
   return `<div class="bw-box${need ? ' ask' : ''}">
     <div class="bw-line">${line}</div>
@@ -3122,7 +3244,7 @@ function renderTodayEntry(){
             <span class="set-check ${saved && saved.reps !== null && saved.reps !== undefined ? (saved.prefill ? 'pre' : 'on') : ''}" data-ex="${ex.name}" data-set="${s}">&#10003;</span>
           </div>`);
       } else {
-        const bwNow = isBodyweightExercise(ex.name) ? bodyweightOn(today) : null;
+        const bwNow = isBodyweightExercise(ex.name) && bwFactor(ex.name, bwVarChoice(ex.name) || undefined) > 0 ? bodyweightOn(today) : null;
         const wPh = bwNow ? '+0' : (prev && prev.weight) ? fmtNum(prev.weight) : 'kg';
         const prevTag = prev
           ? `<span class="set-prev" title="letztes Mal">${prev.weight ? fmtNum(prev.weight) + 'kg' : ''}&times;${prev.reps}</span>`
@@ -3152,6 +3274,7 @@ function renderTodayEntry(){
           <div class="qcard-target">Ziel: ${ex.sets}<span class="qc-sum" data-sumfor="${ex.name}"></span></div>
 
         </div>
+        <button class="qc-stats" data-ex="${ex.name}" aria-label="Statistik ${ex.name}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Statistik</button>
         <span class="qc-chev">⌄</span>
       </div>
       <div class="qcard-body">
@@ -3161,7 +3284,7 @@ function renderTodayEntry(){
         <div class="vol-box" data-volfor="${ex.name}"></div>
         ${copyBtn}
         <div class="qc-extra">
-          <div class="qc-hist" data-histfor="${ex.name}"></div>
+
           ${ex.note ? `<details class="qc-tech"><summary>Technik &amp; Hinweise</summary><div>${ex.note}</div></details>` : ''}
         </div>
       </div>
@@ -3187,9 +3310,7 @@ function renderTodayEntry(){
     wEl.value = nv;
     if (rEl) handleChange(rEl);
   });
-  relevantExercises.forEach(ex => {
-    miniHistory(listEl.querySelector(`.qc-hist[data-histfor="${CSS.escape(ex.name)}"]`), ex.name, exerciseKind(ex.sets), today);
-  });
+  listEl.querySelectorAll('.qc-stats').forEach(b => b.onclick = (ev) => { ev.stopPropagation(); openExerciseStats(b.dataset.ex); });
   updateCardSummaries();
 
   // "Werte übernehmen": trägt Gewicht und Wiederholungen der letzten Einheit ein
@@ -3713,18 +3834,26 @@ const BW_VARIANTS = [
   { re: /dips/i, q: 'Unterstützung?', opts: [['full', 'Volles Körpergewicht', 1.0], ['band', 'Mit Band', 0.75], ['feet', 'Füße als Hilfe', 0.60]] },
   { re: /klimmz|pull-?up|chin-?up/i, q: 'Unterstützung?', opts: [['full', 'Volles Körpergewicht', 1.0], ['band', 'Mit Band', 0.75]] },
   { re: /muscle/i, q: 'Variante?', opts: [['full', 'Volle Muscle-Ups', 1.0], ['band', 'Mit Band', 0.75], ['jump', 'Mit Sprung/Fußhilfe', 0.60]] },
+  // legacy: frühere Einträge ohne Angabe waren das Gesamtgewicht (Maschine/Hanteln) — nie rückwirkend Körpergewicht addieren
+  { re: /wadenheben stehend/i, q: 'Womit trainierst du?', ask: true, legacy: 'ext', opts: [['bw', 'Körpergewicht (+ Zusatz)', 1.0], ['ext', 'Nur Maschinen-/Hantelgewicht', 0]] },
+  { re: /step-?ups?/i, q: 'Womit trainierst du?', ask: true, legacy: 'ext', opts: [['bw', 'Körpergewicht + Kurzhanteln', 1.0], ['ext', 'Nur Kurzhantelgewicht', 0]] },
+  { re: /bulgarian|split squat/i, q: 'Womit trainierst du?', ask: true, legacy: 'ext', opts: [['bw', 'Körpergewicht + Kurzhanteln', 1.0], ['ext', 'Nur Kurzhantelgewicht', 0]] },
+  { re: /hanging leg raise/i, q: 'Wie soll die Last zählen?', ask: true, legacy: 'ext', opts: [['legs', 'Beine ≈ 35 % Körpergewicht', 0.35], ['ext', 'Nur Zusatzgewicht', 0]] },
 ];
 function bwProfile(name){ name = name || ''; if (/renegade/i.test(name)) return null; return BW_VARIANTS.find(p => p.re.test(name) && !(p.not && p.not.test(name))) || null; }
 function isBodyweightExercise(name){ return !!bwProfile(name); }
 function bwVarChoice(name){ try { return (JSON.parse(localStorage.getItem('cutplan_bwvar_v1') || '{}') || {})[name] || null; } catch(e) { return null; } }
 function bwOption(name, v){ const p = bwProfile(name); if (!p) return null; return p.opts.find(o => o[0] === v) || p.opts.find(o => o[0] === bwVarChoice(name)) || p.opts[0]; }
-function bwFactor(name, v){ const o = bwOption(name, v); return o ? o[2] : 1; }
+function bwFactor(name, v){
+  if (v === undefined || v === null) { const p = bwProfile(name); if (p && p.legacy) { const o = p.opts.find(x => x[0] === p.legacy); return o ? o[2] : 0; } }
+  const o = bwOption(name, v); return o ? o[2] : 1;
+}
 // Variante wählen: gilt ab sofort, und einmalig auch für frühere Einträge ohne Angabe
 function setBwVariant(name, key){
   let m = {}; try { m = JSON.parse(localStorage.getItem('cutplan_bwvar_v1') || '{}') || {}; } catch(e) {}
   const p = bwProfile(name);
   // frühere Einträge ohne Angabe: bisherige Wahl — bzw. Standard (volles Körpergewicht); bei Pike gilt die erste Wahl rückwirkend
-  const prev = m[name] || (p && p.ask ? key : (p ? p.opts[0][0] : key));
+  const prev = m[name] || (p && p.legacy ? p.legacy : (p && p.ask ? key : (p ? p.opts[0][0] : key)));
   m[name] = key; localStorage.setItem('cutplan_bwvar_v1', JSON.stringify(m));
   const d = loadProgress(), today = localDateStr(Date.now());
   Object.keys(d).filter(n => aliasKey(n) === aliasKey(name)).forEach(n => (d[n] || []).forEach(e => { if (e.date === today) e.v = key; else if (!e.v) e.v = prev; }));
@@ -3758,6 +3887,7 @@ function buildSessions(entries, kind, exName){
     // Körpergewichtsübungen: Körpergewicht des Trainingstags + Zusatzgewicht = bewegte Last.
     // Wurde früher das Körpergewicht selbst eingetippt (≥ 80 % davon), nicht doppelt zählen.
     const eff = s => { const w = (s.weight && !isNaN(s.weight)) ? +s.weight : 0; if (!bw) return s.weight; const f = bwFactor(exName, s.v);
+      if (f === 0) return s.weight;
       return Math.round((w >= bw * 0.8 ? w * f : bw * f + w) * 10) / 10; };
     const weighted = valid.filter(s => { const w = eff(s); return w !== null && w !== undefined && !isNaN(w) && w > 0; })
                           .map(s => ({ ...s, weight: eff(s) }));
@@ -3982,7 +4112,7 @@ function renderOverview(){
     kpi('vs. vorherige', fmtPct(pLast), prev ? 'vorher ' + unitFmt(metric(prev)) : 'erste Einheit', pctClass(pLast)) +
     kpi('Seit Start', fmtPct(pStart), 'Start ' + fmtDate(first.date) + ': ' + unitFmt(metric(first)), pctClass(pStart)) +
     kpi('Bestwert', unitFmt(vals[bestIdx]), fmtDate(sessions[bestIdx].date)) +
-    kpi('Trend', tr === null ? '–' : fmtPct(tr) + '/Einh.', 'letzte bis zu 6 Einheiten', pctClass(tr)) +
+    kpi('Trend', tr === null ? '–' : fmtPct(tr), 'pro Einheit · letzte bis zu 6', pctClass(tr)) +
     kpi('Einheiten', sessions.length, 'erfasst seit ' + fmtDate(first.date));
 
   if (hasWeights) {
@@ -4212,6 +4342,7 @@ function renderSessionTimer(justFinished){
           <div><span>Übungen</span><b>${r.done} / ${r.planned}</b></div>
         </div>
         ${r.cmpHtml || ''}
+        <button class="ck-c-btn ghost" style="margin-top:10px" onclick="openMoment()">Wie fühlst du dich gerade? Erfassen</button>
         ${!r.done ? '<div class="sess-skip">Noch keine Sätze eingetragen — trag sie einfach nach, Volumen und Abschlussquote aktualisieren sich automatisch.</div>' : r.skipped.length ? `<div class="sess-skip"><b>Ausgelassen:</b> ${r.skipped.map(svgEsc).join(' · ')}</div>` : '<div class="sess-skip ok">Alle geplanten Übungen erledigt.</div>'}
       </div>`;
     }
@@ -5724,6 +5855,8 @@ function renderHeute(){
     ${isPast ? '' : (() => { try { return forecastCardHTML(); } catch(e) { return ''; } })()}
     ${checkoutCardHTML(today, realToday)}
     ${(() => { try { const w = moodWarning(today); return w && w.level !== 'ok' ? `<div class="card">${warnHTML(w)}</div>` : ''; } catch(e) { return ''; } })()}
+    ${isPast ? '' : riskCardHTML(today, true)}
+    ${isPast || _js('cutplan_insights_meta_v1').d !== localDateStr(Date.now()) ? '' : insightTeaserHTML()}
     ${!isPast && [0, 1].includes(new Date(realToday + 'T12:00:00').getDay()) ? `<button class="wr-teaser" id="ckReport"><span>📋</span><div><b>Dein Wochenbericht ist da</b><small>Bilanz der Woche und was du nächste Woche anpassen solltest</small></div><em>›</em></button>` : ''}
     ${isPast ? `<div class="ck-past"><span>✎ Du trägst für <b>${dayLabel(today)}</b> nach</span><button id="ckToday">Zu heute</button></div>` : ''}
     <div class="card">
@@ -5772,7 +5905,8 @@ function renderHeute(){
     </div>
     </details>
 
-    ${weekMiniHTML(balRef)}`;
+    ${weekMiniHTML(balRef)}
+    ${isPast ? '' : backupReminderHTML()}`;
 
   el.querySelectorAll('.mw-chip').forEach(bt => bt.onclick = () => {
     if (bt.classList.contains('fut')) return;
@@ -5788,6 +5922,9 @@ function renderHeute(){
   el.querySelectorAll('.dial').forEach(dl => dl.onclick = () => openScoreSheet(dl.dataset.sc, today));
   try { bindProtocols(el, today); } catch(e) {}
   const co = document.getElementById('ckOpen'); if (co) co.onclick = () => openCheckout(co.dataset.d || today);
+  const it = document.getElementById('insTeaser'); if (it) it.onclick = () => { switchTab('analyse'); showView('motivation'); };
+  const br = document.getElementById('bkRemBtn'); if (br) br.onclick = () => shareBackup(false).then(() => renderHeute()).catch(() => {});
+  if (!isPast && _js('cutplan_insights_meta_v1').d !== localDateStr(Date.now()) && !window._insBusy) { window._insBusy = true; setTimeout(() => { try { updateInsights(true); } catch(e) {} window._insBusy = false; try { if (currentGroup === 'dashboard') renderHeute(); } catch(e) {} }, 2500); }
   const wm = document.getElementById('wkMini'); if (wm) wm.onclick = () => { switchTab('analyse'); showView('wbericht'); reportWeekOff = cockpitWeekOff || 0; renderWeekReport(); };
   try { bindForecast(el); } catch(e) {}
   if (!isPast && !window._wxBusy) { window._wxBusy = true; fetchWeather(false).then(n => { window._wxBusy = false; if (n) renderHeute(); }).catch(() => { window._wxBusy = false; }); }
@@ -6200,7 +6337,7 @@ async function importFromClipboard(){
   const day = (typeof cockpitDate !== 'undefined' && cockpitDate) || localDateStr(Date.now());
   const handle = text => {
     const p = parseHealthPayload(text);
-    if (!p) { msg.innerHTML = 'In der Zwischenablage stehen keine Cut-Plan-Daten. Erst den Kurzbefehl ausführen (Anleitung: Mehr → Design &amp; Daten).'; msg.className = 'quick-msg c-down'; return; }
+    if (!p) { msg.innerHTML = 'In der Zwischenablage stehen keine Kaizen-Daten. Erst den Kurzbefehl ausführen (Anleitung: Mehr → Design &amp; Daten).'; msg.className = 'quick-msg c-down'; return; }
     const r = applyHealthPayload(p, day);
     renderHeute();
     const m2 = document.getElementById('quickMsg'); if (m2) { m2.textContent = `✓ Übernommen für ${dayLabel(r.d)}: ${r.done.join(' · ')}`; m2.className = 'quick-msg c-up'; }
@@ -6215,14 +6352,14 @@ function healthShortcutGuide(){
   const tpl = 'CUTPLAN;steps=[Schritte];sleep=[Schlaf];w=[Gewicht];bf=[Körperfett];lean=[Magere Körpermasse];hrv=[Herzfrequenzvariabilität];rhr=[Ruhepuls]';
   return `<div class="ana-note" style="margin-top:0">Ein iPhone-Kurzbefehl liest jeden Abend deine Werte aus Apple Health (Withings synchronisiert dorthin) und legt sie in die Zwischenablage. Du öffnest die App und tippst im Cockpit auf <b>„Aus Apple Health einfügen"</b>.</div>
     <ol class="sc-steps">
-      <li>App <b>Kurzbefehle</b> → <b>+</b> → Name „Cut Plan Export".</li>
+      <li>App <b>Kurzbefehle</b> → <b>+</b> → Name „Kaizen Export".</li>
       <li>Aktion <b>Health-Samples suchen</b>: Typ <i>Schritte</i>, Startdatum <i>ist heute</i>. Danach <b>Statistiken berechnen</b> → <i>Summe</i>.</li>
       <li>Aktion <b>Health-Samples suchen</b>: Typ <i>Schlafanalyse</i>, Startdatum <i>in den letzten 1 Tagen</i>, Wert <i>ist Schlafend</i> (Kern, Tief, REM). Danach <b>Details von Health-Samples abrufen</b> → <i>Dauer</i>, dann <b>Statistiken berechnen</b> → <i>Summe</i>. Sekunden, Minuten oder Stunden erkennt die App selbst.</li>
       <li>Je einmal <b>Health-Samples suchen</b> für <i>Gewicht</i>, <i>Körperfettanteil</i>, <i>Magere Körpermasse</i>, <i>Herzfrequenzvariabilität</i> und <i>Ruhepuls</i>: sortiert nach Startdatum, neueste zuerst, Limit 1.</li>
       <li>Aktion <b>Text</b> mit genau diesem Aufbau — die eckigen Klammern durch die Ergebnisse der Aktionen ersetzen (antippen → Variable wählen):
         <div class="sc-tpl" id="scTpl">${tpl}</div><button class="gs-sec-btn" id="scCopy">Vorlage kopieren</button></li>
-      <li><b>In Zwischenablage kopieren</b>, dann <b>Mitteilung anzeigen</b>: „Daten bereit — Cut Plan öffnen".</li>
-      <li>Reiter <b>Automation</b> → <b>Neue Automation</b> → <b>Tageszeit</b> 21:30, täglich → <b>Sofort ausführen</b> → Kurzbefehl „Cut Plan Export".</li>
+      <li><b>In Zwischenablage kopieren</b>, dann <b>Mitteilung anzeigen</b>: „Daten bereit — Kaizen öffnen".</li>
+      <li>Reiter <b>Automation</b> → <b>Neue Automation</b> → <b>Tageszeit</b> 21:30, täglich → <b>Sofort ausführen</b> → Kurzbefehl „Kaizen Export".</li>
     </ol>
     <div class="ana-note">Fehlt ein Wert (z. B. an einem Tag ohne Wiegen), lässt die App ihn einfach aus. Werte für einen anderen Tag: im Cockpit erst den Tag antippen, dann einfügen — oder im Text <b>d=2026-10-03</b> ergänzen.</div>`;
 }
@@ -7196,6 +7333,7 @@ const JOURNAL_TARGETS = [
   ['calm', 'Ruhe im Kopf', d => { const r = (loadCheckins()[d] || {}).rumin; return r ? 6 - r : null; }, ' / 5'],
   ['sleepQ', 'Schlafqualität', d => (loadCheckins()[d] || {}).sleepQ || null, ' / 5'],
   ['hrv', 'HRV', d => ((_js('cutplan_vitals_v1')[d]) || {}).hrv || null, ' ms'],
+  ['nerv', 'Unruhe', d => { const v = nervOfDay(d); return v === null ? null : Math.round(v * 10) / 10; }, ' / 5'],
   ['perf', 'Trainingsleistung', d => { const p = (window._perfCache = window._perfCache && window._perfCache.t > Date.now() - 2000 ? window._perfCache : { t: Date.now(), v: performanceByDate() }).v[d]; return p ? Math.round(p.pi * 10) / 10 : null; }, ' %'],
 ];
 const NIGHT_TARGETS = ['rec', 'sleepQ', 'hrv', 'perf'];   // hier wirkt vor allem der Vortag
@@ -7220,6 +7358,13 @@ function journalFactors(tgt){
     F.push(['Stress', d => C(d).stress || null, false, 'mehr Stress']);
     F.push(['Muskelkater', d => C(d).sore || null, false, 'mehr Muskelkater']);
   }
+  // An Tagen mit erfassten Einnahmen (oder Antwort im Checkout) heißt "nicht erfasst": nicht genommen
+  const logged = d => loadArr(INTAKE_KEY).some(x => localDateStr(x.ts) === d);
+  F.push(['Kreatin', d => hadIntake(d, 'creatine') || C(d).creatine === true ? 1 : (C(d).creatine === false || logged(d)) ? 0 : null, true, 'Kreatin']);
+  F.push(['Koffein (mg)', d => { const m = cafToday(d); if (m) return m; return C(d).cafN !== undefined ? C(d).cafN * 80 : (logged(d) ? 0 : null); }, false, 'mehr Koffein']);
+  F.push(['Pre-Workout', d => hadIntake(d, 'prewo') ? 1 : (logged(d) || Object.keys(C(d)).length ? 0 : null), true, 'Pre-Workout']);
+  F.push(['Training am selben Tag', d => { const s = strainScore(d); return s ? (s.vol > 0 ? 1 : 0) : null; }, true, 'Krafttraining']);
+  loadArr(SUPP_KEY).forEach(sp => F.push([sp.n + (lag ? ' (Vortag)' : ''), d => { const dd = L(d); return loadArr(INTAKE_KEY).some(x => x.k === 'supp:' + sp.id && localDateStr(x.ts) === dd) ? 1 : (logged(dd) ? 0 : null); }, true, sp.n]));
   F.push(['Alkohol am Vorabend', d => Object.keys(C(d)).length ? (C(d).alc ? 1 : 0) : null, true, 'Alkohol']);
   F.push(['Koffein vor dem Training', d => Object.keys(C(d)).length ? (C(d).coffee ? 1 : 0) : null, true, 'Koffein']);
   F.push(['Sexuelle Aktivität (24 h) 🔒', d => Object.keys(C(d)).length ? ((C(d).sexA || C(d).sexM) ? 1 : 0) : null, true, 'sexuelle Aktivität']);
@@ -7230,13 +7375,17 @@ function renderMotivation(){
   const el = document.getElementById('motivBox'); if (!el) return;
   const T = JOURNAL_TARGETS.find(t => t[0] === motivTarget) || JOURNAL_TARGETS[0], tgt = T[0], Y = T[2], unit = T[3];
   const ci = loadCheckins(), vit = _js('cutplan_vitals_v1');
-  const pool = [...new Set([...Object.keys(ci), ...Object.keys(_js('cutplan_sleep_v1')), ...Object.keys(vit), ...(tgt === 'perf' ? Object.keys(performanceByDate()) : [])])].sort();
+  const pool = [...new Set([...Object.keys(ci), ...Object.keys(_js('cutplan_sleep_v1')), ...Object.keys(vit), ...(tgt === 'perf' ? Object.keys(performanceByDate()) : []),
+    ...(tgt === 'nerv' ? loadArr(MOM_KEY).map(m => localDateStr(m.ts)) : [])])].sort();
   const today = localDateStr(Date.now()), from = addDays(today, -180);
   const dates = pool.filter(d => d >= from && d <= today && Y(d) !== null && Y(d) !== undefined);
-  const sw = `<div class="jr-sw">${JOURNAL_TARGETS.map(([k, l]) => `<button class="${k === tgt ? 'on' : ''}" data-t="${k}">${l}</button>`).join('')}</div>`;
+  const ins = (() => { try { return insightsHTML() + '<div class="sec-h">Im Detail</div>'; } catch(e) { return ''; } })();
+  const sw = ins + `<div class="jr-sw">${JOURNAL_TARGETS.map(([k, l]) => `<button class="${k === tgt ? 'on' : ''}" data-t="${k}">${l}</button>`).join('')}</div>`;
   const bind = () => el.querySelectorAll('.jr-sw button').forEach(b => b.onclick = () => { motivTarget = b.dataset.t; renderMotivation(); });
+  const extra = () => (tgt === 'nerv' ? momentAnalysisHTML() : '') + experimentsHTML();
   if (dates.length < 5) {
-    el.innerHTML = sw + `<div class="card"><div class="card-title">${T[1]}</div><div class="ana-empty">Noch zu wenige Tage mit „${T[1]}" (${dates.length}). ${['lust', 'mood', 'focus', 'sleepQ'].includes(tgt) ? 'Trag im Cockpit täglich deinen Check-in ein.' : 'Importiere deinen Apple-Health-Export oder trag Schlaf und Check-in ein.'} Erste Muster ab etwa 8 Tagen, belastbar nach 3–4 Wochen.</div></div>`;
+    el.innerHTML = sw + extra() + `<div class="card"><div class="card-title">${T[1]}</div><div class="ana-empty">Noch zu wenige Tage mit „${T[1]}" (${dates.length}). ${['lust', 'mood', 'focus', 'sleepQ'].includes(tgt) ? 'Trag im Cockpit täglich deinen Check-in ein.' : 'Importiere deinen Apple-Health-Export oder trag Schlaf und Check-in ein.'} Erste Muster ab etwa 8 Tagen, belastbar nach 3–4 Wochen.</div></div>`;
+    try { bindExperiments(el); } catch(e) {}
     bind(); return;
   }
   const res = [];
@@ -7265,14 +7414,15 @@ function renderMotivation(){
     <div class="card"><div class="card-title">Was mit deiner ${T[1]} zusammenhängt</div>
       ${res.length ? res.map(x => `<div class="mo-row"><div class="mo-top"><b>${x.name}</b><span class="${x.sig && Math.abs(x.r) >= 0.2 ? 'corr-sig' : 'corr-tend'}">${Math.abs(x.r) < 0.1 ? 'kein Effekt' : Math.abs(x.r) < 0.2 ? (x.sig ? 'schwach' : 'kein Effekt') : x.sig ? '✓ belastbar' : 'Tendenz'}</span></div>
         <div class="mo-bar"><i style="left:50%; width:${Math.abs(x.r) * 50}%; ${x.r < 0 ? 'transform:translateX(-100%);' : ''} background:${x.r >= 0 ? 'var(--up)' : 'var(--down)'}"></i></div>
-        <div class="mo-txt">${Math.abs(x.r) < 0.1 ? 'Kein erkennbarer Zusammenhang' : Math.abs(x.r) < 0.2 ? `Sehr schwach: ${x.dir} → ${T[1]} ↑` : `<b>${x.dir} → ${T[1]} ↑</b>`} · r = ${x.r.toFixed(2).replace('.', ',')} · ${x.n} Tage${x.extra ? '<br>' + x.extra : ''}</div></div>`).join('') : '<div class="ana-empty">Noch zu wenige gemeinsame Daten.</div>'}
+        <div class="mo-txt">${Math.abs(x.r) < 0.1 || (Math.abs(x.r) < 0.2 && !x.sig) ? 'Kein erkennbarer Zusammenhang' : Math.abs(x.r) < 0.2 ? `Sehr schwach: ${x.dir} → ${T[1]} ↑` : `<b>${x.dir} → ${T[1]} ↑</b>`} · r = ${x.r.toFixed(2).replace('.', ',')} · ${x.n} Tage${x.extra ? '<br>' + x.extra : ''}</div></div>`).join('') : '<div class="ana-empty">Noch zu wenige gemeinsame Daten.</div>'}
       <details class="ex"><summary>Wie lese ich das?</summary><div>Grüner Balken nach rechts: geht mit einer höheren ${T[1]} einher. Orange nach links: mit einer niedrigeren. Je länger der Balken, desto enger der Zusammenhang. „Belastbar" heißt: bei deiner Datenmenge nicht mehr durch Zufall erklärbar und groß genug, um eine Rolle zu spielen. „Schwach" heißt: statistisch vorhanden, praktisch aber kaum spürbar. ${NIGHT_TARGETS.includes(tgt) ? 'Bei Schlaf, Erholung und HRV zählen Gewohnheiten vom Vortag — eine Sauna am Abend wirkt auf die Nacht danach.' : ''} Ein Zusammenhang ist noch kein Beweis für Ursache und Wirkung — aber ein guter Hinweis, was du gezielt ausprobieren solltest.</div></details>
-    </div>`;
+    </div>` + extra();
   const ds = dates.slice(-30), cs = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   svgBarChart(document.getElementById('motivChart'), { labels: ds.map(fmtDate), values: ds.map(d => +Y(d)),
     colors: ds.map(d => { const v = +Y(d); if (tgt === 'rec') return v >= 67 ? cs('--rec-hi') : v >= 34 ? cs('--rec-mid') : cs('--rec-lo'); if (tgt === 'hrv') return ANA_COL.sleep; return v >= 4 ? ANA_COL.up : v <= 2 ? ANA_COL.down : ANA_COL.acc; }),
     axisFmt: v => String(Math.round(v)), valFmt: v => String(Math.round(v)), height: 190 });
   bind();
+  try { bindExperiments(el); } catch(e) {}
 }
 
 // ---------- Trends: Herz & Fitness, Licht ----------
@@ -7415,6 +7565,7 @@ const FC_FEATURES = [
   ['kcal', 'Kalorien gestern', 'kcal'], ['protein', 'Eiweiß gestern', 'g'], ['alc', 'Alkohol gestern', ''],
   ['moodY', 'Stimmung gestern', ''], ['energyY', 'Energie gestern', ''], ['stressY', 'Stress gestern', ''],
   ['ruminY', 'Grübeln gestern', ''], ['joyY', 'Freude gestern', ''], ['lamp', 'Tageslichtlampe gestern', 'min'],
+  ['nervY', 'Unruhe gestern', ''], ['cafY', 'Koffein gestern', 'mg'],
   ['sun', 'Morgenlicht gestern', ''], ['daylight', 'Tageslicht gestern', 'min'], ['cafCut', 'Koffein-Stopp 14 Uhr gestern', ''],
   ['eveLight', 'Abendlicht gedimmt gestern', ''], ['social', 'Soziale Zeit gestern', ''], ['move', 'Zone 2 / Ausdauer gestern', 'min'],
   ['wxSun', 'Sonnenstunden', 'h'], ['wxRain', 'Regen', 'mm'], ['wxTemp', 'Höchsttemperatur', '°C'], ['wxPr', 'Luftdruck-Änderung', 'hPa'],
@@ -7435,6 +7586,7 @@ function fcFeatures(D){
   if (Object.keys(cD).length) f.alc = cD.alc ? 1 : 0;
   if (cY.mood) f.moodY = cY.mood; if (cY.energy) f.energyY = cY.energy; if (cY.stress) f.stressY = cY.stress;
   if (cY.rumin) f.ruminY = cY.rumin; if (cY.joy) f.joyY = cY.joy; if (Object.keys(cY).length) f.lamp = +pY.lamp || 0;
+  try { const n = nervOfDay(y); if (n !== null) f.nervY = n; const c = cafToday(y); if (c) f.cafY = c; else if (cY.cafN !== undefined) f.cafY = cY.cafN * 80; } catch(e) {}
   if (Object.keys(cY).length) { f.sun = pY.sun ? 1 : 0; f.cafCut = pY.cafCut ? 1 : 0; f.eveLight = pY.eveLight ? 1 : 0; f.social = pY.social ? 1 : 0; }
   if (hx[y] && hx[y].daylight !== undefined) f.daylight = hx[y].daylight;
   const mv = (+pY.zone2 || 0) + ((hx[y] || {}).woC || 0); if (mv || Object.keys(cY).length || hx[y]) f.move = mv;
@@ -7464,8 +7616,10 @@ function trainForecast(target){                                 // target: 'mood
   const key = target + '|' + Object.keys(loadCheckins()).length + '|' + localDateStr(Date.now());
   if (_fcCache[key]) return _fcCache[key];
   const ci = loadCheckins(), today = localDateStr(Date.now());
-  const days = Object.keys(ci).filter(d => d >= addDays(today, -365) && ci[d][target]).sort();
-  const rows = days.map(d => ({ d, f: fcFeatures(d), y: ci[d][target] }));
+  const yOf = d => target === 'nerv' ? nervOfDay(d) : (ci[d] || {})[target];
+  const pool = target === 'nerv' ? [...new Set([...Object.keys(ci), ...loadArr(MOM_KEY).map(m => localDateStr(m.ts))])] : Object.keys(ci);
+  const days = pool.filter(d => d >= addDays(today, -365) && yOf(d)).sort();
+  const rows = days.map(d => ({ d, f: fcFeatures(d), y: yOf(d) }));
   const res = { target, n: rows.length, ready: false };
   const ys = rows.map(r => r.y); res.mean = ys.length ? ys.reduce((a, b) => a + b, 0) / ys.length : 3;
   if (rows.length < 14) { _fcCache[key] = res; return res; }
@@ -7579,6 +7733,7 @@ const SC = {
   focus: ['vernebelt', 'unklar', 'okay', 'klar', 'messerscharf'], stress: ['keiner', 'wenig', 'mittel', 'hoch', 'extrem'],
   satisf: ['sehr unzufrieden', 'unzufrieden', 'neutral', 'zufrieden', 'sehr zufrieden'], lust: ['keine', 'gering', 'mittel', 'groß', 'riesig'],
   sore: ['keiner', 'leicht', 'spürbar', 'stark', 'heftig'], sleepQ: ['sehr schlecht', 'schlecht', 'okay', 'gut', 'sehr gut'],
+  nerv: ['ganz ruhig', 'leicht', 'spürbar', 'stark', 'sehr stark'],
 };
 // Antworten lesen/schreiben — in den bisherigen Datenfeldern, damit keine Auswertung verloren geht
 const ckGet = (d, k) => (loadCheckins()[d] || {})[k];
@@ -7593,6 +7748,7 @@ const CK_QUESTIONS = [
   { b: 'Kopf', id: 'focus', q: 'Wie klar war dein Kopf heute — konntest du dich gut konzentrieren?', t: 'scale' },
   { b: 'Kopf', id: 'rumin', q: 'Wie sehr hast du heute gegrübelt oder dir Sorgen gemacht?', t: 'scale' },
   { b: 'Kopf', id: 'stress', q: 'Wie hoch war dein Stress heute?', t: 'scale' },
+  { b: 'Kopf', id: 'nerv', q: 'Wie nervös oder innerlich unruhig warst du heute?', t: 'scale' },
   { b: 'Kopf', id: 'satisf', q: 'Wie zufrieden bist du mit dem heutigen Tag?', t: 'scale' },
   { b: 'Körper', id: 'sleepQ', q: 'Wie gut hast du letzte Nacht geschlafen?', t: 'scale' },
   { b: 'Körper', id: 'sore', q: 'Wie stark ist dein Muskelkater?', t: 'scale' },
@@ -7601,6 +7757,8 @@ const CK_QUESTIONS = [
   { b: 'Körper', id: 'off', q: 'War heute ein freier Tag?', t: 'yesno', get: d => ckGet(d, 'off'), set: (d, v) => ckSet(d, 'off', v || undefined) },
   { b: 'Genuss', id: 'alc', q: 'Hast du heute Alkohol getrunken?', t: 'yesno',
     get: d => ckGet(addDays(d, 1), 'alc'), set: (d, v) => ckSet(addDays(d, 1), 'alc', v || undefined) },   // wirkt auf morgen
+  { b: 'Genuss', id: 'cafN', q: 'Wie viele koffeinhaltige Getränke hattest du heute (Kaffee, Energy, Pre-Workout)?', t: 'cnt', when: d => cafToday(d) === 0, get: d => ckGet(d, 'cafN'), set: (d, v) => ckSet(d, 'cafN', v) },
+  { b: 'Genuss', id: 'creatine', q: 'Hast du heute Kreatin genommen?', t: 'yesno', when: d => !hadIntake(d, 'creatine'), get: d => ckGet(d, 'creatine'), set: (d, v) => ckSet(d, 'creatine', v) },
   { b: 'Genuss', id: 'cafLate', q: 'Hattest du nach 14 Uhr noch Koffein?', t: 'yesno',
     get: d => pGet(d, 'cafCut') === undefined && ckGet(d, 'mood') === undefined ? undefined : !pGet(d, 'cafCut'), set: (d, v) => pSet(d, 'cafCut', !v) },
   { b: 'Genuss', id: 'caf90', q: 'Hast du mit dem ersten Kaffee mindestens 90 Minuten nach dem Aufwachen gewartet?', t: 'yesno', get: d => pGet(d, 'caf90'), set: (d, v) => pSet(d, 'caf90', v) },
@@ -7644,6 +7802,7 @@ function ckNext(dir){
   let ans = '';
   if (x.t === 'scale') ans = `<div class="ck-scale">${[1, 2, 3, 4, 5].map(v => `<button class="ck-s${cur === v ? ' on' : ''}" data-v="${v}"><b>${v}</b><small>${x.labels[v - 1]}</small></button>`).join('')}</div>`;
   else if (x.t === 'yesno') ans = `<div class="ck-yn"><button class="ck-b${cur === true ? ' on' : ''}" data-v="1">Ja</button><button class="ck-b${cur === false ? ' on' : ''}" data-v="0">Nein</button></div>`;
+  else if (x.t === 'cnt') ans = `<div class="ck-min">${[0, 1, 2, 3, 4, 5].map(v => `<button class="ck-b${cur === v ? ' on' : ''}" data-v="${v}">${v === 0 ? 'keins' : v === 5 ? '5 oder mehr' : v}</button>`).join('')}</div>`;
   else if (x.t === 'min') ans = `<div class="ck-min">${[0, 5, 10, 15, 20, 30, 45, 60, 90].map(v => `<button class="ck-b${(+cur || 0) === v && cur !== undefined ? ' on' : ''}" data-v="${v}">${v === 0 ? 'keine' : v + ' min'}</button>`).join('')}</div>`;
   else ans = `<textarea id="ckText" rows="4" placeholder="Stichworte genügen …">${cur ? svgEsc(cur) : ''}</textarea><button class="ck-go" id="ckTextGo">Weiter</button>`;
   const hint = x.hint ? x.hint(CK.day) : '';
@@ -7677,6 +7836,7 @@ function ckFinish(){
     <div class="fc-vals"><div><span>Stimmung</span>${v(pm)}</div><div><span>Energie</span>${v(pe)}</div></div>
     ${tips.length ? `<div class="fc-tips">${tips.map(([k, ic, t]) => `<div><span>${ic}</span><p>${t}</p></div>`).join('')}</div>` : ''}
     ${warn ? warnHTML(warn) : ''}
+    ${riskCardHTML(day, false)}
     ${outlookHTML(day)}
     <button class="ck-go" onclick="closeCheckout()">Fertig · Gute Nacht 🌙</button>`;
 }
@@ -7697,7 +7857,7 @@ function moodWarning(ref){
 }
 function personalLevers(){
   try { const m = trainForecast('mood'); if (!m.ready) return [];
-    const ACT = ['sleep', 'bed', 'bedReg', 'alc', 'sun', 'daylight', 'social', 'move', 'steps', 'protein', 'kcal', 'cafCut', 'eveLight', 'lamp', 'strain'];
+    const ACT = ['sleep', 'bed', 'bedReg', 'alc', 'sun', 'daylight', 'social', 'move', 'steps', 'protein', 'kcal', 'cafCut', 'eveLight', 'lamp', 'strain', 'cafY'];
     return m.feats.map((k, j) => ({ k, w: m.w[j] })).filter(x => ACT.includes(x.k) && Math.abs(x.w) > 0.08).sort((a, b) => Math.abs(b.w) - Math.abs(a.w)).slice(0, 3)
       .map(x => { const F = FC_FEATURES.find(z => z[0] === x.k); return (x.w > 0 ? 'mehr ' : 'weniger ') + F[1].replace(/ gestern$/, ''); }); } catch(e) { return []; }
 }
@@ -7765,9 +7925,10 @@ function weekMiniHTML(ref){
 
 // ---------- Mehr: Menüliste statt neun Reiter ----------
 const MEHR_MENU = [
+  ['Du', [['goals', '🎯', 'Deine Ziele', 'Worauf die App besonders achten soll']]],
   ['Dein Plan', [['woche', '📅', 'Wochenplan', 'Trainingstage und Ablauf'], ['training', '🏋️', 'Übungen', 'Technik und Hinweise je Übung'], ['mahlzeiten', '🥗', 'Ernährungsplan', 'Musterernährung und Tagesziele'],
     ['supps', '💊', 'Supplements', 'Was wirkt, wann und wie viel'], ['roadmap', '🗺️', 'Roadmap', 'Phasen bis zum Ziel'], ['bewegung', '📖', 'Prinzipien', 'Die Grundlagen hinter dem Plan']]],
-  ['Daten', [['health', '😴', 'Schlaf & Schritte', 'Verläufe, Einträge, Apple-Health-Import, Backup'], ['ziel', '👤', 'Profil', 'Größe, Alter, Ziele']]],
+  ['Daten', [['mydb', '🗂', 'Meine Datenbank', 'Eigene Lebensmittel, Supplements, Backup'], ['health', '😴', 'Schlaf & Schritte', 'Verläufe, Einträge, Apple-Health-Import, Backup'], ['ziel', '👤', 'Profil', 'Größe, Alter, Ziele']]],
   ['App', [['einstellungen', '⚙️', 'Design & Daten', 'Farbschema, App-Sperre, Kurzbefehl']]],
 ];
 function renderMehrMenu(){
@@ -7782,8 +7943,600 @@ function ensureMehrBack(viewId){
   b.onclick = () => showView('mehrmenu'); sec.insertBefore(b, sec.firstChild);
 }
 
+
+// ================= Auswertung einer Übung als Fenster über dem Training =================
+let exPopHome = null;
+function openExerciseStats(name){
+  try { setupPerfSections(); } catch(e) {}
+  const sec = document.querySelector('#progOverview .perf-sec[data-s="uebung"]');
+  if (!sec) return;
+  exPopHome = { parent: sec.parentNode, next: sec.nextSibling, disp: sec.style.display, prev: currentProgExercise };
+  const body = document.getElementById('exPopBody'); body.innerHTML = ''; body.appendChild(sec); sec.style.display = '';
+  const pick = sec.querySelector('#progExercise'); if (pick) pick.closest('.card').style.display = 'none';
+  document.getElementById('exPopTitle').textContent = name.split(' (')[0] + ' · Statistik';
+  currentProgExercise = name;
+  document.getElementById('exPop').classList.add('open'); document.body.classList.add('as-lock');
+  try { renderOverview(); } catch(e) {}
+  body.scrollTop = 0;
+}
+function closeExerciseStats(){
+  const sec = document.querySelector('#exPopBody .perf-sec');
+  if (sec && exPopHome) {
+    exPopHome.parent.insertBefore(sec, exPopHome.next);
+    sec.style.display = exPopHome.disp;
+    const pick = sec.querySelector('#progExercise'); if (pick) pick.closest('.card').style.display = '';
+  }
+  exPopHome = null;
+  document.getElementById('exPop').classList.remove('open'); document.body.classList.remove('as-lock');
+}
+
+// ================= GERADE JETZT: Befinden & Einnahmen jederzeit =================
+const MOM_KEY = 'cutplan_moments_v1', INTAKE_KEY = 'cutplan_intake_v1', EXP_KEY = 'cutplan_experiments_v1';
+const loadArr = k => { try { return JSON.parse(localStorage.getItem(k) || '[]') || []; } catch(e) { return []; } };
+const saveArr = (k, a) => { try { localStorage.setItem(k, JSON.stringify(a)); } catch(e) {} };
+const MOM_TAGS = ['Nach dem Training', 'Nach Kaffee', 'Nach dem Essen', 'Hungrig', 'Müde', 'Arbeit / Meeting', 'Bildschirm', 'Draußen', 'Mit Menschen', 'Allein', 'Unterwegs'];
+const INTAKES = [['coffee', '☕', 'Kaffee', 80, 'caf'], ['espresso', '☕', 'Espresso', 65, 'caf'], ['energy', '🥤', 'Energy Drink', 80, 'caf'], ['prewo', '⚡', 'Pre-Workout', 200, 'caf'],
+  ['creatine', '💪', 'Kreatin', 0], ['whey', '🥛', 'Whey', 0], ['magn', '🌙', 'Magnesium', 0], ['vitd', '☀️', 'Vitamin D', 0], ['omega', '🐟', 'Omega-3', 0],
+  ['betaala', '⚡', 'Beta-Alanin', 0], ['electro', '💧', 'Elektrolyte', 0], ['alc', '🍷', 'Alkohol', 0]];
+let MOM = null;
+function openMoment(tab){
+  MOM = { tab: tab || 'feel', v: {}, tags: new Set() };
+  document.getElementById('momSheet').classList.add('open'); document.body.classList.add('as-lock');
+  renderMoment();
+}
+function closeMoment(){ document.getElementById('momSheet').classList.remove('open'); document.body.classList.remove('as-lock'); MOM = null; try { renderHeute(); } catch(e) {} }
+function renderMoment(){
+  const b = document.getElementById('momBody'), now = new Date(), hhmm = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+  const today = localDateStr(Date.now()), ints = loadArr(INTAKE_KEY).filter(x => localDateStr(x.ts) === today);
+  const row = (k, l, lo, hi) => `<div class="mo-q"><div class="mo-ql"><b>${l}</b><span>${lo} … ${hi}</span></div><div class="mo-sc">${[1, 2, 3, 4, 5].map(v => `<button class="${MOM.v[k] === v ? 'on' : ''}" data-k="${k}" data-v="${v}">${v}</button>`).join('')}</div></div>`;
+  if (MOM.tab !== 'take') { MOM.cat = null; return momStep(); }
+  b.innerHTML = `<button class="mm-back" id="momCats">‹ Kategorien</button>
+    ${MOM.tab === 'feel' ? `
+      <div class="mo-time">Jetzt · ${hhmm} Uhr</div>
+      ${row('nerv', 'Unruhe / Nervosität', 'ruhig', 'sehr unruhig')}${row('mood', 'Stimmung', 'mies', 'super')}${row('energy', 'Energie', 'leer', 'top')}
+      <div class="sc-sec">Was trifft gerade zu?</div>
+      <div class="mo-tags">${MOM_TAGS.map(t => `<button class="${MOM.tags.has(t) ? 'on' : ''}" data-t="${t}">${t}</button>`).join('')}</div>
+      <input class="ci-note" id="momNote" placeholder="Notiz (optional) — was ist gerade los?" style="margin-top:12px">
+      <button class="ck-go" id="momSave">Speichern</button>
+      <div class="ci-hint">Je öfter du das in unterschiedlichen Momenten machst, desto genauer erkennt die App, wann und warum du unruhig wirst.</div>`
+    : `<div class="mo-time">Antippen = jetzt eingenommen (${hhmm} Uhr)</div>
+      ${loadArr(SUPP_KEY).length ? `<div class="sc-sec" style="margin-top:4px">Meine Supplements</div><div class="mo-int">${loadArr(SUPP_KEY).map(sp => `<button data-i="supp:${sp.id}"><span>💊</span><b>${svgEsc(sp.n)}</b><small>1 ${svgEsc(sp.unit)}</small></button>`).join('')}</div><div class="sc-sec">Schnellauswahl</div>` : ''}
+      <div class="mo-int">${INTAKES.map(([k, ic, l, mg]) => `<button data-i="${k}"><span>${ic}</span><b>${l}</b>${mg ? `<small>${mg} mg Koffein</small>` : ''}</button>`).join('')}<button onclick="closeMoment(); openScan('supplement')"><span>📷</span><b>Neues Supplement</b><small>per Foto</small></button></div>
+      <div class="sc-sec">Heute</div>
+      <div class="mo-list">${ints.length ? ints.slice().reverse().map((x, i) => { const sp = x.k.startsWith('supp:') ? loadArr(SUPP_KEY).find(y => 'supp:' + y.id === x.k) : null; const I = sp ? ['', '💊', sp.n] : (INTAKES.find(y => y[0] === x.k) || ['', '•', x.k]); const t = new Date(x.ts);
+        return `<div><span>${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}</span><b>${I[1]} ${I[2]}</b><button data-del="${x.ts}">✕</button></div>`; }).join('') : '<div class="ci-hint">Noch nichts eingetragen.</div>'}</div>
+      ${cafToday(today) ? `<div class="ci-hint">Koffein heute: <b>${cafToday(today)} mg</b>${cafToday(today) > 400 ? ' — über der empfohlenen Tagesgrenze von 400 mg' : ''}.</div>` : ''}`}`;
+  const mc = document.getElementById('momCats'); if (mc) mc.onclick = () => { MOM.tab = null; MOM.cat = null; momStep(); };
+  b.querySelectorAll('.mo-sc button').forEach(x => x.onclick = () => { MOM.v[x.dataset.k] = +x.dataset.v; renderMoment(); });
+  b.querySelectorAll('.mo-tags button').forEach(x => x.onclick = () => { MOM.tags.has(x.dataset.t) ? MOM.tags.delete(x.dataset.t) : MOM.tags.add(x.dataset.t); x.classList.toggle('on'); });
+  const sv = document.getElementById('momSave'); if (sv) sv.onclick = () => {
+    if (!Object.keys(MOM.v).length) { sv.textContent = 'Bitte mindestens einen Wert wählen'; return; }
+    const a = loadArr(MOM_KEY); a.push(Object.assign({ ts: Date.now(), tags: [...MOM.tags], note: (document.getElementById('momNote').value || '').trim() || undefined }, MOM.v)); saveArr(MOM_KEY, a);
+    b.innerHTML = `<div class="ck-done">✓</div><div class="ck-q" style="text-align:center">Gespeichert.</div>${momentTip(MOM.v, [...MOM.tags])}<button class="ck-go" onclick="closeMoment()">Fertig</button>`;
+  };
+  b.querySelectorAll('.mo-int button').forEach(x => x.onclick = () => { const a = loadArr(INTAKE_KEY); a.push({ ts: Date.now(), k: x.dataset.i }); saveArr(INTAKE_KEY, a); renderMoment(); });
+  b.querySelectorAll('[data-del]').forEach(x => x.onclick = () => { saveArr(INTAKE_KEY, loadArr(INTAKE_KEY).filter(y => y.ts !== +x.dataset.del)); renderMoment(); });
+}
+// Soforthilfe nach dem Eintrag — nur bei Unruhe
+function momentTip(v, tags){
+  const tips = [];
+  if (v.energy && v.energy <= 2) tips.push('Müde: 10–20 min NSDR oder Augen zu, danach 10 min draußen gehen. Koffein nur, wenn es vor 14 Uhr ist.');
+  if (v.focus && v.focus <= 2) tips.push('Kopf vernebelt: eine Sache zur Zeit, 5 min weg vom Bildschirm, ein Glas Wasser und etwas Eiweiß.');
+  if (v.stress && v.stress >= 4) tips.push('<b>Zyklisches Seufzen:</b> 5 Minuten doppelt einatmen, lang ausatmen — senkt Stress messbar. Danach die eine wichtigste Aufgabe wählen.');
+  if (v.hunger && v.hunger >= 4) tips.push('Starker Hunger: eiweißreicher Snack (Skyr, Shake), dazu ein großes Glas Wasser.');
+  if (v.mood && v.mood <= 2) tips.push('Gedrückt: raus ins Tageslicht, jemanden anrufen oder kurz bewegen — kleine Schritte wirken schneller als Grübeln.');
+  if (!(v.nerv >= 3)) return tips.length ? `<div class="fc-tips">${tips.map(t => `<div><span>💡</span><p>${t}</p></div>`).join('')}</div>` : '';
+  const lastCaf = lastCaffeineHours(Date.now());
+  tips.unshift('<b>Zweimal einatmen, lang ausatmen</b> (physiologischer Seufzer), 1–3 Minuten — das schnellste bekannte Mittel, um akute Anspannung zu senken.');
+  if (lastCaf !== null && lastCaf < 5) tips.push(`${lastCaf < 0.75 ? 'Du hattest gerade erst Koffein' : 'Dein letztes Koffein ist erst ' + fmtNum(Math.round(lastCaf * 10) / 10) + ' h her'} — es wirkt 5–6 Stunden. Heute keinen weiteren Kaffee.`);
+  if (tags.includes('Nach dem Training')) tips.push('Nach intensivem Training bleiben Stresshormone eine Weile erhöht. 10 Minuten ruhig gehen oder NSDR helfen beim Herunterfahren, dazu etwas mit Kohlenhydraten essen und trinken.');
+  if (tags.includes('Hungrig')) tips.push('Hunger im Defizit verstärkt Unruhe — iss eine Kleinigkeit mit Eiweiß und Kohlenhydraten.');
+  if (tags.includes('Bildschirm')) tips.push('Bildschirm kurz weglegen und für ein paar Minuten in die Ferne oder nach draußen schauen.');
+  return `<div class="fc-tips">${tips.map(t => `<div><span>🫁</span><p>${t}</p></div>`).join('')}</div>`;
+}
+function cafToday(d){ const S = loadArr(SUPP_KEY); return loadArr(INTAKE_KEY).filter(x => localDateStr(x.ts) === d).reduce((s, x) => { if (x.k.startsWith('supp:')) { const sp = S.find(y => 'supp:' + y.id === x.k); return s + (sp && sp.caf ? sp.caf * (x.n || 1) : 0); } const I = INTAKES.find(y => y[0] === x.k); return s + (I && I[4] === 'caf' ? I[3] : 0); }, 0); }
+function lastCaffeineHours(ts){ const S = loadArr(SUPP_KEY); const c = loadArr(INTAKE_KEY).filter(x => x.ts <= ts && ((INTAKES.find(y => y[0] === x.k) || [])[4] === 'caf' || (x.k.startsWith('supp:') && (S.find(y => 'supp:' + y.id === x.k) || {}).caf))).map(x => x.ts); return c.length ? (ts - Math.max(...c)) / 3.6e6 : null; }
+function hadIntake(d, k){ return loadArr(INTAKE_KEY).some(x => x.k === k && localDateStr(x.ts) === d); }
+// Tageswert Unruhe: Checkout-Frage, sonst Mittel der Momente
+function nervOfDay(d){ const c = (loadCheckins()[d] || {}).nerv; if (c) return c; const m = loadArr(MOM_KEY).filter(x => x.nerv && localDateStr(x.ts) === d); return m.length ? m.reduce((s, x) => s + x.nerv, 0) / m.length : null; }
+
+// ---------- Unruhe im Tagesverlauf (Momente) ----------
+function momentAnalysisHTML(){
+  const M = loadArr(MOM_KEY).filter(x => x.nerv);
+  if (M.length < 5) return `<div class="card"><div class="card-title">Unruhe im Tagesverlauf</div><div class="ana-note" style="margin-top:0">Erfasse über den Knopf „Gerade jetzt" mehrmals am Tag, wie unruhig du bist. Ab 5 Einträgen zeigt die App hier, wann und in welchem Kontext die Unruhe auftritt. Bisher: ${M.length}.</div></div>`;
+  const ses = loadSessions();
+  const sinceTrain = m => { const e = ses.filter(s => s.end && s.end <= m.ts).map(s => s.end); return e.length ? (m.ts - Math.max(...e)) / 3.6e6 : null; };
+  const groups = [
+    ['Abstand zum letzten Koffein', m => { const h = lastCaffeineHours(m.ts); return h === null || h > 24 ? 'kein Koffein heute' : h < 2 ? 'unter 2 h' : h < 5 ? '2–5 h' : 'über 5 h'; }, ['unter 2 h', '2–5 h', 'über 5 h', 'kein Koffein heute']],
+    ['Abstand zum Training', m => { const h = sinceTrain(m); return h === null || h > 12 ? 'kein Training' : h < 2 ? 'unter 2 h' : h < 6 ? '2–6 h' : 'später'; }, ['unter 2 h', '2–6 h', 'später', 'kein Training']],
+    ['Tageszeit', m => { const h = new Date(m.ts).getHours(); return h < 11 ? 'Morgen' : h < 15 ? 'Mittag' : h < 19 ? 'Nachmittag' : 'Abend'; }, ['Morgen', 'Mittag', 'Nachmittag', 'Abend']],
+  ];
+  const all = M.reduce((s, x) => s + x.nerv, 0) / M.length;
+  const rowsOf = (fn, order) => order.map(k => { const v = M.filter(m => fn(m) === k).map(m => m.nerv); return v.length ? [k, v.reduce((a, b) => a + b, 0) / v.length, v.length] : null; }).filter(Boolean);
+  const tagRows = [...new Set([...MOM_TAGS, ...(typeof TRIGGERS !== 'undefined' ? TRIGGERS : [])])].map(t => { const v = M.filter(m => (m.tags || []).includes(t)).map(m => m.nerv); return v.length >= 2 ? [t, v.reduce((a, b) => a + b, 0) / v.length, v.length] : null; }).filter(Boolean).sort((a, b) => b[1] - a[1]);
+  const bar = ([k, v, n]) => `<div class="mt-row"><span>${k}</span><div class="mt-bar"><i style="width:${(v - 1) / 4 * 100}%; background:${v >= all + 0.4 ? 'var(--down)' : v <= all - 0.4 ? 'var(--up)' : 'var(--lime)'}"></i></div><b>${fmtNum(Math.round(v * 10) / 10)}</b><small>${n}×</small></div>`;
+  return `<div class="card"><div class="card-title">Unruhe im Tagesverlauf · ${M.length} Momente</div>
+    <div class="ci-hint" style="margin-top:0">Ø Unruhe ${fmtNum(Math.round(all * 10) / 10)} von 5. Orange: deutlich unruhiger als dein Schnitt, grün: ruhiger.</div>
+    ${groups.map(([t, fn, order]) => `<div class="sc-sec">${t}</div>${rowsOf(fn, order).map(bar).join('')}`).join('')}
+    ${tagRows.length ? `<div class="sc-sec">Kontext</div>${tagRows.map(bar).join('')}` : ''}
+  </div>`;
+}
+
+// ---------- Selbst-Experimente (n-of-1) ----------
+const EXP_TEMPLATES = [
+  { id: 'cafNoon', l: 'Koffein nur bis 12 Uhr', d: 14, why: 'Koffein wirkt 5–6 Stunden. Zeigt schnell, ob späte Tassen deine Unruhe oder deinen Schlaf beeinflussen.' },
+  { id: 'cafHalf', l: 'Koffein halbieren (max. 200 mg)', d: 14, why: 'Prüft, ob die Menge eine Rolle spielt — auch ohne Verzicht.' },
+  { id: 'prewo', l: 'Kein Pre-Workout', d: 14, why: 'Pre-Workouts enthalten oft 200–300 mg Koffein und weitere Stimulanzien.' },
+  { id: 'creatine', l: 'Kreatin pausieren', d: 28, why: 'Studien zeigen keinen Zusammenhang mit Unruhe — aber nur dein eigener Test beantwortet es für dich. 4 Wochen je Phase, weil Kreatin im Muskel etwa so lange nachwirkt.' },
+  { id: 'eveScreen', l: 'Ab 21 Uhr bildschirmfrei', d: 14, why: 'Prüft den Einfluss auf Schlaf, Unruhe und Stimmung am nächsten Tag.' },
+];
+function expStats(a, b){ const m = x => x.reduce((s, y) => s + y, 0) / x.length, v = (x, mu) => x.reduce((s, y) => s + (y - mu) ** 2, 0) / Math.max(1, x.length - 1);
+  if (a.length < 5 || b.length < 5) return null; const ma = m(a), mb = m(b), se = Math.sqrt(v(a, ma) / a.length + v(b, mb) / b.length) || 1e-9, t = (mb - ma) / se;
+  return { ma, mb, diff: mb - ma, sig: Math.abs(t) >= 2.1 }; }
+function experimentsHTML(){
+  const E = loadArr(EXP_KEY), today = localDateStr(Date.now()), cur = E.find(e => !e.done);
+  let html = `<div class="card"><div class="card-title">Selbst-Experimente</div>`;
+  if (cur) {
+    const T = EXP_TEMPLATES.find(t => t.id === cur.id) || { l: cur.id, d: cur.d };
+    const day = Math.round((new Date(today) - new Date(cur.start)) / 864e5) + 1, ph = day <= cur.d ? 1 : 2, endB = addDays(cur.start, cur.d * 2 - 1);
+    const datesA = [], datesB = []; for (let i = 0; i < cur.d; i++) { datesA.push(addDays(cur.start, i)); datesB.push(addDays(cur.start, cur.d + i)); }
+    const metric = (ds, fn) => ds.filter(d => d <= today).map(fn).filter(v => v !== null && v !== undefined);
+    const ms = [['Unruhe', nervOfDay, true], ['Stimmung', d => (loadCheckins()[d] || {}).mood || null, false], ['Schlafqualität', d => (loadCheckins()[d] || {}).sleepQ || null, false], ['HRV', d => ((_js('cutplan_vitals_v1')[d]) || {}).hrv || null, false]];
+    html += `<div class="ex-cur"><b>${T.l}</b><span>${day > cur.d * 2 ? 'abgeschlossen' : `Phase ${ph} von 2 · Tag ${ph === 1 ? day : day - cur.d} von ${cur.d}`}</span>
+      <p>${day > cur.d * 2 ? 'Beide Phasen sind abgeschlossen. Das Ergebnis — vorher → nachher:' : ph === 1 ? 'Phase 1: <b>wie bisher</b> weitermachen. Danach beginnt Phase 2 mit der Änderung.' : `Phase 2: <b>${T.l}</b> — bis ${fmtDate(endB)}.`}</p>
+      ${ms.map(([l, fn, lowGood]) => { const r = expStats(metric(datesA, fn), metric(datesB, fn)); if (!r) return `<div class="ex-r"><span>${l}</span><em>noch zu wenige Tage</em></div>`;
+        const better = lowGood ? r.diff < 0 : r.diff > 0;
+        return `<div class="ex-r"><span>${l}</span><b>${fmtNum(Math.round(r.ma * 10) / 10)} → ${fmtNum(Math.round(r.mb * 10) / 10)}</b><em class="${r.sig ? (better ? 'c-up' : 'c-down') : ''}">${r.sig ? (better ? '✓ besser' : '✗ schlechter') : 'kein klarer Unterschied'}</em></div>`; }).join('')}
+      <button class="ck-c-btn ghost" id="expStop">${day > cur.d * 2 ? 'Abschließen' : 'Abbrechen'}</button></div>`;
+  } else {
+    html += `<div class="ci-hint" style="margin-top:0">Ein fairer Vergleich mit dir selbst: erst wie bisher, dann mit einer Änderung. Die App rechnet aus, ob sich etwas wirklich verändert hat. Am besten mit Koffein beginnen — es wirkt am schnellsten.</div>
+      ${EXP_TEMPLATES.map(t => `<div class="ex-t"><div><b>${t.l}</b><small>${t.d} + ${t.d} Tage · ${t.why}</small></div><button class="ck-c-btn" data-exp="${t.id}">Start</button></div>`).join('')}`;
+  }
+  const done = E.filter(e => e.done);
+  if (done.length) html += `<div class="ci-hint">Abgeschlossen: ${done.map(e => (EXP_TEMPLATES.find(t => t.id === e.id) || {}).l).join(', ')}</div>`;
+  return html + '</div>';
+}
+function bindExperiments(root){
+  root.querySelectorAll('[data-exp]').forEach(b => b.onclick = () => { const t = EXP_TEMPLATES.find(x => x.id === b.dataset.exp); const E = loadArr(EXP_KEY); E.push({ id: t.id, d: t.d, start: localDateStr(Date.now()) }); saveArr(EXP_KEY, E); renderMotivation(); });
+  const s = root.querySelector('#expStop'); if (s) s.onclick = () => { const E = loadArr(EXP_KEY); const c = E.find(e => !e.done); if (c) c.done = localDateStr(Date.now()); saveArr(EXP_KEY, E); renderMotivation(); };
+}
+
+// ================= LEBENSZIELE =================
+const LIFE_GOALS = [
+  ['strength', '💪', 'Kraft & Muskelaufbau'], ['fatloss', '🔥', 'Fett verlieren'], ['sleep', '😴', 'Besser schlafen'], ['energy', '⚡', 'Mehr Energie'],
+  ['calm', '🌿', 'Gelassenheit & weniger Unruhe'], ['mood', '🌤', 'Stabile Stimmung'], ['focus', '🎯', 'Fokus & Klarheit'], ['endurance', '❤️', 'Ausdauer & Herz'],
+];
+function lifeGoals(){ const g = loadArr('cutplan_lifegoals_v1'); return g.length ? g : ['strength', 'fatloss']; }
+function renderGoalsView(){
+  const el = document.getElementById('goalsBox'); if (!el) return;
+  const sel = new Set(lifeGoals());
+  el.innerHTML = `<div class="card"><div class="ana-note" style="margin-top:0">Wähle, was dir gerade wichtig ist. Danach richtet die App ihre Warnungen und Hinweise aus — was zu deinen Zielen passt, steht zuerst.</div>
+    <div class="lg-grid">${LIFE_GOALS.map(([k, ic, l]) => `<button class="lg${sel.has(k) ? ' on' : ''}" data-g="${k}"><span>${ic}</span><b>${l}</b><i>${sel.has(k) ? '✓' : ''}</i></button>`).join('')}</div></div>`;
+  el.querySelectorAll('.lg').forEach(b => b.onclick = () => { const s = new Set(lifeGoals()); s.has(b.dataset.g) ? s.delete(b.dataset.g) : s.add(b.dataset.g); saveArr('cutplan_lifegoals_v1', [...s]); renderGoalsView(); });
+}
+
+// ================= FRÜHZEICHEN: Risiko für die nächsten Tage =================
+function riskRadar(ref){
+  ref = ref || localDateStr(Date.now());
+  const ci = loadCheckins(), vit = _js('cutplan_vitals_v1'), sl = _js('cutplan_sleep_v1'), days = n => Array.from({ length: n }, (_, i) => addDays(ref, -i));
+  const avg = a => { const v = a.filter(x => x !== null && x !== undefined && !isNaN(x)); return v.length ? v.reduce((s, x) => s + x, 0) / v.length : null; };
+  const base = (fn, from, to) => avg(days(to).slice(from).map(fn));
+  const S = {};
+  // Schlafschuld der letzten 3 Nächte
+  const nights = days(3).filter(d => sl[d] && sl[d].h);
+  S.debt = nights.length >= 2 ? nights.reduce((s, d) => s + Math.max(0, sleepNeed(d).need - sl[d].h), 0) : null;
+  // HRV und Ruhepuls: letzte 3 Tage gegen die 30 Tage davor
+  const h3 = avg(days(3).map(d => (vit[d] || {}).hrv)), hB = base(d => (vit[d] || {}).hrv, 3, 33);
+  S.hrv = h3 && hB ? (h3 / hB - 1) * 100 : null;
+  const r3 = avg(days(3).map(d => (vit[d] || {}).rhr)), rB = base(d => (vit[d] || {}).rhr, 3, 33);
+  S.rhr = r3 && rB ? (r3 / rB - 1) * 100 : null;
+  // Belastung: akut (7 Tage) gegen gewohnt (28 Tage)
+  const st = d => { const x = strainScore(d); return x ? x.score : null; };
+  const a7 = avg(days(7).map(st)), a28 = avg(days(28).map(st));
+  S.acwr = a7 && a28 ? a7 / a28 : null;
+  // Koffein, Stress, Grübeln, Unruhe, Energie
+  const caf = d => { const m = cafToday(d); return m || (ci[d] && ci[d].cafN !== undefined ? ci[d].cafN * 80 : null); };
+  S.caf3 = avg(days(3).map(caf)); S.cafB = base(caf, 3, 33);
+  S.stress3 = avg(days(3).map(d => (ci[d] || {}).stress)); S.rumin3 = avg(days(3).map(d => (ci[d] || {}).rumin));
+  S.nerv3 = avg(days(3).map(nervOfDay)); S.nervB = base(nervOfDay, 3, 45);
+  S.en3 = avg(days(3).map(d => (ci[d] || {}).energy)); S.enB = base(d => (ci[d] || {}).energy, 3, 45);
+  S.lateCaf = days(2).some(d => ci[d] && ci[d].p && ci[d].mood !== undefined && !ci[d].p.cafCut);
+  S.alc = [addDays(ref, 1), ref].some(d => (ci[d] || {}).alc);
+  S.social = days(5).filter(d => ((ci[d] || {}).p || {}).social).length; S.socialKnown = days(5).filter(d => ci[d] && ci[d].checkout).length;
+  S.eve = days(3).filter(d => ((ci[d] || {}).p || {}).eveLight).length;
+  const kc = avg(days(5).map(d => (intakeOf(d) || {}).kcal)); S.deficit = kc ? (goalsForDate(ref).kcal - kc) : null;
+  const W = loadWeather(), next = [1, 2, 3].map(i => W[addDays(ref, i)]).filter(Boolean); S.sunNext = next.length ? avg(next.map(w => w.sun)) : null;
+  const mon = +ref.slice(5, 7); S.winter = mon >= 10 || mon <= 2;
+  let mw = null; try { mw = moodWarning(ref); } catch(e) {}
+  // Modell-Prognose für morgen, falls schon gelernt
+  const pred = t => { try { const p = predictDay(t, addDays(ref, 1), { sleep: sleepNeed(addDays(ref, 1)).need }); return p.ready ? p.val - p.m.mean : null; } catch(e) { return null; } };
+  const pN = pred('nerv'), pE = pred('energy'), pM = pred('mood');
+  const R = [];
+  const risk = (id, goal, title, items) => { const hit = items.filter(x => x[0]); const sc = hit.reduce((s, x) => s + (x[3] || 1), 0); if (sc >= 2) R.push({ id, goal, title, level: sc >= 3 ? 'hoch' : 'mittel', sc, why: hit.map(x => x[1]), act: [...new Set(hit.map(x => x[2]))] }); };
+  const r1 = v => fmtNum(Math.round(v * 10) / 10);
+  risk('nerv', 'calm', 'Unruhe & Anspannung', [
+    [S.caf3 !== null && (S.caf3 > 350 || (S.cafB && S.caf3 > S.cafB * 1.3)), `Koffein zuletzt Ø ${Math.round(S.caf3 || 0)} mg pro Tag`, 'Koffein auf 1–2 Tassen vor 12 Uhr begrenzen'],
+    [S.debt !== null && S.debt > 2, `${r1(S.debt || 0)} h Schlafschuld in drei Nächten`, 'Zwei Abende in Folge früher ins Bett'],
+    [S.stress3 !== null && S.stress3 >= 3.5, `Stress Ø ${r1(S.stress3 || 0)} von 5`, 'Täglich 5 min zyklisches Seufzen, Pausen fest einplanen'],
+    [S.rumin3 !== null && S.rumin3 >= 3.5, 'Viel Grübeln in den letzten Tagen', 'Gedanken abends aufschreiben, 10 min NSDR'],
+    [S.hrv !== null && S.hrv < -10, `HRV ${Math.abs(Math.round(S.hrv || 0))} % unter deinem Schnitt`, 'Intensität rausnehmen, Zone 2 statt schwer'],
+    [S.nerv3 !== null && S.nervB !== null && S.nerv3 > S.nervB + 0.5, 'Unruhe liegt über deinem Normalwert', 'Auslöser im Blick behalten: Koffein, Schlaf, Stress'],
+    [pN !== null && pN > 0.4, 'Dein Modell erwartet morgen mehr Unruhe', 'Morgen bewusst ruhig starten: Licht, Frühstück, kein Koffein auf leeren Magen', 2],
+  ]);
+  risk('tired', 'energy', 'Erschöpfung & Müdigkeit', [
+    [S.debt !== null && S.debt > 2, `${r1(S.debt || 0)} h Schlafschuld in drei Nächten`, 'Heute früher ins Bett, 20 min NSDR am Nachmittag'],
+    [S.hrv !== null && S.hrv < -10, `HRV ${Math.abs(Math.round(S.hrv || 0))} % unter deinem Schnitt`, 'Erholung priorisieren'],
+    [S.rhr !== null && S.rhr > 5, `Ruhepuls ${Math.round(S.rhr || 0)} % erhöht`, 'Auf Infekt-Anzeichen achten, Belastung senken'],
+    [S.acwr !== null && S.acwr > 1.3, 'Belastung steigt schneller als gewohnt', 'Ein leichter Tag oder Ruhetag einschieben'],
+    [S.en3 !== null && S.enB !== null && S.en3 < S.enB - 0.5, 'Energie liegt unter deinem Normalwert', 'Morgenlicht und ein Spaziergang am Mittag'],
+    [pE !== null && pE < -0.4, 'Dein Modell erwartet morgen wenig Energie', 'Anspruchsvolles auf den Vormittag legen', 2],
+  ]);
+  risk('nopower', 'strength', 'Wenig Kraft fürs Training', [
+    [S.acwr !== null && S.acwr > 1.3, 'Belastung steigt schneller als gewohnt', 'Nächstes Training mit weniger Volumen'],
+    [S.debt !== null && S.debt > 2, 'Schlafschuld', 'Vor dem nächsten Krafttag ausschlafen'],
+    [S.hrv !== null && S.hrv < -10, 'HRV unter deinem Schnitt', 'Technik statt Rekorde'],
+    [S.deficit !== null && S.deficit > goalsForDate(ref).kcal * 0.25, 'Du isst deutlich unter deinem Ziel', 'Am Trainingstag 150–300 kcal mehr, vor allem Kohlenhydrate'],
+    [(() => { try { return deloadCheck().recommend; } catch(e) { return false; } })(), 'Zeichen für Übertraining', 'Deload-Woche erwägen', 2],
+  ]);
+  risk('mood', 'mood', 'Stimmungstief', [
+    [mw && mw.level === 'warn', 'Stimmung seit Tagen deutlich unter Normalzustand', 'Gegenplan: Licht, Bewegung, Menschen, kein Alkohol', 2],
+    [mw && mw.level === 'watch', 'Stimmung sinkt leicht', 'Früh gegensteuern: Licht und Menschen'],
+    [S.winter && S.sunNext !== null && S.sunNext < 2, `Kaum Sonne in den nächsten Tagen (Ø ${r1(S.sunNext || 0)} h)`, 'Tageslichtlampe morgens 20–30 min'],
+    [S.rumin3 !== null && S.rumin3 >= 3.5, 'Viel Grübeln', 'Gedanken aufschreiben, mit jemandem sprechen'],
+    [S.socialKnown >= 3 && S.social === 0, 'Seit Tagen keine Zeit mit Menschen', 'Heute jemanden treffen oder anrufen'],
+    [S.alc, 'Alkohol in den letzten Tagen', 'Die nächsten Tage alkoholfrei'],
+    [pM !== null && pM < -0.4, 'Dein Modell erwartet morgen gedrückte Stimmung', 'Etwas Schönes fest einplanen', 2],
+  ]);
+  risk('sleep', 'sleep', 'Schlechter Schlaf', [
+    [S.lateCaf, 'Koffein nach 14 Uhr', 'Heute Koffein nur bis 12 Uhr'],
+    [S.alc, 'Alkohol', 'Heute kein Alkohol'],
+    [S.stress3 !== null && S.stress3 >= 3.5, 'Hoher Stress', 'Abends 10 min NSDR oder Atemübung'],
+    [S.socialKnown >= 2 && S.eve === 0, 'Abends selten gedimmtes Licht', 'Ab 21 Uhr Licht und Bildschirme dimmen'],
+  ]);
+  const goals = lifeGoals();
+  R.sort((a, b) => (goals.includes(b.goal) - goals.includes(a.goal)) || b.sc - a.sc);
+  return { risks: R, S };
+}
+function riskCardHTML(ref, compact){
+  let rr; try { rr = riskRadar(ref); } catch(e) { return ''; }
+  if (!rr.risks.length) return compact ? '' : `<div class="card rk-card"><div class="card-title">Ausblick · nächste Tage</div><div class="rk-ok">✓ Keine Warnzeichen — deine Werte liegen im grünen Bereich.</div></div>`;
+  const goals = lifeGoals();
+  return `<div class="card rk-card"><div class="card-title" style="margin-bottom:6px">Ausblick · nächste Tage</div>
+    ${rr.risks.slice(0, 3).map(r => `<details class="rk"><summary><i class="rk-dot ${r.level}"></i><b>${r.title}</b><span>${r.level === 'hoch' ? 'erhöhtes Risiko' : 'leichtes Risiko'}${goals.includes(r.goal) ? ' · dein Ziel' : ''}</span></summary>
+      <div><div class="rk-sec">Warum</div><ul>${r.why.map(w => `<li>${w}</li>`).join('')}</ul><div class="rk-sec">Was jetzt hilft</div><ul>${r.act.map(a => `<li>${a}</li>`).join('')}</ul></div></details>`).join('')}
+    <div class="ci-hint">Frühzeichen aus deinen Daten der letzten Tage. Je mehr Tage die App kennt, desto genauer.</div></div>`;
+}
+
+// ================= „Gerade jetzt" mit Kategorien =================
+const MOM_CATS = [
+  ['nerv', '😬', 'Unruhe', 'nervös, angespannt'], ['tired', '🥱', 'Erschöpfung', 'müde, schlapp'], ['mood', '🌧', 'Stimmung', 'gedrückt oder gut'],
+  ['stress', '⏱', 'Stress', 'Druck, zu viel auf einmal'], ['head', '🧠', 'Kopf', 'Konzentration, Klarheit'], ['body', '🫀', 'Körper', 'Hunger, Verspannung, Kopfschmerz'],
+  ['good', '✨', 'Mir geht’s richtig gut', 'damit die App lernt, was hilft'], ['take', '☕', 'Einnahme', 'Koffein, Supplements'],
+];
+const TRIGGERS = ['Koffein', 'Training', 'Essen', 'Hunger', 'Arbeit / Meeting', 'Bildschirm', 'Gespräch / Konflikt', 'Wenig Schlaf', 'Alkohol gestern', 'Draußen', 'Mit Menschen', 'Nichts Besonderes'];
+const MOM_FLOWS = {
+  nerv: [['nerv', 'scale', 'Wie stark ist die Unruhe gerade?', ['ganz leicht', 'leicht', 'spürbar', 'stark', 'sehr stark']],
+         ['onset', 'pick', 'Seit wann ungefähr?', ['gerade eben', 'etwa 1 Stunde', 'mehrere Stunden', 'seit dem Morgen']],
+         ['tags', 'multi', 'Was war davor? Alles antippen, was passt.', TRIGGERS],
+         ['signs', 'multi', 'Wie zeigt sie sich?', ['Herzklopfen', 'Flacher Atem', 'Muskelanspannung', 'Gedankenkreisen', 'Hibbelig', 'Magen']]],
+  tired: [['energy', 'scale', 'Wie viel Energie hast du gerade?', ['leer', 'sehr müde', 'müde', 'okay', 'fit']],
+          ['kind', 'pick', 'Eher körperlich oder im Kopf?', ['körperlich', 'mental', 'beides']],
+          ['tags', 'multi', 'Was war davor?', TRIGGERS]],
+  mood: [['mood', 'scale', 'Wie ist deine Stimmung gerade?', ['sehr schlecht', 'gedrückt', 'neutral', 'gut', 'sehr gut']],
+         ['tags', 'multi', 'Was beeinflusst sie gerade?', TRIGGERS]],
+  stress: [['stress', 'scale', 'Wie hoch ist dein Stress gerade?', ['kaum', 'wenig', 'mittel', 'hoch', 'extrem']],
+           ['src', 'multi', 'Woher kommt er?', ['Arbeit', 'Zeitdruck', 'Privat', 'Konflikt', 'Gesundheit', 'Finanzen', 'Zu viel auf einmal']]],
+  head: [['focus', 'scale', 'Wie klar ist dein Kopf gerade?', ['vernebelt', 'unklar', 'okay', 'klar', 'messerscharf']],
+         ['tags', 'multi', 'Was könnte reinspielen?', TRIGGERS]],
+  body: [['hunger', 'scale', 'Wie hungrig bist du?', ['satt', 'leicht', 'hungrig', 'sehr hungrig', 'Heißhunger']],
+         ['tension', 'scale', 'Wie verspannt bist du?', ['locker', 'leicht', 'spürbar', 'stark', 'sehr stark']],
+         ['signs', 'multi', 'Sonst etwas?', ['Kopfschmerz', 'Rücken', 'Nacken', 'Magen', 'Gelenke', 'Nichts']]],
+  good: [['mood', 'scale', 'Wie gut geht es dir?', ['okay', 'gut', 'sehr gut', 'großartig', 'bestens']],
+         ['tags', 'multi', 'Was hat dazu beigetragen?', ['Guter Schlaf', 'Training', 'Draußen / Licht', 'Mit Menschen', 'Gutes Essen', 'Erfolg', 'Ruhe', 'Wenig Koffein', 'Musik', 'Natur']]],
+};
+function openMoment(cat){ MOM = { cat: cat || null, i: 0, v: {} }; document.getElementById('momSheet').classList.add('open'); document.body.classList.add('as-lock'); momStep(); }
+function momStep(){
+  const b = document.getElementById('momBody');
+  if (!MOM.cat) {
+    b.innerHTML = `<div class="ck-q" style="min-height:0;margin-top:6px">Worum geht es?</div><div class="ci-hint" style="margin:6px 0 14px">Nur ein paar Fragen zur gewählten Kategorie — mit Uhrzeit gespeichert.</div>
+      <div class="mc-grid">${MOM_CATS.map(([k, ic, l, s]) => `<button data-c="${k}"><span>${ic}</span><b>${l}</b><small>${s}</small></button>`).join('')}</div>`;
+    b.querySelectorAll('[data-c]').forEach(x => x.onclick = () => { MOM.cat = x.dataset.c; MOM.i = 0; if (MOM.cat === 'take') { MOM.tab = 'take'; renderMoment(); } else momStep(); });
+    return;
+  }
+  const flow = MOM_FLOWS[MOM.cat];
+  if (MOM.i >= flow.length) return momSave();
+  const [k, t, q, opts] = flow[MOM.i], cat = MOM_CATS.find(c => c[0] === MOM.cat);
+  const sel = MOM.v[k] || (t === 'multi' ? [] : null);
+  let ans;
+  if (t === 'scale') ans = `<div class="ck-scale">${opts.map((l, i) => `<button class="ck-s${sel === i + 1 ? ' on' : ''}" data-v="${i + 1}"><b>${i + 1}</b><small>${l}</small></button>`).join('')}</div>`;
+  else if (t === 'pick') ans = `<div class="ck-min" style="grid-template-columns:1fr 1fr">${opts.map(o => `<button class="ck-b${sel === o ? ' on' : ''}" data-p="${o}">${o}</button>`).join('')}</div>`;
+  else ans = `<div class="mo-tags">${opts.map(o => `<button class="${sel.includes(o) ? 'on' : ''}" data-m="${o}">${o}</button>`).join('')}</div><button class="ck-go" id="momNext">Weiter</button>`;
+  b.innerHTML = `<div class="ck-prog"><i style="width:${Math.round(MOM.i / flow.length * 100)}%"></i></div>
+    <div class="ck-meta"><span>${cat[1]} ${cat[2]}</span><span>${MOM.i + 1} / ${flow.length}</span></div>
+    <div class="ck-q">${q}</div><div class="ck-ans">${ans}</div>
+    <div class="ck-nav"><button id="momBack">‹ ${MOM.i ? 'Zurück' : 'Kategorien'}</button><button id="momSkip">Überspringen ›</button></div>`;
+  const next = () => { MOM.i++; setTimeout(momStep, 140); };
+  b.querySelectorAll('.ck-s').forEach(x => x.onclick = () => { x.classList.add('on'); MOM.v[k] = +x.dataset.v; next(); });
+  b.querySelectorAll('[data-p]').forEach(x => x.onclick = () => { x.classList.add('on'); MOM.v[k] = x.dataset.p; next(); });
+  b.querySelectorAll('[data-m]').forEach(x => x.onclick = () => { const a = new Set(MOM.v[k] || []); a.has(x.dataset.m) ? a.delete(x.dataset.m) : a.add(x.dataset.m); MOM.v[k] = [...a]; x.classList.toggle('on'); });
+  const nb = document.getElementById('momNext'); if (nb) nb.onclick = next;
+  document.getElementById('momBack').onclick = () => { if (MOM.i) { MOM.i--; momStep(); } else { MOM.cat = null; momStep(); } };
+  document.getElementById('momSkip').onclick = next;
+}
+function momSave(){
+  const v = MOM.v, e = { ts: Date.now(), cat: MOM.cat };
+  ['nerv', 'energy', 'mood', 'stress', 'focus', 'hunger', 'tension'].forEach(k => { if (v[k]) e[k] = v[k]; });
+  if (MOM.cat === 'good' && v.mood) e.mood = [3, 4, 4, 5, 5][v.mood - 1];   // „Wie gut?"-Skala auf die Stimmungsskala abbilden
+  const tags = [...(v.tags || []), ...(v.src || [])]; if (tags.length) e.tags = tags;
+  if (v.signs) e.signs = v.signs; if (v.onset) e.onset = v.onset; if (v.kind) e.kind = v.kind;
+  const a = loadArr(MOM_KEY); a.push(e); saveArr(MOM_KEY, a);
+  const tagMap = { 'Koffein': 'Nach Kaffee', 'Training': 'Nach dem Training', 'Hunger': 'Hungrig', 'Bildschirm': 'Bildschirm' };
+  document.getElementById('momBody').innerHTML = `<div class="ck-done">✓</div><div class="ck-q" style="text-align:center">Gespeichert.</div>
+    ${MOM.cat === 'good' ? '<div class="ci-hint" style="text-align:center">Gut so — die App merkt sich, was dir guttut, und schlägt es dir an schwierigen Tagen vor.</div>' : momentTip(e, (e.tags || []).map(t => tagMap[t] || t))}
+    <button class="ck-go" onclick="closeMoment()">Fertig</button><button class="ck-c-btn ghost" style="margin-top:10px;width:100%" onclick="openMoment()">Noch etwas erfassen</button>`;
+}
+
+
+// Tageszeit-bewusster Ernährungshinweis: was noch offen ist, statt "unter Ziel" am Nachmittag
+const MEAL_END = { 'Frühstück': 10, 'Mittagessen': 14.5, 'Abendessen': 21, 'Snack': 22 };
+function nutCoachHTML(date, tot, goals){
+  const today = localDateStr(Date.now()), now = new Date(), hr = now.getHours() + now.getMinutes() / 60;
+  const done = date < today || hr >= 21;
+  const day = loadNutrition()[date] || {};
+  const pRem = Math.round(goals.p - tot.p), kRem = Math.round(goals.kcal - tot.kcal);
+  if (!tot.kcal) return '';
+  if (done) {
+    if (tot.p >= goals.p * 0.9) return `<div class="nut-coach ok">✓ Eiweißziel ${date < today ? 'erreicht' : 'heute erreicht'} (${tot.p} g).</div>`;
+    return `<div class="nut-coach">${date < today ? 'An diesem Tag' : 'Heute'} ${goals.p - tot.p} g Eiweiß unter Ziel. Morgen am einfachsten mit einem eiweißreichen Frühstück ausgleichen.</div>`;
+  }
+  const open = ['Frühstück', 'Mittagessen', 'Abendessen'].filter(s => !(day[s] || []).length && hr < MEAL_END[s]);
+  if (pRem <= 0) return `<div class="nut-coach ok">✓ Eiweißziel schon erreicht.${kRem > 150 ? ` Noch ${kRem} kcal frei.` : ''}</div>`;
+  const per = open.length ? Math.round(pRem / open.length) : pRem;
+  const lean = kRem < pRem * 8;   // wenig Kalorien übrig im Verhältnis zum Eiweiß
+  const ex = pRem >= 40 ? 'z. B. 200 g Hähnchenbrust (≈ 46 g) oder 400 g Skyr (≈ 44 g)' : pRem >= 20 ? 'z. B. 250 g Skyr (≈ 28 g) oder ein Shake (≈ 25 g)' : 'z. B. 150 g Magerquark (≈ 18 g)';
+  return `<div class="nut-coach">Noch offen: <b>${pRem} g Eiweiß</b>${kRem > 0 ? ` · ${kRem} kcal` : ''}.
+    ${open.length ? `Für ${open.join(' und ')} heißt das ≈ <b>${per} g</b> Eiweiß${open.length > 1 ? ' pro Mahlzeit' : ''} — ${ex}.` : `Ein eiweißreicher Snack reicht — ${ex}.`}
+    ${per > 60 ? ' Das ist viel für eine Mahlzeit — plane zusätzlich einen Shake oder Skyr als Snack ein.' : ''}
+    ${lean ? ' Kalorien sind knapp: eiweißreich und leicht wählen (Skyr, Hähnchen, Fisch).' : ''}</div>`;
+}
+
+// ================= DATEN SICHERN =================
+async function requestPersist(){ try { if (navigator.storage && navigator.storage.persist) { const ok = await navigator.storage.persist(); localStorage.setItem('kz_persist', ok ? '1' : '0'); return ok; } } catch(e) {} return false; }
+async function persistStatus(){ try { if (navigator.storage && navigator.storage.persisted) return await navigator.storage.persisted(); } catch(e) {} return false; }
+async function shareBackup(inclPriv){
+  const dump = buildBackup(!!inclPriv), name = `kaizen-backup-${localDateStr(Date.now())}.json`;
+  const blob = new Blob([JSON.stringify(dump)], { type: 'application/json' });
+  const file = new File([blob], name, { type: 'application/json' });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'Kaizen-Backup' }); }
+  else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
+  localStorage.setItem('kz_lastbackup', String(Date.now()));
+}
+function backupReminderHTML(){
+  const last = +localStorage.getItem('kz_lastbackup') || 0, days = last ? Math.floor((Date.now() - last) / 864e5) : null;
+  const n = loadCustomFoods().length + loadArr(SUPP_KEY).length + Object.keys(loadCheckins()).length;
+  if (n < 5 || (days !== null && days < 14)) return '';
+  return `<div class="card bk-rem"><div><b>🛡 Deine Daten sichern</b><small>${days === null ? 'Noch kein Backup' : `Letztes Backup vor ${days} Tagen`} · ein Tipp, dann in iCloud Drive ablegen</small></div><button class="ck-c-btn" id="bkRemBtn">Sichern</button></div>`;
+}
+
+// ================= FOTO-ERKENNUNG (Claude-API mit eigenem Schlüssel) =================
+const KZ_KEY = 'kz_apikey', SUPP_KEY = 'cutplan_supps_v1';
+async function prepImage(file){
+  const bmp = await createImageBitmap(file); const max = 1568, s = Math.min(1, max / Math.max(bmp.width, bmp.height));
+  const c = document.createElement('canvas'); c.width = Math.round(bmp.width * s); c.height = Math.round(bmp.height * s);
+  c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+  return { mt: 'image/jpeg', b64: c.toDataURL('image/jpeg', 0.85).split(',')[1] };
+}
+const LABEL_PROMPT = `Lies die Angaben auf dieser Produktverpackung (Nährwerttabelle, Zutaten, Verzehrempfehlung) und antworte NUR mit einem JSON-Objekt, ohne Erklärung, ohne Codeblock:
+{"kind":"food" oder "supplement","name":"Produktname","brand":"Marke oder leer",
+ "per100":{"kcal":Zahl,"protein":Zahl,"carbs":Zahl,"sugar":Zahl,"fat":Zahl,"satfat":Zahl,"fiber":Zahl,"salt":Zahl} oder null,
+ "serving":{"label":"z. B. 1 Riegel","grams":Zahl} oder null,
+ "supplement":{"unit":"Kapsel|Tablette|Messlöffel|Tropfen|ml|g","perServing":[{"name":"Magnesium","amount":Zahl,"unit":"mg|µg|g|IE"}],"servingsPerDay":Zahl,"caffeineMg":Zahl} oder null}
+Regeln: Werte exakt von der Verpackung, nichts schätzen; unbekannt = null. Lebensmittel-Werte pro 100 g; steht nur ein Wert pro Portion da und die Portionsgröße ist bekannt, rechne auf 100 g um. Nur kJ angegeben: kcal = kJ / 4,184. Bei Nahrungsergänzung alle Wirkstoffe mit Menge je Portion (Tagesportion durch Anzahl Einheiten teilen, falls nötig). Dezimalpunkt verwenden.`;
+async function aiReadLabel(images){
+  const key = localStorage.getItem(KZ_KEY); if (!key) throw new Error('nokey');
+  const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST',
+    headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1500,
+      messages: [{ role: 'user', content: [...images.map(i => ({ type: 'image', source: { type: 'base64', media_type: i.mt, data: i.b64 } })), { type: 'text', text: LABEL_PROMPT }] }] }) });
+  if (r.status === 401) throw new Error('Der API-Schlüssel ist ungültig. Bitte unter Mehr → Design & Daten prüfen.');
+  if (r.status === 429) throw new Error('Zu viele Anfragen — bitte kurz warten.');
+  if (!r.ok) { let m = ''; try { m = (await r.json()).error.message; } catch(e) {} throw new Error('Erkennung fehlgeschlagen (' + r.status + ')' + (m ? ': ' + m : '')); }
+  const j = await r.json(); const t = (j.content || []).map(c => c.text || '').join('');
+  const a = t.indexOf('{'), b = t.lastIndexOf('}'); if (a < 0 || b < a) throw new Error('Die Verpackung konnte nicht gelesen werden — anderes Foto versuchen.');
+  return JSON.parse(t.slice(a, b + 1));
+}
+let SCAN = null;
+function openScan(kind){ SCAN = { kind: kind || 'food', imgs: [], data: null }; document.getElementById('scanSheet').classList.add('open'); document.body.classList.add('as-lock'); scanStep(); }
+function closeScan(){ document.getElementById('scanSheet').classList.remove('open'); document.body.classList.remove('as-lock'); SCAN = null; try { renderNutToday(); } catch(e) {} }
+function scanStep(){
+  const b = document.getElementById('scanBody'), hasKey = !!localStorage.getItem(KZ_KEY);
+  if (SCAN.data) return scanReview();
+  b.innerHTML = `<div class="trend-sw"><button class="${SCAN.kind === 'food' ? 'on' : ''}" data-k="food">Lebensmittel</button><button class="${SCAN.kind === 'supplement' ? 'on' : ''}" data-k="supplement">Supplement</button></div>
+    <div class="ck-q" style="min-height:0;margin:14px 0 8px">Fotografiere die ${SCAN.kind === 'food' ? 'Nährwerttabelle' : 'Angaben zu den Inhaltsstoffen'}.</div>
+    <div class="ci-hint" style="margin:0 0 14px">Gerade und scharf, Tabelle möglichst bildfüllend. Optional ein zweites Foto der Vorderseite für den Namen.</div>
+    <div class="sc-imgs">${SCAN.imgs.map((x, i) => `<div><img src="data:${x.mt};base64,${x.b64}" alt=""><button data-rm="${i}">✕</button></div>`).join('')}</div>
+    ${SCAN.imgs.length < 2 ? `<label class="hk-pick"><input type="file" id="scFile" accept="image/*" capture="environment" hidden>📷 ${SCAN.imgs.length ? 'Weiteres Foto' : 'Foto aufnehmen'}</label>` : ''}
+    ${!hasKey ? `<div class="sc-key"><b>Für die automatische Erkennung</b> brauchst du einmalig einen eigenen Claude-API-Schlüssel: console.anthropic.com → API Keys → Schlüssel erstellen und hier einfügen. Kosten: etwa ein halber Cent pro Foto. Der Schlüssel bleibt nur auf diesem iPhone und ist nie im Backup.
+      <input id="scKey" placeholder="sk-ant-…" autocomplete="off"><button class="ck-c-btn" id="scKeySave">Speichern</button></div>` : ''}
+    ${SCAN.imgs.length && hasKey ? `<button class="ck-go" id="scRead">Angaben auslesen</button>` : ''}
+    <button class="ck-c-btn ghost" id="scManual" style="width:100%;margin-top:10px">Ohne Foto manuell eintragen</button>
+    <div id="scMsg" class="hk-status"></div>`;
+  b.querySelectorAll('[data-k]').forEach(x => x.onclick = () => { SCAN.kind = x.dataset.k; scanStep(); });
+  b.querySelectorAll('[data-rm]').forEach(x => x.onclick = () => { SCAN.imgs.splice(+x.dataset.rm, 1); scanStep(); });
+  const f = document.getElementById('scFile'); if (f) f.onchange = async () => { const file = f.files && f.files[0]; if (!file) return; try { SCAN.imgs.push(await prepImage(file)); } catch(e) { document.getElementById('scMsg').textContent = 'Foto konnte nicht geladen werden.'; } scanStep(); };
+  const ks = document.getElementById('scKeySave'); if (ks) ks.onclick = () => { const v = document.getElementById('scKey').value.trim(); if (v.startsWith('sk-')) { localStorage.setItem(KZ_KEY, v); scanStep(); } else document.getElementById('scMsg').textContent = 'Der Schlüssel beginnt mit „sk-ant-".'; };
+  const rd = document.getElementById('scRead'); if (rd) rd.onclick = async () => {
+    rd.disabled = true; rd.textContent = 'Lese Verpackung …';
+    try { const d = await aiReadLabel(SCAN.imgs); if (d.kind) SCAN.kind = d.kind === 'supplement' ? 'supplement' : 'food'; SCAN.data = d; scanStep(); }
+    catch(e) { rd.disabled = false; rd.textContent = 'Erneut versuchen'; document.getElementById('scMsg').innerHTML = `<div class="quick-msg c-down">${e.message === 'nokey' ? 'Bitte zuerst den API-Schlüssel speichern.' : svgEsc(e.message)}</div>`; }
+  };
+  document.getElementById('scManual').onclick = () => { SCAN.data = { kind: SCAN.kind, name: '', brand: '', per100: {}, serving: null, supplement: { unit: 'Kapsel', perServing: [], servingsPerDay: 1 } }; scanStep(); };
+}
+function scanReview(){
+  const b = document.getElementById('scanBody'), d = SCAN.data, food = SCAN.kind === 'food', p = d.per100 || {}, s = d.supplement || { perServing: [] };
+  const num = (id, l, v, u) => `<label class="sr-f"><span>${l}</span><input id="${id}" inputmode="decimal" value="${v ?? ''}"><em>${u}</em></label>`;
+  b.innerHTML = `<div class="ck-q" style="min-height:0;margin:4px 0 6px">Kurz prüfen</div><div class="ci-hint" style="margin:0 0 12px">Alles korrigierbar. Erst mit „Speichern" landet es in deiner Datenbank.</div>
+    <label class="sr-f wide"><span>Name</span><input id="srN" value="${svgEsc(d.name || '')}"></label>
+    <label class="sr-f wide"><span>Marke</span><input id="srB" value="${svgEsc(d.brand || '')}"></label>
+    ${food ? `<div class="sc-sec">Pro 100 g</div><div class="sr-grid">
+        ${num('srK', 'Kalorien', p.kcal, 'kcal')}${num('srP', 'Eiweiß', p.protein, 'g')}${num('srC', 'Kohlenhydrate', p.carbs, 'g')}${num('srS', 'davon Zucker', p.sugar, 'g')}
+        ${num('srF', 'Fett', p.fat, 'g')}${num('srSF', 'davon gesättigt', p.satfat, 'g')}${num('srFi', 'Ballaststoffe', p.fiber, 'g')}${num('srSa', 'Salz', p.salt, 'g')}</div>
+      <div class="sc-sec">Portion (optional)</div><div class="sr-grid"><label class="sr-f"><span>Bezeichnung</span><input id="srPl" value="${svgEsc((d.serving || {}).label || '')}"></label>${num('srPg', 'Gewicht', (d.serving || {}).grams, 'g')}</div>`
+    : `<div class="sr-grid"><label class="sr-f"><span>Einheit</span><input id="srU" value="${svgEsc(s.unit || 'Kapsel')}"></label>${num('srSpd', 'Empfohlen pro Tag', s.servingsPerDay || 1, 'Stück')}${num('srCaf', 'Koffein je Einheit', s.caffeineMg || '', 'mg')}</div>
+      <div class="sc-sec">Inhaltsstoffe je Einheit</div>
+      <div id="srRows">${(s.perServing || []).map((x, i) => `<div class="sr-row"><input value="${svgEsc(x.name)}" data-r="${i}" data-c="name"><input inputmode="decimal" value="${x.amount ?? ''}" data-r="${i}" data-c="amount"><input value="${svgEsc(x.unit || 'mg')}" data-r="${i}" data-c="unit"></div>`).join('')}</div>
+      <button class="ck-c-btn ghost" id="srAdd">＋ Inhaltsstoff</button>`}
+    <button class="ck-go" id="srSave">In meine Datenbank speichern</button><div id="scMsg"></div>`;
+  const add = document.getElementById('srAdd'); if (add) add.onclick = () => { readRows(); s.perServing = s.perServing || []; s.perServing.push({ name: '', amount: null, unit: 'mg' }); d.supplement = s; scanReview(); };
+  function readRows(){ document.querySelectorAll('#srRows input').forEach(i => { const r = s.perServing[+i.dataset.r]; if (r) r[i.dataset.c] = i.dataset.c === 'amount' ? parseFloat(String(i.value).replace(',', '.')) : i.value.trim(); }); }
+  document.getElementById('srSave').onclick = () => {
+    const v = id => { const x = parseFloat(String((document.getElementById(id) || {}).value || '').replace(',', '.')); return isNaN(x) ? null : x; };
+    const name = document.getElementById('srN').value.trim(), brand = document.getElementById('srB').value.trim();
+    if (!name) { document.getElementById('scMsg').innerHTML = '<div class="quick-msg c-down">Bitte einen Namen eingeben.</div>'; return; }
+    if (food) {
+      const kcal = v('srK'), pp = v('srP') || 0, cc = v('srC') || 0, ff = v('srF') || 0;
+      if (kcal === null) { document.getElementById('scMsg').innerHTML = '<div class="quick-msg c-down">Kalorien fehlen.</div>'; return; }
+      const pg = v('srPg'), pl = (document.getElementById('srPl').value || '').trim();
+      const fd = { n: name, brand, kcal: Math.round(kcal), p: pp, c: cc, f: ff, sugar: v('srS'), satfat: v('srSF'), fiber: v('srFi'), salt: v('srSa'), por: pg ? [[pl || '1 Portion', pg]] : null, origin: 'photo', src: 'own', added: localDateStr(Date.now()) };
+      const list = loadCustomFoods().filter(x => x.n !== name); list.unshift(fd); saveCustomFoods(list);
+    } else {
+      readRows();
+      const sp = { id: 's' + Date.now().toString(36), n: name, brand, unit: (document.getElementById('srU').value || 'Kapsel').trim(), perDay: v('srSpd') || 1, caf: v('srCaf') || 0,
+        items: (s.perServing || []).filter(x => x.name && x.amount !== null && !isNaN(x.amount)), added: localDateStr(Date.now()) };
+      const list = loadArr(SUPP_KEY).filter(x => x.n !== name); list.unshift(sp); saveArr(SUPP_KEY, list);
+    }
+    b.innerHTML = `<div class="ck-done">✓</div><div class="ck-q" style="text-align:center">„${svgEsc(name)}" gespeichert.</div>
+      <div class="ci-hint" style="text-align:center">${food ? 'Du findest es ab sofort in der Lebensmittel-Suche.' : 'Du findest es ab sofort unter „＋ Jetzt" → Einnahme. Die App rechnet die Inhaltsstoffe in deine Tageswerte ein.'}</div>
+      <button class="ck-go" onclick="closeScan()">Fertig</button><button class="ck-c-btn ghost" style="width:100%;margin-top:10px" onclick="openScan('${SCAN.kind}')">Nächstes Produkt</button>`;
+  };
+}
+
+// ================= SUPPLEMENTS: Tageswerte und Obergrenzen =================
+// Tolerierbare Obergrenzen für Nahrungsergänzung (EFSA; Koffein: sichere Tagesmenge)
+const UL = [[/magnes/i, 'Magnesium', 250, 'mg'], [/vitamin ?d|cholecalc|\bd3\b/i, 'Vitamin D', 100, 'µg'], [/zink|zinc/i, 'Zink', 25, 'mg'], [/\bb ?6\b|pyridox/i, 'Vitamin B6', 12, 'mg'],
+  [/selen/i, 'Selen', 255, 'µg'], [/\bjod|iod/i, 'Jod', 600, 'µg'], [/calcium|kalzium/i, 'Calcium', 2500, 'mg'], [/koffein|caffein/i, 'Koffein', 400, 'mg']];
+function toUnit(amount, unit, target){ unit = (unit || '').toLowerCase().replace('mcg', 'µg').replace('ug', 'µg');
+  if (unit === target) return amount; if (unit === 'ie' || unit === 'iu') return target === 'µg' ? amount / 40 : null;
+  if (unit === 'g' && target === 'mg') return amount * 1000; if (unit === 'mg' && target === 'µg') return amount * 1000; if (unit === 'µg' && target === 'mg') return amount / 1000; return null; }
+function suppTotals(d){
+  const S = loadArr(SUPP_KEY), log = loadArr(INTAKE_KEY).filter(x => localDateStr(x.ts) === d && x.k.startsWith('supp:'));
+  const tot = {}, taken = {};
+  log.forEach(x => { const s = S.find(y => 'supp:' + y.id === x.k); if (!s) return; const n = x.n || 1; taken[s.n] = (taken[s.n] || 0) + n;
+    s.items.forEach(it => { const k = it.name + '|' + it.unit; tot[k] = (tot[k] || 0) + it.amount * n; });
+    if (s.caf) tot['Koffein|mg'] = (tot['Koffein|mg'] || 0) + s.caf * n; });
+  return { tot, taken };
+}
+function suppDayHTML(d){
+  const { tot, taken } = suppTotals(d); const names = Object.keys(taken); if (!names.length) return '';
+  const rows = Object.keys(tot).map(k => { const [n, u] = k.split('|'), a = Math.round(tot[k] * 100) / 100, ul = UL.find(x => x[0].test(n));
+    let warn = ''; if (ul) { const v = toUnit(a, u, ul[3]); if (v !== null && v > ul[2]) warn = `über der Obergrenze von ${ul[2]} ${ul[3]}`; }
+    return `<div class="sd-row"><span>${n}</span><b>${fmtNum(a)} ${u}</b>${warn ? `<em>${warn}</em>` : ''}</div>`; }).join('');
+  return `<div class="card"><div class="card-title">Supplements ${d === localDateStr(Date.now()) ? 'heute' : dayLabel(d)}</div>
+    <div class="ci-hint" style="margin-top:0">${names.map(n => `${taken[n]}× ${n}`).join(' · ')}</div>${rows}
+    <div class="ci-hint">Obergrenzen nach EFSA für Nahrungsergänzung. Bei Medikamenten oder Vorerkrankungen ärztlich abklären.</div></div>`;
+}
+
+// ================= ERKENNTNISSE: lernen, bestätigen, widerlegen =================
+const INS_KEY = 'cutplan_insights_v1';
+function journalCompute(tgt){
+  const T = JOURNAL_TARGETS.find(t => t[0] === tgt); if (!T) return [];
+  const Y = T[2], ci = loadCheckins(), vit = _js('cutplan_vitals_v1'), today = localDateStr(Date.now()), from = addDays(today, -180);
+  const pool = [...new Set([...Object.keys(ci), ...Object.keys(_js('cutplan_sleep_v1')), ...Object.keys(vit), ...(tgt === 'perf' ? Object.keys(performanceByDate()) : []), ...(tgt === 'nerv' ? loadArr(MOM_KEY).map(m => localDateStr(m.ts)) : [])])];
+  const dates = pool.filter(d => d >= from && d <= today && Y(d) !== null && Y(d) !== undefined).sort();
+  if (dates.length < 8) return [];
+  const out = [];
+  journalFactors(tgt).forEach(([name, fx, bin, dir]) => {
+    const pairs = dates.map(d => ({ x: fx(d), y: +Y(d) })).filter(p => p.x !== null && p.x !== undefined && !isNaN(p.x));
+    if (pairs.length < 8) return;
+    if (bin) { const a = pairs.filter(p => p.x === 1).length; if (a < 3 || pairs.length - a < 3) return; }
+    const r = pearson(pairs.map(p => p.x), pairs.map(p => p.y)); if (r === null) return;
+    const inv = bin ? 'ohne ' + dir : dir.replace(/^mehr /, 'weniger ').replace(/^höhere /, 'niedrigere ').replace(/^höherer /, 'niedrigerer ');
+    out.push({ id: tgt + '|' + name, tgt, tl: T[1], name, r, n: pairs.length, sig: isSignificant(r, pairs.length), dir: r > 0 ? dir : inv });
+  });
+  return out;
+}
+function updateInsights(force){
+  const meta = _js('cutplan_insights_meta_v1'), today = localDateStr(Date.now());
+  if (!force && meta.d === today) return loadInsightsStore();
+  const H = loadInsightsStore();
+  JOURNAL_TARGETS.forEach(([tgt]) => { let res = []; try { res = journalCompute(tgt); } catch(e) {}
+    res.forEach(x => { const q = x.sig && Math.abs(x.r) >= 0.25;
+      if (!H[x.id] && !q) return;
+      const h = H[x.id] || (H[x.id] = { first: today, tl: x.tl, name: x.name, rs: [] });
+      h.dir = q ? x.dir : (h.dir || x.dir); h.tl = x.tl; h.name = x.name;
+      if (q && !h.firstSig) h.firstSig = today;
+      const last = h.rs[h.rs.length - 1]; const rec = [today, Math.round(x.r * 100) / 100, x.n, q ? 1 : 0];
+      if (last && last[0] === today) h.rs[h.rs.length - 1] = rec; else h.rs.push(rec);
+      if (h.rs.length > 90) h.rs = h.rs.slice(-90); }); });
+  localStorage.setItem(INS_KEY, JSON.stringify(H)); localStorage.setItem('cutplan_insights_meta_v1', JSON.stringify({ d: today }));
+  return H;
+}
+function loadInsightsStore(){ return _js(INS_KEY); }
+function insightStatus(h){
+  const rs = h.rs, cur = rs[rs.length - 1], today = localDateStr(Date.now());
+  const sigs = rs.filter(x => x[3]); if (!sigs.length) return null;
+  const peak = Math.max(...sigs.map(x => Math.abs(x[1]))), sign = Math.sign(sigs[sigs.length - 1][1]);
+  const stale = cur[0] < addDays(today, -21);
+  if (Math.sign(cur[1]) !== sign && Math.abs(cur[1]) >= 0.1) return 'widerlegt';
+  if (Math.abs(cur[1]) < 0.1) return 'widerlegt';
+  if (!cur[3] && Math.abs(cur[1]) < peak * 0.6) return 'abgeschwächt';
+  if (stale) return 'abgeschwächt';
+  return h.firstSig >= addDays(today, -7) ? 'neu' : 'bestätigt';
+}
+const INS_ORDER = { neu: 0, bestätigt: 1, abgeschwächt: 2, widerlegt: 3 };
+function insightsList(){
+  const H = updateInsights(false), goals = lifeGoals(), today = localDateStr(Date.now());
+  const goalOf = { lust: 'strength', perf: 'strength', rec: 'energy', energy: 'energy', mood: 'mood', joy: 'mood', calm: 'calm', nerv: 'calm', focus: 'focus', sleepQ: 'sleep', hrv: 'endurance' };
+  return Object.keys(H).map(id => { const h = H[id], st = insightStatus(h); if (!st) return null; const cur = h.rs[h.rs.length - 1], tgt = id.split('|')[0];
+    const weeks = Math.max(0, Math.round((new Date(today) - new Date(h.firstSig)) / (7 * 864e5)));
+    return { id, h, st, r: cur[1], n: cur[2], tgt, weeks, mine: goals.includes(goalOf[tgt]) }; }).filter(Boolean)
+    .sort((a, b) => (INS_ORDER[a.st] - INS_ORDER[b.st]) || (b.mine - a.mine) || Math.abs(b.r) - Math.abs(a.r));
+}
+function insightsHTML(){
+  let L; try { L = insightsList(); } catch(e) { L = []; }
+  if (!L.length) return `<div class="card accent"><div class="card-title">Deine Erkenntnisse</div><div class="ana-note" style="margin-top:0">Noch keine belastbaren Erkenntnisse. Die App prüft täglich alle Zusammenhänge zwischen deinem Verhalten und deinem Befinden — erste Erkenntnisse meist nach 2–3 Wochen mit Checkouts.</div></div>`;
+  const lab = { neu: 'Neu', bestätigt: 'Bestätigt', abgeschwächt: 'Abgeschwächt', widerlegt: 'Widerlegt' };
+  return `<div class="card accent"><div class="card-title">Deine Erkenntnisse · ${L.filter(x => x.st !== 'widerlegt').length} aktiv</div>
+    ${L.slice(0, 12).map(x => `<div class="in-row ${x.st}"><div class="in-top"><span class="in-st ${x.st}">${lab[x.st]}</span>${x.mine ? '<span class="in-goal">dein Ziel</span>' : ''}</div>
+      <div class="in-t">${x.st === 'widerlegt' ? `<s>${x.h.dir} → ${x.h.tl} ↑</s>` : `<b>${x.h.dir}</b> → ${x.h.tl} ↑`}</div>
+      <div class="in-s">${(() => { const a = Math.abs(x.r), st = a >= 0.5 ? 'starker' : a >= 0.3 ? 'mittlerer' : a >= 0.1 ? 'schwacher' : 'kein';
+        return x.st === 'widerlegt' ? `Hat sich mit mehr Daten nicht gehalten · jetzt ${st} Zusammenhang · ${x.n} Tage` : x.st === 'abgeschwächt' ? `Wird schwächer · nur noch ${st} Zusammenhang · ${x.n} Tage` : x.st === 'neu' ? `Neu entdeckt · ${st} Zusammenhang · ${x.n} Tage` : `Bestätigt seit ${x.weeks} ${x.weeks === 1 ? 'Woche' : 'Wochen'} · ${st} Zusammenhang · ${x.n} Tage`; })()}</div></div>`).join('')}
+    <details class="ex"><summary>Wie entstehen Erkenntnisse?</summary><div>Die App prüft jeden Tag alle Zusammenhänge zwischen deinen Gewohnheiten, Messwerten und deinem Befinden. Belastbar und groß genug wird eine Erkenntnis zuerst <b>neu</b>, hält sie über eine Woche, gilt sie als <b>bestätigt</b>. Wird sie mit mehr Daten schwächer, steht sie auf <b>abgeschwächt</b> — kippt sie oder verschwindet, auf <b>widerlegt</b>. So korrigiert sich die App selbst. Zusammenhänge zeigen, was du gezielt ausprobieren solltest; Gewissheit bringt ein Selbst-Experiment.</div></details></div>`;
+}
+function insightTeaserHTML(){
+  let L; try { L = insightsList(); } catch(e) { return ''; }
+  const x = L.find(i => i.st === 'neu') || L.find(i => i.st === 'widerlegt' && i.h.rs[i.h.rs.length - 1][0] >= addDays(localDateStr(Date.now()), -7));
+  if (!x) return '';
+  return `<button class="card in-teaser" id="insTeaser"><span class="in-st ${x.st}">${x.st === 'neu' ? 'Neue Erkenntnis' : 'Erkenntnis widerlegt'}</span>
+    <div class="in-t">${x.st === 'widerlegt' ? `<s>${x.h.dir} → ${x.h.tl} ↑</s>` : `<b>${x.h.dir}</b> → ${x.h.tl} ↑`}</div><em>Alle Erkenntnisse ›</em></button>`;
+}
+
+// ================= MEINE DATENBANK =================
+function renderMyDb(){
+  const el = document.getElementById('myDbBox'); if (!el) return;
+  const F = loadCustomFoods().filter(f => !f.origin || f.origin === 'photo'), S = loadArr(SUPP_KEY), brands = loadCustomFoods().length - F.length;
+  persistStatus().then(ok => { const s = document.getElementById('dbPersist'); if (s) s.innerHTML = ok ? '✓ iOS hat dauerhaften Speicher gewährt.' : 'iOS garantiert den Speicher nicht dauerhaft — sichere regelmäßig ein Backup.'; });
+  el.innerHTML = `<div class="card"><div class="db-acts"><button class="ck-c-btn" id="dbScanF">📷 Lebensmittel per Foto</button><button class="ck-c-btn" id="dbScanS">📷 Supplement per Foto</button></div>
+      <div class="ci-hint" id="dbPersist"></div><button class="ck-c-btn ghost" id="dbBackup" style="width:100%;margin-top:8px">🛡 Backup in Dateien sichern</button>
+      <label class="ck-c-btn ghost" style="display:block;text-align:center;margin-top:8px">↺ Backup aus Datei wiederherstellen<input type="file" id="dbRestore" accept=".json,application/json" hidden></label>
+      <div class="ci-hint">KI-Erkennung: ${localStorage.getItem(KZ_KEY) ? '✓ API-Schlüssel hinterlegt · <a href="#" id="dbKeyDel">entfernen</a>' : 'kein API-Schlüssel — wird beim ersten Foto abgefragt'}</div></div>
+    <div class="card"><div class="card-title">Meine Lebensmittel · ${F.length}${brands ? ` <small style="text-transform:none;letter-spacing:0">(+ ${brands} importierte Markenprodukte)</small>` : ''}</div>
+      ${F.length ? F.map(f => `<div class="db-row"><div><b>${svgEsc(f.n)}</b><small>${f.brand ? svgEsc(f.brand) + ' · ' : ''}${f.kcal} kcal · E ${fmtNum(f.p)} · K ${fmtNum(f.c)} · F ${fmtNum(f.f)} je 100 g${f.origin === 'photo' ? ' · 📷' : ''}</small></div><button data-df="${svgEsc(f.n)}">✕</button></div>`).join('') : '<div class="ci-hint">Noch keine eigenen Lebensmittel.</div>'}</div>
+    <div class="card"><div class="card-title">Meine Supplements · ${S.length}</div>
+      ${S.length ? S.map(s => `<div class="db-row"><div><b>${svgEsc(s.n)}</b><small>${s.brand ? svgEsc(s.brand) + ' · ' : ''}je ${svgEsc(s.unit)}: ${s.items.map(i => `${svgEsc(i.name)} ${fmtNum(i.amount)} ${svgEsc(i.unit)}`).join(', ') || '—'}</small></div><button data-ds="${s.id}">✕</button></div>`).join('') : '<div class="ci-hint">Noch keine Supplements — fotografiere die Verpackung.</div>'}</div>`;
+  document.getElementById('dbScanF').onclick = () => openScan('food'); document.getElementById('dbScanS').onclick = () => openScan('supplement');
+  document.getElementById('dbBackup').onclick = () => shareBackup(false).then(renderMyDb).catch(() => {});
+  document.getElementById('dbRestore').onchange = async (ev) => { const f = ev.target.files && ev.target.files[0]; if (!f) return;
+    try { const dump = JSON.parse(await f.text()); if (!confirm('Backup vom ' + (f.name.match(/\d{4}-\d\d-\d\d/) || ['unbekannten Datum'])[0] + ' wiederherstellen? Aktuelle Daten werden ersetzt.')) return; restoreBackup(dump); alert('Wiederhergestellt — die App lädt neu.'); location.reload(); }
+    catch(e) { alert('Diese Datei ist kein gültiges Backup.'); } };
+  const kd = document.getElementById('dbKeyDel'); if (kd) kd.onclick = (ev) => { ev.preventDefault(); localStorage.removeItem(KZ_KEY); renderMyDb(); };
+  el.querySelectorAll('[data-df]').forEach(b => b.onclick = () => { if (!confirm('„' + b.dataset.df + '" löschen?')) return; saveCustomFoods(loadCustomFoods().filter(f => f.n !== b.dataset.df)); renderMyDb(); });
+  el.querySelectorAll('[data-ds]').forEach(b => b.onclick = () => { if (!confirm('Supplement löschen?')) return; saveArr(SUPP_KEY, loadArr(SUPP_KEY).filter(s => s.id !== b.dataset.ds)); renderMyDb(); });
+}
+
 refreshProgressSafeCopy();
 migrateLegacyEntries();
+try { requestPersist(); } catch(e) {}
 renderProgSubtabs();
 switchProgView();
 
@@ -8305,6 +9058,10 @@ function renderNutToday(){
   document.getElementById('nutPBar').style.width = pct(tot.p/goals.p) + '%';
   document.getElementById('nutCBar').style.width = pct(tot.c/goals.c) + '%';
   document.getElementById('nutFBar').style.width = pct(tot.f/goals.f) + '%';
+  { let ns = document.getElementById('nutSupps'); if (!ns) { ns = document.createElement('div'); ns.id = 'nutSupps'; const ml = document.getElementById('nutMeals'); ml.parentNode.insertBefore(ns, ml.nextSibling); }
+    try { ns.innerHTML = suppDayHTML(currentNutDate); } catch(e) { ns.innerHTML = ''; } }
+  { let nc = document.getElementById('nutCoach'); if (!nc) { nc = document.createElement('div'); nc.id = 'nutCoach'; const mr = document.getElementById('nutP').closest('.macro-row'); mr.parentNode.insertBefore(nc, mr.nextSibling); }
+    try { nc.innerHTML = nutCoachHTML(currentNutDate, tot, goals); } catch(e) { nc.innerHTML = ''; } }
 
   const store = loadNutrition();
   const day = store[currentNutDate] || {};
@@ -8451,14 +9208,14 @@ async function searchOpenFoodFacts(q){
   // Zuerst gezielt in der deutschen Datenbank (de.openfoodfacts.org) suchen —
   // liefert deutlich mehr Treffer für hierzulande übliche Produkte
   const deUrl = 'https://de.openfoodfacts.org/cgi/search.pl?search_terms=' + encodeURIComponent(q) +
-                '&search_simple=1&action=process&json=1&page_size=10&lc=de&app_name=UltimateCutPlan&fields=' + fields;
+                '&search_simple=1&action=process&json=1&page_size=10&lc=de&app_name=Kaizen&fields=' + fields;
   let results = [];
   try { results = await fetchOFF(deUrl); } catch(e) { /* weiter zum Fallback */ }
 
   // Ergänzend die weltweite Datenbank, falls wenige/keine deutschen Treffer
   if (results.length < 5) {
     const worldUrl = 'https://world.openfoodfacts.org/cgi/search.pl?search_terms=' + encodeURIComponent(q) +
-                      '&search_simple=1&action=process&json=1&page_size=10&lc=de&app_name=UltimateCutPlan&fields=' + fields;
+                      '&search_simple=1&action=process&json=1&page_size=10&lc=de&app_name=Kaizen&fields=' + fields;
     try {
       const more = await fetchOFF(worldUrl);
       const seen = new Set(results.map(r => r.n));
@@ -8738,6 +9495,9 @@ function renderNutOverview(){
   const last7 = dates.slice(-7);
 
   const sum = {kcal:0,p:0,c:0,f:0};
+  // nur abgeschlossene Tage — der laufende Tag zählt erst ab 21 Uhr
+  { const t0 = localDateStr(Date.now()); if (new Date().getHours() < 21) { const i = last7.indexOf(t0); if (i >= 0) last7.splice(i, 1); } }
+  const gAvg = last7.length ? Math.round(last7.reduce((s, d) => s + goalsForDate(d).p, 0) / last7.length) : goalsForDate(localDateStr(Date.now())).p;
   last7.forEach(d => { const t = dayTotals(d); sum.kcal+=t.kcal; sum.p+=t.p; sum.c+=t.c; sum.f+=t.f; });
   const n = last7.length || 1;
   const avg = {kcal:Math.round(sum.kcal/n), p:Math.round(sum.p/n), c:Math.round(sum.c/n), f:Math.round(sum.f/n)};
@@ -8756,8 +9516,8 @@ function renderNutOverview(){
         <div class="macro-pill f"><span class="label">Fett ⌀</span><span class="val mono">${avg.f}g</span></div>
       </div>
       <div style="font-size:12px; color:var(--ink-dim); margin-top:10px; line-height:1.5;">
-        ${avg.p < 180 ? '<span style="color:var(--clay); font-weight:700;">Protein liegt unter deinem Ziel von 200g.</span> ' : ''}
-        Basis: ${last7.length} getrackte Tage.
+        ${avg.p < gAvg * 0.9 ? `<span style="color:var(--clay); font-weight:700;">Protein liegt im Schnitt unter deinem Ziel von ${gAvg} g.</span> ` : ''}
+        Basis: ${last7.length} abgeschlossene Tage${new Date().getHours() < 21 ? ' (heute zählt ab 21 Uhr)' : ''}.
       </div>`;
   }
 

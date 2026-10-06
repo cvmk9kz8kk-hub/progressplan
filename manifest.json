@@ -1,7 +1,7 @@
 {
-  "name": "Ultimate Cut Plan",
-  "short_name": "Cut Plan",
-  "description": "Training, Ernährung, Schlaf und Schritte in einer App",
+  "name": "Kaizen Health",
+  "short_name": "Kaizen",
+  "description": "Fitness, Gesundheit und Wohlbefinden — lernt aus deinen Daten",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
