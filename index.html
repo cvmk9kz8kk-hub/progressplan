@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v20.3: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v20.4: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v20.3: Cockpit kompakter ---------- */
+  /* ---------- v20.4: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1292,7 +1292,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v20.3: verschlankt ---------- */
+  /* ---------- v20.4: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1464,7 +1464,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.3</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.4</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1934,8 +1934,10 @@
       <div class="card">
         <div class="card-title">Eigene Lebensmittel</div>
         <div style="font-size:12px; color:var(--ink-dim); margin-bottom:10px; line-height:1.5;">
-          Trag hier eigene Produkte ein (Werte pro 100g), die du oft isst — sie erscheinen dann sofort in der Suche.
+          Lebensmittel, Getränke und Nahrungsergänzung anlegen — die App fragt kurz nach, was es ist, und zeigt dann genau die passenden Felder.
         </div>
+        <button class="hero-btn" onclick="openCreate('root')" style="width:100%; margin-bottom:6px;">＋ Neu anlegen</button>
+        <div style="display:none">
         <input type="text" id="cfName" class="prog-input" placeholder="Name" style="margin-bottom:8px;">
         <div style="display:flex; gap:8px; margin-bottom:8px;">
           <input type="number" id="cfKcal" class="prog-input" placeholder="kcal">
@@ -1944,6 +1946,7 @@
           <input type="number" id="cfF" class="prog-input" placeholder="F (g)">
         </div>
         <button id="cfAdd" class="prog-btn" style="width:100%;">Lebensmittel speichern</button>
+        </div>
         <div id="cfList" style="margin-top:12px;"></div>
       </div>
     </div>
@@ -5285,7 +5288,7 @@ function renderAsList(){
   }
   if (AS.q.length < 2) st.textContent = '';
   const ownBtn = ((AS.tab === 'own' && AS.q.length < 2) || (AS.q.length >= 2 && !items.length)
-    ? `<button class="as-newown" id="asNewOwn">＋ Eigenes Lebensmittel anlegen</button>` : '')
+    ? `<button class="as-newown" id="asNewOwn">＋ Neu anlegen</button>` : '')
     + (AS.tab === 'own' && AS.q.length < 2 ? `<button class="as-newown alt" id="asBrands">⤓ Marken importieren · ESN, Myprotein, Bodybuilding Depot …</button>` : '');
   if (!items.length) { listEl.innerHTML = ownBtn + (AS.q.length >= 2 ? '' : `<div class="as-empty">${empty}</div>`); bindNewOwn(); return; }
   AS.rendered = items;
@@ -5310,7 +5313,7 @@ function renderAsList(){
   });
   bindNewOwn();
 }
-function bindNewOwn(){ const b = document.getElementById('asNewOwn'); if (b) b.onclick = () => showOwnForm(AS.q);
+function bindNewOwn(){ const b = document.getElementById('asNewOwn'); if (b) b.onclick = () => { const q = AS.q, slot = AS.slot; closeAddSheet(); openCreate('root', { name: q, slot }); };
   const m = document.getElementById('asBrands'); if (m) m.onclick = showBrandImport; }
 
 // ---------- Suche ----------
@@ -8356,7 +8359,7 @@ async function aiReadLabel(images){
 }
 let SCAN = null;
 function openScan(kind){ SCAN = { kind: kind || 'food', imgs: [], data: null }; document.getElementById('scanSheet').classList.add('open'); document.body.classList.add('as-lock'); scanStep(); }
-function closeScan(){ document.getElementById('scanSheet').classList.remove('open'); document.body.classList.remove('as-lock'); SCAN = null; try { renderNutToday(); } catch(e) {} }
+function closeScan(){ document.getElementById('scanSheet').classList.remove('open'); document.body.classList.remove('as-lock'); SCAN = null; CR = null; try { renderNutToday(); } catch(e) {} }
 function scanStep(){
   const b = document.getElementById('scanBody'), hasKey = !!localStorage.getItem(KZ_KEY);
   if (SCAN.data) return scanReview();
@@ -8421,6 +8424,7 @@ function scanReview(){
       const pg = v('srPg'), pl = (document.getElementById('srPl').value || '').trim();
       const fd = { n: name, brand, kcal: Math.round(kcal), p: pp, c: cc, f: ff, sugar: v('srS'), satfat: v('srSF'), fiber: v('srFi'), salt: v('srSa'), por: pg ? [[pl || '1 Portion', pg]] : null, origin: 'photo', src: 'own', added: localDateStr(Date.now()) };
       const list = loadCustomFoods().filter(x => x.n !== name); list.unshift(fd); saveCustomFoods(list);
+      if (CR && CR.opts && CR.opts.slot) { const slot = CR.opts.slot; closeScan(); openAddSheet(slot, fd); return; }   // direkt Menge wählen und hinzufügen
     } else {
       readRows();
       const sp = { id: 's' + Date.now().toString(36), n: name, brand, unit: (document.getElementById('srU').value || 'Kapsel').trim(), perDay: v('srSpd') || 1, caf: v('srCaf') || 0,
@@ -8643,8 +8647,8 @@ const SUPP_TPL = {
   other: ['', 'Kapsel', []],
 };
 let CR = null;
-function openCreate(start){
-  CR = { path: [start || 'root'] }; SCAN = null;
+function openCreate(start, opts){
+  CR = { path: [start || 'root'], opts: opts || {} }; SCAN = null;
   document.getElementById('scanSheet').classList.add('open'); document.body.classList.add('as-lock');
   crStep();
 }
@@ -8667,7 +8671,7 @@ function crLeaf(node){
   if (type === 'f' || type === 'd') {
     const t = FOOD_TPL[type === 'd' && (key === 'milk' || key === 'other') ? 'd' + key : key] || ['', null];
     crTitle(type === 'd' ? 'Neues Getränk' : 'Neues Lebensmittel');
-    SCAN = { kind: 'food', drink: type === 'd', imgs: [], data: { kind: 'food', name: '', brand: '', per100: {}, serving: t[0] ? { label: t[0], grams: t[1] } : null } };
+    SCAN = { kind: 'food', drink: type === 'd', imgs: [], data: { kind: 'food', name: (CR.opts && CR.opts.name) || '', brand: '', per100: {}, serving: t[0] ? { label: t[0], grams: t[1] } : null } };
     scanReview(); crBackLink(); return;
   }
   crTitle('Neues Supplement'); suppForm(key);
@@ -8678,7 +8682,7 @@ function crBackLink(){ const b = document.getElementById('scanBody'); const x = 
 // Eingabefenster für Supplements — nur die Felder, die zur Art passen
 function suppForm(key, pre){
   const t = SUPP_TPL[key] || SUPP_TPL.other, b = document.getElementById('scanBody');
-  const st = pre || { n: t[0], brand: '', unit: t[1], per: 1, perDay: 1, form: '', rows: t[2].map(([n, u]) => ({ name: n, amount: '', unit: u })) };
+  const st = pre || { n: (CR && CR.opts && CR.opts.name) || t[0], brand: '', unit: t[1], per: 1, perDay: 1, form: '', rows: t[2].map(([n, u]) => ({ name: n, amount: '', unit: u })) };
   CR.form = { key, st };
   const units = ['Kapsel', 'Tablette', 'Messlöffel', 'Tropfen', 'Portion'];
   b.innerHTML = `<div class="cr-crumb"><button id="crBack">‹ Zurück</button><span></span></div>
