@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v15.0: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v17.1: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v15.0: Cockpit kompakter ---------- */
+  /* ---------- v17.1: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1219,6 +1219,94 @@
   .jr-sw button{ flex:0 0 auto; padding:8px 12px; border-radius:99px; border:1px solid var(--line); background:var(--card); color:var(--ink-dim); font-weight:700; font-size:13px; }
   .jr-sw button.on{ background:var(--lime); border-color:var(--lime); color:var(--acc-ink); }
   .jr-top{ margin-top:12px; font-size:13px; line-height:1.55; color:var(--ink-dim); } .jr-top b{ color:var(--ink); }
+
+  /* ---------- Körper-Silhouette ---------- */
+  .fig-card{ padding-bottom:12px !important; }
+  .fig-svg{ display:block; width:100%; height:auto; max-height:420px; margin:2px auto 0; }
+  .fig-body path, .fig-body circle, .fig-body rect{ stroke:var(--line); stroke-width:1; }
+  .fig-line{ stroke:var(--ink-dim); stroke-opacity:.45; stroke-width:1; }
+  .fig-dot{ fill:var(--ink); }
+  .fig-k{ font-size:9.5px; font-weight:800; letter-spacing:.12em; fill:var(--ink-dim); }
+  .fig-v{ font-family:var(--num-font); font-size:17px; font-weight:700; fill:var(--ink); }
+  .fig-up{ fill:var(--up); font-size:10.5px; font-weight:700; } .fig-down{ fill:var(--down); font-size:10.5px; font-weight:700; }
+  .fig-seg{ font-family:var(--num-font); font-size:11px; font-weight:700; fill:var(--ink); }
+  .fig-foot{ font-size:11.5px; color:var(--ink-dim); line-height:1.5; margin-top:4px; }
+
+  /* ---------- Prognose ---------- */
+  .fc-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+  .fc-wx{ font-family:var(--num-font); font-size:16px; } .fc-wx small{ font-family:inherit; font-size:11px; color:var(--ink-dim); margin-left:4px; }
+  .fc-vals{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .fc-vals > div{ background:var(--bg2); border:1px solid var(--line); border-radius:12px; padding:10px 12px; display:flex; flex-direction:column; gap:1px; }
+  .fc-vals span{ font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-dim); }
+  .fc-vals b{ font-family:var(--num-font); font-size:28px; line-height:1.1; } .fc-vals small{ font-size:12px; color:var(--ink-dim); }
+  .fc-why{ display:flex; flex-wrap:wrap; gap:6px 12px; margin-top:10px; font-size:12px; font-weight:700; }
+  .fc-learn{ margin-top:10px; font-size:12.5px; color:var(--ink-dim); line-height:1.5; }
+  .fc-tips{ margin-top:12px; border-top:1px solid var(--line); padding-top:4px; }
+  .fc-tips > div{ display:flex; gap:10px; padding:8px 0; } .fc-tips span{ font-size:17px; line-height:1.3; }
+  .fc-tips p{ margin:0; font-size:13px; line-height:1.5; color:var(--ink-dim); } .fc-tips b{ color:var(--ink); }
+  .fc-loc{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:12px; padding-top:10px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-dim); }
+  .fc-loc span{ flex:1 0 100%; }
+  .fc-loc button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:9px; padding:8px 11px; font-weight:800; font-size:12.5px; }
+  .fc-loc input{ flex:1; min-width:0; padding:8px 10px; border-radius:9px; border:1px solid var(--line); background:var(--bg2); color:var(--ink); font-size:15px; }
+  .fm-row{ padding:10px 0; border-bottom:1px solid var(--line); } .fm-row:last-of-type{ border-bottom:none; }
+  .fm-top{ display:flex; justify-content:space-between; gap:8px; font-size:14px; } .fm-top span{ font-size:12px; color:var(--ink-dim); }
+  .fm-q{ font-size:12.5px; margin-top:4px; font-weight:700; }
+  .fm-feat{ display:flex; flex-wrap:wrap; gap:4px 10px; margin-top:6px; font-size:12px; font-weight:700; }
+
+  /* ---------- Abend-Checkout ---------- */
+  .ck-card .ck-c-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .ck-c-sub{ font-size:12.5px; color:var(--ink-dim); margin-top:3px; }
+  .ck-c-btn{ flex:0 0 auto; border:none; background:var(--lime); color:var(--acc-ink); border-radius:12px; padding:11px 14px; font-weight:800; font-size:14px; }
+  .ck-c-btn.ghost{ background:transparent; border:1px solid var(--line); color:var(--ink-dim); font-size:12.5px; padding:8px 11px; }
+  .ck-card.hot{ border-color:color-mix(in srgb, var(--lime) 50%, transparent) !important; background:linear-gradient(180deg, color-mix(in srgb, var(--lime) 10%, var(--card)), var(--card)) !important; }
+  .ck-c-vals{ display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:10px; font-size:12.5px; color:var(--ink-dim); } .ck-c-vals b{ color:var(--ink); font-family:var(--num-font); font-size:15px; }
+  .ck-panel #ckBody{ padding-top:10px; }
+  .ck-prog{ height:5px; border-radius:3px; background:var(--ring-track); overflow:hidden; } .ck-prog i{ display:block; height:100%; background:var(--lime); transition:width .25s; }
+  .ck-meta{ display:flex; justify-content:space-between; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-dim); margin:10px 0 26px; }
+  .ck-q{ font-size:22px; font-weight:800; line-height:1.3; min-height:58px; }
+  .ck-hint{ font-size:12.5px; color:var(--down); margin-top:10px; line-height:1.5; }
+  .ck-ans{ margin-top:26px; }
+  .ck-scale{ display:flex; flex-direction:column; gap:8px; }
+  .ck-s{ display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:14px; border:1.5px solid var(--line); background:var(--card); color:var(--ink); text-align:left; }
+  .ck-s b{ font-family:var(--num-font); font-size:22px; width:22px; text-align:center; } .ck-s small{ font-size:14.5px; color:var(--ink-dim); }
+  .ck-s.on, .ck-b.on{ border-color:var(--lime); background:color-mix(in srgb, var(--lime) 18%, var(--card)); }
+  .ck-yn{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .ck-b{ padding:16px 10px; border-radius:14px; border:1.5px solid var(--line); background:var(--card); color:var(--ink); font-size:16px; font-weight:800; }
+  .ck-min{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; } .ck-min .ck-b{ padding:14px 6px; font-size:14.5px; }
+  #ckText{ width:100%; padding:14px; border-radius:14px; border:1.5px solid var(--line); background:var(--card); color:var(--ink); font-size:16px; line-height:1.5; }
+  .ck-go{ display:block; width:100%; margin-top:14px; padding:16px; border:none; border-radius:15px; background:var(--lime); color:var(--acc-ink); font-size:16px; font-weight:800; }
+  .ck-nav{ display:flex; justify-content:space-between; margin-top:22px; }
+  .ck-nav button{ border:none; background:transparent; color:var(--ink-dim); font-size:14px; font-weight:700; padding:8px 2px; } .ck-nav button:disabled{ opacity:.3; }
+  .ck-done{ width:64px; height:64px; margin:8px auto 10px; border-radius:50%; background:var(--up); color:#06130F; display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:900; }
+  .mw-box{ margin-top:12px; padding:12px; border-radius:12px; font-size:13px; line-height:1.55; color:var(--ink-dim); border:1px solid var(--line); }
+  .mw-box b{ color:var(--ink); } .mw-box.watch{ border-color:color-mix(in srgb, var(--rec-mid) 50%, transparent); } .mw-box.warn{ border-color:color-mix(in srgb, var(--rec-lo) 55%, transparent); }
+  .mw-box.ok{ border-color:color-mix(in srgb, var(--up) 40%, transparent); }
+  .mw-plan{ margin-top:8px; } .mw-plan ul{ margin:6px 0 0; padding-left:18px; } .mw-plan li{ margin:3px 0; }
+  .mw-help{ margin-top:10px; font-size:12.5px; }
+  .ol-box{ font-size:13px; line-height:1.55; color:var(--ink-dim); } .ol-box p{ margin:10px 0 0; } .ol-box b{ color:var(--ink); }
+  .ol-wx{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .ol-wx > div{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:8px; display:flex; flex-direction:column; align-items:center; gap:2px; font-size:18px; }
+  .ol-wx span{ font-size:11px; font-weight:800; color:var(--ink-dim); } .ol-wx b{ font-family:var(--num-font); font-size:16px; } .ol-wx small{ font-size:11px; color:var(--ink-dim); }
+  .man-vals{ margin:0 0 10px; } .man-vals > summary{ list-style:none; cursor:pointer; padding:14px 15px; border-radius:16px; border:1px solid var(--line); background:var(--card);
+    font-size:13.5px; font-weight:700; color:var(--ink-dim); display:flex; justify-content:space-between; }
+  .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
+  .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
+
+  /* ---------- v17.1: verschlankt ---------- */
+  .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
+  .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
+  .wk-mini-g{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+  .wk-mini-g div{ display:flex; flex-direction:column; gap:2px; } .wk-mini-g span{ font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-dim); }
+  .wk-mini-g b{ font-family:var(--num-font); font-size:17px; }
+  .mm-g{ font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim); margin:16px 4px 8px; }
+  .mm-card{ padding:4px 0 !important; }
+  .mm-row{ display:flex; align-items:center; gap:12px; width:100%; padding:12px 15px; border:none; background:transparent; color:var(--ink); text-align:left; border-top:1px solid var(--line); }
+  .mm-row:first-child{ border-top:none; }
+  .mm-ic{ flex:0 0 34px; height:34px; border-radius:10px; background:var(--bg2); display:flex; align-items:center; justify-content:center; font-size:17px; }
+  .mm-tx{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; } .mm-tx b{ font-size:14.5px; } .mm-tx small{ font-size:12px; color:var(--ink-dim); }
+  .mm-row em{ font-style:normal; font-size:20px; color:var(--ink-dim); }
+  .mm-back{ display:inline-block; margin:0 0 10px; padding:6px 2px; border:none; background:transparent; color:var(--lime); font-size:15px; font-weight:700; }
   /* ================= v14: PERFORMANCE (nach WHOOP-Vorbild) ================= */
   :root{ --num-font: ui-monospace, monospace; --rec-hi:#2BB673; --rec-mid:#E3B23C; --rec-lo:#E5484D; --strain:#3B82C4; --ring-track: color-mix(in srgb, var(--ink) 10%, transparent); }
   :root[data-theme="performance"]{
@@ -1277,7 +1365,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v15.0</span></div>
+  <div class="eyebrow">Ultimate Cut · <span style="color:var(--ink-dim)">v17.1</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1455,9 +1543,7 @@
         <select id="progDaySelect" class="prog-input" style="display:none"></select>
       </div>
       <div class="card sess-card"><div id="sessTimer"></div></div>
-      <div style="font-size:11.5px; color:var(--ink-dim); padding:0 2px 10px; line-height:1.5;">
-        Felder bleiben dauerhaft editierbar — einfach reinschreiben, der grüne Haken erscheint automatisch. Zum Korrigieren direkt überschreiben, kein Löschen nötig.
-      </div>
+
       <div id="progDataStatus" class="data-status"></div>
       <div id="progTodayList"></div>
       <div id="progDayVolume"></div>
@@ -1918,9 +2004,10 @@
   </section>
 
   <section class="view" id="view-analyse"></section>
-  <section class="view" id="view-woche"><div id="weekReport"></div></section>
+  <section class="view" id="view-wbericht"><div id="weekReport"></div></section>
   <section class="view" id="view-motivation"><div id="motivBox"></div></section>
   <section class="view" id="view-koerper"><div id="bodyAna"></div></section>
+  <section class="view" id="view-mehrmenu"><div id="mehrMenu"></div></section>
   <section class="view" id="view-einstellungen">
     <div class="card accent">
       <div class="card-title">Farbschema</div>
@@ -1985,6 +2072,13 @@
   </div>
 </div>
 
+
+<div id="ckSheet" class="as-overlay">
+  <div class="as-panel ck-panel">
+    <div class="as-head"><button class="as-close" onclick="closeCheckout()" aria-label="schließen">✕</button><div class="as-title">Abend-Checkout</div><span style="width:36px"></span></div>
+    <div class="as-scroll" id="ckBody"></div>
+  </div>
+</div>
 <div id="scoreSheet" class="as-overlay">
   <div class="as-panel">
     <div class="as-head"><button class="as-close" onclick="closeScoreSheet()" aria-label="schließen">✕</button><div class="as-title">Details</div><span style="width:36px"></span></div>
@@ -2474,9 +2568,9 @@ const navGroups = [
   {id:'food', title:'Ernährung', icon:'M6 3v8a3 3 0 006 0V3M9 11v10M17 3c-1.5 2-2 4-2 6s.5 3 2 3 2-1 2-3-.5-4-2-6zM17 12v9',
    views:[{v:'ernaehrung', label:'Tagebuch'}]},
   {id:'analyse', title:'Analyse', icon:'M3 3v18h18M7 15l4-4 3 3 5-6',
-   views:[{v:'trends', label:'Trends'},{v:'analyse', label:'Leistung'},{v:'woche', label:'Woche'},{v:'motivation', label:'Journal'},{v:'koerper', label:'Körper'}]},
+   views:[{v:'trends', label:'Trends'},{v:'analyse', label:'Leistung'},{v:'wbericht', label:'Woche'},{v:'motivation', label:'Journal'},{v:'koerper', label:'Körper'}]},
   {id:'mehr', title:'Mehr', icon:'M5 12h.01M12 12h.01M19 12h.01M5 12a1 1 0 100-.01M12 12a1 1 0 100-.01M19 12a1 1 0 100-.01',
-   views:[{v:'woche', label:'Wochenplan'},{v:'training', label:'Übungen'},{v:'roadmap', label:'Roadmap'},{v:'supps', label:'Supps'},
+   views:[{v:'mehrmenu', label:'Übersicht'},{v:'woche', label:'Wochenplan'},{v:'training', label:'Übungen'},{v:'roadmap', label:'Roadmap'},{v:'supps', label:'Supps'},
           {v:'mahlzeiten', label:'Ernährungsplan'},{v:'bewegung', label:'Prinzipien'},{v:'ziel', label:'Profil'},{v:'health', label:'Schlaf & Schritte'},{v:'einstellungen', label:'Design & Daten'}]},
 ];
 
@@ -2484,9 +2578,10 @@ const viewMeta = {
   dashboard:{title:'Cockpit', sub:'Tagesstand, Check-in & Körperwerte'},
   analyse:{title:'Analyse', sub:'Leistung, Hebel & Zusammenhänge'},
   trends:{title:'Trends', sub:'Erholung, Belastung und Schlaf im Verlauf'},
-  woche:{title:'Wochenbericht', sub:'Bilanz und Anpassungen für die neue Woche'},
+  wbericht:{title:'Wochenbericht', sub:'Bilanz und Anpassungen für die neue Woche'},
   motivation:{title:'Journal', sub:'Was deine Lust und Erholung beeinflusst'},
   koerper:{title:'Körper', sub:'Gewicht, Kalorien, Schlaf & Schritte im Verlauf'},
+  mehrmenu:{title:'Mehr', sub:'Plan, Daten und Einstellungen'},
   einstellungen:{title:'Design & Daten', sub:'Farbschema, Import & Backup'},
   woche:{title:'Wochenplan', sub:'Kalorien & Makros je Tag'},
   mahlzeiten:{title:'Musterernährung', sub:'Orientierung: Uhrzeiten & Mengen'},
@@ -2512,6 +2607,8 @@ function showView(viewId){
   document.getElementById('pageSub').textContent = meta.sub;
   document.querySelectorAll('.subnav-btn').forEach(b=>b.classList.toggle('active', b.dataset.v===viewId));
   currentViewId = viewId;
+  if (viewId === 'mehrmenu') { try { renderMehrMenu(); } catch(e) {} }
+  else if (currentGroup === 'mehr') { try { ensureMehrBack(viewId); } catch(e) {} }
   if (viewId==='dashboard') { renderDashboard(); try { renderHeute(); } catch(e) {} }
   if (viewId==='koerper') { renderDashboard(); try { renderBodyAnalysis(); } catch(e) {} }
   if (viewId==='analyse') { const ov = document.getElementById('progOverview'); if (ov) ov.style.display = 'block'; try { setupPerfSections(); showPerfSection(); } catch(e) {} try { renderOverview(); } catch(e) {} }
@@ -2519,7 +2616,7 @@ function showView(viewId){
   if (viewId==='einstellungen') renderSettings();
   if (viewId==='ernaehrung') { try { renderNutToday(); } catch(e) {} }
   if (viewId==='motivation') { try { renderMotivation(); } catch(e) {} }
-  if (viewId==='woche') { try { renderWeekReport(); } catch(e) {} }
+  if (viewId==='wbericht') { try { renderWeekReport(); } catch(e) {} }
   if (viewId==='trends') { try { renderTrends(); } catch(e) {} }
   if (viewId==='ziel') renderProfile();
   window.scrollTo(0,0);
@@ -2530,7 +2627,7 @@ function switchTab(groupId){
   const g = navGroups.find(x=>x.id===groupId);
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.id===groupId));
   const sn = document.getElementById('subNav');
-  if (g.views.length > 1) {
+  if (g.views.length > 1 && groupId !== 'mehr') {
     sn.style.display = 'flex';
     sn.classList.toggle('seg', g.views.length <= 5);
     sn.innerHTML = g.views.map(v=>`<button class="subnav-btn" data-v="${v.v}">${v.label}</button>`).join('');
@@ -2567,6 +2664,8 @@ function restructureViews(){
   });
   const st = document.getElementById('dbStrengthChart'); const sc = st && st.closest('.card');
   if (sc) sc.style.display = 'none';      // doppelt zur Analyse → Leistung
+  // doppelt zu: Gewicht (Körper-Auswertung), Kalorien (Ernährung → Auswertung), Schlaf & Schritte (eigene Verläufe, Trends)
+  ['dbWeightChart','dbKcalChart','dbSleepChart','dbStepsChart'].forEach(id => { const c = document.getElementById(id); const cd = c && c.closest('.card'); if (cd) cd.style.display = 'none'; });
   const gb = document.getElementById('goBackup');
   if (gb) gb.onclick = () => {
     switchTab('mehr'); showView('health');
@@ -5622,6 +5721,9 @@ function renderHeute(){
 
   el.innerHTML = `
     <div class="card dial-card">${dialsHTML(today)}</div>
+    ${isPast ? '' : (() => { try { return forecastCardHTML(); } catch(e) { return ''; } })()}
+    ${checkoutCardHTML(today, realToday)}
+    ${(() => { try { const w = moodWarning(today); return w && w.level !== 'ok' ? `<div class="card">${warnHTML(w)}</div>` : ''; } catch(e) { return ''; } })()}
     ${!isPast && [0, 1].includes(new Date(realToday + 'T12:00:00').getDay()) ? `<button class="wr-teaser" id="ckReport"><span>📋</span><div><b>Dein Wochenbericht ist da</b><small>Bilanz der Woche und was du nächste Woche anpassen solltest</small></div><em>›</em></button>` : ''}
     ${isPast ? `<div class="ck-past"><span>✎ Du trägst für <b>${dayLabel(today)}</b> nach</span><button id="ckToday">Zu heute</button></div>` : ''}
     <div class="card">
@@ -5641,21 +5743,10 @@ function renderHeute(){
       <button class="ck-link" id="ckFood">Ernährung ${dayLabel(today)} öffnen ›</button>
     </div>
 
-    <div class="card">
-      <div class="card-title">Check-in · ${isPast ? dayLabel(today) : "wie geht's dir heute?"}</div>
-      ${qHTML}
-      <div class="ci-flags">${fHTML}</div>
-      <details class="ci-priv"><summary>🔒 Privat</summary>
-        <div class="ci-flags">${CHECK_PRIVATE.map(([key, lbl]) => `<button class="ci-flag priv${ci[key] ? ' on' : ''}" data-f="${key}">${lbl}</button>`).join('')}</div>
-        <div class="ci-hint" style="margin-top:4px">Bleibt nur auf diesem iPhone. Nicht im Backup, außer du schließt es dort ausdrücklich ein.</div>
-      </details>
-      <input class="ci-note" id="ciNote" placeholder="Notiz (optional) — z. B. Deadline, schlecht gegessen, Reise" value="${svgEsc(ci.note || '')}">
-      <div class="ci-hint">Dauert 15 Sekunden. Nach 2–3 Wochen zeigt <b>Analyse → Journal</b>, was deine Lust, Stimmung, Erholung und deinen Fokus wirklich beeinflusst.</div>
-    </div>
 
 
-    ${protocolsCardHTML(today, isPast ? dayLabel(today) : 'heute')}
-
+    <div class="sec-h">Körper</div>
+    <details class="man-vals"><summary>Werte manuell eintragen · Schritte, Schlaf, Waage</summary>
     <div class="card">
       <div class="card-title">Schritte & Schlaf</div>
       <div class="quick-grid two">
@@ -5679,9 +5770,9 @@ function renderHeute(){
       <div class="quick-msg" id="bodyMsg"></div>
       <div class="ci-hint">Morgens nüchtern nach dem Toilettengang wiegen — so sind die Werte vergleichbar. Bioimpedanz schwankt mit dem Wasserhaushalt: auf den Trend achten, nicht auf einzelne Tage.</div>
     </div>
+    </details>
 
-    ${weekBalanceHTML(balRef)}
-    ${protocolsWeekHTML(balRef)}`;
+    ${weekMiniHTML(balRef)}`;
 
   el.querySelectorAll('.mw-chip').forEach(bt => bt.onclick = () => {
     if (bt.classList.contains('fut')) return;
@@ -5696,8 +5787,12 @@ function renderHeute(){
   const hg = document.getElementById('hkGoImport'); if (hg) hg.onclick = () => { switchTab('mehr'); showView('health'); setTimeout(() => { const b = [...document.querySelectorAll('#hlSubtabs .subtab-btn')].find(x => x.dataset.t === 'import'); if (b) b.click(); }, 50); };
   el.querySelectorAll('.dial').forEach(dl => dl.onclick = () => openScoreSheet(dl.dataset.sc, today));
   try { bindProtocols(el, today); } catch(e) {}
+  const co = document.getElementById('ckOpen'); if (co) co.onclick = () => openCheckout(co.dataset.d || today);
+  const wm = document.getElementById('wkMini'); if (wm) wm.onclick = () => { switchTab('analyse'); showView('wbericht'); reportWeekOff = cockpitWeekOff || 0; renderWeekReport(); };
+  try { bindForecast(el); } catch(e) {}
+  if (!isPast && !window._wxBusy) { window._wxBusy = true; fetchWeather(false).then(n => { window._wxBusy = false; if (n) renderHeute(); }).catch(() => { window._wxBusy = false; }); }
   const pb = document.querySelector('#pasteBox textarea'); if (pb) pb.oninput = () => { const p = parseHealthPayload(pb.value); if (p) { const r = applyHealthPayload(p, today); renderHeute(); const m = document.getElementById('quickMsg'); if (m) { m.textContent = `✓ Übernommen für ${dayLabel(r.d)}: ${r.done.join(' · ')}`; m.className = 'quick-msg c-up'; } } };
-  const rp = document.getElementById('ckReport'); if (rp) rp.onclick = () => { switchTab('analyse'); showView('woche'); reportWeekOff = new Date(realToday + 'T12:00:00').getDay() === 1 ? -1 : 0; renderWeekReport(); };
+  const rp = document.getElementById('ckReport'); if (rp) rp.onclick = () => { switchTab('analyse'); showView('wbericht'); reportWeekOff = new Date(realToday + 'T12:00:00').getDay() === 1 ? -1 : 0; renderWeekReport(); };
   const saveCI = (fn) => { const all = loadCheckins(); all[today] = all[today] || {}; fn(all[today]); all[today].ts = Date.now(); saveCheckins(all); };
   el.querySelectorAll('.ci-b').forEach(bt => bt.onclick = () => {
     const key = bt.dataset.k, v = +bt.dataset.v; let now;
@@ -5706,7 +5801,7 @@ function renderHeute(){
     const q = CHECK_Q.find(x => x[0] === key); document.getElementById('ciw-' + key).textContent = now ? q[2][now - 1] : '';
   });
   el.querySelectorAll('.ci-flag').forEach(bt => bt.onclick = () => { saveCI(o => { o[bt.dataset.f] = !o[bt.dataset.f]; }); bt.classList.toggle('on'); });
-  document.getElementById('ciNote').onchange = e => saveCI(o => { o.note = e.target.value.trim(); });
+  const cn = document.getElementById('ciNote'); if (cn) cn.onchange = e => saveCI(o => { o.note = e.target.value.trim(); });
 
   const saveQ = (key, id, conv, ok, label) => {
     const inp = document.getElementById(id);
@@ -6329,7 +6424,8 @@ function renderBodyAnalysis(){
         <div class="comp-note">Die Muskelmasse der Waage enthält das Wasser im Muskelgewebe — deshalb ist sie so viel größer als die Fettmasse.</div></div>`;
     }
   }
-  el.innerHTML = `
+  let fig = ''; try { fig = bodyFigureHTML(); } catch(e) {}
+  el.innerHTML = fig + `
     <div class="card accent"><div class="card-title">Körperzusammensetzung</div>
       <div class="ana-kpis">
         ${kv('Gewicht', S.w, 'kg', cfg.goal !== 'bulk')}
@@ -6506,10 +6602,12 @@ function setupPerfSections(){
 }
 function showPerfSection(s){
   perfSection = s || perfSection;
+  if (perfSection === 'zus') perfSection = 'hebel';
   document.querySelectorAll('#progOverview .perf-sec').forEach(x => x.style.display = x.dataset.s === perfSection ? '' : 'none');
   const bar = document.getElementById('perfTabs');
   if (bar) {
-    bar.innerHTML = PERF_SECTIONS.map(([k, l]) => `<button class="perf-tab${k === perfSection ? ' on' : ''}" data-s="${k}">${l}</button>`).join('');
+    if (perfSection === 'zus') perfSection = 'hebel';
+    bar.innerHTML = PERF_SECTIONS.filter(([k]) => k !== 'zus').map(([k, l]) => `<button class="perf-tab${k === perfSection ? ' on' : ''}" data-s="${k}">${l}</button>`).join('');
     bar.querySelectorAll('.perf-tab').forEach(b => b.onclick = () => { showPerfSection(b.dataset.s); try { renderOverview(); } catch(e) {} try { window.scrollTo({ top: 0 }); } catch(e) {} });
   }
 }
@@ -6818,6 +6916,8 @@ async function parseHealthExport(file, onProgress, sinceDate){
       const ed = a.endDate || '', h = (hkTime(ed) - hkTime(sd)) / 3.6e6;
       if (!(h > 0 && h < 16)) return;
       const n = ed.slice(0, 10), d = R.sleep[n] || (R.sleep[n] = {}); d[src] = (d[src] || 0) + h;
+      let bh = +sd.slice(11, 13) + (+sd.slice(14, 16)) / 60; if (bh < 15) bh += 24;   // 00:30 → 24,5
+      if (bh >= 19 && bh <= 30) { R.bed = R.bed || {}; if (R.bed[n] === undefined || bh < R.bed[n]) R.bed[n] = bh; }
     }
     else if (k === 'mass') { let kg = v; if (a.unit === 'lb') kg = v * 0.453592; R.mass[sd] = { v: kg, src }; }
     else if (k === 'fat') R.fat[sd] = v <= 1 ? v * 100 : v;
@@ -6880,11 +6980,13 @@ function summarizeHealth(R, anchorKg){
   Object.keys(R.hrv).forEach(d => { hrv[d] = Math.round(avg(R.hrv[d]) * 10) / 10; });
   Object.keys(R.rhr).forEach(d => { rhr[d] = Math.round(avg(R.rhr[d])); });
   const daily = {};
+  const S_sleepOk = d => R.sleep[d] && Math.max(...Object.values(R.sleep[d])) >= 2;
   const set = (d, k, v) => { (daily[d] = daily[d] || {})[k] = v; };
   Object.keys(R.sums).forEach(k => Object.keys(R.sums[k]).forEach(d => set(d, k, Math.round(Math.max(...Object.values(R.sums[k][d]))))));
   Object.keys(R.avgs).forEach(k => Object.keys(R.avgs[k]).forEach(d => set(d, k, Math.round(avg(R.avgs[k][d]) * 10) / 10)));
   Object.keys(R.resp).forEach(d => { if (R.resp[d].length >= 3) set(d, 'resp', Math.round(avg(R.resp[d]) * 10) / 10); });
   Object.keys(R.mindful).forEach(d => set(d, 'mindful', Math.round(R.mindful[d])));
+  Object.keys(R.bed || {}).forEach(d => { if (S_sleepOk(d)) set(d, 'bed', Math.round(R.bed[d] * 100) / 100); });
   Object.keys(R.wo).forEach(d => { const w = R.wo[d]; set(d, 'woS', Math.round(w.s)); set(d, 'woC', Math.round(w.c)); set(d, 'woN', w.n); set(d, 'woT', w.types); });
   return { steps, sleep, body, hrv, rhr, rejected, daily };
 }
@@ -7002,6 +7104,8 @@ const PROTOCOLS = [
     n: 'Huberman-Empfehlung gegen das Nachmittagstief. Direkte Studien dazu fehlen — probier es aus und lass das Journal entscheiden.' },
   { k: 'cafCut', l: 'Kein Koffein nach 14 Uhr', t: 'bool', ev: 'stark',
     n: 'Koffein noch 6 h vor dem Schlafen verkürzt den Schlaf messbar, auch wenn man es nicht merkt.' },
+  { k: 'lamp', l: 'Tageslichtlampe (10.000 Lux)', t: 'num', u: 'min', ev: 'stark',
+    n: 'Bei Winterdepression gut belegt: 20–30 min morgens in der ersten Stunde nach dem Aufwachen, Oktober bis März. Bei Augenerkrankungen oder bipolarer Vorgeschichte vorher ärztlich abklären.' },
   { k: 'zone2', l: 'Zone-2-Cardio', t: 'num', u: 'min', wk: 150, ev: 'stark',
     n: 'Ruhiges Ausdauertraining, bei dem du noch sprechen kannst. 150 min/Woche ist die WHO-Empfehlung — gut für Herz, VO2max und Erholung.' },
   { k: 'cold', l: 'Kälte (Dusche, Eisbad)', t: 'num', u: 'min', wk: 11, ev: 'mittel',
@@ -7086,11 +7190,15 @@ const JOURNAL_TARGETS = [
   ['lust', 'Lust auf Training', d => (loadCheckins()[d] || {}).lust || null, ' / 5'],
   ['rec', 'Erholung', d => (recoveryScore(d) || {}).score || null, ' %'],
   ['mood', 'Stimmung', d => (loadCheckins()[d] || {}).mood || null, ' / 5'],
+  ['energy', 'Energie', d => (loadCheckins()[d] || {}).energy || null, ' / 5'],
   ['focus', 'Fokus', d => (loadCheckins()[d] || {}).focus || null, ' / 5'],
+  ['joy', 'Freude', d => (loadCheckins()[d] || {}).joy || null, ' / 5'],
+  ['calm', 'Ruhe im Kopf', d => { const r = (loadCheckins()[d] || {}).rumin; return r ? 6 - r : null; }, ' / 5'],
   ['sleepQ', 'Schlafqualität', d => (loadCheckins()[d] || {}).sleepQ || null, ' / 5'],
   ['hrv', 'HRV', d => ((_js('cutplan_vitals_v1')[d]) || {}).hrv || null, ' ms'],
+  ['perf', 'Trainingsleistung', d => { const p = (window._perfCache = window._perfCache && window._perfCache.t > Date.now() - 2000 ? window._perfCache : { t: Date.now(), v: performanceByDate() }).v[d]; return p ? Math.round(p.pi * 10) / 10 : null; }, ' %'],
 ];
-const NIGHT_TARGETS = ['rec', 'sleepQ', 'hrv'];   // hier wirkt vor allem der Vortag
+const NIGHT_TARGETS = ['rec', 'sleepQ', 'hrv', 'perf'];   // hier wirkt vor allem der Vortag
 function journalFactors(tgt){
   const ci = loadCheckins(), C = d => ci[d] || {}, P = d => (ci[d] || {}).p, sl = _js('cutplan_sleep_v1'), st = _js('cutplan_steps_v1');
   const lag = NIGHT_TARGETS.includes(tgt), L = d => lag ? addDays(d, -1) : d, sfx = lag ? ' (Vortag)' : '';
@@ -7122,7 +7230,7 @@ function renderMotivation(){
   const el = document.getElementById('motivBox'); if (!el) return;
   const T = JOURNAL_TARGETS.find(t => t[0] === motivTarget) || JOURNAL_TARGETS[0], tgt = T[0], Y = T[2], unit = T[3];
   const ci = loadCheckins(), vit = _js('cutplan_vitals_v1');
-  const pool = [...new Set([...Object.keys(ci), ...Object.keys(_js('cutplan_sleep_v1')), ...Object.keys(vit)])].sort();
+  const pool = [...new Set([...Object.keys(ci), ...Object.keys(_js('cutplan_sleep_v1')), ...Object.keys(vit), ...(tgt === 'perf' ? Object.keys(performanceByDate()) : [])])].sort();
   const today = localDateStr(Date.now()), from = addDays(today, -180);
   const dates = pool.filter(d => d >= from && d <= today && Y(d) !== null && Y(d) !== undefined);
   const sw = `<div class="jr-sw">${JOURNAL_TARGETS.map(([k, l]) => `<button class="${k === tgt ? 'on' : ''}" data-t="${k}">${l}</button>`).join('')}</div>`;
@@ -7147,7 +7255,7 @@ function renderMotivation(){
   res.sort((a, b) => (b.sig - a.sig) || Math.abs(b.r) - Math.abs(a.r));
   const top = res.filter(x => x.sig && Math.abs(x.r) >= 0.2);
   const vals = dates.slice(-14).map(d => +Y(d)), avg = vals.reduce((a, b) => a + b, 0) / vals.length, tr = trendPct(vals);
-  el.innerHTML = sw + `
+  el.innerHTML = sw + (['mood', 'lust'].includes(tgt) ? forecastModelHTML() : '') + `
     <div class="card accent"><div class="card-title">${T[1]}</div><div class="ana-kpis">
       ${kpi('Ø letzte 14 Tage', fmtNum(Math.round(avg * 10) / 10) + unit, dates.length + ' Tage mit Daten')}
       ${kpi('Trend', tr === null ? '–' : fmtPct(tr) + ' / Tag', 'Richtung der letzten Tage', pctClass(tr))}</div>
@@ -7191,6 +7299,487 @@ function renderTrendsExtra(days){
   if (sun.some(v => v > 0)) svgBarChart(box('trSun'), { labels, values: sun, color: '#F5C451', overlay: [{ values: days.map(() => 30), color: ANA_COL.dim, dash: true }],
     legend: [{ name: 'Tageslicht min', color: '#F5C451' }, { name: '30 min', color: ANA_COL.dim, line: true, dash: true }], height: 180, axisFmt: v => Math.round(v) + '', valFmt: v => Math.round(v) + '' });
   else box('trSun').innerHTML = '<div class="ana-empty">Noch keine Tageslicht-Werte.</div>';
+}
+
+// ================= KÖRPER-SILHOUETTE mit Messwerten =================
+function bodyFigureHTML(){
+  const S = bodySeries(), body = loadBody();
+  const last = s => s.length ? s[s.length - 1] : null;
+  const w = last(S.w), fat = last(S.fat), mus = last(S.muscle), bf = last(S.bf), wat = last(S.water), bone = last(S.bone);
+  if (!w && !fat && !mus) return '';
+  const vis = (() => { const ds = Object.keys(body).filter(d => body[d] && body[d].visceral !== undefined).sort(); return ds.length ? body[ds[ds.length - 1]].visceral : null; })();
+  const ch = (s, goodDown) => { const c = seriesChange(s, 30); if (!c || Math.abs(c.v) < 0.05) return ''; const good = goodDown ? c.v < 0 : c.v > 0;
+    return { cls: good ? 'fig-up' : 'fig-down', t: `${c.v > 0 ? '▲' : '▼'} ${fmtNum(Math.abs(Math.round(c.v * 10) / 10))} in 30 Tagen` }; };
+  // Segmente: neueste Messung mit Segmentwerten
+  const segD = Object.keys(body).filter(d => body[d] && Object.keys(body[d]).some(k => k.startsWith('seg_'))).sort().pop();
+  const seg = segD ? body[segD] : {};
+  const sv = k => seg['seg_' + k] !== undefined ? +seg['seg_' + k] : null;
+  const has = k => sv(k) !== null;
+  const segFill = k => has(k) ? 'url(#figSeg)' : 'url(#figBase)';
+  const cut = (goal => goal !== 'bulk')((loadGoalCfg() || GOAL_DEFAULTS).goal);
+  const r1 = v => fmtNum(Math.round(v * 10) / 10);
+  // Silhouette (vorne), Mittelachse x = 170
+  const arm = 'M131 74 Q118 78 113 104 L104 190 Q106 202 116 199 L124 136 L134 104 Z';
+  const leg = 'M141 200 L169 200 L167 272 L163 344 Q156 356 147 349 L145 274 Z';
+  const torso = 'M135 66 Q170 56 205 66 L211 80 Q207 124 198 170 L202 200 L138 200 L142 170 Q133 124 129 80 Z';
+  // Beschriftung: Titel, Wert, Veränderung — Linie von der Spaltenkante zur eigenen Körperseite
+  const lbl = (side, y, title, val, chg, tx, ty) => {
+    const x = side === 'L' ? 8 : 332, anchor = side === 'L' ? 'start' : 'end', lx = side === 'L' ? 100 : 240;
+    return `<line x1="${lx}" y1="${y - 6}" x2="${tx}" y2="${ty}" class="fig-line"/><circle cx="${tx}" cy="${ty}" r="2.6" class="fig-dot"/>
+      <text x="${x}" y="${y - 18}" text-anchor="${anchor}" class="fig-k">${title}</text>
+      <text x="${x}" y="${y}" text-anchor="${anchor}" class="fig-v">${val}</text>
+      ${chg ? `<text x="${x}" y="${y + 14}" text-anchor="${anchor}" class="${chg.cls}">${chg.t}</text>` : ''}`;
+  };
+  const L = [], R = [];                                   // [Titel, Wert, Veränderung, Ziel-x, Ziel-y]
+  if (mus) L.push(['MUSKELMASSE', r1(mus.v) + ' kg', ch(S.muscle, false), 124, 112]);
+  if (fat) L.push(['FETTMASSE', r1(fat.v) + ' kg', ch(S.fat, true), 152, 150]);
+  if (w) L.push(['GEWICHT', r1(w.v) + ' kg', ch(S.w, cut), 154, 290]);
+  if (bf) R.push(['KÖRPERFETT', r1(bf.v) + ' %', ch(S.bf, true), 192, 100]);
+  if (wat) R.push(['WASSER', r1(wat.v) + ' kg', null, 194, 140]);
+  if (vis !== null) R.push(['VISZERALFETT', fmtNum(vis), null, 184, 182]);
+  if (bone) R.push(['KNOCHEN', r1(bone.v) + ' kg', null, 186, 300]);
+  // Beschriftungen in Höhe ihres Ziels, mit Mindestabstand
+  const place = arr => { let prev = -99; return arr.map(x => { const y = Math.min(350, Math.max(prev + 62, Math.max(46, x[4] + 6))); prev = y; return y; }); };
+  const ly = place(L), ry = place(R);
+  const segTxt = (k, x, y) => has(k) ? `<text x="${x}" y="${y}" text-anchor="middle" class="fig-seg">${sv(k).toFixed(1).replace('.', ',')}</text>` : '';
+  // Seitenvergleich
+  const bal = [];
+  [['armL', 'armR', 'Arm'], ['legL', 'legR', 'Bein']].forEach(([a, b, n]) => { if (has(a) && has(b)) { const d = (sv(b) - sv(a)) / ((sv(a) + sv(b)) / 2) * 100;
+    bal.push(Math.abs(d) < 3 ? `${n}e ausgeglichen` : `${n} ${d > 0 ? 'rechts' : 'links'} ${Math.round(Math.abs(d))} % stärker`); } });
+  return `<div class="card fig-card">
+    <div class="card-title">Dein Körper${w ? ' · ' + fmtDate(w.d) : ''}</div>
+    <svg viewBox="0 0 340 370" class="fig-svg" role="img" aria-label="Körperzusammensetzung">
+      <defs>
+        <linearGradient id="figBase" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--ink)" stop-opacity=".16"/><stop offset="1" stop-color="var(--ink)" stop-opacity=".06"/></linearGradient>
+        <linearGradient id="figSeg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--up)" stop-opacity=".55"/><stop offset="1" stop-color="var(--up)" stop-opacity=".22"/></linearGradient>
+        <radialGradient id="figGlow" cx=".5" cy=".38" r=".55"><stop offset="0" stop-color="var(--lime)" stop-opacity=".18"/><stop offset="1" stop-color="var(--lime)" stop-opacity="0"/></radialGradient>
+      </defs>
+      <ellipse cx="170" cy="190" rx="95" ry="175" fill="url(#figGlow)"/>
+      <g class="fig-body">
+        <circle cx="170" cy="34" r="21" fill="url(#figBase)"/>
+        <rect x="162" y="53" width="16" height="12" rx="4" fill="url(#figBase)"/>
+        <path d="${torso}" fill="${segFill('torso')}"/>
+        <path d="${arm}" fill="${segFill('armL')}"/>
+        <path d="${arm}" transform="translate(340,0) scale(-1,1)" fill="${segFill('armR')}"/>
+        <path d="${leg}" fill="${segFill('legL')}"/>
+        <path d="${leg}" transform="translate(340,0) scale(-1,1)" fill="${segFill('legR')}"/>
+      </g>
+      ${segTxt('torso', 170, 128)}${segTxt('armL', 117, 172)}${segTxt('armR', 223, 172)}${segTxt('legL', 155, 248)}${segTxt('legR', 185, 248)}
+      ${L.map((x, i) => lbl('L', ly[i], x[0], x[1], x[2], x[3], x[4])).join('')}
+      ${R.map((x, i) => lbl('R', ry[i], x[0], x[1], x[2], x[3], x[4])).join('')}
+    </svg>
+    <div class="fig-foot">${segD ? `Grün: Muskelmasse je Körperbereich in kg (${fmtDate(segD)})${bal.length ? ' · ' + bal.join(' · ') : ''}` : 'Trag im Cockpit unter „Segmente" die Muskelmasse je Körperbereich ein — dann färbt sich die Figur ein.'} </div>
+  </div>`;
+}
+
+// ================= PROGNOSE: Stimmung & Energie von morgen =================
+// Regularisierte lineare Regression (Ridge), trainiert auf deinen eigenen Tagen.
+// Robust bei wenigen Daten, erklärt ihre Gründe und wird mit jedem Tag genauer.
+const WEATHER_KEY = 'cutplan_weather_v1', LOC_KEY = 'cutplan_loc_v1';
+function loadWeather(){ return _js(WEATHER_KEY); }
+function wxIcon(c){ if (c === undefined || c === null) return '·'; if (c === 0) return '☀️'; if (c <= 2) return '🌤'; if (c === 3) return '☁️'; if (c <= 48) return '🌫'; if (c <= 67 || (c >= 80 && c <= 82)) return '🌧'; if (c <= 77 || c === 85 || c === 86) return '❄️'; return '⛈'; }
+function wxText(c){ if (c === undefined || c === null) return ''; if (c === 0) return 'sonnig'; if (c <= 2) return 'heiter'; if (c === 3) return 'bedeckt'; if (c <= 48) return 'Nebel'; if (c <= 67 || (c >= 80 && c <= 82)) return 'Regen'; if (c <= 77 || c === 85 || c === 86) return 'Schnee'; return 'Gewitter'; }
+async function fetchWeather(force){
+  const loc = _js(LOC_KEY); if (!loc.lat) return false;
+  const meta = _js('cutplan_weather_meta_v1');
+  if (!force && meta.t && Date.now() - meta.t < 3 * 3600e3) return false;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,sunshine_duration,daylight_duration&hourly=surface_pressure&past_days=92&forecast_days=3&timezone=auto`;
+  const r = await fetch(url); if (!r.ok) throw new Error('Wetterdienst nicht erreichbar');
+  const j = await r.json(), W = loadWeather(), dd = j.daily || {};
+  const pr = {}; (j.hourly && j.hourly.time || []).forEach((t, i) => { const d = t.slice(0, 10), v = j.hourly.surface_pressure[i]; if (v !== null) (pr[d] = pr[d] || []).push(v); });
+  (dd.time || []).forEach((d, i) => {
+    W[d] = { code: dd.weather_code[i], tmax: dd.temperature_2m_max[i], tmin: dd.temperature_2m_min[i], rain: dd.precipitation_sum[i],
+      sun: Math.round((dd.sunshine_duration[i] || 0) / 360) / 10, dayLen: Math.round((dd.daylight_duration[i] || 0) / 360) / 10,
+      pr: pr[d] ? Math.round(pr[d].reduce((a, b) => a + b, 0) / pr[d].length * 10) / 10 : null };
+  });
+  localStorage.setItem(WEATHER_KEY, JSON.stringify(W));
+  localStorage.setItem('cutplan_weather_meta_v1', JSON.stringify({ t: Date.now() }));
+  return true;
+}
+async function setLocation(mode, name){
+  if (mode === 'gps') {
+    const pos = await new Promise((ok, no) => navigator.geolocation.getCurrentPosition(ok, no, { timeout: 10000, maximumAge: 3600e3 }));
+    localStorage.setItem(LOC_KEY, JSON.stringify({ lat: Math.round(pos.coords.latitude * 100) / 100, lon: Math.round(pos.coords.longitude * 100) / 100, name: 'Mein Standort' }));
+  } else {
+    const r = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(name)}&count=1&language=de`);
+    const j = await r.json(); const g = j.results && j.results[0]; if (!g) throw new Error('Ort nicht gefunden');
+    localStorage.setItem(LOC_KEY, JSON.stringify({ lat: Math.round(g.latitude * 100) / 100, lon: Math.round(g.longitude * 100) / 100, name: g.name }));
+  }
+  await fetchWeather(true);
+}
+
+// ---------- Merkmale eines Tages D (alles, was bis zum Morgen von D bekannt ist) ----------
+const FC_FEATURES = [
+  ['sleep', 'Schlaf letzte Nacht', 'h'], ['bed', 'Bettzeit', 'Uhr'], ['bedReg', 'Unregelmäßige Bettzeit', 'h'],
+  ['hrv', 'HRV', 'ms'], ['rhr', 'Ruhepuls', 'bpm'], ['strain', 'Belastung gestern', ''], ['steps', 'Schritte gestern', ''],
+  ['kcal', 'Kalorien gestern', 'kcal'], ['protein', 'Eiweiß gestern', 'g'], ['alc', 'Alkohol gestern', ''],
+  ['moodY', 'Stimmung gestern', ''], ['energyY', 'Energie gestern', ''], ['stressY', 'Stress gestern', ''],
+  ['ruminY', 'Grübeln gestern', ''], ['joyY', 'Freude gestern', ''], ['lamp', 'Tageslichtlampe gestern', 'min'],
+  ['sun', 'Morgenlicht gestern', ''], ['daylight', 'Tageslicht gestern', 'min'], ['cafCut', 'Koffein-Stopp 14 Uhr gestern', ''],
+  ['eveLight', 'Abendlicht gedimmt gestern', ''], ['social', 'Soziale Zeit gestern', ''], ['move', 'Zone 2 / Ausdauer gestern', 'min'],
+  ['wxSun', 'Sonnenstunden', 'h'], ['wxRain', 'Regen', 'mm'], ['wxTemp', 'Höchsttemperatur', '°C'], ['wxPr', 'Luftdruck-Änderung', 'hPa'],
+  ['dayLen', 'Tageslänge', 'h'], ['off', 'Freier Tag / Wochenende', ''],
+];
+function fcFeatures(D){
+  const y = addDays(D, -1), ci = loadCheckins(), cD = ci[D] || {}, cY = ci[y] || {}, pY = cY.p || {};
+  const sl = _js('cutplan_sleep_v1'), vit = _js('cutplan_vitals_v1'), st = _js('cutplan_steps_v1'), hx = _js('cutplan_hkdaily_v1'), W = loadWeather();
+  const f = {};
+  if (sl[D] && sl[D].h) f.sleep = +sl[D].h;
+  const bedOf = d => hx[d] && hx[d].bed !== undefined ? hx[d].bed : null;
+  if (bedOf(D) !== null) { f.bed = bedOf(D); const prev = [1, 2, 3, 4, 5, 6, 7].map(i => bedOf(addDays(D, -i))).filter(v => v !== null);
+    if (prev.length >= 3) f.bedReg = Math.abs(f.bed - prev.reduce((a, b) => a + b, 0) / prev.length); }
+  if (vit[D]) { if (vit[D].hrv) f.hrv = vit[D].hrv; if (vit[D].rhr) f.rhr = vit[D].rhr; }
+  const s = strainScore(y); if (s) f.strain = s.score;
+  if (st[y]) f.steps = +st[y];
+  const t = intakeOf(y); if (t) { f.kcal = t.kcal; f.protein = t.p; }
+  if (Object.keys(cD).length) f.alc = cD.alc ? 1 : 0;
+  if (cY.mood) f.moodY = cY.mood; if (cY.energy) f.energyY = cY.energy; if (cY.stress) f.stressY = cY.stress;
+  if (cY.rumin) f.ruminY = cY.rumin; if (cY.joy) f.joyY = cY.joy; if (Object.keys(cY).length) f.lamp = +pY.lamp || 0;
+  if (Object.keys(cY).length) { f.sun = pY.sun ? 1 : 0; f.cafCut = pY.cafCut ? 1 : 0; f.eveLight = pY.eveLight ? 1 : 0; f.social = pY.social ? 1 : 0; }
+  if (hx[y] && hx[y].daylight !== undefined) f.daylight = hx[y].daylight;
+  const mv = (+pY.zone2 || 0) + ((hx[y] || {}).woC || 0); if (mv || Object.keys(cY).length || hx[y]) f.move = mv;
+  const w = W[D], wy = W[y];
+  if (w) { f.wxSun = w.sun; f.wxRain = w.rain; f.wxTemp = w.tmax; f.dayLen = w.dayLen; if (w.pr !== null && wy && wy.pr !== null) f.wxPr = Math.round((w.pr - wy.pr) * 10) / 10; }
+  const wd = new Date(D + 'T12:00:00').getDay(); f.off = (cD.off || wd === 0 || wd === 6) ? 1 : 0;
+  return f;
+}
+// ---------- Ridge-Regression ----------
+function solve(A, b){                                            // Gauß-Elimination mit Pivotsuche
+  const n = b.length, M = A.map((r, i) => [...r, b[i]]);
+  for (let c = 0; c < n; c++) {
+    let p = c; for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+    [M[c], M[p]] = [M[p], M[c]]; const d = M[c][c] || 1e-9;
+    for (let r = 0; r < n; r++) if (r !== c) { const k = M[r][c] / d; for (let k2 = c; k2 <= n; k2++) M[r][k2] -= k * M[c][k2]; }
+  }
+  return M.map((r, i) => r[n] / (r[i] || 1e-9));
+}
+function ridgeFit(X, y, lam){
+  const p = X[0].length, XtX = Array.from({ length: p }, () => Array(p).fill(0)), Xty = Array(p).fill(0);
+  X.forEach((r, i) => { for (let a = 0; a < p; a++) { Xty[a] += r[a] * y[i]; for (let b = 0; b < p; b++) XtX[a][b] += r[a] * r[b]; } });
+  for (let a = 0; a < p; a++) XtX[a][a] += lam;
+  return solve(XtX, Xty);
+}
+let _fcCache = {};
+function trainForecast(target){                                 // target: 'mood' | 'energy'
+  const key = target + '|' + Object.keys(loadCheckins()).length + '|' + localDateStr(Date.now());
+  if (_fcCache[key]) return _fcCache[key];
+  const ci = loadCheckins(), today = localDateStr(Date.now());
+  const days = Object.keys(ci).filter(d => d >= addDays(today, -365) && ci[d][target]).sort();
+  const rows = days.map(d => ({ d, f: fcFeatures(d), y: ci[d][target] }));
+  const res = { target, n: rows.length, ready: false };
+  const ys = rows.map(r => r.y); res.mean = ys.length ? ys.reduce((a, b) => a + b, 0) / ys.length : 3;
+  if (rows.length < 14) { _fcCache[key] = res; return res; }
+  // nur Merkmale nutzen, die in mindestens 40 % der Tage vorkommen und variieren
+  const feats = FC_FEATURES.map(x => x[0]).filter(k => { const v = rows.map(r => r.f[k]).filter(v => v !== undefined); return v.length >= rows.length * 0.4 && Math.max(...v) > Math.min(...v); });
+  const stat = {}; feats.forEach(k => { const v = rows.map(r => r.f[k]).filter(v => v !== undefined), m = v.reduce((a, b) => a + b, 0) / v.length;
+    stat[k] = { m, s: Math.sqrt(v.reduce((a, b) => a + (b - m) ** 2, 0) / v.length) || 1 }; });
+  const Z = f => feats.map(k => f[k] === undefined ? 0 : (f[k] - stat[k].m) / stat[k].s);   // fehlende Werte = eigener Durchschnitt
+  const X = rows.map(r => Z(r.f)), yc = rows.map(r => r.y - res.mean);
+  // Regularisierung per Kreuzvalidierung wählen, Güte ehrlich messen (Leave-one-out)
+  let best = null;
+  [2, 5, 10, 25, 60].forEach(lam => {
+    let err = 0; for (let i = 0; i < X.length; i++) { const w = ridgeFit(X.filter((_, j) => j !== i), yc.filter((_, j) => j !== i), lam);
+      const pred = res.mean + X[i].reduce((a, v, j) => a + v * w[j], 0); err += Math.abs(Math.max(1, Math.min(5, pred)) - rows[i].y); }
+    err /= X.length; if (!best || err < best.err) best = { lam, err };
+  });
+  const w = ridgeFit(X, yc, best.lam);
+  let base = 0, pers = 0, np = 0; rows.forEach((r, i) => { base += Math.abs(res.mean - r.y); if (r.f[target + 'Y'] !== undefined) { pers += Math.abs(r.f[target + 'Y'] - r.y); np++; } });
+  const resid = rows.map((r, i) => r.y - (res.mean + X[i].reduce((a, v, j) => a + v * w[j], 0)));
+  Object.assign(res, { ready: true, feats, stat, w, lam: best.lam, mae: best.err, maeBase: base / rows.length, maePers: np ? pers / np : null,
+    sd: Math.sqrt(resid.reduce((a, b) => a + b * b, 0) / resid.length), Z });
+  _fcCache = { [key]: res, ...Object.fromEntries(Object.entries(_fcCache).filter(([k]) => !k.startsWith(target))) };
+  return res;
+}
+// Vorhersage für Tag D mit Begründung; Annahmen für noch unbekannte Werte (z. B. Schlaf heute Nacht)
+function predictDay(target, D, assume){
+  const m = trainForecast(target), f = Object.assign(fcFeatures(D), assume || {});
+  if (!m.ready) return { ready: false, n: m.n, mean: m.mean, f };
+  const z = m.Z(f), contrib = m.feats.map((k, j) => ({ k, c: z[j] * m.w[j], v: f[k] })).filter(x => x.v !== undefined && Math.abs(x.c) > 0.02).sort((a, b) => Math.abs(b.c) - Math.abs(a.c));
+  const val = Math.max(1, Math.min(5, m.mean + z.reduce((a, v, j) => a + v * m.w[j], 0)));
+  return { ready: true, val, sd: m.sd, contrib, m, f };
+}
+// Was-wäre-wenn: Effekt einer Stunde mehr Schlaf laut deinem Modell
+function sleepEffect(target){ const m = trainForecast(target); if (!m.ready || !m.feats.includes('sleep')) return null; return m.w[m.feats.indexOf('sleep')] / m.stat.sleep.s; }
+
+// ---------- Tipps ----------
+function fcTips(D, preds, evening){
+  const tips = [], f = preds[0].f, W = loadWeather(), w = W[D], cfg = loadGoalCfg() || {};
+  const neg = new Set(); preds.forEach(p => (p.contrib || []).filter(x => x.c < -0.05).forEach(x => neg.add(x.k)));
+  const G = evening ? 'heute' : 'gestern';
+  const add = (k, ic, t) => { if (!tips.some(x => x[0] === k)) tips.push([k, ic, t]); };
+  const need = sleepNeed(D).need, wake = cfg.wake || '06:30', [wh, wm] = wake.split(':').map(Number);
+  const bedMin = ((wh * 60 + wm - Math.round(need * 60) - 15) + 1440) % 1440, bed = String(Math.floor(bedMin / 60)).padStart(2, '0') + ':' + String(bedMin % 60).padStart(2, '0');
+  const se = sleepEffect('energy');
+  if (evening) add('bed', '🌙', `Heute um <b>${bed}</b> ins Bett — dein Schlafbedarf liegt bei ${fmtNum(need)} h.${se && se > 0.05 ? ` Laut deinen Daten bringt jede Stunde mehr Schlaf etwa <b>+${fmtNum(Math.round(se * 10) / 10)}</b> Energie am nächsten Tag.` : ''}`);
+  if (!evening && f.sleep !== undefined && f.sleep < 6.8) add('nap', '😴', `Kurze Nacht (${fmtNum(f.sleep)} h): 10–20 min NSDR am frühen Nachmittag, Koffein nur bis 14 Uhr, Training moderat.`);
+  if (neg.has('hrv') || (f.hrv && preds[0].m && preds[0].m.stat && preds[0].m.stat.hrv && f.hrv < preds[0].m.stat.hrv.m * 0.85)) add('hrv', '💓', 'HRV unter deinem Schnitt: heute eher Technik und Zone 2 statt schwerer Sätze.');
+  if (neg.has('strain') || (f.strain && f.strain >= 15)) add('strain', '🧘', `Hohe Belastung ${G}: Mobility und lockeres Gehen helfen mehr als ein weiteres hartes Training.`);
+  if (neg.has('alc') || f.alc) add('alc', '🍷', 'Alkohol drückt bei dir Erholung und Energie — heute bewusst verzichten.');
+  if (w && (w.sun < 2 || w.rain > 2)) add('wx', wxIcon(w.code), `${evening ? 'Morgen' : 'Heute'} ${wxText(w.code)}${w.rain > 0.5 ? `, ${fmtNum(w.rain)} mm Regen` : ''}: trotzdem in der ersten Stunde 15–20 min raus — draußen ist es selbst bei Wolken viel heller als drinnen.`);
+  else if (w && w.sun >= 5) add('wx', wxIcon(w.code), `${evening ? 'Morgen' : 'Heute'} ${fmtNum(w.sun)} h Sonne: Morgenlicht und ein Spaziergang in der Mittagspause sind ein einfacher Stimmungsbooster.`);
+  if (neg.has('wxPr') && f.wxPr !== undefined && f.wxPr < -4) add('pr', '🌀', 'Der Luftdruck fällt deutlich — bei dir gehen solche Tage mit weniger Energie einher. Plane anspruchsvolle Aufgaben eher vormittags.');
+  if (neg.has('stressY') || (f.stressY && f.stressY >= 4)) add('stress', '🫁', `Viel Stress ${G}: 5 min zyklisches Seufzen am Morgen und eine echte Pause am Nachmittag.`);
+  if (neg.has('protein') || (f.protein !== undefined && f.protein < (goalsForDate(D).p || 180) * 0.8)) add('prot', '🥩', `Eiweiß war ${G} zu niedrig — starte mit 40 g Eiweiß ins Frühstück.`);
+  if (neg.has('sun') || neg.has('daylight')) add('sun', '☀️', 'Morgenlicht hängt bei dir mit besserer Stimmung zusammen — 10–20 min in der ersten Stunde.');
+  if (neg.has('eveLight') || neg.has('cafCut')) add('eve', '💡', 'Koffein nur bis 14 Uhr und abends Licht dimmen — das schützt deinen Schlaf.');
+  if (neg.has('social')) add('social', '🤝', 'Soziale Zeit tut dir messbar gut — plane bewusst ein Treffen oder Telefonat ein.');
+  if (neg.has('bedReg')) add('reg', '⏰', 'Unregelmäßige Bettzeiten kosten dich Energie — heute zur gewohnten Zeit schlafen gehen.');
+  if (neg.has('steps') || neg.has('move')) add('move', '🚶', `Mehr Bewegung hebt bei dir die Werte am Folgetag — 20 min Spaziergang nach dem Essen.`);
+  return tips.slice(0, evening ? 4 : 3);
+}
+function fcLabel(v){ return v >= 4.2 ? 'sehr gut' : v >= 3.6 ? 'gut' : v >= 2.9 ? 'mittel' : v >= 2.2 ? 'eher niedrig' : 'niedrig'; }
+function forecastCardHTML(){
+  const now = new Date(), today = localDateStr(Date.now()), evening = now.getHours() >= 17;
+  const D = evening ? addDays(today, 1) : today;
+  const assume = evening ? { sleep: sleepNeed(D).need } : {};
+  const pm = predictDay('mood', D, assume), pe = predictDay('energy', D, assume);
+  const loc = _js(LOC_KEY), w = loadWeather()[D];
+  const n = Math.max(pm.n || 0, pe.n || 0);
+  const tips = fcTips(D, [pm, pe], evening);
+  const val = p => p.ready ? `<b>${fmtNum(Math.round(p.val * 10) / 10)}</b><small>${fcLabel(p.val)}</small>` : `<b>–</b><small>lernt noch</small>`;
+  return `<div class="card fc-card">
+    <div class="fc-head"><div class="card-title" style="margin:0">${evening ? 'Prognose für morgen' : 'Prognose für heute'}</div>
+      ${w ? `<div class="fc-wx">${wxIcon(w.code)} ${Math.round(w.tmax)}° <small>${fmtNum(w.sun)} h Sonne</small></div>` : ''}</div>
+    <div class="fc-vals"><div><span>Stimmung</span>${val(pm)}</div><div><span>Energie</span>${val(pe)}</div></div>
+    ${pm.ready || pe.ready ? `<div class="fc-why">${[pm, pe].filter(p => p.ready).map(p => p.contrib.slice(0, 2)).flat().filter((x, i, a) => a.findIndex(y => y.k === x.k) === i).slice(0, 3)
+      .map(x => { const F = FC_FEATURES.find(z => z[0] === x.k); const lb = evening && x.k === 'sleep' ? `Schlaf heute Nacht (${fmtNum(assume.sleep)} h angenommen)` : evening ? F[1].replace(/ gestern$/, ' heute') : F[1];
+        return `<span class="${x.c > 0 ? 'c-up' : 'c-down'}">${x.c > 0 ? '▲' : '▼'} ${lb}</span>`; }).join(' ')}</div>`
+      : `<div class="fc-learn">Das Modell lernt aus deinen Check-ins (Stimmung und Energie). Noch ${Math.max(0, 14 - n)} Tage bis zur ersten Prognose — bis dahin Tipps nach Studienlage.</div>`}
+    ${tips.length ? `<div class="fc-tips">${tips.map(([k, ic, t]) => `<div><span>${ic}</span><p>${t}</p></div>`).join('')}</div>` : ''}
+    ${loc.lat ? '' : `<div class="fc-loc"><span>Wetter einbeziehen?</span><button id="fcGps">📍 Standort</button><input id="fcCity" placeholder="oder Ort"><button id="fcCityGo">OK</button></div>`}
+  </div>`;
+}
+function bindForecast(root){
+  const msg = t => { const c = root.querySelector('.fc-loc span'); if (c) c.textContent = t; };
+  const g = root.querySelector('#fcGps'); if (g) g.onclick = async () => { msg('Suche Standort …'); try { await setLocation('gps'); renderHeute(); } catch(e) { msg('Standort nicht verfügbar — Ort eingeben'); } };
+  const c = root.querySelector('#fcCityGo'); if (c) c.onclick = async () => { const v = root.querySelector('#fcCity').value.trim(); if (!v) return; msg('Suche …'); try { await setLocation('city', v); renderHeute(); } catch(e) { msg(e.message); } };
+}
+// Modell-Details fürs Journal
+function forecastModelHTML(){
+  const ms = ['mood', 'energy'].map(trainForecast);
+  if (!ms.some(m => m.ready)) return `<div class="card"><div class="card-title">Prognose-Modell</div><div class="ana-note" style="margin-top:0">Lernt aus deinen täglichen Check-ins. Ab 14 Tagen mit Stimmung und Energie erstellt es die ersten Prognosen, danach wird es mit jedem Tag genauer. Bisher: ${Math.max(...ms.map(m => m.n))} Tage.</div></div>`;
+  return `<div class="card"><div class="card-title">Prognose-Modell · lernt aus deinen Tagen</div>
+    ${ms.filter(m => m.ready).map(m => {
+      const name = m.target === 'mood' ? 'Stimmung' : 'Energie', gain = Math.round((1 - m.mae / m.maeBase) * 100);
+      // nur Merkmale zeigen, die spürbar wirken (≥ 25 % des stärksten) — kleine Gewichte sind meist Rauschen
+      const all = m.feats.map((k, j) => ({ k, w: m.w[j] })).sort((a, b) => Math.abs(b.w) - Math.abs(a.w));
+      const top = all.filter(x => Math.abs(x.w) >= Math.abs(all[0].w) * 0.25).slice(0, 5);
+      return `<div class="fm-row"><div class="fm-top"><b>${name}</b><span>${m.n} Tage · Ø Fehler ${fmtNum(Math.round(m.mae * 100) / 100)} Punkte</span></div>
+        <div class="fm-q ${gain > 5 ? 'c-up' : 'c-down'}">${gain > 5 ? `${gain} % genauer als Raten mit deinem Durchschnitt` : 'noch nicht genauer als Raten — braucht mehr Tage'}${m.maePers ? ` · „wie gestern" läge bei ${fmtNum(Math.round(m.maePers * 100) / 100)}` : ''}</div>
+        <div class="fm-feat">${top.map(t => { const F = FC_FEATURES.find(z => z[0] === t.k); return `<span class="${t.w > 0 ? 'c-up' : 'c-down'}">${t.w > 0 ? '▲' : '▼'} ${F[1]}</span>`; }).join('')}</div></div>`;
+    }).join('')}
+    <details class="ex"><summary>Wie funktioniert das?</summary><div>Eine regularisierte lineare Regression, trainiert nur auf deinen eigenen Tagen. Sie schätzt Stimmung und Energie aus allem, was bis zum Morgen bekannt ist — Schlaf, HRV, Belastung, Ernährung, Protokolle, Stress, Wetter und Wochentag. Die Genauigkeit misst sie ehrlich, indem sie jeden Tag vorhersagt, ohne ihn vorher gesehen zu haben. ▲ heißt: mehr davon geht bei dir mit höheren Werten einher. Mit jedem Check-in lernt sie dazu.</div></details>
+  </div>`;
+}
+
+// ================= ABEND-CHECKOUT: eine Frage nach der anderen =================
+const SC = {
+  mood: ['sehr schlecht', 'gedrückt', 'neutral', 'gut', 'sehr gut'], energy: ['leer', 'müde', 'okay', 'fit', 'voller Energie'],
+  joy: ['gar nicht', 'kaum', 'etwas', 'deutlich', 'sehr'], rumin: ['gar nicht', 'wenig', 'mittel', 'viel', 'ständig'],
+  focus: ['vernebelt', 'unklar', 'okay', 'klar', 'messerscharf'], stress: ['keiner', 'wenig', 'mittel', 'hoch', 'extrem'],
+  satisf: ['sehr unzufrieden', 'unzufrieden', 'neutral', 'zufrieden', 'sehr zufrieden'], lust: ['keine', 'gering', 'mittel', 'groß', 'riesig'],
+  sore: ['keiner', 'leicht', 'spürbar', 'stark', 'heftig'], sleepQ: ['sehr schlecht', 'schlecht', 'okay', 'gut', 'sehr gut'],
+};
+// Antworten lesen/schreiben — in den bisherigen Datenfeldern, damit keine Auswertung verloren geht
+const ckGet = (d, k) => (loadCheckins()[d] || {})[k];
+const ckSet = (d, k, v) => { const a = loadCheckins(); a[d] = a[d] || {}; if (v === undefined || v === null) delete a[d][k]; else a[d][k] = v; a[d].ts = Date.now(); saveCheckins(a); };
+const pGet = (d, k) => ((loadCheckins()[d] || {}).p || {})[k];
+const pSet = (d, k, v) => { const a = loadCheckins(); a[d] = a[d] || {}; a[d].p = a[d].p || {}; if (v === undefined || v === null || v === false || v === 0) delete a[d].p[k]; else a[d].p[k] = v; a[d].ts = Date.now(); saveCheckins(a); };
+const trainedToday = d => { try { return loadSessions().some(s => s.date === d) || workoutCandidates(d).length > 0; } catch(e) { return false; } };
+const CK_QUESTIONS = [
+  { b: 'Wie war dein Tag?', id: 'mood', q: 'Wie war deine Stimmung heute insgesamt?', t: 'scale' },
+  { b: 'Wie war dein Tag?', id: 'joy', q: 'Wie viel Freude oder Interesse hattest du heute an den Dingen, die du gemacht hast?', t: 'scale' },
+  { b: 'Wie war dein Tag?', id: 'energy', q: 'Wie viel Energie hattest du heute?', t: 'scale' },
+  { b: 'Kopf', id: 'focus', q: 'Wie klar war dein Kopf heute — konntest du dich gut konzentrieren?', t: 'scale' },
+  { b: 'Kopf', id: 'rumin', q: 'Wie sehr hast du heute gegrübelt oder dir Sorgen gemacht?', t: 'scale' },
+  { b: 'Kopf', id: 'stress', q: 'Wie hoch war dein Stress heute?', t: 'scale' },
+  { b: 'Kopf', id: 'satisf', q: 'Wie zufrieden bist du mit dem heutigen Tag?', t: 'scale' },
+  { b: 'Körper', id: 'sleepQ', q: 'Wie gut hast du letzte Nacht geschlafen?', t: 'scale' },
+  { b: 'Körper', id: 'sore', q: 'Wie stark ist dein Muskelkater?', t: 'scale' },
+  { b: 'Körper', id: 'lust', q: 'Wie viel Lust hattest du heute auf Training?', t: 'scale' },
+  { b: 'Körper', id: 'sick', q: 'Fühlst du dich krank oder angeschlagen?', t: 'yesno', get: d => ckGet(d, 'sick'), set: (d, v) => ckSet(d, 'sick', v || undefined) },
+  { b: 'Körper', id: 'off', q: 'War heute ein freier Tag?', t: 'yesno', get: d => ckGet(d, 'off'), set: (d, v) => ckSet(d, 'off', v || undefined) },
+  { b: 'Genuss', id: 'alc', q: 'Hast du heute Alkohol getrunken?', t: 'yesno',
+    get: d => ckGet(addDays(d, 1), 'alc'), set: (d, v) => ckSet(addDays(d, 1), 'alc', v || undefined) },   // wirkt auf morgen
+  { b: 'Genuss', id: 'cafLate', q: 'Hattest du nach 14 Uhr noch Koffein?', t: 'yesno',
+    get: d => pGet(d, 'cafCut') === undefined && ckGet(d, 'mood') === undefined ? undefined : !pGet(d, 'cafCut'), set: (d, v) => pSet(d, 'cafCut', !v) },
+  { b: 'Genuss', id: 'caf90', q: 'Hast du mit dem ersten Kaffee mindestens 90 Minuten nach dem Aufwachen gewartet?', t: 'yesno', get: d => pGet(d, 'caf90'), set: (d, v) => pSet(d, 'caf90', v) },
+  { b: 'Genuss', id: 'coffee', q: 'Hattest du vor dem Training Koffein?', t: 'yesno', when: trainedToday, get: d => ckGet(d, 'coffee'), set: (d, v) => ckSet(d, 'coffee', v || undefined) },
+  { b: 'Licht & Bewegung', id: 'sun', q: 'Warst du in der ersten Stunde nach dem Aufstehen draußen im Tageslicht?', t: 'yesno', get: d => pGet(d, 'sun'), set: (d, v) => pSet(d, 'sun', v) },
+  { b: 'Licht & Bewegung', id: 'lamp', q: 'Wie viele Minuten hast du eine Tageslichtlampe genutzt?', t: 'min', when: d => { const m = +d.slice(5, 7); return m >= 10 || m <= 3; }, get: d => pGet(d, 'lamp'), set: (d, v) => pSet(d, 'lamp', v) },
+  { b: 'Licht & Bewegung', id: 'zone2', q: 'Wie viele Minuten lockeres Ausdauertraining (Zone 2) hattest du?', t: 'min', get: d => pGet(d, 'zone2'), set: (d, v) => pSet(d, 'zone2', v) },
+  { b: 'Erholung', id: 'nsdr', q: 'Wie viele Minuten Meditation, NSDR oder Yoga Nidra?', t: 'min', get: d => pGet(d, 'nsdr'), set: (d, v) => pSet(d, 'nsdr', v) },
+  { b: 'Erholung', id: 'sigh', q: 'Hast du heute eine Atemübung gemacht, z. B. 5 Minuten zyklisches Seufzen?', t: 'yesno', get: d => pGet(d, 'sigh'), set: (d, v) => pSet(d, 'sigh', v) },
+  { b: 'Erholung', id: 'cold', q: 'Wie viele Minuten Kälte (Dusche, Eisbad)?', t: 'min', get: d => pGet(d, 'cold'), set: (d, v) => pSet(d, 'cold', v),
+    hint: d => trainedToday(d) ? 'Hinweis: Nach dem Krafttraining bremst Kälte innerhalb von 6 Stunden den Muskelaufbau.' : '' },
+  { b: 'Erholung', id: 'sauna', q: 'Wie viele Minuten Sauna?', t: 'min', get: d => pGet(d, 'sauna'), set: (d, v) => pSet(d, 'sauna', v) },
+  { b: 'Menschen & Sinn', id: 'social', q: 'Hattest du heute echte Zeit mit Menschen, die dir guttun, oder in der Natur?', t: 'yesno', get: d => pGet(d, 'social'), set: (d, v) => pSet(d, 'social', v) },
+  { b: 'Menschen & Sinn', id: 'grat', q: 'Wofür bist du heute dankbar? Drei Dinge — kurz notieren.', t: 'text', opt: true,
+    get: d => ckGet(d, 'gratText'), set: (d, v) => { ckSet(d, 'gratText', v || undefined); pSet(d, 'grat', !!(v && v.trim())); } },
+  { b: 'Menschen & Sinn', id: 'note', q: 'Was hat dir heute Energie gegeben — und was hat sie dir genommen?', t: 'text', opt: true, get: d => ckGet(d, 'note'), set: (d, v) => ckSet(d, 'note', v || undefined) },
+  { b: 'Heute Abend', id: 'eveLight', q: 'Dimmst du heute ab etwa 21 Uhr Licht und Bildschirme?', t: 'yesno', get: d => pGet(d, 'eveLight'), set: (d, v) => pSet(d, 'eveLight', v) },
+  { b: 'Heute Abend', id: 'lastMeal', q: 'Liegt deine letzte Mahlzeit mindestens 2–3 Stunden vor dem Schlafen?', t: 'yesno', get: d => pGet(d, 'lastMeal'), set: (d, v) => pSet(d, 'lastMeal', v) },
+  { b: 'Heute Abend', id: 'wake', q: 'Bist du heute zu deiner üblichen Zeit aufgestanden (± 30 Minuten)?', t: 'yesno', get: d => pGet(d, 'wake'), set: (d, v) => pSet(d, 'wake', v) },
+  { b: 'Privat 🔒', id: 'privAsk', q: 'Möchtest du die privaten Fragen beantworten? Sie bleiben nur auf diesem iPhone.', t: 'yesno', opt: true, get: () => undefined, set: () => {} },
+  { b: 'Privat 🔒', id: 'sexA', q: 'Hattest du in den letzten 24 Stunden Sex?', t: 'yesno', when: (d, A) => A.privAsk === true, get: d => ckGet(d, 'sexA'), set: (d, v) => ckSet(d, 'sexA', v || undefined) },
+  { b: 'Privat 🔒', id: 'sexM', q: 'Und Selbstbefriedigung?', t: 'yesno', when: (d, A) => A.privAsk === true, get: d => ckGet(d, 'sexM'), set: (d, v) => ckSet(d, 'sexM', v || undefined) },
+];
+CK_QUESTIONS.forEach(x => { if (x.t === 'scale') { x.get = d => ckGet(d, x.id); x.set = (d, v) => ckSet(d, x.id, v); x.labels = SC[x.id]; } });
+let CK = null;
+function openCheckout(day){
+  day = day || ((typeof cockpitDate !== 'undefined' && cockpitDate) || localDateStr(Date.now()));
+  CK = { day, i: 0, A: {} };
+  document.getElementById('ckSheet').classList.add('open'); document.body.classList.add('as-lock');
+  ckNext(0);
+}
+function closeCheckout(){ document.getElementById('ckSheet').classList.remove('open'); document.body.classList.remove('as-lock'); CK = null; try { renderHeute(); } catch(e) {} }
+function ckVisible(){ return CK_QUESTIONS.filter(x => !x.when || x.when(CK.day, CK.A)); }
+function ckNext(dir){
+  const qs = ckVisible();
+  if (dir) CK.i += dir;
+  if (CK.i < 0) CK.i = 0;
+  if (CK.i >= qs.length) return ckFinish();
+  const x = qs[CK.i], cur = x.get(CK.day), body = document.getElementById('ckBody');
+  const pct = Math.round(CK.i / qs.length * 100);
+  let ans = '';
+  if (x.t === 'scale') ans = `<div class="ck-scale">${[1, 2, 3, 4, 5].map(v => `<button class="ck-s${cur === v ? ' on' : ''}" data-v="${v}"><b>${v}</b><small>${x.labels[v - 1]}</small></button>`).join('')}</div>`;
+  else if (x.t === 'yesno') ans = `<div class="ck-yn"><button class="ck-b${cur === true ? ' on' : ''}" data-v="1">Ja</button><button class="ck-b${cur === false ? ' on' : ''}" data-v="0">Nein</button></div>`;
+  else if (x.t === 'min') ans = `<div class="ck-min">${[0, 5, 10, 15, 20, 30, 45, 60, 90].map(v => `<button class="ck-b${(+cur || 0) === v && cur !== undefined ? ' on' : ''}" data-v="${v}">${v === 0 ? 'keine' : v + ' min'}</button>`).join('')}</div>`;
+  else ans = `<textarea id="ckText" rows="4" placeholder="Stichworte genügen …">${cur ? svgEsc(cur) : ''}</textarea><button class="ck-go" id="ckTextGo">Weiter</button>`;
+  const hint = x.hint ? x.hint(CK.day) : '';
+  body.innerHTML = `
+    <div class="ck-prog"><i style="width:${pct}%"></i></div>
+    <div class="ck-meta"><span>${x.b}</span><span>${CK.i + 1} / ${qs.length}</span></div>
+    <div class="ck-q">${x.q}</div>
+    ${hint ? `<div class="ck-hint">${hint}</div>` : ''}
+    <div class="ck-ans">${ans}</div>
+    <div class="ck-nav"><button id="ckBack" ${CK.i ? '' : 'disabled'}>‹ Zurück</button><button id="ckSkip">${x.opt ? 'Überspringen' : 'Weiß nicht'} ›</button></div>`;
+  body.querySelector('.ck-q').animate([{ opacity: 0, transform: 'translateX(14px)' }, { opacity: 1, transform: 'none' }], { duration: 180 });
+  const answer = v => { CK.A[x.id] = v; x.set(CK.day, v); setTimeout(() => ckNext(1), 160); };
+  body.querySelectorAll('.ck-s').forEach(b => b.onclick = () => { b.classList.add('on'); answer(+b.dataset.v); });
+  body.querySelectorAll('.ck-yn .ck-b').forEach(b => b.onclick = () => { b.classList.add('on'); answer(b.dataset.v === '1'); });
+  body.querySelectorAll('.ck-min .ck-b').forEach(b => b.onclick = () => { b.classList.add('on'); answer(+b.dataset.v); });
+  const tg = document.getElementById('ckTextGo'); if (tg) tg.onclick = () => answer(document.getElementById('ckText').value.trim());
+  document.getElementById('ckBack').onclick = () => ckNext(-1);
+  document.getElementById('ckSkip').onclick = () => { if (x.id === 'privAsk') CK.A.privAsk = false; ckNext(1); };
+}
+function ckFinish(){
+  ckSet(CK.day, 'checkout', Date.now());
+  const day = CK.day, today = localDateStr(Date.now()), D = addDays(day, 1);
+  const assume = { sleep: sleepNeed(D).need };
+  let pm = { ready: false }, pe = { ready: false }; try { pm = predictDay('mood', D, assume); pe = predictDay('energy', D, assume); } catch(e) {}
+  const tips = (() => { try { return fcTips(D, [pm, pe], true); } catch(e) { return []; } })();
+  const warn = moodWarning(day), w = loadWeather()[D];
+  const v = p => p.ready ? `<b>${fmtNum(Math.round(p.val * 10) / 10)}</b><small>${fcLabel(p.val)}</small>` : '<b>–</b><small>lernt noch</small>';
+  document.getElementById('ckBody').innerHTML = `
+    <div class="ck-done">✓</div><div class="ck-q" style="text-align:center">Danke — Checkout für ${dayLabel(day)} gespeichert.</div>
+    <div class="sc-sec">Prognose für ${day === today ? 'morgen' : fmtDate(D)}${w ? ` · ${wxIcon(w.code)} ${Math.round(w.tmax)}°` : ''}</div>
+    <div class="fc-vals"><div><span>Stimmung</span>${v(pm)}</div><div><span>Energie</span>${v(pe)}</div></div>
+    ${tips.length ? `<div class="fc-tips">${tips.map(([k, ic, t]) => `<div><span>${ic}</span><p>${t}</p></div>`).join('')}</div>` : ''}
+    ${warn ? warnHTML(warn) : ''}
+    ${outlookHTML(day)}
+    <button class="ck-go" onclick="closeCheckout()">Fertig · Gute Nacht 🌙</button>`;
+}
+
+// ---------- Frühwarnung: letzte 7 Tage gegen deinen eigenen Normalzustand ----------
+function moodIndex(c){ const v = []; if (c.mood) v.push(c.mood); if (c.energy) v.push(c.energy); if (c.joy) v.push(c.joy); if (c.rumin) v.push(6 - c.rumin); if (c.focus) v.push(c.focus); return v.length >= 2 ? v.reduce((a, b) => a + b, 0) / v.length : null; }
+function moodWarning(ref){
+  const ci = loadCheckins(); ref = ref || localDateStr(Date.now());
+  const base = [], rec = [];
+  for (let i = 0; i < 90; i++) { const d = addDays(ref, -i), m = moodIndex(ci[d] || {}); if (m === null) continue; if (i < 7) rec.push({ d, m, c: ci[d] }); else base.push(m); }
+  if (base.length < 10 || rec.length < 3) return null;
+  const mu = base.reduce((a, b) => a + b, 0) / base.length, sd = Math.max(0.35, Math.sqrt(base.reduce((a, b) => a + (b - mu) ** 2, 0) / base.length));
+  const rm = rec.reduce((a, b) => a + b.m, 0) / rec.length, z = (rm - mu) / sd;
+  const low = rec.filter(x => x.m <= mu - 0.75 * sd).length;
+  const ruminHigh = rec.filter(x => x.c.rumin >= 4).length, fog = rec.filter(x => x.c.focus && x.c.focus <= 2).length;
+  const level = (z <= -1 || low >= 5) ? 'warn' : (z <= -0.5 || low >= 3 || ruminHigh >= 3) ? 'watch' : 'ok';
+  return { level, z, low, n: rec.length, ruminHigh, fog, mu, rm };
+}
+function personalLevers(){
+  try { const m = trainForecast('mood'); if (!m.ready) return [];
+    const ACT = ['sleep', 'bed', 'bedReg', 'alc', 'sun', 'daylight', 'social', 'move', 'steps', 'protein', 'kcal', 'cafCut', 'eveLight', 'lamp', 'strain'];
+    return m.feats.map((k, j) => ({ k, w: m.w[j] })).filter(x => ACT.includes(x.k) && Math.abs(x.w) > 0.08).sort((a, b) => Math.abs(b.w) - Math.abs(a.w)).slice(0, 3)
+      .map(x => { const F = FC_FEATURES.find(z => z[0] === x.k); return (x.w > 0 ? 'mehr ' : 'weniger ') + F[1].replace(/ gestern$/, ''); }); } catch(e) { return []; }
+}
+function warnHTML(w){
+  if (w.level === 'ok') return `<div class="mw-box ok"><b>Stimmungslage stabil.</b> Deine letzten ${w.n} Tage liegen im Bereich deines Normalzustands.</div>`;
+  const lev = personalLevers();
+  return `<div class="mw-box ${w.level}"><b>${w.level === 'warn' ? 'Frühwarnung: Deine Stimmung liegt seit einigen Tagen deutlich unter deinem Normalzustand.' : 'Achtsam sein: Deine Werte sinken leicht.'}</b>
+    ${w.ruminHigh >= 3 ? ' Du grübelst mehr als sonst.' : ''}${w.fog >= 2 ? ' Dein Kopf ist öfter unklar.' : ''}
+    <div class="mw-plan"><b>Dein Gegenplan für die nächsten Tage:</b><ul>
+      ${lev.length ? `<li>Was bei <i>dir</i> nachweislich hilft: ${lev.join(', ')}.</li>` : ''}
+      <li>Feste Aufsteh- und Bettzeiten — auch am Wochenende.</li>
+      <li>Jeden Morgen 20–30 min Licht: draußen oder mit Tageslichtlampe.</li>
+      <li>Bewegung jeden Tag, auch wenn es nur ein Spaziergang ist.</li>
+      <li>Mindestens einen Menschen treffen oder anrufen, dem du vertraust.</li>
+      <li>Alkohol in dieser Phase ganz weglassen.</li>
+    </ul></div>
+    ${w.level === 'warn' ? '<div class="mw-help">Hält das länger als zwei Wochen an oder wird es schwerer, sprich bitte mit deinem Hausarzt oder einer Psychotherapeutin. Wenn es sich sehr dunkel anfühlt: Die Telefonseelsorge ist rund um die Uhr erreichbar, 0800 111 0 111.</div>' : ''}
+  </div>`;
+}
+// Wochenausblick: Tageslicht-Trend, Jahreszeit, aktuelle Lage
+function outlookHTML(ref){
+  const W = loadWeather(), m = +ref.slice(5, 7), win = m >= 10 || m <= 2;
+  const dl = [0, 7].map(i => (W[addDays(ref, i)] || {}).dayLen).filter(v => v !== undefined);
+  const days = [1, 2, 3].map(i => addDays(ref, i)).filter(d => W[d]);
+  return `<div class="sc-sec">Ausblick</div><div class="ol-box">
+    ${days.length ? `<div class="ol-wx">${days.map(d => `<div><span>${WD_SHORT[new Date(d + 'T12:00:00').getDay()]}</span>${wxIcon(W[d].code)}<b>${Math.round(W[d].tmax)}°</b><small>${fmtNum(W[d].sun)} h ☀</small></div>`).join('')}</div>` : ''}
+    ${win ? `<p><b>Winter-Vorsorge:</b> Die Tage werden ${dl.length === 2 && dl[1] < dl[0] ? `kürzer (${fmtNum(dl[0])} h Tageslicht)` : 'kurz'}. Weil deine schwierigen Phasen bisher im Januar und Februar lagen: Jetzt ist der richtige Zeitpunkt, vorzubeugen — Morgenlicht oder eine Tageslichtlampe täglich, feste Schlafzeiten, Bewegung und Verabredungen fest einplanen.</p>` : ''}
+  </div>`;
+}
+// Cockpit-Karte
+function checkoutCardHTML(day, realToday){
+  const c = loadCheckins()[day] || {}, done = !!c.checkout, ev = new Date().getHours() >= 17;
+  const yMiss = day === realToday && !ev && !(loadCheckins()[addDays(day, -1)] || {}).checkout;
+  if (done) {
+    const keys = [['mood', 'Stimmung'], ['energy', 'Energie'], ['joy', 'Freude'], ['rumin', 'Grübeln'], ['stress', 'Stress']].filter(([k]) => c[k]);
+    return `<div class="card ck-card done"><div class="ck-c-top"><div><div class="card-title" style="margin:0">Checkout ✓</div><div class="ck-c-sub">${dayLabel(day).replace(/^./, s => s.toUpperCase())}</div></div>
+      <button class="ck-c-btn ghost" id="ckOpen">Bearbeiten</button></div>
+      <div class="ck-c-vals">${keys.map(([k, l]) => `<span>${l} <b>${c[k]}</b></span>`).join('')}</div></div>`;
+  }
+  return `<div class="card ck-card${ev || day !== realToday ? ' hot' : ''}"><div class="ck-c-top"><div>
+      <div class="card-title" style="margin:0">${yMiss ? 'Checkout von gestern fehlt' : 'Abend-Checkout'}</div>
+      <div class="ck-c-sub">${yMiss ? 'Kurz nachholen — dauert 2 Minuten' : ev || day !== realToday ? 'Ca. 2 Minuten · danach deine Prognose für morgen' : 'Heute Abend · ab 17 Uhr'}</div></div>
+      <button class="ck-c-btn" id="ckOpen" ${yMiss ? `data-d="${addDays(day, -1)}"` : ''}>🌙 Starten</button></div></div>`;
+}
+
+
+// Kompakte Wochenübersicht fürs Cockpit — Details stehen im Wochenbericht
+function weekMiniHTML(ref){
+  const mon = mondayOf(ref), days = []; for (let i = 0; i < 7; i++) { const d = addDays(mon, i); if (d <= ref) days.push(d); }
+  const st = _js('cutplan_steps_v1'), sl = _js('cutplan_sleep_v1'), avg = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
+  const kc = avg(days.map(intakeOf).filter(Boolean).map(t => t.kcal)), kg = goalsForDate(ref).kcal;
+  const s = avg(days.filter(d => st[d]).map(d => +st[d])), h = avg(days.filter(d => sl[d] && sl[d].h).map(d => +sl[d].h));
+  const tr = Object.keys(weekWorkoutStatus(ref).done).length;
+  const cell = (l, v, ok) => `<div><span>${l}</span><b class="${ok === null ? '' : ok ? 'c-up' : 'c-down'}">${v}</b></div>`;
+  return `<button class="card wk-mini" id="wkMini">
+    <div class="wk-mini-h"><span class="card-title" style="margin:0">Woche im Überblick</span><em>Wochenbericht ›</em></div>
+    <div class="wk-mini-g">
+      ${cell('Trainings', tr + ' / 7', null)}
+      ${cell('Ø kcal', kc ? Math.round(kc).toLocaleString('de-DE') : '–', kc ? Math.abs(kc - kg) <= kg * 0.07 : null)}
+      ${cell('Ø Schritte', s ? (Math.round(s / 100) / 10).toString().replace('.', ',') + 'k' : '–', s ? s >= 11400 : null)}
+      ${cell('Ø Schlaf', h ? fmtNum(Math.round(h * 10) / 10) + ' h' : '–', h ? h >= 7 : null)}
+    </div></button>`;
+}
+
+
+// ---------- Mehr: Menüliste statt neun Reiter ----------
+const MEHR_MENU = [
+  ['Dein Plan', [['woche', '📅', 'Wochenplan', 'Trainingstage und Ablauf'], ['training', '🏋️', 'Übungen', 'Technik und Hinweise je Übung'], ['mahlzeiten', '🥗', 'Ernährungsplan', 'Musterernährung und Tagesziele'],
+    ['supps', '💊', 'Supplements', 'Was wirkt, wann und wie viel'], ['roadmap', '🗺️', 'Roadmap', 'Phasen bis zum Ziel'], ['bewegung', '📖', 'Prinzipien', 'Die Grundlagen hinter dem Plan']]],
+  ['Daten', [['health', '😴', 'Schlaf & Schritte', 'Verläufe, Einträge, Apple-Health-Import, Backup'], ['ziel', '👤', 'Profil', 'Größe, Alter, Ziele']]],
+  ['App', [['einstellungen', '⚙️', 'Design & Daten', 'Farbschema, App-Sperre, Kurzbefehl']]],
+];
+function renderMehrMenu(){
+  const el = document.getElementById('mehrMenu'); if (!el) return;
+  el.innerHTML = MEHR_MENU.map(([g, items]) => `<div class="mm-g">${g}</div><div class="card mm-card">${items.map(([v, ic, t, s]) =>
+    `<button class="mm-row" data-v="${v}"><span class="mm-ic">${ic}</span><span class="mm-tx"><b>${t}</b><small>${s}</small></span><em>›</em></button>`).join('')}</div>`).join('');
+  el.querySelectorAll('.mm-row').forEach(b => b.onclick = () => { showView(b.dataset.v); try { window.scrollTo({ top: 0 }); } catch(e) {} });
+}
+function ensureMehrBack(viewId){
+  const sec = document.getElementById('view-' + viewId); if (!sec || sec.querySelector(':scope > .mm-back')) return;
+  const b = document.createElement('button'); b.className = 'mm-back'; b.textContent = '‹ Mehr';
+  b.onclick = () => showView('mehrmenu'); sec.insertBefore(b, sec.firstChild);
 }
 
 refreshProgressSafeCopy();

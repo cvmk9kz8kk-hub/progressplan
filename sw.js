@@ -1,5 +1,5 @@
 // Service Worker — Offline-Betrieb & Installation
-const CACHE = 'cutplan-v15-0';
+const CACHE = 'cutplan-v17-1';
 const ASSETS = [
   './manifest.json',
   './icon-180.png',
@@ -26,6 +26,9 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = e.request.url;
+
+  // Wetter: immer live, nie aus dem Cache (sonst rechnet die Prognose mit altem Wetter)
+  if (url.includes('open-meteo.com')) { e.respondWith(fetch(e.request)); return; }
 
   // Lebensmittel-Suche: immer live, nie aus dem Cache
   if (url.includes('openfoodfacts.org')) {
