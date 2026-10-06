@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v20.2: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v20.3: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v20.2: Cockpit kompakter ---------- */
+  /* ---------- v20.3: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1292,7 +1292,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v20.2: verschlankt ---------- */
+  /* ---------- v20.3: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1400,6 +1400,12 @@
 
   #scText{ width:100%; box-sizing:border-box; padding:12px; border-radius:12px; border:1.5px solid var(--line); background:var(--card); color:var(--ink); font-size:15px; line-height:1.45; }
   .sc-tbtns{ display:grid; grid-template-columns:1fr 2fr; gap:8px; margin-top:8px; }
+
+  .cr-crumb{ display:flex; justify-content:space-between; align-items:center; min-height:28px; } .cr-crumb button{ border:none; background:transparent; color:var(--lime); font-size:15px; font-weight:700; padding:4px 0; }
+  .cr-crumb span{ font-size:9px; letter-spacing:3px; color:var(--lime); }
+  .sf-row{ display:grid; grid-template-columns:1.7fr 1fr .65fr; gap:6px; margin-bottom:6px; }
+  .sf-row input{ min-width:0; padding:10px 9px; border-radius:9px; border:1px solid var(--line); background:var(--bg2); color:var(--ink); font-size:15px; }
+  .sf-row .sf-a{ font-family:var(--num-font); text-align:right; } .sf-row .sf-u{ text-align:center; color:var(--ink-dim); }
   /* ================= v14: PERFORMANCE (nach WHOOP-Vorbild) ================= */
   :root{ --num-font: ui-monospace, monospace; --rec-hi:#2BB673; --rec-mid:#E3B23C; --rec-lo:#E5484D; --strain:#3B82C4; --ring-track: color-mix(in srgb, var(--ink) 10%, transparent); }
   :root[data-theme="performance"]{
@@ -1458,7 +1464,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.2</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.3</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1845,7 +1851,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
             <span>Lebensmittel suchen</span>
           </button>
-          <button class="scan-btn" title="Verpackung fotografieren" onclick="openScan('food')" aria-label="Neues Lebensmittel per Foto">
+          <button class="scan-btn" title="Verpackung fotografieren" onclick="openCreate('root')" aria-label="Neues Lebensmittel oder Supplement anlegen">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
           </button>
           <button id="scanBtn" class="scan-btn" title="Barcode scannen">
@@ -2176,7 +2182,7 @@
 
 <div id="scanSheet" class="as-overlay">
   <div class="as-panel">
-    <div class="as-head"><button class="as-close" onclick="closeScan()" aria-label="schließen">✕</button><div class="as-title">Neu per Foto</div><span style="width:36px"></span></div>
+    <div class="as-head"><button class="as-close" onclick="closeScan()" aria-label="schließen">✕</button><div class="as-title">Neu anlegen</div><span style="width:36px"></span></div>
     <div class="as-scroll" id="scanBody"></div>
   </div>
 </div>
@@ -8004,7 +8010,7 @@ function renderMoment(){
       <div class="ci-hint">Je öfter du das in unterschiedlichen Momenten machst, desto genauer erkennt die App, wann und warum du unruhig wirst.</div>`
     : `<div class="mo-time">Antippen = jetzt eingenommen (${hhmm} Uhr)</div>
       ${loadArr(SUPP_KEY).length ? `<div class="sc-sec" style="margin-top:4px">Meine Supplements</div><div class="mo-int">${loadArr(SUPP_KEY).map(sp => `<button data-i="supp:${sp.id}"><span>💊</span><b>${svgEsc(sp.n)}</b><small>1 ${svgEsc(sp.unit)}</small></button>`).join('')}</div><div class="sc-sec">Schnellauswahl</div>` : ''}
-      <div class="mo-int">${INTAKES.map(([k, ic, l, mg]) => `<button data-i="${k}"><span>${ic}</span><b>${l}</b>${mg ? `<small>${mg} mg Koffein</small>` : ''}</button>`).join('')}<button onclick="closeMoment(); openScan('supplement')"><span>📷</span><b>Neues Supplement</b><small>per Foto</small></button></div>
+      <div class="mo-int">${INTAKES.map(([k, ic, l, mg]) => `<button data-i="${k}"><span>${ic}</span><b>${l}</b>${mg ? `<small>${mg} mg Koffein</small>` : ''}</button>`).join('')}<button onclick="closeMoment(); openCreate('supp')"><span>＋</span><b>Neues Supplement</b><small>anlegen</small></button></div>
       <div class="sc-sec">Heute</div>
       <div class="mo-list">${ints.length ? ints.slice().reverse().map((x, i) => { const sp = x.k.startsWith('supp:') ? loadArr(SUPP_KEY).find(y => 'supp:' + y.id === x.k) : null; const I = sp ? ['', '💊', sp.n] : (INTAKES.find(y => y[0] === x.k) || ['', '•', x.k]); const t = new Date(x.ts);
         return `<div><span>${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}</span><b>${I[1]} ${I[2]}</b><button data-del="${x.ts}">✕</button></div>`; }).join('') : '<div class="ci-hint">Noch nichts eingetragen.</div>'}</div>
@@ -8394,10 +8400,10 @@ function scanReview(){
   b.innerHTML = `<div class="ck-q" style="min-height:0;margin:4px 0 6px">Kurz prüfen</div><div class="ci-hint" style="margin:0 0 12px">Alles korrigierbar. Erst mit „Speichern" landet es in deiner Datenbank.</div>
     <label class="sr-f wide"><span>Name</span><input id="srN" value="${svgEsc(d.name || '')}"></label>
     <label class="sr-f wide"><span>Marke</span><input id="srB" value="${svgEsc(d.brand || '')}"></label>
-    ${food ? `<div class="sc-sec">Pro 100 g</div><div class="sr-grid">
+    ${food ? `<div class="sc-sec">Pro 100 ${SCAN.drink ? 'ml' : 'g'}</div><div class="sr-grid">
         ${num('srK', 'Kalorien', p.kcal, 'kcal')}${num('srP', 'Eiweiß', p.protein, 'g')}${num('srC', 'Kohlenhydrate', p.carbs, 'g')}${num('srS', 'davon Zucker', p.sugar, 'g')}
         ${num('srF', 'Fett', p.fat, 'g')}${num('srSF', 'davon gesättigt', p.satfat, 'g')}${num('srFi', 'Ballaststoffe', p.fiber, 'g')}${num('srSa', 'Salz', p.salt, 'g')}</div>
-      <div class="sc-sec">Portion (optional)</div><div class="sr-grid"><label class="sr-f"><span>Bezeichnung</span><input id="srPl" value="${svgEsc((d.serving || {}).label || '')}"></label>${num('srPg', 'Gewicht', (d.serving || {}).grams, 'g')}</div>`
+      <div class="sc-sec">Portion (optional)</div><div class="sr-grid"><label class="sr-f"><span>Bezeichnung</span><input id="srPl" value="${svgEsc((d.serving || {}).label || '')}"></label>${num('srPg', SCAN.drink ? 'Menge (ml)' : 'Gewicht (g)', (d.serving || {}).grams, SCAN.drink ? 'ml' : 'g')}</div>`
     : `<div class="sr-grid"><label class="sr-f"><span>Einheit</span><input id="srU" value="${svgEsc(s.unit || 'Kapsel')}"></label>${num('srSpd', 'Empfohlen pro Tag', s.servingsPerDay || 1, 'Stück')}${num('srCaf', 'Koffein je Einheit', s.caffeineMg || '', 'mg')}</div>
       <div class="sc-sec">Inhaltsstoffe je Einheit</div>
       <div id="srRows">${(s.perServing || []).map((x, i) => `<div class="sr-row"><input value="${svgEsc(x.name)}" data-r="${i}" data-c="name"><input inputmode="decimal" value="${x.amount ?? ''}" data-r="${i}" data-c="amount"><input value="${svgEsc(x.unit || 'mg')}" data-r="${i}" data-c="unit"></div>`).join('')}</div>
@@ -8423,7 +8429,7 @@ function scanReview(){
     }
     b.innerHTML = `<div class="ck-done">✓</div><div class="ck-q" style="text-align:center">„${svgEsc(name)}" gespeichert.</div>
       <div class="ci-hint" style="text-align:center">${food ? 'Du findest es ab sofort in der Lebensmittel-Suche.' : 'Du findest es ab sofort unter „＋ Jetzt" → Einnahme. Die App rechnet die Inhaltsstoffe in deine Tageswerte ein.'}</div>
-      <button class="ck-go" onclick="closeScan()">Fertig</button><button class="ck-c-btn ghost" style="width:100%;margin-top:10px" onclick="openScan('${SCAN.kind}')">Nächstes Produkt</button>`;
+      <button class="ck-go" onclick="closeScan()">Fertig</button><button class="ck-c-btn ghost" style="width:100%;margin-top:10px" onclick="openCreate('${SCAN.kind === 'food' ? 'food' : 'supp'}')">Nächstes anlegen</button>`;
   };
 }
 
@@ -8532,7 +8538,7 @@ function renderMyDb(){
   const el = document.getElementById('myDbBox'); if (!el) return;
   const F = loadCustomFoods().filter(f => !f.origin || f.origin === 'photo'), S = loadArr(SUPP_KEY), brands = loadCustomFoods().length - F.length;
   persistStatus().then(ok => { const s = document.getElementById('dbPersist'); if (s) s.innerHTML = ok ? '✓ iOS hat dauerhaften Speicher gewährt.' : 'iOS garantiert den Speicher nicht dauerhaft — sichere regelmäßig ein Backup.'; });
-  el.innerHTML = `<div class="card"><div class="db-acts"><button class="ck-c-btn" id="dbScanF">📷 Lebensmittel per Foto</button><button class="ck-c-btn" id="dbScanS">📷 Supplement per Foto</button></div>
+  el.innerHTML = `<div class="card"><div class="db-acts"><button class="ck-c-btn" id="dbScanF">＋ Lebensmittel</button><button class="ck-c-btn" id="dbScanS">＋ Supplement</button></div>
       <div class="ci-hint" id="dbPersist"></div><button class="ck-c-btn ghost" id="dbBackup" style="width:100%;margin-top:8px">🛡 Backup in Dateien sichern</button>
       <label class="ck-c-btn ghost" style="display:block;text-align:center;margin-top:8px">↺ Backup aus Datei wiederherstellen<input type="file" id="dbRestore" accept=".json,application/json" hidden></label>
       <div class="ci-hint">KI-Erkennung: ${localStorage.getItem(KZ_KEY) ? '✓ API-Schlüssel hinterlegt · <a href="#" id="dbKeyDel">entfernen</a>' : 'kein API-Schlüssel — wird beim ersten Foto abgefragt'}</div></div>
@@ -8540,7 +8546,7 @@ function renderMyDb(){
       ${F.length ? F.map(f => `<div class="db-row"><div><b>${svgEsc(f.n)}</b><small>${f.brand ? svgEsc(f.brand) + ' · ' : ''}${f.kcal} kcal · E ${fmtNum(f.p)} · K ${fmtNum(f.c)} · F ${fmtNum(f.f)} je 100 g${f.origin === 'photo' ? ' · 📷' : ''}</small></div><button data-df="${svgEsc(f.n)}">✕</button></div>`).join('') : '<div class="ci-hint">Noch keine eigenen Lebensmittel.</div>'}</div>
     <div class="card"><div class="card-title">Meine Supplements · ${S.length}</div>
       ${S.length ? S.map(s => `<div class="db-row"><div><b>${svgEsc(s.n)}</b><small>${s.brand ? svgEsc(s.brand) + ' · ' : ''}je ${svgEsc(s.unit)}: ${s.items.map(i => `${svgEsc(i.name)} ${fmtNum(i.amount)} ${svgEsc(i.unit)}`).join(', ') || '—'}</small></div><button data-ds="${s.id}">✕</button></div>`).join('') : '<div class="ci-hint">Noch keine Supplements — fotografiere die Verpackung.</div>'}</div>`;
-  document.getElementById('dbScanF').onclick = () => openScan('food'); document.getElementById('dbScanS').onclick = () => openScan('supplement');
+  document.getElementById('dbScanF').onclick = () => openCreate('food'); document.getElementById('dbScanS').onclick = () => openCreate('supp');
   document.getElementById('dbBackup').onclick = () => shareBackup(false).then(renderMyDb).catch(() => {});
   document.getElementById('dbRestore').onchange = async (ev) => { const f = ev.target.files && ev.target.files[0]; if (!f) return;
     try { const dump = JSON.parse(await f.text()); if (!confirm('Backup vom ' + (f.name.match(/\d{4}-\d\d-\d\d/) || ['unbekannten Datum'])[0] + ' wiederherstellen? Aktuelle Daten werden ersetzt.')) return; restoreBackup(dump); alert('Wiederhergestellt — die App lädt neu.'); location.reload(); }
@@ -8583,7 +8589,8 @@ function parseLabelText(raw){
   }
   const nut = Object.keys(per100).filter(k => k !== 'kcal').length;
   // Supplement-Angaben: "Magnesium 375 mg", "Vitamin D3 20 µg 400 %"
-  const SKIP = /brennwert|energie|kcal|kj|fett|kohlenhydrat|zucker|eiwei|protein|salz|ballast|portion|tagesdosis|verzehr|nrv|referenz|zutaten|füllstoff|überzug|kapselhülle/i;
+  // Nährwert-Zeilen nur am Zeilenanfang ausschließen — "Omega-3-Fettsäuren" ist ein Inhaltsstoff, "Fett 9 g" nicht
+  const SKIP = /^\s*(brennwert|energie|fett\b|davon|kohlenhydrat|zucker|eiwei|protein\b|salz|ballast)|kcal|\bkj\b|portion|tagesdosis|verzehr|nrv|referenz|zutaten|füllstoff|überzug|kapselhülle/i;
   const items = [];
   lines.forEach(l => { const m = l.replace(/(\d)\s*,\s*(\d)/g, '$1.$2').match(/^([A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß0-9\-\s().\/]{1,40}?)\s*[:\s]\s*(\d+(?:\.\d+)?)\s*(mg|µg|ug|mcg|g|ie|i\.e\.|iu)\b/i);
     if (!m || SKIP.test(m[1])) return; const unit = m[3].toLowerCase().replace('ug', 'µg').replace('mcg', 'µg').replace('i.e.', 'IE').replace('ie', 'IE').replace('iu', 'IE');
@@ -8596,6 +8603,126 @@ function parseLabelText(raw){
   return { kind, name, brand: '', per100: nut || per100.kcal ? per100 : null, serving,
     supplement: kind === 'supplement' ? { unit: /tablette/i.test(text) ? 'Tablette' : /tropfen/i.test(text) ? 'Tropfen' : /messlöffel|scoop/i.test(text) ? 'Messlöffel' : 'Kapsel', perServing: items, servingsPerDay: perDay } : null,
     found: nut + (per100.kcal ? 1 : 0) + items.length };
+}
+
+// ================= NEU ANLEGEN: geführt, Frage für Frage =================
+const CREATE_TREE = {
+  root: ['Was möchtest du anlegen?', [['food', '🍎', 'Lebensmittel'], ['drink', '🥤', 'Getränk'], ['supp', '💊', 'Nahrungsergänzung']]],
+  food: ['Welche Art Lebensmittel?', [['f:milk', '🥛', 'Milchprodukt'], ['f:meat', '🍗', 'Fleisch & Fisch'], ['f:grain', '🍞', 'Brot & Getreide'], ['f:fruit', '🥦', 'Obst & Gemüse'],
+    ['f:bar', '🍫', 'Riegel & Snack'], ['f:protein', '🥤', 'Proteinpulver'], ['f:meal', '🍲', 'Fertiggericht'], ['f:other', '➕', 'Etwas anderes']]],
+  drink: ['Welches Getränk?', [['d:coffee', '☕', 'Kaffee & Tee'], ['d:soft', '🥫', 'Energy & Softdrink'], ['d:juice', '🧃', 'Saft & Smoothie'], ['d:milk', '🥛', 'Milch & Shake'], ['d:other', '➕', 'Etwas anderes']]],
+  supp: ['Welche Art Nahrungsergänzung?', [['s:omega3', '🐟', 'Omega-3'], ['vit', '🍊', 'Vitamine'], ['min', '🪨', 'Mineralstoffe'], ['sleep', '🌙', 'Schlaf & Entspannung'],
+    ['sport', '💪', 'Kreatin & Sport'], ['s:pre', '⚡', 'Pre-Workout & Koffein'], ['amino', '🧬', 'Aminosäuren'], ['s:other', '➕', 'Etwas anderes']]],
+  vit: ['Welches Vitamin?', [['s:multi', '🌈', 'Multivitamin'], ['s:vitd', '☀️', 'Vitamin D (+ K2)'], ['s:vitc', '🍋', 'Vitamin C'], ['s:vitb', '🅱️', 'B-Komplex / B12'], ['s:other', '➕', 'Anderes Vitamin']]],
+  min: ['Welcher Mineralstoff?', [['s:mag', '🌙', 'Magnesium'], ['s:zinc', '🛡', 'Zink'], ['s:iron', '🩸', 'Eisen'], ['s:calcium', '🦴', 'Calcium'], ['s:electro', '💧', 'Elektrolyte'], ['s:other', '➕', 'Anderer Mineralstoff']]],
+  sleep: ['Was genau?', [['s:melatonin', '🌙', 'Melatonin'], ['s:herbal', '🌿', 'Pflanzlich (Baldrian, Melisse …)'], ['s:theanine', '🍵', 'L-Theanin'], ['s:ashwa', '🌱', 'Ashwagandha'],
+    ['s:glycine', '😴', 'Glycin / GABA'], ['s:sleepcombo', '🧩', 'Kombi-Präparat']]],
+  sport: ['Was genau?', [['s:creatine', '💪', 'Kreatin'], ['s:betaala', '⚡', 'Beta-Alanin'], ['s:citrulline', '🫀', 'Citrullin'], ['s:other', '➕', 'Etwas anderes']]],
+  amino: ['Welche Aminosäuren?', [['s:eaa', '🧬', 'EAA / BCAA'], ['s:glutamine', '🔹', 'Glutamin'], ['s:glycine', '😴', 'Glycin'], ['s:taurine', '🔸', 'Taurin']]],
+};
+const FOOD_TPL = { milk: ['1 Becher', 150], meat: ['1 Portion', 150], grain: ['1 Scheibe', 50], fruit: ['1 Stück', 120], bar: ['1 Riegel', 45], protein: ['1 Messlöffel', 30], meal: ['1 Packung', 400], other: ['', null],
+  coffee: ['1 Tasse', 200], soft: ['1 Dose', 250], juice: ['1 Glas', 250], dmilk: ['1 Flasche', 330], dother: ['', null] };
+const SUPP_TPL = {
+  omega3: ['Omega-3', 'Kapsel', [['EPA', 'mg'], ['DHA', 'mg'], ['Omega-3 gesamt', 'mg'], ['Vitamin E', 'mg']]],
+  multi: ['Multivitamin', 'Tablette', [['Vitamin A', 'µg'], ['Vitamin B1', 'mg'], ['Vitamin B2', 'mg'], ['Niacin', 'mg'], ['Pantothensäure', 'mg'], ['Vitamin B6', 'mg'], ['Biotin', 'µg'], ['Folsäure', 'µg'],
+    ['Vitamin B12', 'µg'], ['Vitamin C', 'mg'], ['Vitamin D', 'µg'], ['Vitamin E', 'mg'], ['Vitamin K', 'µg'], ['Magnesium', 'mg'], ['Zink', 'mg'], ['Selen', 'µg'], ['Jod', 'µg'], ['Eisen', 'mg']]],
+  vitd: ['Vitamin D3', 'Tropfen', [['Vitamin D', 'µg'], ['Vitamin K2', 'µg']], 'Steht nur IE auf der Packung: als Einheit „IE" eintragen — die App rechnet um (40 IE = 1 µg).'],
+  vitc: ['Vitamin C', 'Kapsel', [['Vitamin C', 'mg']]],
+  vitb: ['B-Komplex', 'Kapsel', [['Vitamin B1', 'mg'], ['Vitamin B2', 'mg'], ['Niacin', 'mg'], ['Vitamin B6', 'mg'], ['Folsäure', 'µg'], ['Vitamin B12', 'µg'], ['Biotin', 'µg']]],
+  mag: ['Magnesium', 'Kapsel', [['Magnesium', 'mg']], null, ['Bisglycinat', 'Citrat', 'Malat', 'L-Threonat', 'Oxid', 'Taurat']],
+  zinc: ['Zink', 'Tablette', [['Zink', 'mg'], ['Kupfer', 'µg']]], iron: ['Eisen', 'Kapsel', [['Eisen', 'mg'], ['Vitamin C', 'mg']]],
+  calcium: ['Calcium', 'Tablette', [['Calcium', 'mg'], ['Vitamin D', 'µg']]], electro: ['Elektrolyte', 'Portion', [['Natrium', 'mg'], ['Kalium', 'mg'], ['Magnesium', 'mg'], ['Chlorid', 'mg']]],
+  melatonin: ['Melatonin', 'Tablette', [['Melatonin', 'mg']]],
+  herbal: ['Schlaf pflanzlich', 'Kapsel', [['Baldrian', 'mg'], ['Melisse', 'mg'], ['Hopfen', 'mg'], ['Passionsblume', 'mg'], ['Lavendel', 'mg']]],
+  theanine: ['L-Theanin', 'Kapsel', [['L-Theanin', 'mg']]], ashwa: ['Ashwagandha', 'Kapsel', [['Ashwagandha', 'mg'], ['Withanolide', 'mg']]],
+  glycine: ['Glycin', 'Messlöffel', [['Glycin', 'g'], ['GABA', 'mg']]],
+  sleepcombo: ['Schlaf-Komplex', 'Kapsel', [['Melatonin', 'mg'], ['L-Theanin', 'mg'], ['Magnesium', 'mg'], ['Melisse', 'mg'], ['Baldrian', 'mg'], ['5-HTP', 'mg']]],
+  creatine: ['Kreatin', 'Messlöffel', [['Kreatin', 'g']]], betaala: ['Beta-Alanin', 'Messlöffel', [['Beta-Alanin', 'g']]], citrulline: ['Citrullin', 'Messlöffel', [['Citrullin', 'g']]],
+  pre: ['Pre-Workout', 'Messlöffel', [['Koffein', 'mg'], ['Beta-Alanin', 'g'], ['Citrullin', 'g'], ['Taurin', 'mg'], ['Tyrosin', 'mg']]],
+  eaa: ['EAA', 'Messlöffel', [['EAA', 'g'], ['Leucin', 'g']]], glutamine: ['Glutamin', 'Messlöffel', [['Glutamin', 'g']]], taurine: ['Taurin', 'Kapsel', [['Taurin', 'mg']]],
+  other: ['', 'Kapsel', []],
+};
+let CR = null;
+function openCreate(start){
+  CR = { path: [start || 'root'] }; SCAN = null;
+  document.getElementById('scanSheet').classList.add('open'); document.body.classList.add('as-lock');
+  crStep();
+}
+function crTitle(t){ const el = document.querySelector('#scanSheet .as-title'); if (el) el.textContent = t; }
+function crStep(){
+  const node = CR.path[CR.path.length - 1], b = document.getElementById('scanBody');
+  if (node.includes(':')) return crLeaf(node);
+  crTitle('Neu anlegen');
+  const [q, opts] = CREATE_TREE[node];
+  b.innerHTML = `<div class="cr-crumb">${CR.path.length > 1 ? '<button id="crBack">‹ Zurück</button>' : '<span></span>'}<span>${'●'.repeat(CR.path.length)}</span></div>
+    <div class="ck-q" style="min-height:0;margin:8px 0 16px">${q}</div>
+    <div class="mc-grid">${opts.map(([k, ic, l]) => `<button data-n="${k}"><span>${ic}</span><b>${l}</b></button>`).join('')}</div>
+    ${node === 'root' ? '<button class="ck-c-btn ghost" id="crScan" style="width:100%;margin-top:16px">📷 Lieber direkt aus Foto oder Text auslesen</button>' : ''}`;
+  b.querySelectorAll('[data-n]').forEach(x => x.onclick = () => { CR.path.push(x.dataset.n); crStep(); });
+  const bk = document.getElementById('crBack'); if (bk) bk.onclick = () => { CR.path.pop(); crStep(); };
+  const sc = document.getElementById('crScan'); if (sc) sc.onclick = () => { crTitle('Aus Foto oder Text'); SCAN = { kind: 'food', imgs: [], data: null }; scanStep(); };
+}
+function crLeaf(node){
+  const [type, key] = node.split(':');
+  if (type === 'f' || type === 'd') {
+    const t = FOOD_TPL[type === 'd' && (key === 'milk' || key === 'other') ? 'd' + key : key] || ['', null];
+    crTitle(type === 'd' ? 'Neues Getränk' : 'Neues Lebensmittel');
+    SCAN = { kind: 'food', drink: type === 'd', imgs: [], data: { kind: 'food', name: '', brand: '', per100: {}, serving: t[0] ? { label: t[0], grams: t[1] } : null } };
+    scanReview(); crBackLink(); return;
+  }
+  crTitle('Neues Supplement'); suppForm(key);
+}
+function crBackLink(){ const b = document.getElementById('scanBody'); const x = document.createElement('div'); x.className = 'cr-crumb';
+  x.innerHTML = '<button id="crBack2">‹ Zurück</button><span></span>'; b.insertBefore(x, b.firstChild);
+  document.getElementById('crBack2').onclick = () => { CR.path.pop(); while (CR.path.length > 1 && CR.path[CR.path.length - 1].includes(':')) CR.path.pop(); crStep(); }; }
+// Eingabefenster für Supplements — nur die Felder, die zur Art passen
+function suppForm(key, pre){
+  const t = SUPP_TPL[key] || SUPP_TPL.other, b = document.getElementById('scanBody');
+  const st = pre || { n: t[0], brand: '', unit: t[1], per: 1, perDay: 1, form: '', rows: t[2].map(([n, u]) => ({ name: n, amount: '', unit: u })) };
+  CR.form = { key, st };
+  const units = ['Kapsel', 'Tablette', 'Messlöffel', 'Tropfen', 'Portion'];
+  b.innerHTML = `<div class="cr-crumb"><button id="crBack">‹ Zurück</button><span></span></div>
+    <label class="sr-f wide"><span>Name</span><input id="sfN" value="${svgEsc(st.n)}" placeholder="z. B. ${svgEsc(t[0] || 'Produktname')}"></label>
+    <label class="sr-f wide"><span>Marke</span><input id="sfB" value="${svgEsc(st.brand)}" placeholder="optional"></label>
+    ${t[4] ? `<div class="sr-f"><span>Form</span><div class="mo-tags">${t[4].map(f => `<button class="${st.form === f ? 'on' : ''}" data-form="${f}">${f}</button>`).join('')}</div></div>` : ''}
+    <div class="sr-f"><span>Einheit</span><div class="mo-tags">${units.map(u => `<button class="${st.unit === u ? 'on' : ''}" data-unit="${u}">${u}</button>`).join('')}</div></div>
+    <div class="sr-grid"><label class="sr-f"><span>Angaben gelten für</span><input id="sfPer" inputmode="numeric" value="${st.per}"></label><label class="sr-f"><span>Empfohlen pro Tag</span><input id="sfDay" inputmode="numeric" value="${st.perDay}"></label></div>
+    <div class="ci-hint" style="margin:-2px 0 8px">„Angaben gelten für 2" heißt: Die Mengen auf der Packung beziehen sich auf 2 ${st.unit === 'Kapsel' ? 'Kapseln' : 'Einheiten'} (Tagesdosis). Die App rechnet auf eine um.</div>
+    <div class="sc-sec">Inhaltsstoffe</div>
+    ${t[3] ? `<div class="ci-hint" style="margin:-4px 0 8px">${t[3]}</div>` : ''}
+    <div id="sfRows">${st.rows.map((r, i) => `<div class="sf-row"><input class="sf-n" data-i="${i}" value="${svgEsc(r.name)}" placeholder="Inhaltsstoff"><input class="sf-a" data-i="${i}" inputmode="decimal" value="${r.amount}" placeholder="0"><input class="sf-u" data-i="${i}" value="${svgEsc(r.unit)}"></div>`).join('')}</div>
+    <button class="ck-c-btn ghost" id="sfAdd">＋ Inhaltsstoff</button>
+    <details class="ex" style="margin-top:14px"><summary>Werte aus kopiertem Text übernehmen</summary><div>
+      <textarea id="sfText" rows="4" placeholder="Text der Inhaltsstoff-Tabelle einfügen …" style="width:100%;box-sizing:border-box;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-size:15px"></textarea>
+      <button class="ck-c-btn" id="sfParse" style="margin-top:8px">Übernehmen</button></div></details>
+    <button class="ck-go" id="sfSave">In meine Datenbank speichern</button><div id="scMsg"></div>`;
+  const read = () => { st.n = document.getElementById('sfN').value.trim(); st.brand = document.getElementById('sfB').value.trim();
+    st.per = Math.max(1, parseInt(document.getElementById('sfPer').value) || 1); st.perDay = Math.max(1, parseFloat(String(document.getElementById('sfDay').value).replace(',', '.')) || 1);
+    b.querySelectorAll('.sf-n').forEach(i => st.rows[+i.dataset.i].name = i.value.trim()); b.querySelectorAll('.sf-a').forEach(i => st.rows[+i.dataset.i].amount = i.value.trim());
+    b.querySelectorAll('.sf-u').forEach(i => st.rows[+i.dataset.i].unit = i.value.trim()); };
+  b.querySelectorAll('[data-unit]').forEach(x => x.onclick = () => { read(); st.unit = x.dataset.unit; suppForm(key, st); });
+  b.querySelectorAll('[data-form]').forEach(x => x.onclick = () => { read(); st.form = st.form === x.dataset.form ? '' : x.dataset.form; suppForm(key, st); });
+  document.getElementById('sfAdd').onclick = () => { read(); st.rows.push({ name: '', amount: '', unit: 'mg' }); suppForm(key, st); };
+  document.getElementById('crBack').onclick = () => { CR.path.pop(); crStep(); };
+  document.getElementById('sfParse').onclick = () => { read(); const d = parseLabelText(document.getElementById('sfText').value);
+    const items = (d.supplement && d.supplement.perServing) || []; if (!items.length) { document.getElementById('scMsg').innerHTML = '<div class="quick-msg c-down">Keine Inhaltsstoffe erkannt.</div>'; return; }
+    const norm = s => s.toLowerCase().replace(/fettsäuren?|säuren?/g, '').replace(/[^a-zäöüß0-9]/g, '');
+    items.forEach(it => { const r = st.rows.find(x => norm(x.name) && (norm(it.name).includes(norm(x.name)) || norm(x.name).includes(norm(it.name))));
+      if (r) { r.amount = String(it.amount); r.unit = it.unit; } else st.rows.push({ name: it.name, amount: String(it.amount), unit: it.unit }); });
+    if (d.supplement.servingsPerDay > 1) { st.perDay = d.supplement.servingsPerDay; st.per = 1; }   // Leser hat schon auf 1 Einheit umgerechnet
+    suppForm(key, st); };
+  document.getElementById('sfSave').onclick = () => { read();
+    if (!st.n) { document.getElementById('scMsg').innerHTML = '<div class="quick-msg c-down">Bitte einen Namen eingeben.</div>'; return; }
+    const items = st.rows.map(r => ({ name: r.name, amount: parseFloat(String(r.amount).replace(',', '.')), unit: r.unit || 'mg' })).filter(r => r.name && !isNaN(r.amount) && r.amount > 0)
+      .map(r => ({ name: r.name, amount: Math.round(r.amount / st.per * 1000) / 1000, unit: r.unit }));
+    if (!items.length) { document.getElementById('scMsg').innerHTML = '<div class="quick-msg c-down">Bitte mindestens einen Wert eintragen.</div>'; return; }
+    const caf = (items.find(i => /koffein|caffein/i.test(i.name)) || {}).amount || 0;
+    const name = st.n + (st.form && !st.n.toLowerCase().includes(st.form.toLowerCase()) ? ' ' + st.form : '');
+    const sp = { id: 's' + Date.now().toString(36), n: name, brand: st.brand, unit: st.unit, perDay: st.perDay, caf, items, cat: key, added: localDateStr(Date.now()) };
+    const list = loadArr(SUPP_KEY).filter(x => x.n !== name); list.unshift(sp); saveArr(SUPP_KEY, list);
+    b.innerHTML = `<div class="ck-done">✓</div><div class="ck-q" style="text-align:center">„${svgEsc(name)}" gespeichert.</div>
+      <div class="ci-hint" style="text-align:center">Je ${st.unit}: ${items.map(i => `${i.name} ${fmtNum(i.amount)} ${i.unit}`).join(' · ')}<br>Du findest es unter „＋ Jetzt" → Einnahme.</div>
+      <button class="ck-go" onclick="closeScan()">Fertig</button><button class="ck-c-btn ghost" style="width:100%;margin-top:10px" onclick="openCreate('supp')">Nächstes anlegen</button>`; };
 }
 
 refreshProgressSafeCopy();
