@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v20.1: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v20.2: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v20.1: Cockpit kompakter ---------- */
+  /* ---------- v20.2: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1292,7 +1292,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v20.1: verschlankt ---------- */
+  /* ---------- v20.2: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1397,6 +1397,9 @@
   .in-t{ font-size:14px; line-height:1.4; } .in-t s{ color:var(--ink-dim); } .in-s{ font-size:11.5px; color:var(--ink-dim); margin-top:2px; }
   .in-row.widerlegt .in-t{ opacity:.75; }
   .in-teaser{ display:block; width:100%; text-align:left; color:var(--ink); } .in-teaser .in-t{ margin:8px 0 4px; } .in-teaser em{ font-style:normal; font-size:12px; color:var(--lime); font-weight:700; }
+
+  #scText{ width:100%; box-sizing:border-box; padding:12px; border-radius:12px; border:1.5px solid var(--line); background:var(--card); color:var(--ink); font-size:15px; line-height:1.45; }
+  .sc-tbtns{ display:grid; grid-template-columns:1fr 2fr; gap:8px; margin-top:8px; }
   /* ================= v14: PERFORMANCE (nach WHOOP-Vorbild) ================= */
   :root{ --num-font: ui-monospace, monospace; --rec-hi:#2BB673; --rec-mid:#E3B23C; --rec-lo:#E5484D; --strain:#3B82C4; --ring-track: color-mix(in srgb, var(--ink) 10%, transparent); }
   :root[data-theme="performance"]{
@@ -1455,7 +1458,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.1</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.2</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -8352,15 +8355,22 @@ function scanStep(){
   const b = document.getElementById('scanBody'), hasKey = !!localStorage.getItem(KZ_KEY);
   if (SCAN.data) return scanReview();
   b.innerHTML = `<div class="trend-sw"><button class="${SCAN.kind === 'food' ? 'on' : ''}" data-k="food">Lebensmittel</button><button class="${SCAN.kind === 'supplement' ? 'on' : ''}" data-k="supplement">Supplement</button></div>
-    <div class="ck-q" style="min-height:0;margin:14px 0 8px">Fotografiere die ${SCAN.kind === 'food' ? 'Nährwerttabelle' : 'Angaben zu den Inhaltsstoffen'}.</div>
-    <div class="ci-hint" style="margin:0 0 14px">Gerade und scharf, Tabelle möglichst bildfüllend. Optional ein zweites Foto der Vorderseite für den Namen.</div>
+    <div class="sc-sec">Kostenlos · direkt auf dem iPhone</div>
+    <ol class="sc-steps" style="margin-top:0"><li>${SCAN.kind === 'food' ? 'Nährwerttabelle' : 'Inhaltsstoff-Tabelle'} mit der <b>Kamera-App</b> fotografieren und das Foto öffnen.</li>
+      <li>Auf den Text <b>lang drücken</b> → <b>„Alle auswählen"</b> → <b>„Kopieren"</b>.</li><li>Hier einfügen und auslesen.</li></ol>
+    <textarea id="scText" rows="5" placeholder="Kopierten Text hier einfügen …"></textarea>
+    <div class="sc-tbtns"><button class="ck-c-btn ghost" id="scPaste">Einfügen</button><button class="ck-c-btn" id="scParse">Auslesen</button></div>
+    <div id="scMsg" class="hk-status"></div>
+    <details class="ex" style="margin-top:16px"><summary>Oder: Foto automatisch auslesen (Claude)</summary><div>
+    <div class="ck-q" style="min-height:0;margin:10px 0 8px;font-size:16px">Fotografiere die ${SCAN.kind === 'food' ? 'Nährwerttabelle' : 'Angaben zu den Inhaltsstoffen'}.</div>
+    <div class="ci-hint" style="margin:0 0 14px">Gerade und scharf, Tabelle möglichst bildfüllend. Kostet etwa einen halben Cent pro Foto und braucht Internet.</div>
     <div class="sc-imgs">${SCAN.imgs.map((x, i) => `<div><img src="data:${x.mt};base64,${x.b64}" alt=""><button data-rm="${i}">✕</button></div>`).join('')}</div>
     ${SCAN.imgs.length < 2 ? `<label class="hk-pick"><input type="file" id="scFile" accept="image/*" capture="environment" hidden>📷 ${SCAN.imgs.length ? 'Weiteres Foto' : 'Foto aufnehmen'}</label>` : ''}
     ${!hasKey ? `<div class="sc-key"><b>Für die automatische Erkennung</b> brauchst du einmalig einen eigenen Claude-API-Schlüssel: console.anthropic.com → API Keys → Schlüssel erstellen und hier einfügen. Kosten: etwa ein halber Cent pro Foto. Der Schlüssel bleibt nur auf diesem iPhone und ist nie im Backup.
       <input id="scKey" placeholder="sk-ant-…" autocomplete="off"><button class="ck-c-btn" id="scKeySave">Speichern</button></div>` : ''}
     ${SCAN.imgs.length && hasKey ? `<button class="ck-go" id="scRead">Angaben auslesen</button>` : ''}
-    <button class="ck-c-btn ghost" id="scManual" style="width:100%;margin-top:10px">Ohne Foto manuell eintragen</button>
-    <div id="scMsg" class="hk-status"></div>`;
+    </div></details>
+    <button class="ck-c-btn ghost" id="scManual" style="width:100%;margin-top:10px">Ganz manuell eintragen</button>`;
   b.querySelectorAll('[data-k]').forEach(x => x.onclick = () => { SCAN.kind = x.dataset.k; scanStep(); });
   b.querySelectorAll('[data-rm]').forEach(x => x.onclick = () => { SCAN.imgs.splice(+x.dataset.rm, 1); scanStep(); });
   const f = document.getElementById('scFile'); if (f) f.onchange = async () => { const file = f.files && f.files[0]; if (!file) return; try { SCAN.imgs.push(await prepImage(file)); } catch(e) { document.getElementById('scMsg').textContent = 'Foto konnte nicht geladen werden.'; } scanStep(); };
@@ -8370,6 +8380,12 @@ function scanStep(){
     try { const d = await aiReadLabel(SCAN.imgs); if (d.kind) SCAN.kind = d.kind === 'supplement' ? 'supplement' : 'food'; SCAN.data = d; scanStep(); }
     catch(e) { rd.disabled = false; rd.textContent = 'Erneut versuchen'; document.getElementById('scMsg').innerHTML = `<div class="quick-msg c-down">${e.message === 'nokey' ? 'Bitte zuerst den API-Schlüssel speichern.' : svgEsc(e.message)}</div>`; }
   };
+  const sp = document.getElementById('scPaste'); if (sp) sp.onclick = async () => { try { document.getElementById('scText').value = await navigator.clipboard.readText(); } catch(e) { document.getElementById('scMsg').textContent = 'Kein Zugriff — Feld lang drücken und „Einfügen".'; } };
+  const sx = document.getElementById('scParse'); if (sx) sx.onclick = () => {
+    const t = document.getElementById('scText').value; const d = parseLabelText(t);
+    if (d.found < 2) { document.getElementById('scMsg').innerHTML = '<div class="quick-msg c-down">Kaum Werte erkannt. Wurde die ganze Tabelle kopiert? Sonst unten automatisch oder manuell eintragen.</div>'; return; }
+    if (SCAN.kind === 'supplement' && d.supplement) d.kind = 'supplement'; else if (SCAN.kind === 'food' && d.per100) d.kind = 'food';
+    SCAN.kind = d.kind; SCAN.data = d; scanStep(); };
   document.getElementById('scManual').onclick = () => { SCAN.data = { kind: SCAN.kind, name: '', brand: '', per100: {}, serving: null, supplement: { unit: 'Kapsel', perServing: [], servingsPerDay: 1 } }; scanStep(); };
 }
 function scanReview(){
@@ -8532,6 +8548,54 @@ function renderMyDb(){
   const kd = document.getElementById('dbKeyDel'); if (kd) kd.onclick = (ev) => { ev.preventDefault(); localStorage.removeItem(KZ_KEY); renderMyDb(); };
   el.querySelectorAll('[data-df]').forEach(b => b.onclick = () => { if (!confirm('„' + b.dataset.df + '" löschen?')) return; saveCustomFoods(loadCustomFoods().filter(f => f.n !== b.dataset.df)); renderMyDb(); });
   el.querySelectorAll('[data-ds]').forEach(b => b.onclick = () => { if (!confirm('Supplement löschen?')) return; saveArr(SUPP_KEY, loadArr(SUPP_KEY).filter(s => s.id !== b.dataset.ds)); renderMyDb(); });
+}
+
+// ================= NÄHRWERTTABELLE AUS TEXT LESEN (lokal, ohne Internet) =================
+// Für Text aus Apples Live Text (Foto → Text lang drücken → Kopieren). Versteht EU-Nährwerttabellen
+// zeilenweise ("Fett 9,5 g 3,8 g") und spaltenweise (erst alle Bezeichnungen, dann alle Werte).
+const LBL = [
+  ['satfat', /davon\s+ges[äa]tt|ges[äa]ttigte|saturat/i], ['sugar', /davon\s+zucker|^\s*zucker\b|sugars?/i],
+  ['fat', /^\s*fett\b|^\s*fat\b|fettgehalt/i], ['carbs', /kohlenhydrat|carbohydrat/i], ['fiber', /ballaststoff|fibre|fiber/i],
+  ['protein', /eiwei[ßs]|protein/i], ['salt', /^\s*salz\b|^\s*salt\b/i],
+];
+function numTok(s){ return (String(s).replace(/(\d)\s*,\s*(\d)/g, '$1.$2').match(/<?\s*\d+(?:\.\d+)?/g) || []).map(x => parseFloat(x.replace(/[<\s]/g, ''))); }
+function parseLabelText(raw){
+  const text = String(raw || '').replace(/\r/g, '').replace(/μ/g, 'µ');
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const per100 = {}; let serving = null;
+  // Brennwert: kcal-Zahl suchen (auch wenn kJ zuerst steht oder kcal in der nächsten Zeile)
+  const kc = text.replace(/(\d)\s*,\s*(\d)/g, '$1.$2').match(/(\d+(?:\.\d+)?)\s*kcal/i);
+  if (kc) per100.kcal = parseFloat(kc[1]);
+  else { const kj = text.replace(/(\d)\s*,\s*(\d)/g, '$1.$2').match(/(\d+(?:\.\d+)?)\s*kj/i); if (kj) per100.kcal = Math.round(parseFloat(kj[1]) / 4.184); }
+  // Portion: "pro Portion (40 g)", "1 Riegel = 45 g", "je Becher 200 g"
+  const pm = text.replace(/(\d)\s*,\s*(\d)/g, '$1.$2').match(/(?:pro|je|per|1)\s+(portion|riegel|becher|flasche|scoop|messlöffel|stück|packung|dose)[^\d\n]{0,12}(\d+(?:\.\d+)?)\s*(g|ml)/i);
+  if (pm) serving = { label: '1 ' + pm[1].charAt(0).toUpperCase() + pm[1].slice(1).toLowerCase(), grams: parseFloat(pm[2]) };
+  // 1) zeilenweise: Bezeichnung und Werte in derselben Zeile — die erste Zahl ist laut EU-Recht der 100-g-Wert
+  const unlabeled = [];
+  lines.forEach(l => { const hit = LBL.find(([, re]) => re.test(l)); if (!hit) return; const n = numTok(l.replace(/\d+\s*%/g, ''));
+    if (n.length && per100[hit[0]] === undefined) per100[hit[0]] = n[0]; else if (!n.length) unlabeled.push(hit[0]); });
+  // 2) spaltenweise: Bezeichnungen ohne Zahl → nachfolgende Gramm-Werte der Reihe nach zuordnen
+  if (unlabeled.length >= 3) {
+    const vals = []; let after = false;
+    lines.forEach(l => { if (LBL.some(([, re]) => re.test(l))) { after = true; return; } if (!after) return;
+      const m = l.replace(/(\d)\s*,\s*(\d)/g, '$1.$2').match(/^<?\s*(\d+(?:\.\d+)?)\s*g\b/i); if (m) vals.push(parseFloat(m[1])); });
+    unlabeled.forEach((k, i) => { if (vals[i] !== undefined && per100[k] === undefined) per100[k] = vals[i]; });
+  }
+  const nut = Object.keys(per100).filter(k => k !== 'kcal').length;
+  // Supplement-Angaben: "Magnesium 375 mg", "Vitamin D3 20 µg 400 %"
+  const SKIP = /brennwert|energie|kcal|kj|fett|kohlenhydrat|zucker|eiwei|protein|salz|ballast|portion|tagesdosis|verzehr|nrv|referenz|zutaten|füllstoff|überzug|kapselhülle/i;
+  const items = [];
+  lines.forEach(l => { const m = l.replace(/(\d)\s*,\s*(\d)/g, '$1.$2').match(/^([A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß0-9\-\s().\/]{1,40}?)\s*[:\s]\s*(\d+(?:\.\d+)?)\s*(mg|µg|ug|mcg|g|ie|i\.e\.|iu)\b/i);
+    if (!m || SKIP.test(m[1])) return; const unit = m[3].toLowerCase().replace('ug', 'µg').replace('mcg', 'µg').replace('i.e.', 'IE').replace('ie', 'IE').replace('iu', 'IE');
+    items.push({ name: m[1].replace(/\s+/g, ' ').replace(/\(.*$/, '').trim(), amount: parseFloat(m[2]), unit }); });
+  // Werte pro Tagesdosis aus mehreren Einheiten ("Tagesdosis (2 Kapseln)") auf eine Einheit umrechnen
+  let perDay = 1; const dm = text.match(/(?:tagesdosis|tagesportion|verzehrempfehlung|pro\s+portion|je\s+portion)[^\n]{0,24}?(\d+)\s*(kapsel|tablette|tropfen|messlöffel|presslinge?)/i);
+  if (dm && +dm[1] > 1 && +dm[1] <= 10) { perDay = +dm[1]; items.forEach(it => { it.amount = Math.round(it.amount / perDay * 100) / 100; }); }
+  const kind = items.length >= 2 && nut < 3 ? 'supplement' : 'food';
+  const name = (lines.find(l => /[a-zäöü]{3}/i.test(l) && !/nährwert|durchschnitt|pro 100|je 100|per 100|brennwert|energie/i.test(l) && !LBL.some(([, re]) => re.test(l)) && !numTok(l).length) || '').slice(0, 60);
+  return { kind, name, brand: '', per100: nut || per100.kcal ? per100 : null, serving,
+    supplement: kind === 'supplement' ? { unit: /tablette/i.test(text) ? 'Tablette' : /tropfen/i.test(text) ? 'Tropfen' : /messlöffel|scoop/i.test(text) ? 'Messlöffel' : 'Kapsel', perServing: items, servingsPerDay: perDay } : null,
+    found: nut + (per100.kcal ? 1 : 0) + items.length };
 }
 
 refreshProgressSafeCopy();
