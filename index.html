@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v20.5: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v20.6: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v20.5: Cockpit kompakter ---------- */
+  /* ---------- v20.6: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1292,7 +1292,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v20.5: verschlankt ---------- */
+  /* ---------- v20.6: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1467,7 +1467,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.5</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.6</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -5286,7 +5286,7 @@ function renderAsList(){
     items = loadFavs(); empty = 'Noch keine Favoriten — in der Detailansicht ★ antippen.';
   } else {
     const cf = loadCustomFoods();
-    items = [...cf.filter(f => !f.origin), ...cf.filter(f => f.origin).sort((a, b) => (a.brand || '').localeCompare(b.brand || '') || a.n.localeCompare(b.n))].map(f => Object.assign({ src: 'own' }, f));
+    items = [...cf.filter(f => !f.origin || f.origin === 'photo'), ...loadArr(SUPP_KEY).map(s => ({ n: s.n, brand: s.brand, src: 'supp', supp: s })), ...cf.filter(f => f.origin && f.origin !== 'photo').sort((a, b) => (a.brand || '').localeCompare(b.brand || '') || a.n.localeCompare(b.n))].map(f => f.src === 'supp' ? f : Object.assign({ src: 'own' }, f));
     empty = 'Noch keine eigenen Lebensmittel.';
   }
   if (AS.q.length < 2) st.textContent = '';
@@ -5296,6 +5296,9 @@ function renderAsList(){
   if (!items.length) { listEl.innerHTML = ownBtn + (AS.q.length >= 2 ? '' : `<div class="as-empty">${empty}</div>`); bindNewOwn(); return; }
   AS.rendered = items;
   listEl.innerHTML = ownBtn + items.map((f, i) => {
+    if (f.src === 'supp') { const s = f.supp;
+      return `<div class="as-row" data-i="${i}"><div class="as-rb"><div class="as-n">💊 ${svgEsc(s.n)}</div><div class="as-s">${svgEsc([s.brand, 'Supplement · 1 ' + s.unit, s.items.slice(0, 2).map(x => `${x.name} ${fmtNum(x.amount)} ${x.unit}`).join(', ')].filter(Boolean).join(' · '))}</div></div>
+        <button class="as-add" data-i="${i}" aria-label="1 ${svgEsc(s.unit)} einnehmen">+</button></div>`; }
     const h0 = f.lastAmount ? f : null;
     const g = defaultGrams(f), u = unitOf(f);
     const por = (f.por || []).find(p => Math.abs(p[1] - g) < 0.5);
@@ -5306,10 +5309,11 @@ function renderAsList(){
       <button class="as-add" data-i="${i}" aria-label="direkt hinzufügen">+</button>
     </div>`;
   }).join('');
-  listEl.querySelectorAll('.as-rb').forEach(r => r.onclick = () => showFoodDetail(AS.rendered[+r.parentNode.dataset.i]));
+  listEl.querySelectorAll('.as-rb').forEach(r => r.onclick = () => { const it = AS.rendered[+r.parentNode.dataset.i]; if (it.src === 'supp') showSuppDetail(it.supp); else showFoodDetail(it); });
   listEl.querySelectorAll('.as-add').forEach(b => b.onclick = (ev) => {
     ev.stopPropagation();
     const f = AS.rendered[+b.dataset.i];
+    if (f.src === 'supp') { logSupp(f.supp, 1); b.textContent = '✓'; setTimeout(() => { b.textContent = '+'; }, 1200); return; }
     addFoodToDiary(f, defaultGrams(f), AS.slot);
     b.textContent = '✓'; b.classList.add('done');
     setTimeout(() => { b.textContent = '+'; b.classList.remove('done'); }, 1400);
@@ -5331,7 +5335,8 @@ function asSearch(q){
   const hist = foodHistory().filter(x => rankScore(x.n, ql) < 99).sort((a, b) => rankScore(a.n, ql) - rankScore(b.n, ql) || b.count - a.count).slice(0, 6);
   const seen = new Set(hist.map(x => x.n));
   const local = searchLocal(AS.q).filter(x => !seen.has(x.n));
-  AS.list = [...hist, ...local]; renderAsList();
+  const supps = loadArr(SUPP_KEY).filter(s => rankScore(s.n, ql) < 99 || (s.brand && rankScore(s.brand + ' ' + s.n, ql) < 99)).map(s => ({ n: s.n, brand: s.brand, src: 'supp', supp: s }));
+  AS.list = [...hist, ...supps, ...local]; renderAsList();
   st.textContent = 'Suche auch online …';
   const my = ++AS.seq;
   AS.timer = setTimeout(async () => {
@@ -8438,7 +8443,7 @@ function scanReview(){
         document.getElementById('scMsg').innerHTML = saveFailHTML(); return; }
     }
     b.innerHTML = `<div class="ck-done">✓</div><div class="ck-q" style="text-align:center">„${svgEsc(name)}" gespeichert.</div>
-      <div class="ci-hint" style="text-align:center">${food ? 'Du findest es ab sofort in der Lebensmittel-Suche.' : 'Du findest es ab sofort unter „＋ Jetzt" → Einnahme. Die App rechnet die Inhaltsstoffe in deine Tageswerte ein.'}</div>
+      <div class="ci-hint" style="text-align:center">${food ? 'Du findest es ab sofort in der Lebensmittel-Suche.' : 'Du findest es in der Lebensmittel-Suche und unter „＋ Jetzt" → Einnahme. Die App rechnet die Inhaltsstoffe in deine Tageswerte ein.'}</div>
       <button class="ck-go" onclick="closeScan()">Fertig</button><button class="ck-c-btn ghost" style="width:100%;margin-top:10px" onclick="openCreate('${SCAN.kind === 'food' ? 'food' : 'supp'}')">Nächstes anlegen</button>`;
   };
 }
@@ -8736,7 +8741,7 @@ function suppForm(key, pre){
     if (!storeWithCleanup(() => { const list = loadArr(SUPP_KEY).filter(x => x.n !== name); list.unshift(sp); return saveArr(SUPP_KEY, list); }, () => loadArr(SUPP_KEY).some(x => x.n === name))) {
       document.getElementById('scMsg').innerHTML = saveFailHTML(); return; }
     b.innerHTML = `<div class="ck-done">✓</div><div class="ck-q" style="text-align:center">„${svgEsc(name)}" gespeichert.</div>
-      <div class="ci-hint" style="text-align:center">Je ${st.unit}: ${items.map(i => `${i.name} ${fmtNum(i.amount)} ${i.unit}`).join(' · ')}<br>Du findest es unter „＋ Jetzt" → Einnahme.</div>
+      <div class="ci-hint" style="text-align:center">Je ${st.unit}: ${items.map(i => `${i.name} ${fmtNum(i.amount)} ${i.unit}`).join(' · ')}<br>Du findest es in der <b>Lebensmittel-Suche</b> und unter „＋ Jetzt" → Einnahme.</div>
       <button class="ck-go" onclick="closeScan()">Fertig</button><button class="ck-c-btn ghost" style="width:100%;margin-top:10px" onclick="openCreate('supp')">Nächstes anlegen</button>`; };
 }
 
@@ -8777,6 +8782,35 @@ function fuzzyScore(name, q){
   const ok = qt.every(t => words.some(w => w.startsWith(t) || w.includes(t) || (t.length >= 4 && editDist(t, w.slice(0, t.length + 1), t.length >= 8 ? 2 : 1) <= (t.length >= 8 ? 2 : 1))
     || (t.length >= 4 && editDist(t, w, t.length >= 8 ? 2 : 1) <= (t.length >= 8 ? 2 : 1))));
   return ok ? 8 : 99;
+}
+
+
+// ---------- Supplements aus der Lebensmittel-Suche einnehmen ----------
+const SLOT_TIME = { 'Frühstück': '08:00', 'Mittagessen': '12:30', 'Snack': '15:30', 'Abendessen': '19:00' };
+function logSupp(s, n){
+  const d = (typeof currentNutDate !== 'undefined' && currentNutDate) || localDateStr(Date.now()), today = localDateStr(Date.now());
+  const ts = d === today ? Date.now() : new Date(d + 'T' + (SLOT_TIME[AS.slot] || '12:00') + ':00').getTime();
+  const a = loadArr(INTAKE_KEY); a.push({ ts, k: 'supp:' + s.id, n });
+  const ok = saveArr(INTAKE_KEY, a);
+  try { renderNutToday(); } catch(e) {}
+  return ok;
+}
+function showSuppDetail(s){
+  AS.detail = { supp: true };
+  const listEl = document.getElementById('asList'); listEl.style.display = 'none';
+  document.getElementById('asStatus').textContent = '';
+  const el = document.getElementById('asDetail'); let n = 1;
+  const draw = () => { el.innerHTML = `<button class="mm-back" id="spBack">‹ Zurück</button>
+    <div class="as-dn">💊 ${svgEsc(s.n)}</div><div class="as-s" style="margin-bottom:12px">${svgEsc(s.brand || '')}${s.brand ? ' · ' : ''}Supplement · empfohlen ${fmtNum(s.perDay || 1)} ${svgEsc(s.unit)} pro Tag</div>
+    <div class="sc-sec">Wie viele?</div><div class="mo-tags">${[1, 2, 3, 4].map(k => `<button class="${n === k ? 'on' : ''}" data-n="${k}">${k} ${svgEsc(k > 1 ? ({ Kapsel: 'Kapseln', Tablette: 'Tabletten', Portion: 'Portionen' }[s.unit] || s.unit) : s.unit)}</button>`).join('')}</div>
+    <div class="sc-sec">Das nimmst du damit auf</div>${s.items.map(x => `<div class="sd-row"><span>${svgEsc(x.name)}</span><b>${fmtNum(Math.round(x.amount * n * 100) / 100)} ${svgEsc(x.unit)}</b></div>`).join('') || '<div class="ci-hint">Keine Inhaltsstoffe hinterlegt.</div>'}
+    <button class="ck-go" id="spTake">Einnehmen</button><div id="spMsg"></div>`;
+    el.querySelectorAll('[data-n]').forEach(b => b.onclick = () => { n = +b.dataset.n; draw(); });
+    document.getElementById('spBack').onclick = () => { AS.detail = null; renderAsList(); };
+    document.getElementById('spTake').onclick = () => { if (logSupp(s, n)) { document.getElementById('spMsg').innerHTML = `<div class="quick-msg c-up">✓ ${n}× ${svgEsc(s.n)} eingetragen — siehst du im Tagebuch unter „Supplements".</div>`; setTimeout(() => { if (AS.detail && AS.detail.supp) { AS.detail = null; renderAsList(); } }, 1400); }
+      else document.getElementById('spMsg').innerHTML = saveFailHTML(); };
+  };
+  draw();
 }
 
 refreshProgressSafeCopy();
