@@ -1006,7 +1006,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v20.6: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v20.7: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1035,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v20.6: Cockpit kompakter ---------- */
+  /* ---------- v20.7: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1292,7 +1292,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v20.6: verschlankt ---------- */
+  /* ---------- v20.7: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1467,7 +1467,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.6</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v20.7</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -5297,7 +5297,7 @@ function renderAsList(){
   AS.rendered = items;
   listEl.innerHTML = ownBtn + items.map((f, i) => {
     if (f.src === 'supp') { const s = f.supp;
-      return `<div class="as-row" data-i="${i}"><div class="as-rb"><div class="as-n">💊 ${svgEsc(s.n)}</div><div class="as-s">${svgEsc([s.brand, 'Supplement · 1 ' + s.unit, s.items.slice(0, 2).map(x => `${x.name} ${fmtNum(x.amount)} ${x.unit}`).join(', ')].filter(Boolean).join(' · '))}</div></div>
+      return `<div class="as-row" data-i="${i}"><div class="as-rb"><div class="as-n">${s.med ? '🩺' : '💊'} ${svgEsc(s.n)}</div><div class="as-s">${svgEsc([s.brand, (s.med ? 'Medikament' : 'Supplement') + ' · 1 ' + s.unit, s.items.slice(0, 2).map(x => `${x.name} ${fmtNum(x.amount)} ${x.unit}`).join(', ')].filter(Boolean).join(' · '))}</div></div>
         <button class="as-add" data-i="${i}" aria-label="1 ${svgEsc(s.unit)} einnehmen">+</button></div>`; }
     const h0 = f.lastAmount ? f : null;
     const g = defaultGrams(f), u = unitOf(f);
@@ -7385,7 +7385,9 @@ function journalFactors(tgt){
   F.push(['Koffein (mg)', d => { const m = cafToday(d); if (m) return m; return C(d).cafN !== undefined ? C(d).cafN * 80 : (logged(d) ? 0 : null); }, false, 'mehr Koffein']);
   F.push(['Pre-Workout', d => hadIntake(d, 'prewo') ? 1 : (logged(d) || Object.keys(C(d)).length ? 0 : null), true, 'Pre-Workout']);
   F.push(['Training am selben Tag', d => { const s = strainScore(d); return s ? (s.vol > 0 ? 1 : 0) : null; }, true, 'Krafttraining']);
-  loadArr(SUPP_KEY).forEach(sp => F.push([sp.n + (lag ? ' (Vortag)' : ''), d => { const dd = L(d); return loadArr(INTAKE_KEY).some(x => x.k === 'supp:' + sp.id && localDateStr(x.ts) === dd) ? 1 : (logged(dd) ? 0 : null); }, true, sp.n]));
+  // Abends Eingenommenes wirkt auf den nächsten Tag — dann bei allen Zielen den Vortag betrachten
+  const evening = id => { const hrs = loadArr(INTAKE_KEY).filter(x => x.k === 'supp:' + id).map(x => new Date(x.ts).getHours()); if (!hrs.length) return false; hrs.sort((a, b) => a - b); return hrs[Math.floor(hrs.length / 2)] >= 17; };
+  loadArr(SUPP_KEY).forEach(sp => { const lg = lag || evening(sp.id); F.push([(sp.med ? '🩺 ' : '') + sp.n + (lg ? ' (Vortag)' : ''), d => { const dd = lg ? addDays(d, -1) : d; return loadArr(INTAKE_KEY).some(x => x.k === 'supp:' + sp.id && localDateStr(x.ts) === dd) ? 1 : (logged(dd) ? 0 : null); }, true, sp.n]); });
   F.push(['Alkohol am Vorabend', d => Object.keys(C(d)).length ? (C(d).alc ? 1 : 0) : null, true, 'Alkohol']);
   F.push(['Koffein vor dem Training', d => Object.keys(C(d)).length ? (C(d).coffee ? 1 : 0) : null, true, 'Koffein']);
   F.push(['Sexuelle Aktivität (24 h) 🔒', d => Object.keys(C(d)).length ? ((C(d).sexA || C(d).sexM) ? 1 : 0) : null, true, 'sexuelle Aktivität']);
@@ -8021,7 +8023,7 @@ function renderMoment(){
       <button class="ck-go" id="momSave">Speichern</button>
       <div class="ci-hint">Je öfter du das in unterschiedlichen Momenten machst, desto genauer erkennt die App, wann und warum du unruhig wirst.</div>`
     : `<div class="mo-time">Antippen = jetzt eingenommen (${hhmm} Uhr)</div>
-      ${loadArr(SUPP_KEY).length ? `<div class="sc-sec" style="margin-top:4px">Meine Supplements</div><div class="mo-int">${loadArr(SUPP_KEY).map(sp => `<button data-i="supp:${sp.id}"><span>💊</span><b>${svgEsc(sp.n)}</b><small>1 ${svgEsc(sp.unit)}</small></button>`).join('')}</div><div class="sc-sec">Schnellauswahl</div>` : ''}
+      ${loadArr(SUPP_KEY).length ? `<div class="sc-sec" style="margin-top:4px">Meine Supplements & Medikamente</div><div class="mo-int">${loadArr(SUPP_KEY).map(sp => `<button data-i="supp:${sp.id}"><span>${sp.med ? '🩺' : '💊'}</span><b>${svgEsc(sp.n)}</b><small>1 ${svgEsc(sp.unit)}</small></button>`).join('')}</div><div class="sc-sec">Schnellauswahl</div>` : ''}
       <div class="mo-int">${INTAKES.map(([k, ic, l, mg]) => `<button data-i="${k}"><span>${ic}</span><b>${l}</b>${mg ? `<small>${mg} mg Koffein</small>` : ''}</button>`).join('')}<button onclick="closeMoment(); openCreate('supp')"><span>＋</span><b>Neues Supplement</b><small>anlegen</small></button></div>
       <div class="sc-sec">Heute</div>
       <div class="mo-list">${ints.length ? ints.slice().reverse().map((x, i) => { const sp = x.k.startsWith('supp:') ? loadArr(SUPP_KEY).find(y => 'supp:' + y.id === x.k) : null; const I = sp ? ['', '💊', sp.n] : (INTAKES.find(y => y[0] === x.k) || ['', '•', x.k]); const t = new Date(x.ts);
@@ -8468,7 +8470,7 @@ function suppDayHTML(d){
   const rows = Object.keys(tot).map(k => { const [n, u] = k.split('|'), a = Math.round(tot[k] * 100) / 100, ul = UL.find(x => x[0].test(n));
     let warn = ''; if (ul) { const v = toUnit(a, u, ul[3]); if (v !== null && v > ul[2]) warn = `über der Obergrenze von ${ul[2]} ${ul[3]}`; }
     return `<div class="sd-row"><span>${n}</span><b>${fmtNum(a)} ${u}</b>${warn ? `<em>${warn}</em>` : ''}</div>`; }).join('');
-  return `<div class="card"><div class="card-title">Supplements ${d === localDateStr(Date.now()) ? 'heute' : dayLabel(d)}</div>
+  return `<div class="card"><div class="card-title">Supplements & Medikamente ${d === localDateStr(Date.now()) ? 'heute' : dayLabel(d)}</div>
     <div class="ci-hint" style="margin-top:0">${names.map(n => `${taken[n]}× ${n}`).join(' · ')}</div>${rows}
     <div class="ci-hint">Obergrenzen nach EFSA für Nahrungsergänzung. Bei Medikamenten oder Vorerkrankungen ärztlich abklären.</div></div>`;
 }
@@ -8562,8 +8564,8 @@ function renderMyDb(){
       <div class="ci-hint">KI-Erkennung: ${localStorage.getItem(KZ_KEY) ? '✓ API-Schlüssel hinterlegt · <a href="#" id="dbKeyDel">entfernen</a>' : 'kein API-Schlüssel — wird beim ersten Foto abgefragt'}</div></div>
     <div class="card"><div class="card-title">Meine Lebensmittel · ${F.length}${brands ? ` <small style="text-transform:none;letter-spacing:0">(+ ${brands} importierte Markenprodukte)</small>` : ''}</div>
       ${F.length ? F.map(f => `<div class="db-row"><div><b>${svgEsc(f.n)}</b><small>${f.brand ? svgEsc(f.brand) + ' · ' : ''}${f.kcal} kcal · E ${fmtNum(f.p)} · K ${fmtNum(f.c)} · F ${fmtNum(f.f)} je 100 g${f.origin === 'photo' ? ' · 📷' : ''}</small></div><button data-df="${svgEsc(f.n)}">✕</button></div>`).join('') : '<div class="ci-hint">Noch keine eigenen Lebensmittel.</div>'}</div>
-    <div class="card"><div class="card-title">Meine Supplements · ${S.length}</div>
-      ${S.length ? S.map(s => `<div class="db-row"><div><b>${svgEsc(s.n)}</b><small>${s.brand ? svgEsc(s.brand) + ' · ' : ''}je ${svgEsc(s.unit)}: ${s.items.map(i => `${svgEsc(i.name)} ${fmtNum(i.amount)} ${svgEsc(i.unit)}`).join(', ') || '—'}</small></div><button data-ds="${s.id}">✕</button></div>`).join('') : '<div class="ci-hint">Noch keine Supplements — fotografiere die Verpackung.</div>'}</div>`;
+    <div class="card"><div class="card-title">Meine Supplements & Medikamente · ${S.length}</div>
+      ${S.length ? S.map(s => `<div class="db-row"><div><b>${s.med ? '🩺 ' : ''}${svgEsc(s.n)}</b><small>${s.brand ? svgEsc(s.brand) + ' · ' : ''}je ${svgEsc(s.unit)}: ${s.items.map(i => `${svgEsc(i.name)} ${fmtNum(i.amount)} ${svgEsc(i.unit)}`).join(', ') || '—'}</small></div><button data-ds="${s.id}">✕</button></div>`).join('') : '<div class="ci-hint">Noch keine Supplements — fotografiere die Verpackung.</div>'}</div>`;
   document.getElementById('dbScanF').onclick = () => openCreate('food'); document.getElementById('dbScanS').onclick = () => openCreate('supp');
   document.getElementById('dbBackup').onclick = () => shareBackup(false).then(renderMyDb).catch(() => {});
   document.getElementById('dbRestore').onchange = async (ev) => { const f = ev.target.files && ev.target.files[0]; if (!f) return;
@@ -8626,7 +8628,8 @@ function parseLabelText(raw){
 
 // ================= NEU ANLEGEN: geführt, Frage für Frage =================
 const CREATE_TREE = {
-  root: ['Was möchtest du anlegen?', [['food', '🍎', 'Lebensmittel'], ['drink', '🥤', 'Getränk'], ['supp', '💊', 'Nahrungsergänzung']]],
+  root: ['Was möchtest du anlegen?', [['food', '🍎', 'Lebensmittel'], ['drink', '🥤', 'Getränk'], ['supp', '💊', 'Nahrungsergänzung'], ['med', '🩺', 'Medikament']]],
+  med: ['Wofür nimmst du es?', [['s:medsleep', '🌙', 'Schlafen & Beruhigung'], ['s:medpain', '🤕', 'Schmerzen'], ['s:medallergy', '🤧', 'Allergie'], ['s:medother', '➕', 'Etwas anderes']]],
   food: ['Welche Art Lebensmittel?', [['f:milk', '🥛', 'Milchprodukt'], ['f:meat', '🍗', 'Fleisch & Fisch'], ['f:grain', '🍞', 'Brot & Getreide'], ['f:fruit', '🥦', 'Obst & Gemüse'],
     ['f:bar', '🍫', 'Riegel & Snack'], ['f:protein', '🥤', 'Proteinpulver'], ['f:meal', '🍲', 'Fertiggericht'], ['f:other', '➕', 'Etwas anderes']]],
   drink: ['Welches Getränk?', [['d:coffee', '☕', 'Kaffee & Tee'], ['d:soft', '🥫', 'Energy & Softdrink'], ['d:juice', '🧃', 'Saft & Smoothie'], ['d:milk', '🥛', 'Milch & Shake'], ['d:other', '➕', 'Etwas anderes']]],
@@ -8660,6 +8663,10 @@ const SUPP_TPL = {
   pre: ['Pre-Workout', 'Messlöffel', [['Koffein', 'mg'], ['Beta-Alanin', 'g'], ['Citrullin', 'g'], ['Taurin', 'mg'], ['Tyrosin', 'mg']]],
   eaa: ['EAA', 'Messlöffel', [['EAA', 'g'], ['Leucin', 'g']]], glutamine: ['Glutamin', 'Messlöffel', [['Glutamin', 'g']]], taurine: ['Taurin', 'Kapsel', [['Taurin', 'mg']]],
   other: ['', 'Kapsel', []],
+  medsleep: ['', 'Tablette', [['Wirkstoff', 'mg']], 'Den Wirkstoff findest du auf der Packung, z. B. Baldrianwurzel-Extrakt, Doxylamin oder Diphenhydramin. Die App zeigt dir mit der Zeit, wie sich die Einnahme auf deinen Schlaf und den nächsten Morgen auswirkt.'],
+  medpain: ['', 'Tablette', [['Wirkstoff', 'mg']], 'z. B. Ibuprofen 400 mg oder Paracetamol 500 mg.'],
+  medallergy: ['', 'Tablette', [['Wirkstoff', 'mg']], 'z. B. Cetirizin 10 mg.'],
+  medother: ['', 'Tablette', [['Wirkstoff', 'mg']]],
 };
 let CR = null;
 function openCreate(start, opts){
@@ -8689,7 +8696,7 @@ function crLeaf(node){
     SCAN = { kind: 'food', drink: type === 'd', imgs: [], data: { kind: 'food', name: (CR.opts && CR.opts.name) || '', brand: '', per100: {}, serving: t[0] ? { label: t[0], grams: t[1] } : null } };
     scanReview(); crBackLink(); return;
   }
-  crTitle('Neues Supplement'); suppForm(key);
+  crTitle(key.startsWith('med') ? 'Neues Medikament' : 'Neues Supplement'); suppForm(key);
 }
 function crBackLink(){ const b = document.getElementById('scanBody'); const x = document.createElement('div'); x.className = 'cr-crumb';
   x.innerHTML = '<button id="crBack2">‹ Zurück</button><span></span>'; b.insertBefore(x, b.firstChild);
@@ -8737,7 +8744,7 @@ function suppForm(key, pre){
     if (!items.length) { document.getElementById('scMsg').innerHTML = '<div class="quick-msg c-down">Bitte mindestens einen Wert eintragen.</div>'; return; }
     const caf = (items.find(i => /koffein|caffein/i.test(i.name)) || {}).amount || 0;
     const name = st.n + (st.form && !st.n.toLowerCase().includes(st.form.toLowerCase()) ? ' ' + st.form : '');
-    const sp = { id: 's' + Date.now().toString(36), n: name, brand: st.brand, unit: st.unit, perDay: st.perDay, caf, items, cat: key, added: localDateStr(Date.now()) };
+    const sp = { id: 's' + Date.now().toString(36), n: name, brand: st.brand, unit: st.unit, perDay: st.perDay, caf, items, cat: key, med: key.startsWith('med'), added: localDateStr(Date.now()) };
     if (!storeWithCleanup(() => { const list = loadArr(SUPP_KEY).filter(x => x.n !== name); list.unshift(sp); return saveArr(SUPP_KEY, list); }, () => loadArr(SUPP_KEY).some(x => x.n === name))) {
       document.getElementById('scMsg').innerHTML = saveFailHTML(); return; }
     b.innerHTML = `<div class="ck-done">✓</div><div class="ck-q" style="text-align:center">„${svgEsc(name)}" gespeichert.</div>
@@ -8801,7 +8808,7 @@ function showSuppDetail(s){
   document.getElementById('asStatus').textContent = '';
   const el = document.getElementById('asDetail'); let n = 1;
   const draw = () => { el.innerHTML = `<button class="mm-back" id="spBack">‹ Zurück</button>
-    <div class="as-dn">💊 ${svgEsc(s.n)}</div><div class="as-s" style="margin-bottom:12px">${svgEsc(s.brand || '')}${s.brand ? ' · ' : ''}Supplement · empfohlen ${fmtNum(s.perDay || 1)} ${svgEsc(s.unit)} pro Tag</div>
+    <div class="as-dn">${s.med ? '🩺' : '💊'} ${svgEsc(s.n)}</div><div class="as-s" style="margin-bottom:12px">${svgEsc(s.brand || '')}${s.brand ? ' · ' : ''}${s.med ? 'Medikament' : 'Supplement · empfohlen ' + fmtNum(s.perDay || 1) + ' ' + svgEsc(s.unit) + ' pro Tag'}</div>
     <div class="sc-sec">Wie viele?</div><div class="mo-tags">${[1, 2, 3, 4].map(k => `<button class="${n === k ? 'on' : ''}" data-n="${k}">${k} ${svgEsc(k > 1 ? ({ Kapsel: 'Kapseln', Tablette: 'Tabletten', Portion: 'Portionen' }[s.unit] || s.unit) : s.unit)}</button>`).join('')}</div>
     <div class="sc-sec">Das nimmst du damit auf</div>${s.items.map(x => `<div class="sd-row"><span>${svgEsc(x.name)}</span><b>${fmtNum(Math.round(x.amount * n * 100) / 100)} ${svgEsc(x.unit)}</b></div>`).join('') || '<div class="ci-hint">Keine Inhaltsstoffe hinterlegt.</div>'}
     <button class="ck-go" id="spTake">Einnehmen</button><div id="spMsg"></div>`;
