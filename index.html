@@ -1164,6 +1164,21 @@
   .pb-sess .pb-row.pb-new-it{ background:color-mix(in srgb, var(--lime) 12%, transparent); padding-left:8px; padding-right:8px; transition:background 1s; }
   body.pb-dragging, body.pb-dragging *{ user-select:none; -webkit-user-select:none; }
   .pb-dnd-hint{ margin:4px 0 2px; }
+  .fc-vals.three{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+  .rf-cols{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:8px; margin-top:4px; }
+  .rf-col{ display:flex; flex-direction:column; align-items:center; gap:3px; min-width:0; }
+  .rf-wd{ font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-dim); }
+  .rf-bar{ position:relative; width:30px; height:118px; border-radius:8px; background:var(--bg2); overflow:hidden; margin:3px 0; }
+  .rf-bar u{ position:absolute; left:0; right:0; bottom:0; border-radius:8px 8px 0 0; }
+  .rf-col.fc .rf-bar u{ opacity:.55; background-image:repeating-linear-gradient(135deg, rgba(255,255,255,.22) 0 3px, transparent 3px 7px) !important; }
+  .rf-rng{ position:absolute; left:-2px; right:-2px; z-index:1; border-top:2px solid var(--ink-dim); border-bottom:2px solid var(--ink-dim); background:color-mix(in srgb, var(--ink) 7%, transparent); }
+  .rf-col b{ font-size:18px; font-weight:800; line-height:1.1; white-space:nowrap; } .rf-col small{ font-size:10.5px; color:var(--ink-dim); min-height:13px; }
+  .rf-col em{ font-style:normal; font-size:11px; font-weight:700; padding:2px 6px; border-radius:6px; background:var(--bg2); color:var(--ink-dim); max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .rf-col em.k-kraft{ background:color-mix(in srgb, var(--lime) 18%, var(--bg2)); color:var(--ink); }
+  .rf-rec{ margin-top:12px; font-size:13px; line-height:1.55; background:var(--bg2); border-radius:10px; padding:10px 12px; }
+  .rf-sleep{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:10px; flex-wrap:wrap; } .rf-sleep > span{ font-size:12px; color:var(--ink-dim); }
+  .rf-sleep .pb-seg.sm{ grid-template-columns:repeat(3, auto); }
+
   /* Aufklappbare Karten */
   .kz-title{ cursor:pointer; display:flex !important; align-items:center; gap:8px; -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
   .kz-title::after{ content:''; flex:0 0 auto; width:7px; height:7px; margin:0 4px 3px 8px; border-right:2px solid var(--ink-dim); border-bottom:2px solid var(--ink-dim); transform:rotate(45deg); transition:transform .2s; }
@@ -1248,7 +1263,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v22.3: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v22.4: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1277,7 +1292,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v22.3: Cockpit kompakter ---------- */
+  /* ---------- v22.4: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1534,7 +1549,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v22.3: verschlankt ---------- */
+  /* ---------- v22.4: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1737,7 +1752,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.3</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.4</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -8456,6 +8471,142 @@ function vitalBaseline(d, key){
   for (let i = 1; i <= 30; i++) { const x = v[addDays(d, -i)]; if (x && x[key]) vals.push(+x[key]); }
   return vals.length >= 5 ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
 }
+
+// ================= ERHOLUNGS-PROGNOSE (heute + 3 Tage) =================
+// Gleiche Formel wie die Erholung, aber mit vorhergesagten Bausteinen:
+// HRV/Ruhepuls kehren zu deinem Schnitt zurück (Tempo und Einfluss der Belastung aus deinen Daten gelernt),
+// Belastung aus dem aktiven Plan, Schlaf als Annahme, Check-in-Werte aus deinem Schnitt.
+let rfSleepMode = 'avg';
+function rfModel(){
+  const today = localDateStr(Date.now()), key = 'rf|' + today + '|' + Object.keys(loadCheckins()).length + '|' + Object.keys(_js('cutplan_vitals_v1')).length;
+  if (rfModel._c && rfModel._c.key === key) return rfModel._c.m;
+  const days = []; for (let i = 90; i >= 1; i--) days.push(addDays(today, -i));
+  const ci = loadCheckins(), V = _js('cutplan_vitals_v1'), SL = _js('cutplan_sleep_v1');
+  const S = d => { const x = strainScore(d); return x ? x.score : null; };
+  const sVals = days.map(S).filter(v => v !== null); const Sm = sVals.length ? sVals.reduce((a, b) => a + b, 0) / sVals.length : 10;
+  const mean = (arr, def) => { const v = arr.filter(x => x !== null && x !== undefined && !isNaN(x)); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : def; };
+  const ciMean = k => mean(days.map(d => (ci[d] || {})[k]), null);
+  // AR(1) mit Belastung: dev(t+1) = phi·dev(t) + beta·(S(t) − Ø)
+  const fitAR = devOf => { const X = [], y = [];
+    days.forEach(d => { const a = devOf(d), b = devOf(addDays(d, 1)), st = S(d); if (a !== null && b !== null) { X.push([a, st === null ? 0 : st - Sm]); y.push(b); } });
+    if (X.length < 12) return { phi: 0.5, beta: 0, n: X.length };
+    const w = ridgeFit(X, y, 1); return { phi: Math.max(0, Math.min(0.9, w[0])), beta: Math.max(-0.05, Math.min(0.05, w[1])), n: X.length }; };
+  const hrvDev = d => { const v = (V[d] || {}).hrv, b = vitalBaseline(d, 'hrv'); return v && b ? v / b - 1 : null; };
+  const rhrDev = d => { const v = (V[d] || {}).rhr, b = vitalBaseline(d, 'rhr'); return v && b ? (v - b) / b : null; };
+  const soreFit = (() => { const X = [], y = []; days.forEach(d => { const so = (ci[addDays(d, 1)] || {}).sore, st = S(d); if (so && st !== null) { X.push([st - Sm]); y.push(so); } });
+    const m = mean(y, null); if (X.length < 12 || m === null) return { m, g: 0.06 };
+    const w = ridgeFit(X, y.map(v => v - m), 2); return { m, g: Math.max(0, Math.min(0.25, w[0])) }; })();
+  const hrsAvg = mean(days.slice(-14).map(d => (SL[d] || {}).h ? +SL[d].h : null), 7.2);
+  const recent = k => days.slice(-14).filter(d => k === 'hrv' || k === 'rhr' ? (V[d] || {})[k] : k === 'resp' ? hkDaily(d).resp : (ci[d] || {})[k]).length >= 4;
+  const m = { Sm, hrv: fitAR(hrvDev), rhr: fitAR(rhrDev), sore: soreFit, hrsAvg, hrvDev, rhrDev,
+    means: { energy: ciMean('energy'), stress: ciMean('stress'), sleepQ: ciMean('sleepQ'), mood: ciMean('mood') },
+    has: { hrv: recent('hrv'), rhr: recent('rhr'), energy: recent('energy'), sore: recent('sore'), stress: recent('stress'), sleepQ: recent('sleepQ'), mood: recent('mood') } };
+  rfModel._c = { key, m }; return m;
+}
+// Typische Belastung je Tagesart aus deinem Verlauf
+function rfPlannedStrain(d){
+  const k = dayOrder[new Date(d + 'T12:00:00').getDay()], td = data.trainingDays[k] || {}, kind = td.rest || !(td.exercises || []).length ? 'rest' : (td.kind || 'kraft');
+  if (!rfPlannedStrain._c || rfPlannedStrain._c.day !== localDateStr(Date.now())) {
+    const g = { kraft: [], other: [] }, today = localDateStr(Date.now());
+    for (let i = 1; i <= 56; i++) { const x = addDays(today, -i), st = strainScore(x); if (!st) continue; (isStrengthDay(x) ? g.kraft : g.other).push(st.score); }
+    const avg = (a, def) => a.length >= 3 ? a.reduce((p, q) => p + q, 0) / a.length : def;
+    const oth = g.other.slice().sort((a, b) => a - b);
+    rfPlannedStrain._c = { day: localDateStr(Date.now()), kraft: avg(g.kraft, 13), leicht: oth.length >= 4 ? avg(oth.slice(Math.floor(oth.length / 2)), 10) : 10, rest: oth.length >= 4 ? avg(oth.slice(0, Math.ceil(oth.length / 2)), 7) : 7 };
+  }
+  return { kind, label: (td.label || '').replace(/^[A-Za-zÄÖÜäöü]{2}\s*·\s*/, '') || 'Ruhetag', s: rfPlannedStrain._c[kind === 'rest' ? 'rest' : kind === 'kraft' ? 'kraft' : 'leicht'] };
+}
+// Ein Tag vorwärts: Zustand (Abweichungen, Check-in-Werte) → Erholung am Folgetag
+function rfStep(m, st, S, hrs, sleepPrev){
+  const cl = x => Math.max(0, Math.min(1, x)), parts = [];
+  const hd = st.hrv === null ? null : m.hrv.phi * st.hrv + m.hrv.beta * (S - m.Sm);
+  const rd = st.rhr === null ? null : m.rhr.phi * st.rhr + m.rhr.beta * (S - m.Sm);
+  if (m.has.hrv && hd !== null) parts.push(['HRV', cl(0.5 + hd * 1.6), 0.35]);
+  if (m.has.rhr && rd !== null) parts.push(['Ruhepuls', cl(0.5 - rd * 4), 0.15]);
+  const debt = sleepPrev.slice(-3).reduce((a, h) => a + Math.max(0, SLEEP_BASE - h), 0);
+  const need = SLEEP_BASE + Math.max(0, S - 10) * 0.06 + Math.min(0.75, debt * 0.25);
+  parts.push(['Schlaf', Math.min(1, hrs / need), 0.35]);
+  const mu = m.means, rev = (k, prev, a) => prev === null || prev === undefined ? mu[k] : mu[k] + a * (prev - mu[k]);
+  const se = (() => { try { return sleepEffect('energy') || 0; } catch(e) { return 0; } })();
+  const energy = m.has.energy && mu.energy !== null ? Math.max(1, Math.min(5, rev('energy', st.energy, 0.3) + se * (hrs - m.hrsAvg))) : null;
+  const sore = m.has.sore && m.sore.m !== null ? Math.max(1, Math.min(5, m.sore.m + m.sore.g * (S - m.Sm))) : null;
+  const stress = m.has.stress && mu.stress !== null ? rev('stress', st.stress, 0.4) : null;
+  const sq = m.has.sleepQ && mu.sleepQ !== null ? mu.sleepQ : null, mood = m.has.mood && mu.mood !== null ? rev('mood', st.mood, 0.3) : null;
+  if (energy !== null) parts.push(['Energie', (energy - 1) / 4, 0.18]);
+  if (sore !== null) parts.push(['Muskelkater', (5 - sore) / 4, 0.14]);
+  if (stress !== null) parts.push(['Stress', (5 - stress) / 4, 0.12]);
+  if (sq !== null) parts.push(['Schlafqualität', (sq - 1) / 4, 0.08]);
+  if (mood !== null) parts.push(['Stimmung', (mood - 1) / 4, 0.05]);
+  parts.push(['Belastung Vortag', 1 - Math.min(1, S / 21), 0.08]);
+  const ws = parts.reduce((a, p) => a + p[2], 0), r = Math.max(1, Math.min(99, Math.round(parts.reduce((a, p) => a + p[1] * p[2], 0) / ws * 100)));
+  return { r, parts, next: { hrv: hd, rhr: rd, energy, stress, mood, sore }, need };
+}
+function rfState(m, d){ const c = loadCheckins()[d] || {}; return { hrv: m.hrvDev(d), rhr: m.rhrDev(d), energy: c.energy || null, stress: c.stress || null, mood: c.mood || null }; }
+// Rückblick: wie gut hätte das Modell den Folgetag getroffen (mit tatsächlichem Schlaf)?
+function rfBacktest(m){
+  const today = localDateStr(Date.now()), SL = _js('cutplan_sleep_v1'), errs = [], naive = [];
+  for (let i = 60; i >= 1; i--) { const d = addDays(today, -i), n1 = addDays(d, 1), R0 = recoveryScore(d), R1 = recoveryScore(n1), st = strainScore(d), h = (SL[n1] || {}).h;
+    if (!R0 || !R1 || !st || !h) continue;
+    const prev = [3, 2, 1].map(k => +((SL[addDays(n1, -k)] || {}).h || m.hrsAvg));
+    const p = rfStep(m, rfState(m, d), st.score, +h, prev); errs.push(p.r - R1.score); naive.push(R0.score - R1.score); }
+  const mae = a => a.length ? a.reduce((x, y) => x + Math.abs(y), 0) / a.length : null;
+  const sd = errs.length ? Math.sqrt(errs.reduce((x, y) => x + y * y, 0) / errs.length) : 12;
+  return { n: errs.length, mae: mae(errs), maeNaive: mae(naive), sd: errs.length >= 10 ? sd : 12 };
+}
+function recForecast(mode){
+  mode = mode || rfSleepMode; const m = rfModel(), today = localDateStr(Date.now()), SL = _js('cutplan_sleep_v1'), now = new Date();
+  const need = (() => { try { return sleepNeed(addDays(today, 1)).need; } catch(e) { return SLEEP_BASE; } })();
+  const hrs = mode === 'need' ? need : mode === 'short' ? 6 : Math.round(m.hrsAvg * 10) / 10;
+  const bt = rfBacktest(m), out = [];
+  const R0 = recoveryScore(today), pt = rfPlannedStrain(today), sAct = (strainScore(today) || {}).score || 0;
+  // heute: tatsächliche Belastung; ist ein Krafttraining geplant, aber noch nicht gemacht, zählt das geplante
+  const trainedToday = isStrengthDay(today) || loadSessions().some(x => x.date === today);
+  const S0 = pt.kind === 'kraft' && !trainedToday && now.getHours() < 21 ? Math.max(sAct, pt.s) : Math.max(sAct, now.getHours() >= 20 ? 0 : pt.s * 0.6);
+  out.push({ d: today, val: R0 ? R0.score : null, actual: true, plan: pt, S: S0, sAssumed: S0 > sAct + 0.5 });
+  let st = rfState(m, today), S = S0, sleeps = [3, 2, 1].map(k => +((SL[addDays(today, -k + 1)] || {}).h || m.hrsAvg));
+  for (let k = 1; k <= 3; k++) {
+    const d = addDays(today, k), p = rfStep(m, st, S, hrs, sleeps), pl = rfPlannedStrain(d);
+    const spread = (() => { const a = rfStep(m, st, S, hrs + 1, sleeps).r, b = rfStep(m, st, S, hrs - 1, sleeps).r; return Math.abs(a - b) / 2; })();
+    const sd = Math.round(Math.sqrt((bt.sd * Math.sqrt(k)) ** 2 + spread ** 2));
+    out.push({ d, val: p.r, lo: Math.max(1, p.r - sd), hi: Math.min(99, p.r + sd), sd, parts: p.parts, plan: pl, S: pl.s });
+    st = { hrv: p.next.hrv, rhr: p.next.rhr, energy: p.next.energy, stress: p.next.stress, mood: p.next.mood };
+    S = pl.s; sleeps = sleeps.concat([hrs]).slice(-3);
+  }
+  return { days: out, hrs, need, avg: m.hrsAvg, bt, m };
+}
+function rfZone(v){ return v >= 67 ? 'hi' : v >= 34 ? 'mid' : 'lo'; }
+function recForecastHTML(){
+  const t0 = localDateStr(Date.now()); let known = 0; for (let i = 0; i < 14; i++) if (recoveryScore(addDays(t0, -i))) known++;
+  if (known < 5) return `<div class="card rf-card" id="rfBox"><div class="card-title">Erholung · Prognose</div><div class="ana-empty">Die Prognose für die nächsten Tage startet, sobald an mindestens 5 der letzten 14 Tage eine Erholung berechnet wurde (Schlaf plus Check-in oder HRV) — bisher ${known}.</div></div>`;
+  let F; try { F = recForecast(); } catch(e) { console.warn(e); return ''; }
+  const d1 = F.days[1], tg = strainTarget({ zone: rfZone(d1.val), score: d1.val });
+  const wd = d => WD_SHORT[new Date(d + 'T12:00:00').getDay()];
+  const cols = F.days.map((x, i) => { const v = x.val, z = v !== null ? rfZone(v) : null;
+    return `<div class="rf-col${i ? ' fc' : ''}"><span class="rf-wd">${i === 0 ? 'Heute' : i === 1 ? 'Morgen' : wd(x.d)}</span>
+      <div class="rf-bar">${i && x.lo ? `<i class="rf-rng" style="bottom:${x.lo}%; height:${x.hi - x.lo}%"></i>` : ''}${v !== null ? `<u style="height:${v}%; background:${recColor(z)}"></u>` : ''}</div>
+      <b>${v !== null ? v + ' %' : '–'}</b><small>${i && x.sd ? '± ' + x.sd : i === 0 ? 'gemessen' : ''}</small>
+      <em class="k-${x.plan.kind}">${pbEsc(x.plan.kind === 'rest' ? 'Ruhetag' : pbShort(x.plan.label))}</em></div>`; }).join('');
+  // Empfehlung für morgen, abgeglichen mit dem Plan
+  const pl = d1.plan, z1 = rfZone(d1.val);
+  let rec = `<b style="color:${recColor(z1)}">Morgen ~${d1.val} %</b> → Ziel-Belastung <b>${tg[0]}–${tg[1]}</b>. `;
+  if (pl.kind === 'kraft') rec += z1 === 'lo' ? `Geplant ist <b>${pbEsc(pl.label)}</b> — eher leichter trainieren oder tauschen mit einem Ruhetag.` : z1 === 'mid' ? `Geplant: <b>${pbEsc(pl.label)}</b> — machbar, aber ohne Rekordversuche.` : `Geplant: <b>${pbEsc(pl.label)}</b> — passt, du darfst Gas geben.`;
+  else rec += pl.kind === 'rest' ? 'Morgen ist Ruhetag laut Plan.' : `Geplant: ${pbEsc(pl.label)} (leicht).`;
+  const lowLater = F.days.slice(2).find(x => rfZone(x.val) === 'lo' && x.plan.kind === 'kraft');
+  if (lowLater) rec += ` Achtung ${wd(lowLater.d)}: Prognose nur ${lowLater.val} % bei geplantem Krafttraining.`;
+  const bt = F.bt, sleepBtn = (k, l) => `<button class="${rfSleepMode === k ? 'on' : ''}" data-rf="${k}">${l}</button>`;
+  return `<div class="card rf-card" id="rfBox"><div class="card-title">Erholung · Prognose</div>
+    <div class="rf-cols">${cols}</div>
+    <div class="rf-rec">${rec}</div>
+    <div class="rf-sleep"><span>Schlaf pro Nacht</span><div class="pb-seg sm">${sleepBtn('avg', 'Schnitt ' + fmtNum(F.avg) + ' h')}${sleepBtn('need', 'Bedarf ' + fmtNum(F.need) + ' h')}${sleepBtn('short', '6 h')}</div></div>
+    <details class="ex"><summary>Wie genau ist das?</summary><div>Die Prognose nutzt dieselbe Formel wie deine Erholung. Für die kommenden Tage schätzt sie die Bausteine: HRV und Ruhepuls kehren zu deinem 30-Tage-Schnitt zurück${F.m.hrv.n >= 12 ? ` — wie schnell und wie stark Belastung sie drückt, hat die App aus ${F.m.hrv.n} Tagen gelernt` : ' (Standardwerte, bis 12 Tage mit HRV vorliegen)'}. Die Belastung kommt aus deinem aktiven Plan (dein typischer Wert für Kraft-, leichte und Ruhetage), der Schlaf aus der Auswahl oben.
+      ${bt.n >= 10 ? `<br><br><b>Rückblick ${bt.n} Tage:</b> Die Prognose für den Folgetag lag im Schnitt <b>±${Math.round(bt.mae)} Punkte</b> daneben${bt.maeNaive ? ` — „wie heute“ zu raten läge bei ±${Math.round(bt.maeNaive)}` : ''}. Das Band (±) zeigt die übliche Abweichung; für 2–3 Tage wird es breiter, weil Schlaf und Tagesform dazwischenkommen.` : '<br><br>Noch zu wenig Verlauf für einen Genauigkeits-Check — die ± Werte sind vorerst Schätzungen.'}
+      <br><br>Ehrlich: Morgen ist gut vorhersagbar, 3 Tage nur grob. Sieh es als Planungshilfe, nicht als Urteil. Der gemessene Wert am Morgen zählt.</div></details></div>`;
+}
+function bindRecForecast(root){
+  (root || document).querySelectorAll('#rfBox [data-rf]').forEach(b => b.onclick = () => {
+    rfSleepMode = b.dataset.rf; const box = document.getElementById('rfBox'); if (!box) return;
+    const t = document.createElement('div'); t.innerHTML = recForecastHTML(); box.replaceWith(t.firstElementChild); bindRecForecast(); });
+}
+
 function recColor(z){ return z === 'hi' ? 'var(--rec-hi)' : z === 'mid' ? 'var(--rec-mid)' : 'var(--rec-lo)'; }
 function strainTarget(rec){
   if (!rec) return null;
@@ -8563,6 +8714,7 @@ function renderTrends(){
     <div class="card"><div class="ana-kpis">${kp('Ø Erholung', R, ' %')}${kp('Ø Belastung', S, '', true)}${kp('Ø Schlaf', L, ' %')}
       ${kpi('Erholungs-Zonen', `<span style="color:var(--rec-hi)">${zones.hi}</span> · <span style="color:var(--rec-mid)">${zones.mid}</span> · <span style="color:var(--rec-lo)">${zones.lo}</span>`, 'grün · gelb · rot (Tage)')}</div>
       <details class="ex"><summary>Was bedeuten die Zahlen?</summary><div>Durchschnitt über den gewählten Zeitraum. Die kleine farbige Zahl vergleicht die zweite Hälfte des Zeitraums mit der ersten: <span class="c-up">türkis</span> = besser geworden, <span class="c-down">orange</span> = schlechter. Bei der Belastung heißt „mehr" nur „mehr trainiert", nicht automatisch besser.</div></details></div>
+    ${(() => { try { return recForecastHTML(); } catch(e) { console.warn(e); return ''; } })()}
     ${(() => { try { return vitalMarkersHTML(); } catch(e) { return ''; } })()}
     <div class="card"><div class="card-title">Erholung & Belastung</div><div id="trRS" class="svgc"></div>
       <details class="ex"><summary>Wie lese ich das?</summary><div>Jeder <b>Balken</b> ist die Erholung eines Tages (0–100 %), eingefärbt nach Zone: <b style="color:var(--rec-hi)">grün</b> ab 67 % — bereit für hartes Training, <b style="color:var(--rec-mid)">gelb</b> 34–66 % — moderat, <b style="color:var(--rec-lo)">rot</b> bis 33 % — Erholung priorisieren. Die <b style="color:var(--strain)">blaue Linie</b> ist die Belastung desselben Tages, umgerechnet auf die gleiche Skala (21 = 100). Liegt die Linie über mehrere Tage über den Balken, trainierst du mehr, als du dich erholst.</div></details></div>
@@ -8571,6 +8723,7 @@ function renderTrends(){
     <div class="card"><div class="card-title">Belastung</div><div id="trST" class="svgc"></div>
       <details class="ex"><summary>Wie lese ich das?</summary><div>Jeder <b style="color:var(--strain)">Balken</b> ist die Tagesbelastung auf der Skala 0–21 aus Krafttraining, Ausdauerminuten und Schritten. Grob: <b>unter 10</b> leicht, <b>10–13</b> moderat, <b>14–17</b> hoch, <b>ab 18</b> sehr hoch. Die Skala ist logarithmisch — die letzten Punkte kosten viel mehr Arbeit als die ersten. Die <b>gestrichelten Linien</b> markieren die Grenzen 10 und 14.</div></details></div>` + trendsExtraHTML();
   el.querySelectorAll('.trend-sw button').forEach(b => b.onclick = () => { trendDays = +b.dataset.n; renderTrends(); });
+  try { bindRecForecast(el); } catch(e) {}
   const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
   const zc = { hi: cssv('--rec-hi') || '#22E07A', mid: cssv('--rec-mid') || '#FFD43B', lo: cssv('--rec-lo') || '#FF4D5E' };
   const labels = days.map(d => fmtDate(d));
@@ -9323,7 +9476,7 @@ function forecastCardHTML(){
   return `<div class="card fc-card">
     <div class="fc-head"><div class="card-title" style="margin:0">${evening ? 'Prognose für morgen' : 'Prognose für heute'}</div>
       ${w ? `<div class="fc-wx">${wxIcon(w.code)} ${Math.round(w.tmax)}° <small>${fmtNum(w.sun)} h Sonne</small></div>` : ''}</div>
-    <div class="fc-vals"><div><span>Stimmung</span>${val(pm)}</div><div><span>Energie</span>${val(pe)}</div></div>
+    <div class="fc-vals${evening ? ' three' : ''}"><div><span>Stimmung</span>${val(pm)}</div><div><span>Energie</span>${val(pe)}</div>${evening ? (() => { try { const t0 = localDateStr(Date.now()); let kn = 0; for (let i = 0; i < 14; i++) if (recoveryScore(addDays(t0, -i))) kn++; if (kn < 5) return ''; const F = recForecast('need'), x = F.days[1]; return `<div><span>Erholung</span><b>${x.val} %</b><small>± ${x.sd}</small></div>`; } catch(e) { return ''; } })() : ''}</div>
     ${pm.ready || pe.ready ? `<div class="fc-why">${[pm, pe].filter(p => p.ready).map(p => p.contrib.slice(0, 2)).flat().filter((x, i, a) => a.findIndex(y => y.k === x.k) === i).slice(0, 3)
       .map(x => { const F = FC_FEATURES.find(z => z[0] === x.k); const lb = evening && x.k === 'sleep' ? `Schlaf heute Nacht (${fmtNum(assume.sleep)} h angenommen)` : evening ? F[1].replace(/ gestern$/, ' heute') : F[1];
         return `<span class="${x.c > 0 ? 'c-up' : 'c-down'}">${x.c > 0 ? '▲' : '▼'} ${lb}</span>`; }).join(' ')}</div>`
