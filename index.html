@@ -994,6 +994,51 @@
   .comp-leg b{ font-family:var(--num-font); font-size:13px; }
   .comp-note{ font-size:11px; color:var(--ink-dim); margin-top:10px; line-height:1.5; }
   .comp-leg em{ grid-column:2 / -1; font-style:normal; font-size:11px; color:var(--ink-dim); }
+  /* Withings-Stil: Zusammensetzung, Verteilungskurven, Bereichszeilen */
+  .wc-card{ padding:0 !important; overflow:hidden; }
+  .wc-top{ padding:16px 16px 14px; }
+  .wc-kick{ font-size:12.5px; color:var(--ink-dim); }
+  .wc-status{ font-size:27px; font-weight:800; line-height:1.15; margin-top:3px; letter-spacing:-.01em; }
+  .wc-sub{ font-size:12.5px; color:var(--ink-dim); margin-top:4px; line-height:1.45; }
+  .wc-lbls{ display:flex; justify-content:space-between; gap:8px; font-size:12.5px; font-weight:700; margin-top:16px; }
+  .wc-bar{ display:flex; gap:3px; height:13px; margin:5px 0 4px; }
+  .wc-bar i{ display:block; height:100%; border-radius:7px; min-width:8px; }
+  .wc-bone{ text-align:right; font-size:12px; color:var(--ink-dim); }
+  .wc-tiles{ display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line); }
+  .wc-tile{ padding:13px 12px 12px; min-width:0; display:flex; flex-direction:column; }
+  .wc-tile + .wc-tile{ border-left:1px solid var(--line); }
+  .wc-th{ font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; display:flex; align-items:center; gap:6px; }
+  .wc-th i{ width:10px; height:10px; border-radius:3px; flex:0 0 auto; }
+  .wc-delta{ display:flex; align-items:center; gap:6px; margin-top:9px; flex-wrap:wrap; row-gap:3px; }
+  .wc-arr{ width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+  .wc-delta b{ font-family:var(--num-font); font-size:20px; font-weight:800; line-height:1; white-space:nowrap; }
+  .wc-delta small{ font-size:12px; color:var(--ink-dim); font-family:var(--num-font); white-space:nowrap; }
+  .wc-per{ font-size:11px; color:var(--ink-dim); margin-top:5px; }
+  .wc-bell{ display:block; margin-top:auto; padding-top:10px; overflow:visible; }
+  .wc-pill{ font-size:11.5px; font-weight:700; font-family:inherit; }
+  .wc-nobell{ font-size:11.5px; color:var(--ink-dim); margin-top:12px; line-height:1.45; }
+  .wc-ex{ margin:0 !important; padding:10px 16px 12px !important; }
+  .wc-ex > div{ font-size:12.5px; color:var(--ink-dim); line-height:1.55; margin-top:6px; }
+  .bm-card .card-title{ margin-bottom:4px; }
+  .bm-row{ border-top:1px solid var(--line); }
+  .bm-row:first-of-type{ border-top:none; }
+  .bm-row summary{ list-style:none; display:grid; grid-template-columns:26px 1fr auto 12px; align-items:center; gap:11px; padding:12px 0; cursor:pointer; }
+  .bm-row summary::-webkit-details-marker{ display:none; }
+  .bm-ic{ display:flex; } .bm-ic svg{ width:23px; height:23px; fill:none; stroke:var(--ink); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .bm-n{ font-size:14.5px; line-height:1.25; min-width:0; } .bm-n b{ display:block; font-weight:800; font-size:15px; }
+  .bm-n small{ display:block; font-size:11px; color:var(--ink-dim); margin-top:2px; }
+  .bm-v{ display:flex; flex-direction:column; align-items:center; width:92px; }
+  .bm-v b{ font-family:var(--num-font); font-size:16.5px; font-weight:800; white-space:nowrap; }
+  .bm-bar{ position:relative; display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:3px; width:92px; height:7px; margin-top:13px; }
+  .bm-bar i{ border-radius:4px; background:color-mix(in srgb, var(--ink) 13%, transparent); }
+  .bm-bar em{ position:absolute; top:-10px; width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:8px solid var(--ink); transform:translateX(-50%); }
+  .bm-chev{ color:var(--ink-dim); font-size:20px; line-height:1; transition:transform .2s; }
+  .bm-row[open] .bm-chev{ transform:rotate(90deg); }
+  .bm-more{ font-size:12.5px; color:var(--ink-dim); line-height:1.55; padding:0 0 13px 37px; }
+  .bm-more b{ color:var(--ink); }
+  .bm-rg{ display:flex; flex-wrap:wrap; gap:5px; margin-bottom:7px; }
+  .bm-rg span{ background:var(--bg2); border:1px solid transparent; border-radius:7px; padding:3px 7px; font-size:11.5px; font-family:var(--num-font); }
+  .bm-rg span.on{ color:var(--ink); font-weight:700; }
 
   /* ---------- Marken-Import ---------- */
   .as-newown.alt{ border-style:solid; border-color:var(--line); color:var(--ink); background:var(--card); }
@@ -1006,7 +1051,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v21.4: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v21.5: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1035,7 +1080,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v21.4: Cockpit kompakter ---------- */
+  /* ---------- v21.5: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1292,7 +1337,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v21.4: verschlankt ---------- */
+  /* ---------- v21.5: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1495,7 +1540,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v21.4</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v21.5</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -6683,6 +6728,207 @@ function movingAvg(s, win){
     return sel.reduce((a, x) => a + x.v, 0) / sel.length;
   });
 }
+// ================= WITHINGS-STIL: Einordnung mit Verteilungskurve & Bereichsbalken =================
+// Referenzbereiche sind Näherungen: Körperfett nach Gallagher et al. 2000, FFMI nach Kouri et al. 1995,
+// BMI nach WHO, Knochen/Wasser/Viszeralfett nach Tanita-Referenztabellen, VO2max nach ACSM/Cooper Institute.
+const BM_TONE = { good: 'var(--up)', mid: 'var(--rec-mid)', bad: 'var(--rec-lo)' };
+const BM_ICON = {
+  pct: '<svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="2.6"/><circle cx="17" cy="17" r="2.6"/><path d="M18 5 6 19"/></svg>',
+  lean: '<svg viewBox="0 0 24 24"><path d="M6 19c-1.5-5 1-11 7-14 2.5 4 2.3 9.5-1 12.5-2 1.8-4 1.9-6 1.5Z"/><path d="M6 19 13 9"/></svg>',
+  bmi: '<svg viewBox="0 0 24 24"><circle cx="12" cy="4.6" r="2.2"/><path d="M5 8.5h14M12 8.5v5.5M12 14l-4 6.5M12 14l4 6.5"/></svg>',
+  bone: '<svg viewBox="0 0 24 24"><path d="M8.5 15.5 15.5 8.5"/><path d="M15.5 8.5a2.3 2.3 0 1 1 2-3.9 2.3 2.3 0 1 1 1.9 4 2.3 2.3 0 0 1-3.9-.1ZM8.5 15.5a2.3 2.3 0 1 1-2 3.9 2.3 2.3 0 1 1-1.9-4 2.3 2.3 0 0 1 3.9.1Z"/></svg>',
+  drop: '<svg viewBox="0 0 24 24"><path d="M12 3.5c3.5 4.3 6 7.6 6 10.8a6 6 0 0 1-12 0c0-3.2 2.5-6.5 6-10.8Z"/></svg>',
+  belly: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="13" rx="7" ry="7.5"/><path d="M9.5 13.5c1.5 1.2 3.5 1.2 5 0"/></svg>',
+  speed: '<svg viewBox="0 0 24 24"><path d="M4 16a8 8 0 1 1 16 0"/><path d="m12 16 4-5"/></svg>',
+  wave: '<svg viewBox="0 0 24 24"><path d="M2.5 12h4l2-5 3.5 10 2.5-7 1.5 2h5.5"/></svg>',
+  heart: '<svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z"/></svg>',
+  lung: '<svg viewBox="0 0 24 24"><path d="M12 4v8M12 10c-1.5 1-2.5 1.5-3 3M12 10c1.5 1 2.5 1.5 3 3"/><path d="M8.5 7.5C5.5 8 4 13 4 17c0 2 1.5 2.5 3.5 2 2-.5 2.5-2 2.5-4v-5M15.5 7.5C18.5 8 20 13 20 17c0 2-1.5 2.5-3.5 2-2-.5-2.5-2-2.5-4v-5"/></svg>',
+  o2: '<svg viewBox="0 0 24 24"><path d="M13 4 6 13h5l-1 7 7-9h-5l1-7Z"/></svg>',
+  moon: '<svg viewBox="0 0 24 24"><path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5Z"/></svg>',
+};
+function inkOn(c){
+  let h = String(chHex(c) || '').trim().replace('#', '');
+  if (/^[0-9a-f]{3}$/i.test(h)) h = h.split('').map(x => x + x).join('');
+  if (!/^[0-9a-f]{6}$/i.test(h)) return '#fff';
+  const n = parseInt(h, 16), L = 0.2126 * (n >> 16 & 255) / 255 + 0.7152 * (n >> 8 & 255) / 255 + 0.0722 * (n & 255) / 255;
+  return L > 0.5 ? '#101317' : '#fff';
+}
+function bmPerson(){
+  const p = loadProfile(), c = loadGoalCfg() || GOAL_DEFAULTS, h = parseFloat(p.height);
+  return { h: h > 100 && h < 230 ? h / 100 : null, age: parseFloat(p.age) || null, sex: c.sex === 'f' ? 'f' : 'm', goalBf: parseFloat(p.goalBf) || null, cfg: c };
+}
+function bmSeg(segs, v){ const i = segs.findIndex(s => v < s.max); return i < 0 ? segs.length - 1 : i; }
+function bfRef(age, sex){
+  const a = age || 35;
+  const t = sex === 'f' ? (a < 40 ? [21, 33, 39] : a < 60 ? [23, 34, 40] : [24, 36, 42]) : (a < 40 ? [8, 20, 25] : a < 60 ? [11, 22, 28] : [13, 25, 30]);
+  return { segs: [{ max: t[0], l: 'Niedrig', tone: 'mid' }, { max: t[1], l: 'Normal', tone: 'good' }, { max: t[2], l: 'Erhöht', tone: 'mid' }, { max: Infinity, l: 'Hoch', tone: 'bad' }],
+    lo: t[0] - 5, hi: t[2] + 7, mean: sex === 'f' ? (a < 40 ? 30 : a < 60 ? 33 : 35) : (a < 40 ? 21 : a < 60 ? 24 : 26), sd: sex === 'f' ? 7 : 6 };
+}
+function ffmiRef(sex){
+  const t = sex === 'f' ? [14, 17] : [17, 20];
+  return { segs: [{ max: t[0], l: 'Niedrig', tone: 'mid' }, { max: t[1], l: 'Normal', tone: 'good' }, { max: Infinity, l: 'Hoch', tone: 'good' }],
+    lo: t[0] - 3, hi: t[1] + 6, mean: sex === 'f' ? 15.5 : 19, sd: sex === 'f' ? 1.8 : 2.2 };
+}
+// Glockenkurve: Verteilung in der Bevölkerung, deine Kategorie eingefärbt, Strich = du
+function bellSVG(ref, v, color){
+  const W = 180, H = 100, base = 96, top = 34, n = 41, x0 = ref.mean - 3 * ref.sd, x1 = ref.mean + 3 * ref.sd;
+  const zi = bmSeg(ref.segs, v), zLo = zi > 0 ? ref.segs[zi - 1].max : -Infinity, zHi = ref.segs[zi].max;
+  const X = val => 5 + (Math.max(x0, Math.min(x1, val)) - x0) / (x1 - x0) * (W - 10);
+  const off = 'color-mix(in srgb, var(--ink) 17%, transparent)';
+  let bars = '';
+  for (let i = 0; i < n; i++) {
+    const xv = x0 + i * (x1 - x0) / (n - 1), g = Math.exp(-0.5 * ((xv - ref.mean) / ref.sd) ** 2);
+    const h = Math.max(1.6, g * (base - top)), on = xv >= zLo && xv < zHi;
+    bars += `<rect x="${(X(xv) - 1.35).toFixed(1)}" y="${(base - h).toFixed(1)}" width="2.7" height="${h.toFixed(1)}" rx="1.35" style="fill:${on ? color : off}"/>`;
+  }
+  const mx = X(v), lbl = ref.segs[zi].l, pw = lbl.length * 6.9 + 22, px = Math.max(pw / 2 + 1, Math.min(W - pw / 2 - 1, mx));
+  return `<svg class="wc-bell" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${lbl}">${bars}
+    <line x1="${mx.toFixed(1)}" y1="22" x2="${mx.toFixed(1)}" y2="${base}" style="stroke:var(--ink)" stroke-width="1.5"/>
+    <rect x="${(px - pw / 2).toFixed(1)}" y="1" width="${pw.toFixed(1)}" height="22" rx="11" style="fill:${color}"/>
+    <text x="${px.toFixed(1)}" y="16.3" text-anchor="middle" class="wc-pill" style="fill:${inkOn(color)}">${lbl}</text></svg>`;
+}
+function wcArrow(d, color){
+  const rot = Math.abs(d) < 0.1 ? 0 : d > 0 ? -45 : 45;
+  return `<span class="wc-arr" style="background:${color}; color:${inkOn(color)}"><svg viewBox="0 0 20 20" width="15" height="15"><g transform="rotate(${rot} 10 10)"><path d="M4 10h11.5M11 5.5 15.5 10 11 14.5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g></svg></span>`;
+}
+// Bereichszeile wie „Alle Körper-Biomarker": Wert, 3–4 Segmente, Dreieck = du; antippen klappt die Erklärung auf
+function bmRangeRow(r){
+  const zi = bmSeg(r.segs, r.v), n = r.segs.length, seg = r.segs[zi];
+  const a = zi ? r.segs[zi - 1].max : r.lo, b = seg.max === Infinity ? r.hi : seg.max;
+  const pos = (zi + Math.max(0.06, Math.min(0.94, (r.v - a) / ((b - a) || 1)))) / n * 100;
+  const f = r.fmt || (x => fmtNum(x)), u = r.unit ? ' ' + r.unit : '';
+  const rng = r.segs.map((s, i) => { const lo = i ? r.segs[i - 1].max : null, hi = s.max === Infinity ? null : s.max;
+    return `<span class="${i === zi ? 'on' : ''}" ${i === zi ? `style="border-color:${BM_TONE[s.tone]}"` : ''}>${s.l} ${lo === null ? 'unter ' + f(hi) : hi === null ? 'ab ' + f(lo) : f(lo) + '–' + f(hi)}${u}</span>`; }).join('');
+  return `<details class="bm-row"><summary>
+      <span class="bm-ic">${BM_ICON[r.ic] || ''}</span>
+      <span class="bm-n">${r.name}<b>${seg.l}</b>${r.sub ? `<small>${r.sub}</small>` : ''}</span>
+      <span class="bm-v"><b>${r.val}</b><span class="bm-bar">${r.segs.map((s, i) => `<i${i === zi ? ` style="background:${BM_TONE[s.tone]}"` : ''}></i>`).join('')}<em style="left:${pos.toFixed(1)}%"></em></span></span>
+      <span class="bm-chev">›</span></summary>
+    <div class="bm-more"><div class="bm-rg">${rng}</div>${r.more || ''}</div></details>`;
+}
+// Veränderung über 30 Tage: Schnitt der letzten 7 Tage gegen Schnitt vor 30–37 Tagen (glättet Bioimpedanz-Rauschen)
+function smoothDelta(s, days){
+  days = days || 30; if (s.length < 2) return null;
+  const last = s[s.length - 1].d, mean = a => a.reduce((x, p) => x + p.v, 0) / a.length;
+  const cur = s.filter(x => x.d > addDays(last, -7)), prev = s.filter(x => x.d <= addDays(last, -days) && x.d > addDays(last, -days - 7));
+  if (cur.length && prev.length) return { v: mean(cur) - mean(prev), smooth: true };
+  const c = seriesChange(s, days); return c ? { v: c.v, smooth: false, since: c.since } : null;
+}
+function compStatus(dM, dF){
+  const t = 0.3, m = dM === null ? 0 : dM > t ? 1 : dM < -t ? -1 : 0, f = dF === null ? 0 : dF > t ? 1 : dF < -t ? -1 : 0;
+  if (dM === null && dF === null) return ['Noch offen', 'Für einen Trend braucht es Messungen über mindestens zwei Wochen.'];
+  if (f < 0 && m > 0) return ['Rekomposition', 'Fett runter, Muskeln rauf — das Beste, was eine Diät liefern kann.'];
+  if (f < 0 && m === 0) return ['Fettabbau', 'Fett sinkt, die Muskeln halten. Genau so soll ein Cut aussehen.'];
+  if (f < 0 && m < 0) return ['Gewichtsverlust', 'Fett und Muskeln sinken. Prüf Eiweiß (≥ 2 g/kg) und ob das Defizit zu groß ist.'];
+  if (f === 0 && m > 0) return ['Muskelzunahme', 'Muskeln steigen, das Fett bleibt stabil.'];
+  if (f > 0 && m > 0) return ['Aufbau', 'Muskeln und Fett steigen — typisch für einen Überschuss.'];
+  if (f > 0) return ['Fettzunahme', 'Das Fett steigt, ohne dass die Muskeln mitziehen. Kalorien prüfen.'];
+  if (m < 0) return ['Muskelverlust', 'Die Muskeln sinken bei stabilem Fett. Training und Eiweiß prüfen.'];
+  return ['Stabil', 'Keine Veränderung über 0,3 kg in 30 Tagen — Messschwankungen ausgenommen.'];
+}
+function bodyCompCardHTML(S){
+  const P = bmPerson(), r1 = v => Math.round(v * 10) / 10, kg = v => fmtNum(r1(v)) + ' kg', sg = v => (v > 0.04 ? '+' : v < -0.04 ? '−' : '±') + fmtNum(r1(Math.abs(v))) + ' kg';
+  const both = S.muscle.filter(m => S.fat.some(f => f.d === m.d)), d = both.length ? both[both.length - 1].d : null;
+  if (!d) return '';
+  const mus = S.muscle.find(x => x.d === d).v, fat = S.fat.find(x => x.d === d).v, wt = (weightOn(d) || {}).v || null;
+  const leanP = S.lean.find(x => x.d === d), lean = leanP ? leanP.v : (wt ? wt - fat : null);
+  const boneP = S.bone.filter(x => x.d <= d).pop() || S.bone[0], bone = boneP ? boneP.v : (lean ? Math.max(0, lean - mus) : 0);
+  const tot = mus + fat + bone, bf = wt ? fat / wt * 100 : null;
+  const dM = smoothDelta(S.muscle), dF = smoothDelta(S.fat), st = compStatus(dM ? dM.v : null, dF ? dF.v : null);
+  const cM = 'var(--up)', cF = 'var(--down)', cB = 'color-mix(in srgb, var(--ink) 30%, transparent)';
+  const ffmi = P.h && lean ? lean / (P.h * P.h) : null;
+  const tile = (lbl, col, dl, val, sub, bell) => `<div class="wc-tile"><div class="wc-th"><i style="background:${col}"></i>${lbl}</div>
+      <div class="wc-delta">${dl ? wcArrow(dl.v, col) + `<b>${sg(dl.v)}</b>` : '<b>–</b>'}<small>${val}</small></div>
+      <div class="wc-per">${dl ? '30 Tage' : 'noch kein 30-Tage-Trend'}${sub ? ' · ' + sub : ''}</div>${bell}</div>`;
+  const bellM = ffmi ? bellSVG(ffmiRef(P.sex), ffmi, cM) : `<div class="wc-nobell">Trag unter <b>Mehr → Profil</b> deine Größe ein — dann ordnet die Kurve deine Muskeln ein.</div>`;
+  const bellF = bf ? bellSVG(bfRef(P.age, P.sex), bf, cF) : '';
+  return `<div class="card wc-card"><div class="wc-top">
+      <div class="wc-kick">Körperzusammensetzung · ${fmtDate(d)}</div>
+      <div class="wc-status">${st[0]}</div><div class="wc-sub">${st[1]}</div>
+      <div class="wc-lbls" style="padding-right:${(bone / tot * 100).toFixed(1)}%"><span style="color:${cM}">Muskeln: ${kg(mus)}</span><span style="color:${cF}">Fett: ${kg(fat)}</span></div>
+      <div class="wc-bar"><i style="width:${(mus / tot * 100).toFixed(1)}%; background:${cM}"></i><i style="width:${(fat / tot * 100).toFixed(1)}%; background:${cF}"></i>${bone ? `<i style="width:${(bone / tot * 100).toFixed(1)}%; background:${cB}"></i>` : ''}</div>
+      ${bone ? `<div class="wc-bone">Knochen: ${kg(bone)}${boneP ? '' : ' (berechnet)'}</div>` : ''}
+    </div>
+    <div class="wc-tiles">
+      ${tile('Muskelmasse', cM, dM, kg(mus), ffmi ? 'FFMI ' + fmtNum(r1(ffmi)) : '', bellM)}
+      ${tile('Fettmasse', cF, dF, kg(fat), bf ? fmtNum(r1(bf)) + ' %' : '', bellF)}
+    </div>
+    <details class="ex wc-ex"><summary>Wie lese ich das?</summary><div>
+      <b>Balken:</b> dein Körper aufgeteilt wie bei Withings — Muskeln + Fett + Knochen = Gewicht. Die Muskelmasse enthält das Wasser im Muskelgewebe, deshalb ist sie so groß.<br>
+      <b>Überschrift & Pfeile:</b> Veränderung über 30 Tage${dM && dM.smooth ? '. Verglichen werden die Schnitte der letzten 7 Tage und der 7 Tage vor einem Monat — einzelne Messungen schwanken per Bioimpedanz um bis zu 2 kg' : ' von der ersten zur letzten Messung im Zeitraum'}. Unter ±0,3 kg gilt als stabil.<br>
+      <b>Kurven:</b> ungefähre Verteilung bei ${P.sex === 'f' ? 'Frauen' : 'Männern'}${P.age ? ' deines Alters' : ''}. Eingefärbt ist die Kategorie, in der du liegst; der Strich bist du. Muskeln werden über den <b>FFMI</b> eingeordnet (fettfreie Masse ÷ Größe²), weil absolute Kilos ohne Körpergröße nichts aussagen. Körperfett nach Gallagher et al. (2000). Das sind Näherungen, keine Diagnose.</div></details></div>`;
+}
+function bodyMarkersHTML(S){
+  const P = bmPerson(), r1 = v => Math.round(v * 10) / 10, last = s => s.length ? s[s.length - 1] : null, rows = [];
+  const ch = (s, unit) => { const c = smoothDelta(s, 30), a = seriesChange(s); const f = x => (x.v > 0.04 ? '+' : x.v < -0.04 ? '−' : '±') + fmtNum(Math.abs(r1(x.v))) + ' ' + unit;
+    return c || a ? `<div>${c ? '30 Tage: <b>' + f(c) + '</b>' : ''}${c && a ? ' · ' : ''}${a ? 'seit ' + fmtDate(a.since) + ': <b>' + f(a) + '</b>' : ''}</div>` : ''; };
+  const wL = last(S.w), bfL = last(S.bf), leanL = last(S.lean), boneL = last(S.bone), watL = last(S.water);
+  if (bfL) { const ref = bfRef(P.age, P.sex);
+    rows.push({ ic: 'pct', name: 'Körperfett', v: bfL.v, val: fmtNum(r1(bfL.v)) + ' %', unit: '%', segs: ref.segs, lo: ref.lo, hi: ref.hi, sub: P.goalBf ? 'Ziel ' + fmtNum(P.goalBf) + ' %' : '',
+      more: ch(S.bf, '%') + `<div>Bereiche für ${P.sex === 'f' ? 'Frauen' : 'Männer'} ${P.age ? 'deines Alters' : '(Alter im Profil fehlt — gerechnet mit 35)'} nach Gallagher et al. (2000). Die Waage misst per Bioimpedanz — der Trend ist verlässlicher als der einzelne Wert.</div>` }); }
+  const ffmi = P.h && leanL ? leanL.v / (P.h * P.h) : null;
+  if (leanL) { const ref = ffmiRef(P.sex);
+    rows.push(ffmi ? { ic: 'lean', name: 'Magermasse', v: ffmi, val: fmtNum(r1(leanL.v)) + ' kg', fmt: x => fmtNum(x), unit: 'FFMI', segs: ref.segs, lo: ref.lo, hi: ref.hi, sub: 'FFMI ' + fmtNum(r1(ffmi)),
+      more: ch(S.lean, 'kg') + `<div>Alles außer Fett: Muskeln, Organe, Knochen, Wasser. Eingeordnet über den FFMI (Magermasse ÷ Größe²) — die Bereiche gelten für den FFMI, nicht für die Kilos. Ab etwa 25 ist natürlich kaum mehr erreichbar (Kouri et al. 1995). Bioimpedanz-Waagen schätzen die Magermasse eher etwas zu hoch.</div>` } : null); }
+  if (wL && P.h) { const bmi = wL.v / (P.h * P.h), muscular = ffmi && ffmi >= (P.sex === 'f' ? 17 : 20);
+    rows.push({ ic: 'bmi', name: 'Body-Mass-Index', v: bmi, val: fmtNum(r1(bmi)), segs: [{ max: 18.5, l: 'Niedrig', tone: 'mid' }, { max: 25, l: 'Normal', tone: 'good' }, { max: 30, l: 'Hoch', tone: 'mid' }, { max: Infinity, l: 'Sehr hoch', tone: 'bad' }], lo: 15, hi: 35,
+      more: `<div>Gewicht ÷ Größe² nach WHO. ${muscular && bmi >= 25 ? '<b>Bei dir ist der BMI wenig aussagekräftig:</b> er unterscheidet nicht zwischen Muskeln und Fett. Mit deiner Magermasse ist ein „hoher" BMI kein Gesundheitsrisiko — entscheidend ist der Körperfettanteil.' : 'Er unterscheidet nicht zwischen Muskeln und Fett — Körperfett und Magermasse sind aussagekräftiger.'}</div>` }); }
+  if (boneL && wL) { const ref = P.sex === 'f' ? (wL.v < 50 ? 1.95 : wL.v <= 75 ? 2.4 : 2.95) : (wL.v < 65 ? 2.66 : wL.v <= 95 ? 3.29 : 3.69);
+    rows.push({ ic: 'bone', name: 'Knochenmasse', v: boneL.v, val: fmtNum(r1(boneL.v)) + ' kg', unit: 'kg', segs: [{ max: r1(ref - 0.3), l: 'Niedrig', tone: 'mid' }, { max: r1(ref + 0.3), l: 'Normal', tone: 'good' }, { max: Infinity, l: 'Hoch', tone: 'good' }], lo: ref - 0.9, hi: ref + 0.9,
+      more: `<div>Geschätztes Mineralgewicht des Skeletts. Richtwert für dein Gewicht: ${fmtNum(ref)} kg (Tanita-Referenz). Ändert sich über Jahre kaum — Krafttraining hält es stabil. Für echte Knochendichte braucht es eine DXA-Messung.</div>` }); }
+  if (watL && wL) { const pct = watL.v / wL.v * 100, t = P.sex === 'f' ? [45, 60] : [50, 65];
+    rows.push({ ic: 'drop', name: 'Körperwasser', v: pct, val: fmtNum(r1(pct)) + ' %', unit: '%', segs: [{ max: t[0], l: 'Niedrig', tone: 'mid' }, { max: t[1], l: 'Normal', tone: 'good' }, { max: Infinity, l: 'Hoch', tone: 'good' }], lo: t[0] - 8, hi: t[1] + 8, sub: fmtNum(r1(watL.v)) + ' kg',
+      more: `<div>Anteil Wasser am Gewicht. Mehr Muskeln = mehr Wasser. Schwankt mit Trinken, Salz und Kohlenhydraten — ein niedriger Wert am Morgen heißt meist nur: noch nichts getrunken.</div>` }); }
+  const body = loadBody(), visD = Object.keys(body).filter(k => body[k] && body[k].visceral !== undefined).sort().pop();
+  if (visD) { const v = +body[visD].visceral;
+    rows.push({ ic: 'belly', name: 'Viszeralfett', v, val: fmtNum(v), segs: [{ max: 7, l: 'Niedrig', tone: 'good' }, { max: 13, l: 'Normal', tone: 'good' }, { max: Infinity, l: 'Hoch', tone: 'bad' }], lo: 1, hi: 20, sub: 'Index · ' + fmtDate(visD),
+      more: `<div>Fett um die Organe im Bauchraum — gesundheitlich das relevantere Fett. Index 1–12 gilt als gesund, ab 13 steigt das Risiko für Stoffwechselerkrankungen. Sinkt bei Fettabbau meist überproportional.</div>` }); }
+  const sl = weightSlope(addDays(localDateStr(Date.now()), -27), localDateStr(Date.now()));
+  if (sl && sl.last) { const pw = sl.perDay * 7, pct = pw / sl.last * 100, g = P.cfg.goal;
+    const o = g === 'cut' ? { v: -pct, unit: '% Verlust pro Woche', lo: -0.5, hi: 1.6, segs: [{ max: 0.25, l: 'Zu langsam', tone: 'mid' }, { max: 1, l: 'Im Ziel', tone: 'good' }, { max: Infinity, l: 'Zu schnell', tone: 'bad' }] }
+      : g === 'bulk' ? { v: pct, unit: '% Zunahme pro Woche', lo: -0.3, hi: 0.9, segs: [{ max: 0.1, l: 'Zu langsam', tone: 'mid' }, { max: 0.5, l: 'Im Ziel', tone: 'good' }, { max: Infinity, l: 'Zu schnell', tone: 'bad' }] }
+      : { v: pct, unit: '% pro Woche', lo: -0.8, hi: 0.8, segs: [{ max: -0.25, l: 'Fällt', tone: 'mid' }, { max: 0.25, l: 'Stabil', tone: 'good' }, { max: Infinity, l: 'Steigt', tone: 'mid' }] };
+    rows.push(Object.assign(o, { ic: 'speed', name: 'Tempo · 4 Wochen', val: (pw > 0 ? '+' : pw < 0 ? '−' : '') + fmtNum(Math.abs(Math.round(pw * 100) / 100)) + ' kg', fmt: x => fmtNum(x), sub: 'pro Woche · ' + fmtNum(Math.round(Math.abs(pct) * 100) / 100) + ' %',
+      more: `<div>Gewichtsveränderung pro Woche aus dem Trend der letzten 4 Wochen, in Prozent deines Gewichts. ${g === 'cut' ? `Im Cut gelten 0,25–1 % pro Woche als muskelschonend; dein eingestelltes Ziel: ${fmtNum(P.cfg.rate)} %.` : g === 'bulk' ? 'Im Aufbau gelten 0,1–0,5 % pro Woche als sauber.' : ''}</div>` })); }
+  const list = rows.filter(Boolean);
+  if (!list.length) return '';
+  return `<div class="card bm-card"><div class="card-title">Alle Körper-Biomarker</div>${list.map(bmRangeRow).join('')}
+    ${!P.h ? '<div class="ana-note">BMI und Magermasse-Einordnung erscheinen, sobald unter <b>Mehr → Profil</b> deine Größe eingetragen ist.</div>' : ''}
+    <div class="ana-note">Antippen zeigt Bereiche und Erklärung. Referenzwerte sind Näherungen aus Studien und Herstellertabellen, keine medizinische Diagnose.</div></div>`;
+}
+// Analyse → Trends: Vitalwerte gegen deinen persönlichen Normalbereich (30 Tage) bzw. Altersnormen
+function vitalMarkersHTML(){
+  const P = bmPerson(), today = localDateStr(Date.now()), r1 = v => Math.round(v * 10) / 10, rows = [];
+  const series = (get) => { const out = []; for (let i = 0; i <= 33; i++) { const d = addDays(today, -i), v = get(d); if (v) out.push({ d, v: +v }); } return out; };
+  const personal = (key, get, o) => {
+    const s = series(get); if (!s.length || s[0].d < addDays(today, -3)) return;
+    const cur = s[0], hist = s.filter(x => x.d < cur.d && x.d >= addDays(cur.d, -30)).map(x => x.v);
+    if (hist.length < 7) return;
+    const m = hist.reduce((a, b) => a + b, 0) / hist.length, sd = Math.max(o.minSd, Math.sqrt(hist.reduce((a, b) => a + (b - m) ** 2, 0) / hist.length));
+    const lo = r1(m - sd), hi = r1(m + sd);
+    rows.push({ ic: o.ic, name: o.name, v: cur.v, val: fmtNum(r1(cur.v)) + ' ' + o.unit, unit: o.unit, segs: [{ max: lo, l: 'Niedrig', tone: o.toneLo }, { max: hi, l: 'Normal', tone: 'good' }, { max: Infinity, l: 'Hoch', tone: o.toneHi }],
+      lo: m - 2.6 * sd, hi: m + 2.6 * sd, sub: (cur.d === today ? 'heute' : fmtDate(cur.d)) + ' · Ø ' + fmtNum(r1(m)),
+      more: `<div>Dein persönlicher Normalbereich: Schnitt der letzten 30 Tage ± eine Standardabweichung (${hist.length} Messungen). ${o.txt}</div>` });
+  };
+  personal('hrv', d => (vitalsOf(d) || {}).hrv, { name: 'HRV', unit: 'ms', ic: 'wave', minSd: 2, toneLo: 'mid', toneHi: 'good',
+    txt: 'Höher als üblich spricht für gute Erholung. Liegt die HRV mehrere Tage unter dem Bereich, bremsen Stress, Schlafmangel, Alkohol oder ein Infekt — dann Training dosieren.' });
+  personal('rhr', d => (vitalsOf(d) || {}).rhr, { name: 'Ruhepuls', unit: 'bpm', ic: 'heart', minSd: 1, toneLo: 'good', toneHi: 'mid',
+    txt: 'Ein Ruhepuls über dem Bereich ist oft das erste Zeichen von Überlastung, Infekt oder zu wenig Schlaf — meist ein bis zwei Tage bevor du es merkst.' });
+  personal('resp', d => hkDaily(d).resp, { name: 'Atemfrequenz', unit: '/min', ic: 'lung', minSd: 0.3, toneLo: 'good', toneHi: 'bad',
+    txt: 'Nachts sehr stabil. Ein Anstieg um mehr als 1 Atemzug pro Minute kündigt häufig einen Infekt an.' });
+  const vo = series(d => hkDaily(d).vo2);
+  if (vo.length && vo[0].d >= addDays(today, -30)) { const a = P.age || 35, t = P.sex === 'f' ? (a < 30 ? [33, 41] : a < 40 ? [31, 38] : a < 50 ? [28, 35] : a < 60 ? [25, 32] : [22, 29]) : (a < 30 ? [40, 48] : a < 40 ? [37, 45] : a < 50 ? [34, 42] : a < 60 ? [31, 38] : [27, 35]);
+    rows.push({ ic: 'o2', name: 'VO2max', v: vo[0].v, val: fmtNum(r1(vo[0].v)), unit: 'ml/kg/min', fmt: x => fmtNum(x), segs: [{ max: t[0], l: 'Niedrig', tone: 'mid' }, { max: t[1], l: 'Normal', tone: 'good' }, { max: Infinity, l: 'Hoch', tone: 'good' }], lo: t[0] - 8, hi: t[1] + 8, sub: 'ml/kg/min · ' + fmtDate(vo[0].d),
+      more: `<div>Maximale Sauerstoffaufnahme — einer der stärksten Einzelfaktoren für Lebenserwartung. Bereiche für ${P.sex === 'f' ? 'Frauen' : 'Männer'} ${P.age ? 'deines Alters' : 'um 35'} nach ACSM/Cooper Institute. Die Apple Watch schätzt den Wert aus Gehen und Laufen; Zone-2- und Intervalltraining heben ihn.</div>` }); }
+  const nights = []; for (let i = 0; i < 7; i++) { const s = sleepScore(addDays(today, -i)); if (s && s.hours) nights.push(s.hours); }
+  if (nights.length >= 3) { const h = nights.reduce((a, b) => a + b, 0) / nights.length;
+    rows.push({ ic: 'moon', name: 'Schlafdauer · Ø 7 Tage', v: h, val: fmtNum(r1(h)) + ' h', unit: 'h', segs: [{ max: 7, l: 'Zu wenig', tone: 'mid' }, { max: 9, l: 'Normal', tone: 'good' }, { max: Infinity, l: 'Viel', tone: 'mid' }], lo: 5, hi: 10.5, sub: nights.length + ' Nächte',
+      more: `<div>Empfehlung für Erwachsene: 7–9 Stunden (American Academy of Sleep Medicine). Im Kaloriendefizit und bei hartem Training eher am oberen Ende — zu wenig Schlaf erhöht den Muskelverlust in der Diät deutlich.</div>` }); }
+  if (!rows.length) return '';
+  return `<div class="card bm-card"><div class="card-title">Vitalwerte · Einordnung</div>${rows.map(bmRangeRow).join('')}
+    <div class="ana-note">HRV, Ruhepuls und Atemfrequenz vergleicht die App mit <b>deinem</b> Normalbereich der letzten 30 Tage — Normwerte sind bei diesen Werten zu individuell. VO2max und Schlaf mit Normwerten.</div></div>`;
+}
+
 function renderBodyAnalysis(){
   const el = document.getElementById('bodyAna'); if (!el) return;
   const S = bodySeries();
@@ -6716,7 +6962,9 @@ function renderBodyAnalysis(){
     }
   }
   let fig = ''; try { fig = bodyFigureHTML(); } catch(e) {}
-  el.innerHTML = fig + `
+  const wcHTML = (() => { try { return bodyCompCardHTML(S); } catch(e) { return ''; } })();
+  const bmHTML = (() => { try { return bodyMarkersHTML(S); } catch(e) { return ''; } })();
+  el.innerHTML = fig + wcHTML + bmHTML + (wcHTML ? '' : `
     <div class="card accent"><div class="card-title">Körperzusammensetzung</div>
       <div class="ana-kpis">
         ${kv('Gewicht', S.w, 'kg', cfg.goal !== 'bulk')}
@@ -6725,7 +6973,7 @@ function renderBodyAnalysis(){
         ${kv('Körperfett', S.bf, '%', true)}
         ${sl ? kpi('Tempo · 4 Wochen', (sl.perDay * 7 > 0 ? '+' : '') + fmtNum(Math.round(sl.perDay * 7 * 100) / 100) + ' kg/Wo.', cfg.goal === 'cut' ? 'Ziel ' + fmtNum(-Math.round(cfg.rate / 100 * sl.last * 100) / 100) + ' kg/Woche' : '', '', true) : ''}
       </div></div>
-    ${compHTML}
+    ${compHTML}`) + `
     <div class="card"><div class="card-title">Gewicht</div><div id="baW" class="svgc"></div>
       <div class="ana-note">Gestrichelt: 7-Tage-Schnitt. Einzelne Tage schwanken mit Wasser und Darminhalt um bis zu 1 kg — entscheidend ist der Schnitt.</div></div>
     ${S.fat.length >= 2 || S.muscle.length >= 2 ? `<div class="card"><div class="card-title">Fett & Muskeln · Veränderung seit Beginn</div><div id="baFM" class="svgc"></div>
@@ -7096,6 +7344,7 @@ function renderTrends(){
     <div class="card"><div class="ana-kpis">${kp('Ø Erholung', R, ' %')}${kp('Ø Belastung', S, '', true)}${kp('Ø Schlaf', L, ' %')}
       ${kpi('Erholungs-Zonen', `<span style="color:var(--rec-hi)">${zones.hi}</span> · <span style="color:var(--rec-mid)">${zones.mid}</span> · <span style="color:var(--rec-lo)">${zones.lo}</span>`, 'grün · gelb · rot (Tage)')}</div>
       <details class="ex"><summary>Was bedeuten die Zahlen?</summary><div>Durchschnitt über den gewählten Zeitraum. Die kleine farbige Zahl vergleicht die zweite Hälfte des Zeitraums mit der ersten: <span class="c-up">türkis</span> = besser geworden, <span class="c-down">orange</span> = schlechter. Bei der Belastung heißt „mehr" nur „mehr trainiert", nicht automatisch besser.</div></details></div>
+    ${(() => { try { return vitalMarkersHTML(); } catch(e) { return ''; } })()}
     <div class="card"><div class="card-title">Erholung & Belastung</div><div id="trRS" class="svgc"></div>
       <details class="ex"><summary>Wie lese ich das?</summary><div>Jeder <b>Balken</b> ist die Erholung eines Tages (0–100 %), eingefärbt nach Zone: <b style="color:var(--rec-hi)">grün</b> ab 67 % — bereit für hartes Training, <b style="color:var(--rec-mid)">gelb</b> 34–66 % — moderat, <b style="color:var(--rec-lo)">rot</b> bis 33 % — Erholung priorisieren. Die <b style="color:var(--strain)">blaue Linie</b> ist die Belastung desselben Tages, umgerechnet auf die gleiche Skala (21 = 100). Liegt die Linie über mehrere Tage über den Balken, trainierst du mehr, als du dich erholst.</div></details></div>
     <div class="card"><div class="card-title">Schlafleistung</div><div id="trSL" class="svgc"></div>
