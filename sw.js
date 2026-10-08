@@ -1,5 +1,6 @@
 // Service Worker — Offline-Betrieb & Installation
-const CACHE = 'cutplan-v21-5';
+const CACHE = 'cutplan-v22-0';
+const IMG_CACHE = 'kaizen-uebungsbilder';   // bleibt über App-Versionen hinweg erhalten
 const ASSETS = [
   './manifest.json',
   './icon-180.png',
@@ -19,7 +20,7 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE && k !== IMG_CACHE).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -32,6 +33,15 @@ self.addEventListener('fetch', e => {
 
   // Wetter: immer live, nie aus dem Cache (sonst rechnet die Prognose mit altem Wetter)
   if (url.includes('open-meteo.com')) { e.respondWith(fetch(e.request)); return; }
+
+  // Übungsbilder (nur auf Knopfdruck geladen): einmal geladen, danach auch offline verfügbar
+  if (url.includes('free-exercise-db')) {
+    e.respondWith(caches.open(IMG_CACHE).then(c => c.match(e.request).then(hit => hit || fetch(e.request).then(res => {
+      if (res.ok) c.put(e.request, res.clone());
+      return res;
+    }))));
+    return;
+  }
 
   // Lebensmittel-Suche: immer live, nie aus dem Cache
   if (url.includes('openfoodfacts.org')) {
