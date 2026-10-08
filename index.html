@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<script>(function(){try{var t=localStorage.getItem('cutplan_theme_v1');if(!localStorage.getItem('cutplan_theme_mig14')){t='performance';localStorage.setItem('cutplan_theme_v1',t);localStorage.setItem('cutplan_theme_mig14','1');}document.documentElement.setAttribute('data-theme',t||'performance');}catch(e){document.documentElement.setAttribute('data-theme','performance');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('cutplan_theme_v1');if(!localStorage.getItem('cutplan_theme_mig14')){t='performance';localStorage.setItem('cutplan_theme_v1',t);localStorage.setItem('cutplan_theme_mig14','1');}t=(function(){var g=function(k){return localStorage.getItem(k)};var d=g('cutplan_design_v1'),m=g('cutplan_mode_v1'),t=g('cutplan_theme_v1');if(d&&m){var dk=m==='dark'||(m==='system'&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches);var M={kaizen:['kaizen-light','performance'],warm:['sand','walnuss'],graphit:['graphit','graphit'],original:['original','original']}[d]||['kaizen-light','performance'];t=M[dk?1:0];localStorage.setItem('cutplan_theme_v1',t);}return t;})()||t;document.documentElement.setAttribute('data-theme',t||'performance');}catch(e){document.documentElement.setAttribute('data-theme','performance');}})();</script>
 
 <meta charset="UTF-8">
 <link rel="manifest" href="manifest.json">
@@ -1164,6 +1164,52 @@
   .pb-sess .pb-row.pb-new-it{ background:color-mix(in srgb, var(--lime) 12%, transparent); padding-left:8px; padding-right:8px; transition:background 1s; }
   body.pb-dragging, body.pb-dragging *{ user-select:none; -webkit-user-select:none; }
   .pb-dnd-hint{ margin:4px 0 2px; }
+  /* Einstellungen */
+  header.top{ position:sticky; } .hdr-gear{ position:absolute; right:14px; top:calc(env(safe-area-inset-top, 0px) + 8px); width:40px; height:40px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--ink-dim); display:flex; align-items:center; justify-content:center; z-index:2; }
+  .set-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0; } .set-row + .set-row{ border-top:1px solid var(--line); }
+  .set-l{ min-width:0; display:flex; flex-direction:column; gap:2px; } .set-l b{ font-size:14.5px; } .set-l small{ font-size:12px; color:var(--ink-dim); line-height:1.35; }
+  .set-seg{ display:flex; gap:3px; padding:3px; background:var(--bg2); border-radius:11px; flex:0 0 auto; }
+  .set-seg button{ min-height:34px; padding:0 11px; border:none; border-radius:8px; background:transparent; color:var(--ink-dim); font-size:13px; font-weight:600; white-space:nowrap; }
+  .set-seg button.on{ background:var(--card); color:var(--ink); font-weight:800; box-shadow:0 1px 2px rgba(0,0,0,.12); }
+  .set-sub{ margin:8px 0 8px; font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-dim); }
+  .set-designs{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .set-design{ text-align:left; display:flex; flex-direction:column; gap:5px; padding:10px; border-radius:12px; border:1.5px solid var(--line); background:var(--bg2); color:var(--ink); }
+  .set-design.on{ border-color:var(--lime); } .set-design b{ font-size:13.5px; } .set-design small{ font-size:11px; color:var(--ink-dim); }
+  .set-design .theme-sw{ display:flex; border-radius:6px; overflow:hidden; } .set-design .theme-sw i{ flex:1; height:22px; display:block; }
+  .set-note{ font-size:12px; color:var(--ink-dim); margin:10px 0 0; line-height:1.5; }
+  .set-sel{ border:1px solid var(--line); background:var(--bg2); color:var(--ink); border-radius:10px; padding:8px 10px; font-size:15px; font-family:inherit; }
+  .set-tog{ position:relative; width:52px; height:32px; flex:0 0 auto; } .set-tog input{ position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; z-index:1; }
+  .set-tog i{ position:absolute; inset:0; border-radius:16px; background:var(--line); transition:background .2s; }
+  .set-tog i::after{ content:''; position:absolute; top:3px; left:3px; width:26px; height:26px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.3); transition:transform .2s; }
+  .set-tog input:checked + i{ background:var(--up); } .set-tog input:checked + i::after{ transform:translateX(20px); }
+  .set-link{ border:none; background:none; color:var(--lime); font-weight:700; font-size:13px; padding:8px 0 2px; text-align:left; }
+  .set-nav{ display:flex; align-items:center; justify-content:space-between; width:100%; padding:11px 0; border:none; background:none; color:var(--ink); text-align:left; }
+  .set-nav + .set-nav{ border-top:1px solid var(--line); } .set-nav span{ display:flex; flex-direction:column; gap:2px; } .set-nav b{ font-size:14.5px; } .set-nav small{ font-size:12px; color:var(--ink-dim); } .set-nav em{ font-style:normal; color:var(--ink-dim); font-size:20px; }
+  .set-info{ text-align:center; font-size:11.5px; color:var(--ink-dim); margin:4px 0 14px; }
+  body.kz-nofold .kz-title::after{ display:none; } body.kz-nofold .kz-title{ cursor:default; }
+
+  .kr-hero-row{ display:flex; justify-content:space-between; align-items:flex-end; gap:10px; }
+  .kr-hero-row > div:first-child b{ display:block; font-family:var(--num-font); font-size:34px; font-weight:800; line-height:1; }
+  .kr-hero-row > div:first-child span{ font-size:11.5px; color:var(--ink-dim); }
+  .kr-cnt{ display:flex; gap:10px; font-size:14px; font-weight:800; } .kr-cnt span{ white-space:nowrap; }
+  .kr-hero .up, .kr-r .up, .kr-sec.up, .kr-ic.up{ color:var(--up); } .kr-hero .down, .kr-r .down, .kr-sec.down, .kr-ic.down{ color:var(--down); } .kr-hero .flat, .kr-r .flat, .kr-sec.flat, .kr-sec.neu, .kr-ic.flat, .kr-ic.neu{ color:var(--ink-dim); }
+  .kr-verdict{ margin:8px 0 4px; font-size:13.5px; line-height:1.5; }
+  .kr-steps{ display:flex; flex-direction:column; gap:8px; } .kr-steps > div{ display:flex; gap:10px; align-items:flex-start; font-size:13px; line-height:1.45; }
+  .kr-steps i{ font-style:normal; flex:0 0 22px; height:22px; border-radius:50%; background:var(--lime); color:var(--acc-ink); font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; }
+  .kr-note{ font-size:12px; color:var(--ink-dim); margin:10px 0 0; line-height:1.5; }
+  .kr-sec{ margin:16px 2px 8px; font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+  .kr-list{ padding:0 !important; overflow:hidden; }
+  .kr-row{ display:flex; align-items:center; gap:10px; width:100%; padding:11px 12px; border:none; background:transparent; color:var(--ink); text-align:left; }
+  .kr-row + .kr-row{ border-top:1px solid var(--line); }
+  .kr-ic{ flex:0 0 26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; background:var(--bg2); }
+  .kr-b{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; } .kr-b b{ font-size:14.5px; } .kr-b small{ font-size:11.5px; color:var(--ink-dim); }
+  .kr-b em{ font-style:normal; font-size:12px; line-height:1.4; color:var(--ink); } .kr-b em b{ font-size:12px; color:var(--lime); } .kr-b em.old{ color:var(--ink-dim); }
+  .kr-r{ display:flex; flex-direction:column; align-items:flex-end; gap:2px; flex:0 0 auto; } .kr-r > b{ font-family:var(--num-font); font-size:14px; white-space:nowrap; }
+  .kr-sp{ width:64px; height:24px; } .kr-sp polyline{ fill:none; stroke:currentColor; stroke-width:1.8; stroke-linejoin:round; stroke-linecap:round; } .kr-sp circle{ fill:currentColor; }
+  .qc-goal{ font-size:12.5px; line-height:1.45; margin:-2px 0 8px; padding:7px 10px; border-radius:9px; background:color-mix(in srgb, var(--lime) 10%, transparent); }
+  .qc-goal span{ display:block; font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--lime); margin-bottom:1px; } .qc-goal b{ color:var(--lime); }
+  .kr-sp.up{ color:var(--up); } .kr-sp.down{ color:var(--down); } .kr-sp.flat, .kr-sp.neu{ color:var(--ink-dim); }
+
   .fc-vals.three{ grid-template-columns:repeat(3, minmax(0,1fr)); }
   .rf-cols{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:8px; margin-top:4px; }
   .rf-col{ display:flex; flex-direction:column; align-items:center; gap:3px; min-width:0; }
@@ -1263,7 +1309,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v22.4: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v22.6: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1292,7 +1338,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v22.4: Cockpit kompakter ---------- */
+  /* ---------- v22.6: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1549,7 +1595,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v22.4: verschlankt ---------- */
+  /* ---------- v22.6: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1706,16 +1752,31 @@
     --num-font: "DIN Alternate", "DIN Condensed", "Barlow Semi Condensed", "Helvetica Neue", system-ui, sans-serif;
     --bar-bg: rgba(7,9,11,0.88);
   }
-  :root[data-theme="performance"] .card, :root[data-theme="performance"] .qcard, :root[data-theme="performance"] .supp, :root[data-theme="performance"] .ins{
+  :root[data-theme="performance"] .card, :root[data-theme="performance"] .qcard, :root[data-theme="performance"] .supp, :root[data-theme="performance"] .ins, :root[data-theme="kaizen-light"] .card, :root[data-theme="kaizen-light"] .qcard, :root[data-theme="kaizen-light"] .supp, :root[data-theme="kaizen-light"] .ins{
     background:var(--card); border:1px solid var(--line); box-shadow:none; border-radius:16px; }
-  :root[data-theme="performance"] .card.accent{ border-color:#25313C; background:linear-gradient(180deg, #151B21 0%, #11151A 100%); }
-  :root[data-theme="performance"] .card-title{ color:var(--ink-dim); letter-spacing:.14em; font-size:11.5px; }
-  :root[data-theme="performance"] header.top, :root[data-theme="performance"] footer.tabbar{ background:var(--bar-bg) !important; -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); border-color:var(--line); }
-  :root[data-theme="performance"] header.top .eyebrow{ color:var(--ink-dim); }
-  :root[data-theme="performance"] h1, :root[data-theme="performance"] .hero-title{ letter-spacing:-.01em; }
-  :root[data-theme="performance"] .set-input, :root[data-theme="performance"] .prog-input{ background:#0E1216; border-color:var(--line); color:var(--ink); }
-  :root[data-theme="performance"] .kpi{ background:#0E1216; border:1px solid var(--line); }
-  :root[data-theme="performance"] .kpi-v, :root[data-theme="performance"] .ck-num b, :root[data-theme="performance"] .as-kcal b{ font-family:var(--num-font); letter-spacing:.01em; }
+  :root[data-theme="performance"] .card.accent, :root[data-theme="kaizen-light"] .card.accent{ border-color:#25313C; background:linear-gradient(180deg, #151B21 0%, #11151A 100%); }
+  :root[data-theme="performance"] .card-title, :root[data-theme="kaizen-light"] .card-title{ color:var(--ink-dim); letter-spacing:.14em; font-size:11.5px; }
+  :root[data-theme="performance"] header.top, :root[data-theme="performance"] footer.tabbar, :root[data-theme="kaizen-light"] header.top, :root[data-theme="kaizen-light"] footer.tabbar{ background:var(--bar-bg) !important; -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); border-color:var(--line); }
+  :root[data-theme="performance"] header.top .eyebrow, :root[data-theme="kaizen-light"] header.top .eyebrow{ color:var(--ink-dim); }
+  :root[data-theme="performance"] h1, :root[data-theme="performance"] .hero-title, :root[data-theme="kaizen-light"] h1, :root[data-theme="kaizen-light"] .hero-title{ letter-spacing:-.01em; }
+  :root[data-theme="performance"] .set-input, :root[data-theme="performance"] .prog-input, :root[data-theme="kaizen-light"] .set-input, :root[data-theme="kaizen-light"] .prog-input{ background:#0E1216; border-color:var(--line); color:var(--ink); }
+  :root[data-theme="performance"] .kpi, :root[data-theme="kaizen-light"] .kpi{ background:#0E1216; border:1px solid var(--line); }
+  :root[data-theme="performance"] .kpi-v, :root[data-theme="performance"] .ck-num b, :root[data-theme="performance"] .as-kcal b, :root[data-theme="kaizen-light"] .kpi-v, :root[data-theme="kaizen-light"] .ck-num b, :root[data-theme="kaizen-light"] .as-kcal b{ font-family:var(--num-font); letter-spacing:.01em; }
+
+  :root[data-theme="kaizen-light"]{
+    --bg:#F1F3F6; --bg2:#E7EBF0; --card:#FFFFFF; --line:#DCE1E7; --ink:#0E1318; --ink-dim:#5C6874;
+    --lime:#1B74C5; --acc-ink:#FFFFFF; --amber:#C96A0A; --clay:#D93C46;
+    --up:#0E8C7C; --down:#C96A0A; --goal:#8A96A3;
+    --protein:#2F7FE0; --carb:#C99406; --fat:#D64872; --sleep:#5B5FD6; --steps:#0E8C7C;
+    --rec-hi:#139A45; --rec-mid:#C99A06; --rec-lo:#D93C46; --strain:#1B74C5; --ring-track:#E3E8EE;
+    --page-grad: radial-gradient(130% 45% at 50% -8%, #FFFFFF 0%, rgba(255,255,255,0) 62%), linear-gradient(180deg, #F6F8FA 0%, #EDF0F4 100%);
+    --num-font: "DIN Alternate", "DIN Condensed", "Barlow Semi Condensed", "Helvetica Neue", system-ui, sans-serif;
+    --bar-bg: rgba(246,248,250,0.9); color-scheme: light;
+  }
+  :root[data-theme="kaizen-light"] .card.accent{ border-color:#CFD8E2; background:linear-gradient(180deg, #FFFFFF 0%, #F7F9FC 100%); }
+  :root[data-theme="kaizen-light"] .set-input, :root[data-theme="kaizen-light"] .prog-input{ background:#F4F6F9; }
+  :root[data-theme="kaizen-light"] .kpi{ background:#F7F9FB; }
+  :root[data-theme="kaizen-light"] .card, :root[data-theme="kaizen-light"] .qcard{ box-shadow:0 1px 2px rgba(16,24,40,.04); }
   /* Ringe (Schlaf · Erholung · Belastung) */
   .dial-card{ padding:16px 8px 14px !important; }
   .dials{ display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
@@ -1752,7 +1813,8 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.4</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.6</span></div>
+  <button class="hdr-gear" id="hdrGear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"></path></svg></button>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -2407,17 +2469,14 @@
   <section class="view" id="view-goals"><div id="goalsBox"></div></section>
   <section class="view" id="view-mehrmenu"><div id="mehrMenu"></div></section>
   <section class="view" id="view-einstellungen">
-    <div class="card accent">
-      <div class="card-title">Farbschema</div>
-      <div id="themePicker" class="theme-grid"></div>
+    <div id="appSettings"></div>
+    <div class="card">
+      <div class="card-title">App-Sperre</div>
+      <div id="lockSettings"></div>
     </div>
     <div class="card">
       <div class="card-title">Werte aus Apple Health übernehmen</div>
       <div id="hkGuide"></div>
-    </div>
-    <div class="card">
-      <div class="card-title">App-Sperre</div>
-      <div id="lockSettings"></div>
     </div>
     <div class="card">
       <div class="card-title">Daten</div>
@@ -4021,7 +4080,7 @@ const viewMeta = {
   mydb:{title:'Meine Datenbank', sub:'Lebensmittel, Supplements und Sicherung'},
   goals:{title:'Deine Ziele', sub:'Worauf die App achten soll'},
   mehrmenu:{title:'Mehr', sub:'Plan, Daten und Einstellungen'},
-  einstellungen:{title:'Design & Daten', sub:'Farbschema, Import & Backup'},
+  einstellungen:{title:'Einstellungen', sub:'Darstellung, Training, Schlaf & Daten'},
   woche:{title:'Wochenplan', sub:'Kalorien & Makros je Tag'},
   mahlzeiten:{title:'Musterernährung', sub:'Orientierung: Uhrzeiten & Mengen'},
   bewegung:{title:'Prinzipien', sub:'Schritte-Ziel & Trainingsphilosophie'},
@@ -4440,7 +4499,8 @@ function exComplete(ex, hist, date){
   const done = hist.filter(e => e.date === date && e.reps !== null && e.reps !== undefined && !isNaN(e.reps) && !e.prefill);
   return done.length >= n;
 }
-function weightStep(name){ return /kurzhantel|seitheben|hammer|bizeps|curls|renegade/i.test(name || '') ? 2 : 2.5; }
+function weightStep(name){ let S = {}; try { S = JSON.parse(localStorage.getItem('cutplan_settings_v1') || '{}') || {}; } catch(e) {}
+  return /kurzhantel|seitheben|hammer|bizeps|curls|renegade/i.test(name || '') ? (+S.stepDb || 2) : (+S.stepBar || 2.5); }
 function miniHistory(el, exName, kind, today){
   if (!el) return;
   const hist = historyFor(exName);
@@ -4602,6 +4662,7 @@ function renderTodayEntry(){
       <div class="qcard-body">
         ${isBodyweightExercise(ex.name) && exerciseKind(ex.sets) === 'reps' ? bwBoxHTML(ex.name, today) : ''}
         <div class="qcard-last prev-line">${lastTxt}</div>
+        ${(() => { try { return nextGoalLine(ex, hist, today); } catch(e) { return ''; } })()}
         <div class="set-lines">${rows.join('')}</div>
         <div class="vol-box" data-volfor="${ex.name}"></div>
         ${copyBtn}
@@ -6574,7 +6635,90 @@ function applyTheme(id){
   syncThemeColors(); syncMetaTheme();
   renderSettings();
 }
+
+// ================= EINSTELLUNGEN =================
+const KZ_SET_KEY = 'cutplan_settings_v1';
+function kzSettings(){ try { return JSON.parse(localStorage.getItem(KZ_SET_KEY) || '{}') || {}; } catch(e) { return {}; } }
+function kzSetSetting(k, v){ const o = kzSettings(); o[k] = v; try { localStorage.setItem(KZ_SET_KEY, JSON.stringify(o)); } catch(e) {} }
+const KZ_DESIGNS = [
+  { id: 'kaizen', name: 'Kaizen', sub: 'Standard · nach WHOOP-Vorbild', light: 'kaizen-light', dark: 'performance', sw: { light: ['#F1F3F6', '#FFFFFF', '#1B74C5', '#139A45'], dark: ['#07090B', '#12161B', '#3FA9F5', '#22E07A'] } },
+  { id: 'warm', name: 'Sand & Walnuss', sub: 'Warm · natürlich', light: 'sand', dark: 'walnuss', sw: { light: ['#EEE8DD', '#FFFCF7', '#8B5E3C', '#5E7F52'], dark: ['#1A1714', '#2E2923', '#D4A979', '#9DBA8A'] } },
+  { id: 'graphit', name: 'Graphit & Blau', sub: 'Sachlich · nur dunkel', light: null, dark: 'graphit', sw: { dark: ['#0E1014', '#171A21', '#4DA3FF', '#34D399'] } },
+  { id: 'original', name: 'Original', sub: 'Lime · nur dunkel', light: null, dark: 'original', sw: { dark: ['#12140F', '#1E2118', '#C8FF4D', '#6FE3A6'] } },
+];
+function kzDesignMode(){
+  let d = localStorage.getItem('cutplan_design_v1'), m = localStorage.getItem('cutplan_mode_v1');
+  if (!d || !m) { const t = currentTheme(); d = { sand: 'warm', walnuss: 'warm', auto: 'warm', graphit: 'graphit', original: 'original', 'kaizen-light': 'kaizen' }[t] || 'kaizen';
+    m = t === 'auto' ? 'system' : (t === 'sand' || t === 'kaizen-light') ? 'light' : 'dark'; }
+  return { d, m };
+}
+function kzSystemDark(){ try { return window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches; } catch(e) { return true; } }
+function kzApplyDesign(d, m, rerender){
+  const D = KZ_DESIGNS.find(x => x.id === d) || KZ_DESIGNS[0];
+  const dark = m === 'dark' || (m === 'system' && kzSystemDark());
+  const t = dark || !D.light ? D.dark : D.light;
+  try { localStorage.setItem('cutplan_design_v1', D.id); localStorage.setItem('cutplan_mode_v1', m); localStorage.setItem('cutplan_theme_v1', t); } catch(e) {}
+  document.documentElement.setAttribute('data-theme', t);
+  try { syncThemeColors(); syncMetaTheme(); } catch(e) {}
+  const sb = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]'); if (sb) sb.setAttribute('content', (dark || !D.light) ? 'black-translucent' : 'default');
+  if (rerender) { try { showView(currentViewId); } catch(e) {} }
+}
+if (window.matchMedia) { try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { const x = kzDesignMode(); if (x.m === 'system') kzApplyDesign(x.d, 'system', true); }); } catch(e) {} }
+function kzStartTab(){ const v = kzSettings().start; return ['dashboard', 'train', 'food', 'analyse'].includes(v) ? v : 'dashboard'; }
+function renderAppSettings(){
+  const box = document.getElementById('appSettings'); if (!box) return;
+  const { d, m } = kzDesignMode(), S = kzSettings(), cfg = loadGoalCfg() || Object.assign({}, GOAL_DEFAULTS), fold = !S.foldOff;
+  const D = KZ_DESIGNS.find(x => x.id === d) || KZ_DESIGNS[0], darkNow = m === 'dark' || (m === 'system' && kzSystemDark()) || !D.light;
+  const seg = (name, cur, opts) => `<div class="set-seg">${opts.map(([v, l]) => `<button class="${String(cur) === String(v) ? 'on' : ''}" data-set="${name}" data-v="${v}">${l}</button>`).join('')}</div>`;
+  const row = (t, s, ctl) => `<div class="set-row"><div class="set-l"><b>${t}</b>${s ? `<small>${s}</small>` : ''}</div>${ctl}</div>`;
+  const used = (() => { try { return storageUsage().total; } catch(e) { return 0; } })();
+  box.innerHTML = `
+    <div class="card"><div class="card-title">Darstellung</div>
+      ${row('Modus', m === 'system' ? 'Folgt dem iPhone — gerade ' + (darkNow ? 'dunkel' : 'hell') : '', seg('mode', m, [['light', 'Hell'], ['dark', 'Dunkel'], ['system', 'Auto']]))}
+      <div class="set-sub">Design</div>
+      <div class="set-designs">${KZ_DESIGNS.map(x => { const sw = x.sw[darkNow || !x.light ? 'dark' : 'light'];
+        return `<button class="set-design${x.id === d ? ' on' : ''}" data-set="design" data-v="${x.id}"><span class="theme-sw">${sw.map(c => `<i style="background:${c}"></i>`).join('')}</span><b>${x.name}${x.id === d ? ' ✓' : ''}</b><small>${x.sub}</small></button>`; }).join('')}</div>
+      ${!D.light && m !== 'dark' ? `<p class="set-note">„${D.name}“ gibt es nur dunkel — für den hellen Modus „Kaizen“ oder „Sand &amp; Walnuss“ wählen.</p>` : ''}
+    </div>
+    <div class="card"><div class="card-title">Start &amp; Ansicht</div>
+      ${row('Beim Öffnen starten mit', '', `<select class="set-sel" data-set="start">${[['dashboard', 'Cockpit'], ['train', 'Training'], ['food', 'Ernährung'], ['analyse', 'Analyse']].map(([v, l]) => `<option value="${v}" ${kzStartTab() === v ? 'selected' : ''}>${l}</option>`).join('')}</select>`)}
+      ${row('Kompakte Ansicht', 'Vertiefende Karten zugeklappt, mit Kurzfassung', `<label class="set-tog"><input type="checkbox" data-set="fold" ${fold ? 'checked' : ''}><i></i></label>`)}
+      <button class="set-link" data-set="foldreset">Alle Karten wieder auf Standard (zugeklappt) setzen</button>
+    </div>
+    <div class="card"><div class="card-title">Training</div>
+      ${row('Gewichtssprung Langhantel &amp; Maschine', 'Für „Heute anpeilen“ und die Kraft-Ziele', seg('stepBar', S.stepBar || 2.5, [[1.25, '1,25'], [2.5, '2,5'], [5, '5 kg']]))}
+      ${row('Gewichtssprung Kurzhanteln', 'Je nach Hantelsatz im Studio', seg('stepDb', S.stepDb || 2, [[1, '1'], [2, '2'], [2.5, '2,5 kg']]))}
+    </div>
+    <div class="card"><div class="card-title">Schlaf</div>
+      ${row('Aufstehzeit', 'Für den Schlafplaner und die Bettzeit-Empfehlung', `<input type="time" class="set-sel" data-set="wake" value="${cfg.wake || '06:30'}">`)}
+      ${row('Schlaf-Grundbedarf', 'Basis für Schlafleistung und Erholung', seg('sleepBase', S.sleepBase || 7.5, [[7, '7'], [7.5, '7,5'], [8, '8'], [8.5, '8,5 h']]))}
+    </div>
+    <div class="card"><div class="card-title">Profil &amp; Ziele</div>
+      <button class="set-nav" data-go="ziel"><span><b>Profil</b><small>Größe, Alter, Start- und Zielwerte</small></span><em>›</em></button>
+      <button class="set-nav" data-go="goals"><span><b>Deine Ziele</b><small>Worauf die App besonders achten soll</small></span><em>›</em></button>
+      <button class="set-nav" data-go="tplan"><span><b>Trainingsplan</b><small>Aktiven Plan wählen oder bauen</small></span><em>›</em></button>
+    </div>
+    <div class="set-info">Kaizen Health v22.6 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
+  box.querySelectorAll('[data-set]').forEach(el => {
+    const k = el.dataset.set;
+    const handler = () => {
+      if (k === 'mode') kzApplyDesign(kzDesignMode().d, el.dataset.v, false);
+      else if (k === 'design') { const x = KZ_DESIGNS.find(z => z.id === el.dataset.v); let mm = kzDesignMode().m; if (x && !x.light && mm === 'light') mm = 'dark'; kzApplyDesign(el.dataset.v, mm, false); }
+      else if (k === 'start') kzSetSetting('start', el.value);
+      else if (k === 'fold') { kzSetSetting('foldOff', !el.checked); try { kzApplyFolds(); } catch(e) {} }
+      else if (k === 'foldreset') { try { localStorage.removeItem(KZ_FOLD_KEY); } catch(e) {} kzSetSetting('foldOff', false); try { pbToast('Karten zurückgesetzt'); } catch(e) {} }
+      else if (k === 'stepBar' || k === 'stepDb') kzSetSetting(k, +el.dataset.v);
+      else if (k === 'wake') { const c = loadGoalCfg() || Object.assign({}, GOAL_DEFAULTS); c.wake = el.value; saveGoalCfg(c); }
+      else if (k === 'sleepBase') { kzSetSetting('sleepBase', +el.dataset.v); try { pbToast('Schlaf-Grundbedarf gespeichert — App lädt kurz neu'); } catch(e) {} setTimeout(() => location.reload(), 900); return; }
+      renderAppSettings();
+    };
+    if (el.tagName === 'SELECT' || el.type === 'checkbox' || el.type === 'time') el.onchange = handler; else el.onclick = handler;
+  });
+  box.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { const v = b.dataset.go; if (v === 'tplan') { switchTab('train'); showView('tplan'); } else showView(v); try { window.scrollTo({ top: 0 }); } catch(e) {} });
+}
+
 function renderSettings(){
+  try { renderAppSettings(); } catch(e) { console.warn(e); }
   try { renderLockSettings(); } catch(e) {}
   try { const g = document.getElementById('hkGuide'); if (g && !g.dataset.done) { g.innerHTML = healthShortcutGuide(); g.dataset.done = '1';
     document.getElementById('scCopy').onclick = async () => { try { await navigator.clipboard.writeText(document.getElementById('scTpl').textContent); document.getElementById('scCopy').textContent = '✓ kopiert'; } catch(e) { document.getElementById('scCopy').textContent = 'Bitte manuell markieren'; } }; } } catch(e) {}
@@ -7426,8 +7570,7 @@ function nextTargetsFor(k){
     const repsTxt = atTop.map(x => x.reps).join('/');
     let target;
     if (deloadActive()) target = `<b>${fmtNum(Math.round(topW * 0.6 / weightStep(ex.name)) * weightStep(ex.name))} kg</b> × ${lo}–${hi}, ${Math.max(1, n - 1)} ${n - 1 === 1 ? 'Satz' : 'Sätze'} — Deload-Woche`;
-    else if (atTop.length >= n && atTop.every(x => x.reps >= hi)) target = `<b>${fmtNum(topW + weightStep(ex.name))} kg</b> × ${lo} — Gewicht erhöhen, alle Sätze am oberen Ende geschafft`;
-    else { const minR = Math.min(...atTop.map(x => x.reps)); target = `<b>${fmtNum(topW)} kg</b> × ${Math.min(hi, minR + 1)} in jedem Satz — zuletzt ${repsTxt}`; }
+    else target = strengthNext(ex.name, ss, ex).t;   // gleiche Steigerungsregel wie im Reiter „Kraft“
     rows.push(`<div class="nt-row"><div class="nt-n">${svgEsc(ex.name.split(' (')[0])}</div><div class="nt-t">${target}</div></div>`);
     if (prev) {   // Umgesetzt? Gewicht oder Volumen gegenüber dem Mal davor gesteigert
       const pw = Math.max(0, ...prev.sets.filter(x => x.weight > 0).map(x => +x.weight));
@@ -8362,8 +8505,9 @@ function showBrandImport(){
 
 
 // ================= ANALYSE · LEISTUNG: Themen statt einer langen Seite =================
-const PERF_SECTIONS = [['hebel','Hebel'],['volumen','Volumen'],['zeit','Zeit'],['zus','Einflüsse'],['uebung','Übung']];
-let perfSection = 'hebel';
+const PERF_SECTIONS = [['kraft','Kraft'],['hebel','Hebel'],['volumen','Volumen'],['zeit','Zeit'],['zus','Einflüsse'],['uebung','Übung']];
+const PERF_DOM = ['hebel','volumen','zeit','zus','uebung'];   // Reihenfolge der Abschnitte im HTML
+let perfSection = 'kraft';
 function setupPerfSections(){
   const ov = document.getElementById('progOverview'); if (!ov || ov.dataset.sec) return;
   ov.dataset.sec = '1';
@@ -8371,17 +8515,20 @@ function setupPerfSections(){
   kids.forEach(k => {
     if (k.classList.contains('ana-head')) {
       idx++; cur = document.createElement('div');
-      cur.className = 'perf-sec'; cur.dataset.s = (PERF_SECTIONS[idx] || ['x'])[0];
+      cur.className = 'perf-sec'; cur.dataset.s = PERF_DOM[idx] || 'x';
       ov.insertBefore(cur, k); k.remove();
     } else if (cur) cur.appendChild(k);
   });
   const bar = document.createElement('div'); bar.className = 'perf-tabs'; bar.id = 'perfTabs';
   ov.insertBefore(bar, ov.firstChild);
+  const kr = document.createElement('div'); kr.className = 'perf-sec'; kr.dataset.s = 'kraft'; kr.innerHTML = '<div id="strengthBox"></div>';
+  ov.insertBefore(kr, bar.nextSibling);
 }
 function showPerfSection(s){
   perfSection = s || perfSection;
   if (perfSection === 'zus') perfSection = 'hebel';
   document.querySelectorAll('#progOverview .perf-sec').forEach(x => x.style.display = x.dataset.s === perfSection ? '' : 'none');
+  if (perfSection === 'kraft') { try { renderStrength(); } catch(e) { console.warn('Kraft', e); } }
   const bar = document.getElementById('perfTabs');
   if (bar) {
     if (perfSection === 'zus') perfSection = 'hebel';
@@ -8389,12 +8536,111 @@ function showPerfSection(s){
     bar.querySelectorAll('.perf-tab').forEach(b => b.onclick = () => { showPerfSection(b.dataset.s); try { renderOverview(); } catch(e) {} try { window.scrollTo({ top: 0 }); } catch(e) {} });
   }
 }
+
+// ================= KRAFT: Steigen meine Gewichte – und wie steigere ich sie? =================
+// Maß: geschätztes 1RM (Epley) je Einheit — macht 90 kg × 8 und 85 kg × 11 vergleichbar.
+// Trend: lineare Regression der letzten 8 Wochen, umgerechnet in % pro 4 Wochen.
+function strengthNext(name, ss, planned){
+  const rr = planned ? repRange(planned.sets) : null, lo = rr ? rr[0] : 8, hi = rr ? rr[1] : 12, n = planned ? parseSetCount(planned.sets) || 3 : 3;
+  const last = ss[ss.length - 1], ws = last.sets.filter(x => +x.reps > 0);
+  const weighted = ws.filter(x => +x.weight > 0);
+  if (deloadActive()) return { t: 'Deload-Woche: ~60 % Gewicht, ein Satz weniger', k: 'deload' };
+  if (!weighted.length) {   // reines Körpergewicht
+    const minR = ws.length ? Math.min(...ws.map(x => +x.reps)) : 0;
+    if (ws.length >= n && ws.every(x => +x.reps >= hi)) return { t: `<b>+2,5 kg Zusatzgewicht</b> × ${lo} — oder eine schwerere Variante`, k: 'up' };
+    return { t: `<b>${Math.min(hi, minR + 1)} Wdh.</b> in jedem Satz — zuletzt ${ws.map(x => x.reps).join('/') || '–'}`, k: 'reps' };
+  }
+  const topW = Math.max(...weighted.map(x => +x.weight)), atTop = weighted.filter(x => +x.weight === topW), step = weightStep(name);
+  if (atTop.length >= n && atTop.every(x => +x.reps >= hi)) return { t: `<b>${fmtNum(topW + step)} kg</b> × ${lo} — Gewicht rauf, alle Sätze oben angekommen`, k: 'up' };
+  if (atTop.length < n) {   // Topsatz + leichtere Sätze: Fortschritt am schwersten Satz messen
+    const tr = Math.max(...atTop.map(x => +x.reps));
+    return tr >= hi ? { t: `<b>${fmtNum(topW + step)} kg</b> × ${lo} im schwersten Satz — zuletzt ${tr} Wdh. geschafft`, k: 'up' }
+      : { t: `<b>${fmtNum(topW)} kg × ${Math.max(lo, tr + 1)}</b> im schwersten Satz — zuletzt ${tr}, übrige Sätze wie gehabt`, k: 'reps' }; }
+  const minR = Math.min(...atTop.map(x => +x.reps));
+  return { t: `<b>${fmtNum(topW)} kg × ${Math.min(hi, Math.max(lo, minR + 1))}</b> in jedem Satz — zuletzt ${atTop.map(x => x.reps).join('/')}`, k: 'reps' };
+}
+function nextGoalLine(ex, hist, today){
+  if (exerciseKind(ex.sets) !== 'reps') return '';
+  const ss = buildSessions(hist.filter(e => e.date < today && !e.prefill), 'reps', ex.name).filter(x => x.setCount);
+  if (!ss.length) return '';
+  return `<div class="qc-goal"><span>Heute anpeilen</span>${strengthNext(ex.name, ss, ex).t}</div>`;
+}
+function strengthData(){
+  const all = collectAllExercises(), today = localDateStr(Date.now()), from = addDays(today, -56);
+  const planEx = Object.values(data.trainingDays).flatMap(d => d.exercises || []);
+  const rows = [];
+  Object.keys(all).forEach(n => {
+    let kind; try { kind = kindForExercise(n, all[n]); } catch(e) { return; } if (kind !== 'reps') return;
+    const ss = buildSessions(all[n], 'reps', n).filter(x => x.setCount);
+    const recent = ss.filter(x => x.date >= from); if (!recent.length) return;
+    const useE = recent.some(x => x.e1rm), M = x => useE ? x.e1rm : x.maxSingle;
+    const pts = recent.filter(x => M(x));
+    let pct = null;
+    if (pts.length >= 3) {
+      const t0 = new Date(pts[0].date + 'T12:00:00').getTime(), X = pts.map(x => (new Date(x.date + 'T12:00:00').getTime() - t0) / 864e5), Y = pts.map(M);
+      const mx = X.reduce((a, b) => a + b, 0) / X.length, my = Y.reduce((a, b) => a + b, 0) / Y.length;
+      const sxx = X.reduce((a, x) => a + (x - mx) ** 2, 0), sxy = X.reduce((a, x, i) => a + (x - mx) * (Y[i] - my), 0);
+      if (sxx > 0 && my > 0) pct = Math.max(-25, Math.min(25, sxy / sxx * 28 / my * 100));
+    }
+    const status = pct === null ? 'neu' : pct >= 1.5 ? 'up' : pct <= -1.5 ? 'down' : 'flat';
+    const planned = planEx.find(e => aliasKey(e.name) === aliasKey(n));
+    const last = ss[ss.length - 1], lw = last.sets.filter(x => +x.reps > 0), lTop = lw.filter(x => +x.weight > 0).sort((a, b) => b.weight - a.weight || b.reps - a.reps)[0];
+    const best = Math.max(...ss.map(M).filter(Boolean));
+    rows.push({ n, pct, status, useE, inPlan: !!planned, last, lastTxt: lTop ? `${fmtNum(lTop.weight)} kg × ${lTop.reps}` : lw.length ? Math.max(...lw.map(x => +x.reps)) + ' Wdh.' : '–',
+      spark: pts.slice(-8).map(M), best, next: strengthNext(n, ss, planned), sessions: pts.length });
+  });
+  return rows;
+}
+function strengthSpark(vals, cls){
+  if (vals.length < 2) return '<svg class="kr-sp" viewBox="0 0 64 24"></svg>';
+  const mn = Math.min(...vals), mx = Math.max(...vals), r = mx - mn || 1;
+  const P = vals.map((v, i) => [2 + i * 60 / (vals.length - 1), 21 - (v - mn) / r * 18]);
+  return `<svg class="kr-sp ${cls}" viewBox="0 0 64 24" aria-hidden="true"><polyline points="${P.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}"></polyline><circle cx="${P[P.length - 1][0].toFixed(1)}" cy="${P[P.length - 1][1].toFixed(1)}" r="2.6"></circle></svg>`;
+}
+function renderStrength(){
+  const box = document.getElementById('strengthBox'); if (!box) return;
+  const rows = strengthData();
+  if (!rows.length) { box.innerHTML = '<div class="card"><div class="card-title">Kraft</div><div class="ana-empty">Sobald du Übungen mit Gewicht an mindestens zwei Tagen eingetragen hast, siehst du hier, ob deine Gewichte steigen.</div></div>'; return; }
+  const rated = rows.filter(r => r.pct !== null), avg = rated.length ? rated.reduce((a, r) => a + r.pct, 0) / rated.length : null;
+  const cnt = k => rows.filter(r => r.status === k).length;
+  const cut = ((loadGoalCfg() || GOAL_DEFAULTS).goal || 'cut') === 'cut';
+  const verdict = avg === null ? 'Noch zu wenige Einheiten für einen Trend.' : avg >= 1.5 ? (cut ? 'Du wirst im Defizit stärker — ein sehr gutes Zeichen, dass du Muskeln behältst.' : 'Du wirst stärker. Weiter so.')
+    : avg > -1.5 ? (cut ? 'Kraft gehalten. Im Kaloriendefizit ist das bereits ein Erfolg.' : 'Kraft stagniert — Zeit für die Steigerungsregel unten.') : 'Kraft sinkt. Prüfe Schlaf, Eiweiß und ob das Defizit zu groß ist — oder ob eine Deload-Woche fällig ist.';
+  // Wochen-Index: jede Übung relativ zu ihrem ersten Wert im Zeitraum, dann gemittelt
+  const today = localDateStr(Date.now()), mon0 = mondayOf(addDays(today, -49)), weeks = []; for (let i = 0; i < 8; i++) weeks.push(addDays(mon0, i * 7));
+  const idx = weeks.map(() => []);
+  rows.filter(r => r.useE).forEach(r => { const all = collectAllExercises()[r.n]; const ss = buildSessions(all, 'reps', r.n).filter(x => x.e1rm && x.date >= mon0);
+    let base = null; weeks.forEach((w, i) => { const v = Math.max(0, ...ss.filter(x => x.date >= w && x.date < addDays(w, 7)).map(x => x.e1rm)); if (!v) return; if (base === null) base = v; idx[i].push(v / base * 100 - 100); }); });
+  const series = idx.map(a => a.length ? Math.round(a.reduce((x, y) => x + y, 0) / a.length * 10) / 10 : null);
+  const groups = [['up', 'Steigt', '▲'], ['flat', 'Hält', '●'], ['down', 'Sinkt', '▼'], ['neu', 'Neu · noch kein Trend', '○']];
+  const rowHTML = r => `<button class="kr-row" data-ex="${pbEsc(r.n)}"><span class="kr-ic ${r.status}">${groups.find(g => g[0] === r.status)[2]}</span>
+      <span class="kr-b"><b>${svgEsc(r.n.split(' (')[0])}</b><small>zuletzt ${r.lastTxt}${r.useE && !isBodyweightExercise(r.n) ? ' · Best-1RM ' + fmtNum(Math.round(r.best)) + ' kg' : ''}</small>
+        ${r.inPlan ? `<em>Nächstes Mal: ${r.next.t}</em>` : '<em class="old">nicht im aktuellen Plan</em>'}</span>
+      <span class="kr-r">${strengthSpark(r.spark, r.status)}<b class="${r.status}">${r.pct === null ? '–' : (r.pct > 0 ? '+' : '') + fmtNum(Math.round(r.pct * 10) / 10) + ' %'}</b></span></button>`;
+  box.innerHTML = `<div class="card accent kr-hero"><div class="card-title">Werde ich stärker?</div>
+      <div class="kr-hero-row"><div><b class="${avg === null ? '' : avg >= 1.5 ? 'up' : avg <= -1.5 ? 'down' : 'flat'}">${avg === null ? '–' : (avg > 0 ? '+' : '') + fmtNum(Math.round(avg * 10) / 10) + ' %'}</b><span>Kraft · pro 4 Wochen</span></div>
+        <div class="kr-cnt"><span class="up">▲ ${cnt('up')}</span><span class="flat">● ${cnt('flat')}</span><span class="down">▼ ${cnt('down')}</span></div></div>
+      <p class="kr-verdict">${verdict}</p>
+      ${series.filter(v => v !== null).length >= 2 ? '<div id="stIdx" class="svgc"></div>' : ''}
+      <details class="ex"><summary>Wie wird das gemessen?</summary><div>Gemessen wird das <b>geschätzte 1RM</b> je Einheit (Epley: Gewicht × (1 + Wdh./30), bester Satz). So sind 90 kg × 8 und 85 kg × 11 vergleichbar. Der Prozentwert ist der Trend der letzten 8 Wochen, umgerechnet auf 4 Wochen. Ab ±1,5 % gilt er als Steigerung bzw. Rückgang, darunter als „hält“. Bei Körpergewichtsübungen zählt dein Körpergewicht mit — sinkt es im Cut, sinkt dort auch das 1RM, obwohl du relativ stärker wirst.</div></details></div>
+    <div class="card kr-rule"><div class="card-title">So steigerst du</div>
+      <div class="kr-steps"><div><i>1</i><span>Bleib beim Gewicht und hol dir <b>+1 Wiederholung</b> pro Satz, bis alle Sätze am oberen Ende des Bereichs sind.</span></div>
+      <div><i>2</i><span>Dann <b>+${fmtNum(weightStep('Langhantel'))} kg</b> (Kurzhanteln +${fmtNum(weightStep('Kurzhantel'))} kg) und wieder unten im Bereich starten. Die Sprünge stellst du in den Einstellungen ein.</span></div>
+      <div><i>3</i><span>Zwei Einheiten ohne Fortschritt? Erst Schlaf und Eiweiß prüfen, dann Gewicht 5–10 % runter und neu aufbauen.</span></div></div>
+      <p class="kr-note">Die App rechnet das Ziel für jede Übung automatisch — es steht unten bei „Nächstes Mal“ und im Training bei der Übung.</p></div>
+    ${groups.filter(([k]) => rows.some(r => r.status === k)).map(([k, l]) => `<div class="kr-sec ${k}">${l} · ${cnt(k)}</div><div class="card list kr-list">${rows.filter(r => r.status === k).sort((a, b) => (b.inPlan - a.inPlan) || ((b.pct || 0) - (a.pct || 0))).map(rowHTML).join('')}</div>`).join('')}`;
+  const ch = document.getElementById('stIdx');
+  if (ch) svgLineChart(ch, { labels: weeks.map(w => 'KW ' + isoWeek(w)), fmt: v => (v > 0 ? '+' : '') + fmtNum(v) + ' %', zero: true, area: true,
+    series: [{ name: 'Kraft-Index (Ø aller Übungen, Start = 0 %)', color: ANA_COL.up, values: series }] });
+  box.querySelectorAll('.kr-row').forEach(b => b.onclick = () => { try { openExerciseStats(b.dataset.ex); } catch(e) {} });
+}
+
 // Erklärtexte: auf zwei Zeilen gekürzt, Antippen klappt auf
 document.addEventListener('click', e => { const n = e.target.closest && e.target.closest('.ana-note'); if (n) n.classList.toggle('open'); });
 
 // ================= SCORES: Schlaf · Erholung · Belastung (nach WHOOP-Prinzip) =================
 function _js(k){ try { return JSON.parse(localStorage.getItem(k) || '{}') || {}; } catch(e) { return {}; } }
-const SLEEP_BASE = 7.5;
+const SLEEP_BASE = (() => { try { const v = parseFloat((JSON.parse(localStorage.getItem('cutplan_settings_v1') || '{}') || {}).sleepBase); return v >= 6 && v <= 10 ? v : 7.5; } catch(e) { return 7.5; } })();
 let _scoreCache = { t: 0, m: {} };
 function _sc(key, fn){ if (Date.now() - _scoreCache.t > 1500) _scoreCache = { t: Date.now(), m: {} }; if (!(key in _scoreCache.m)) _scoreCache.m[key] = fn(); return _scoreCache.m[key]; }
 
@@ -9711,7 +9957,7 @@ const MEHR_MENU = [
   ['Dein Plan', [['woche', '📅', 'Wochenplan', 'Trainingstage und Ablauf'], ['training', '🏋️', 'Übungen', 'Technik und Hinweise je Übung'], ['mahlzeiten', '🥗', 'Ernährungsplan', 'Musterernährung und Tagesziele'],
     ['supps', '💊', 'Supplements', 'Was wirkt, wann und wie viel'], ['roadmap', '🗺️', 'Roadmap', 'Phasen bis zum Ziel'], ['bewegung', '📖', 'Prinzipien', 'Die Grundlagen hinter dem Plan']]],
   ['Daten', [['mydb', '🗂', 'Meine Datenbank', 'Eigene Lebensmittel, Supplements, Backup'], ['health', '😴', 'Schlaf & Schritte', 'Verläufe, Einträge, Apple-Health-Import, Backup'], ['ziel', '👤', 'Profil', 'Größe, Alter, Ziele']]],
-  ['App', [['einstellungen', '⚙️', 'Design & Daten', 'Farbschema, App-Sperre, Kurzbefehl']]],
+  ['App', [['einstellungen', '⚙️', 'Einstellungen', 'Hell/Dunkel, Startansicht, Gewichtssprünge, App-Sperre']]],
 ];
 function renderMehrMenu(){
   const el = document.getElementById('mehrMenu'); if (!el) return;
@@ -10757,6 +11003,9 @@ const KZ_FOLDS = [
 ];
 function kzFoldState(){ try { return JSON.parse(localStorage.getItem(KZ_FOLD_KEY) || '{}') || {}; } catch(e) { return {}; } }
 function kzApplyFolds(){
+  let off = false; try { off = !!(JSON.parse(localStorage.getItem('cutplan_settings_v1') || '{}') || {}).foldOff; } catch(e) {}
+  if (off) { document.querySelectorAll('.kz-fold.closed').forEach(c => c.classList.remove('closed')); document.body.classList.add('kz-nofold'); return; }
+  document.body.classList.remove('kz-nofold');
   const st = kzFoldState();
   KZ_FOLDS.forEach(([v, title, defClosed, sumFn]) => {
     const sec = document.getElementById('view-' + v); if (!sec) return;
@@ -10770,7 +11019,7 @@ function kzApplyFolds(){
         head.classList.add('kz-head'); ti.classList.add('kz-title');
         ti.setAttribute('role', 'button'); ti.tabIndex = 0;
         const sum = document.createElement('span'); sum.className = 'kz-sum'; ti.appendChild(sum);
-        const toggle = e => { if (e && e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return; if (e) e.preventDefault();
+        const toggle = e => { if (document.body.classList.contains('kz-nofold')) return; if (e && e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return; if (e) e.preventDefault();
           const closed = !card.classList.contains('closed'); card.classList.toggle('closed', closed); ti.setAttribute('aria-expanded', String(!closed));
           const s2 = kzFoldState(); s2[key] = closed; try { localStorage.setItem(KZ_FOLD_KEY, JSON.stringify(s2)); } catch(_) {}
           if (!closed) setTimeout(() => { try { window.dispatchEvent(new Event('resize')); } catch(_) {} }, 30); };
@@ -12395,7 +12644,9 @@ function initImport(){
 
 renderHlSubtabs();
 switchHlView();
-switchTab('dashboard');
+try { document.getElementById('hdrGear').onclick = () => { switchTab('mehr'); showView('einstellungen'); try { window.scrollTo({ top: 0 }); } catch(e) {} }; } catch(e) {}
+try { const x = kzDesignMode(); kzApplyDesign(x.d, x.m, false); } catch(e) {}
+switchTab(kzStartTab());
 try { initLock(); } catch(e) {}
 
 

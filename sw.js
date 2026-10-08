@@ -1,5 +1,5 @@
 // Service Worker — Offline-Betrieb & Installation
-const CACHE = 'cutplan-v22-4';
+const CACHE = 'cutplan-v22-6';
 const IMG_CACHE = 'kaizen-uebungsbilder';   // bleibt über App-Versionen hinweg erhalten
 const ASSETS = [
   './manifest.json',
