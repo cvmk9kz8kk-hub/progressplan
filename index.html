@@ -1156,6 +1156,14 @@
   .pb-cxrow label{ display:flex; flex-direction:column; gap:4px; font-size:11px; color:var(--ink-dim); }
   .pb-cx{ display:flex; flex-direction:column; gap:8px; } .pb-cx > b{ font-size:14px; }
   .pb-rowbtns{ display:flex; gap:4px; flex:0 0 auto; }
+  .pb-row-h b.grow{ flex:1; min-width:0; }
+  .pb-grip{ width:30px; height:40px; margin-left:-6px; flex:0 0 auto; border:none; background:none; color:var(--ink-dim); display:flex; align-items:center; justify-content:center; touch-action:none; cursor:grab; padding:0; }
+  .pb-sess .pb-row{ position:relative; transition:transform .16s ease, box-shadow .12s; border-radius:12px; }
+  .pb-sess .pb-row.dragging{ z-index:6; background:var(--card); box-shadow:0 10px 28px rgba(0,0,0,.38), 0 0 0 1.5px var(--lime); padding-left:8px; padding-right:8px; transition:none; cursor:grabbing; }
+  .pb-sess .pb-row.drop-before{ box-shadow:inset 0 3px 0 var(--lime); } .pb-sess .pb-row.drop-after{ box-shadow:inset 0 -3px 0 var(--lime); }
+  .pb-sess .pb-row.pb-new-it{ background:color-mix(in srgb, var(--lime) 12%, transparent); padding-left:8px; padding-right:8px; transition:background 1s; }
+  body.pb-dragging, body.pb-dragging *{ user-select:none; -webkit-user-select:none; }
+  .pb-dnd-hint{ margin:4px 0 2px; }
   .pb-ib{ width:34px; height:34px; border-radius:9px; border:1px solid var(--line); background:var(--bg2); color:var(--ink); display:flex; align-items:center; justify-content:center; padding:0; }
   .pb-ib[disabled]{ opacity:.3; } .pb-ib.del{ color:var(--rec-lo); }
   .pb-rowbtns .pb-imgbtn{ width:34px; height:34px; }
@@ -1217,7 +1225,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v22.0: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v22.1: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1246,7 +1254,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v22.0: Cockpit kompakter ---------- */
+  /* ---------- v22.1: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1503,7 +1511,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v22.0: verschlankt ---------- */
+  /* ---------- v22.1: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1706,7 +1714,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.0</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.1</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -3316,6 +3324,9 @@ function pbEnsureSheet(){
   el.addEventListener('click', pbOnClick);
   el.addEventListener('change', pbOnChange);
   el.addEventListener('input', pbOnInput);
+  el.addEventListener('pointerdown', pbDragStart);
+  document.addEventListener('pointermove', pbDragMove, { passive: false });
+  document.addEventListener('pointerup', pbDragEnd); document.addEventListener('pointercancel', pbDragEnd);
   const iv = document.createElement('div'); iv.id = 'pbImgOv'; iv.className = 'pb-img-ov'; document.body.appendChild(iv);
   iv.addEventListener('click', e => { if (e.target === iv || e.target.closest('[data-act="imgclose"]')) pbCloseImg(); });
 }
@@ -3499,19 +3510,48 @@ function pbEditorHTML(){
     <div class="pb-sec">Wird übernommen in</div><div class="pb-tags"><span>Training & Cockpit</span><span>Wochen-Checkliste</span><span>Kalorien an Trainingstagen</span><span>Belastung</span><span>Analysen</span></div>
     <p class="pb-p sm">Dein bisheriger Plan bleibt als Vorlage erhalten. Alle Trainingsdaten und Statistiken bleiben, auch für Übungen, die nicht mehr im Plan sind.</p>`;
 }
+function u_new(it){ return !!(pbUI && pbUI.justAdded && pbUI.justAdded.includes(it)); }
 function pbSessionEdit(s, shared){
   return `<div class="pb-sess">
     <div class="pb-cxrow"><input class="pb-in sm grow" data-input="sname" data-sid="${s.id}" value="${pbEsc(s.name)}" aria-label="Name der Einheit">
       <select class="pb-sel sm" data-change="skind" data-sid="${s.id}" aria-label="Art"><option value="kraft" ${s.kind === 'kraft' ? 'selected' : ''}>Kraft</option><option value="leicht" ${s.kind !== 'kraft' ? 'selected' : ''}>Leicht</option></select></div>
     ${shared ? '<p class="pb-p sm">Diese Einheit liegt auf mehreren Tagen — Änderungen gelten für alle.</p>' : ''}
+    ${s.ex.length > 1 ? '<p class="pb-p sm pb-dnd-hint">Reihenfolge ändern: am Griff ziehen oder die Pfeile nutzen.</p>' : ''}
     ${s.ex.map((it, i) => { const ex = pbExOf(it); const a = `data-sid="${s.id}" data-i="${i}"`;
-      return `<div class="pb-row"><div class="pb-row-h"><b>${pbEsc(it.n)}</b>
+      return `<div class="pb-row${u_new(it) ? ' pb-new-it' : ''}"><div class="pb-row-h"><button class="pb-grip" data-grip ${a} aria-label="${pbEsc(it.n)} verschieben — ziehen"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="9" cy="6" r="1.7"></circle><circle cx="15" cy="6" r="1.7"></circle><circle cx="9" cy="12" r="1.7"></circle><circle cx="15" cy="12" r="1.7"></circle><circle cx="9" cy="18" r="1.7"></circle><circle cx="15" cy="18" r="1.7"></circle></svg></button><b class="grow">${pbEsc(it.n)}</b>
         <span class="pb-rowbtns">${ex && ex.img ? `<button class="pb-imgbtn" data-act="img" data-id="${ex.id}" aria-label="Bild">${PB_ICO.img}</button>` : ''}
         <button class="pb-ib" data-act="mv" data-d="-1" ${a} aria-label="Nach oben" ${i ? '' : 'disabled'}>${PB_ICO.up}</button><button class="pb-ib" data-act="mv" data-d="1" ${a} aria-label="Nach unten" ${i < s.ex.length - 1 ? '' : 'disabled'}>${PB_ICO.down}</button><button class="pb-ib del" data-act="rm" ${a} aria-label="Entfernen">${PB_ICO.x}</button></span></div>
         ${pbItemCtl(it, a)}</div>`; }).join('')}
     <div class="pb-cxrow"><button class="pb-btn2 acc" data-act="add" data-sid="${s.id}">+ Übung hinzufügen</button></div></div>`;
 }
 
+// ---------- Reihenfolge per Ziehen ----------
+let pbDrag = null;
+function pbDragStart(e){
+  const g = e.target.closest('[data-grip]'); if (!g || !pbUI) return;
+  e.preventDefault();
+  const sess = g.closest('.pb-sess'), row = g.closest('.pb-row'), body = document.getElementById('pbBody');
+  pbDrag = { sid: g.dataset.sid, from: +g.dataset.i, to: +g.dataset.i, row, rows: [...sess.querySelectorAll('.pb-row')], y0: e.clientY, body, sc0: body.scrollTop, pid: e.pointerId };
+  row.classList.add('dragging'); document.body.classList.add('pb-dragging');
+}
+function pbDragMove(e){
+  const d = pbDrag; if (!d || e.pointerId !== d.pid) return; e.preventDefault();
+  const b = d.body, r = b.getBoundingClientRect();
+  if (e.clientY < r.top + 56) b.scrollTop -= 9; else if (e.clientY > r.bottom - 56) b.scrollTop += 9;
+  d.row.style.transform = 'translateY(' + (e.clientY - d.y0 + (b.scrollTop - d.sc0)) + 'px)';
+  const rb = d.row.getBoundingClientRect(), cy = rb.top + rb.height / 2; let to = d.from;
+  d.rows.forEach((x, i) => { if (x === d.row) return; const bb = x.getBoundingClientRect(), m = bb.top + bb.height / 2;
+    if (i < d.from && cy < m) to = Math.min(to, i); if (i > d.from && cy > m) to = Math.max(to, i); });
+  d.to = to; const h = d.row.offsetHeight;
+  // die anderen Übungen rücken auf und machen Platz
+  d.rows.forEach((x, i) => { if (x === d.row) return; const sh = (d.from < to && i > d.from && i <= to) ? -h : (to < d.from && i >= to && i < d.from) ? h : 0; x.style.transform = sh ? 'translateY(' + sh + 'px)' : ''; });
+}
+function pbDragEnd(e){
+  const d = pbDrag; if (!d || (e && e.pointerId !== undefined && e.pointerId !== d.pid)) return; pbDrag = null; document.body.classList.remove('pb-dragging');
+  const s = pbUI && pbUI.plan && pbUI.plan.sessions.find(x => x.id === d.sid);
+  if (s && d.to !== d.from) { const [it] = s.ex.splice(d.from, 1); s.ex.splice(d.to, 0, it); pbUI.dirty = true; try { if (navigator.vibrate) navigator.vibrate(8); } catch(_) {} }
+  pbRerender();
+}
 // ---------- Ereignisse ----------
 function pbItemRef(el){
   const u = pbUI;
@@ -3587,8 +3627,16 @@ function pbOnClick(e){
   if (act === 'add') { u.pick = { sid: el.dataset.sid, sel: [] }; u.q = ''; u.grp = null; u.mf = 'all'; u.cat = 'alle'; document.getElementById('pbBody').scrollTop = 0; return pbRender(); }
   if (act === 'pickadd') {
     const s = u.plan.sessions.find(x => x.id === u.pick.sid), sch = pbScheme(u.plan.answers || PB_DEF_ANS());
-    if (s) u.pick.sel.forEach(id => s.ex.push(pbNewItem(pbById(id), sch)));
-    pbToast(u.pick.sel.length + (u.pick.sel.length === 1 ? ' Übung' : ' Übungen') + ' hinzugefügt'); u.pick = null; u.q = ''; u.dirty = true; return pbRender();
+    // Kraftübungen vor Rumpf, HIIT und Ausdauer einsortieren — feinjustieren per Griff
+    const rk = it => { const c = pbCatOf(pbExOf(it)); return c === 'extra' ? 3 : c === 'hiit' ? 2 : c === 'core' ? 1 : 0; };
+    u.justAdded = []; let after = '';
+    if (s) u.pick.sel.forEach(id => { const it = pbNewItem(pbById(id), sch), r = rk(it); let pos = 0;
+      for (let i = s.ex.length - 1; i >= 0; i--) if (rk(s.ex[i]) <= r) { pos = i + 1; break; }
+      s.ex.splice(pos, 0, it); u.justAdded.push(it); after = pos > 0 ? s.ex[pos - 1].n : ''; });
+    const n = u.pick.sel.length;
+    pbToast((n === 1 ? (after ? 'Eingefügt nach „' + after + '“' : 'Ganz oben eingefügt') : n + ' Übungen hinzugefügt') + ' — Reihenfolge per Griff änderbar');
+    u.pick = null; u.q = ''; u.dirty = true; pbRender(); setTimeout(() => { const el = document.querySelector('#pbBody .pb-new-it'); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60);
+    setTimeout(() => { if (pbUI) pbUI.justAdded = []; document.querySelectorAll('#pbBody .pb-new-it').forEach(e => e.classList.remove('pb-new-it')); }, 2200); return;
   }
   if (act === 'fill') { const add = pbFillGaps(u.plan); u.dirty = true; pbToast(add.length ? 'Ergänzt: ' + add.slice(0, 3).join(', ') + (add.length > 3 ? ' und ' + (add.length - 3) + ' weitere' : '') : 'Nichts zu ergänzen'); return pbRerender(); }
   if (act === 'save' || act === 'saveact') return pbSavePlan(act === 'saveact');
