@@ -1164,6 +1164,17 @@
   .pb-sess .pb-row.pb-new-it{ background:color-mix(in srgb, var(--lime) 12%, transparent); padding-left:8px; padding-right:8px; transition:background 1s; }
   body.pb-dragging, body.pb-dragging *{ user-select:none; -webkit-user-select:none; }
   .pb-dnd-hint{ margin:4px 0 2px; }
+  /* Aufklappbare Karten */
+  .kz-title{ cursor:pointer; display:flex !important; align-items:center; gap:8px; -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
+  .kz-title::after{ content:''; flex:0 0 auto; width:7px; height:7px; margin:0 4px 3px 8px; border-right:2px solid var(--ink-dim); border-bottom:2px solid var(--ink-dim); transform:rotate(45deg); transition:transform .2s; }
+  .kz-fold.closed .kz-title::after{ transform:rotate(-45deg); margin-bottom:0; }
+  .kz-sum{ flex:1; min-width:0; visibility:hidden; font-size:12px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--ink-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:right; }
+  .kz-fold.closed .kz-sum{ visibility:visible; }
+  .kz-fold.closed > :not(.kz-head){ display:none !important; }
+  .kz-fold.closed .kz-head{ margin-bottom:0 !important; } .kz-fold.closed .card-title{ margin-bottom:0 !important; }
+  .kz-fold.closed .kz-head .pb-seg, .kz-fold.closed .kz-head .fc-wx{ display:none; }
+  .kz-fold.closed .kz-head{ width:100%; } .kz-head:not(.kz-title){ display:flex; } .kz-head .kz-title{ flex:1; min-width:0; }
+
   .pb-dm-h{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px; }
   .pb-seg.sm{ margin:0; padding:3px; grid-template-columns:auto auto; } .pb-seg.sm button{ min-height:30px; padding:0 10px; font-size:12px; } .pb-seg.sm button[disabled]{ opacity:.4; }
   .pb-dm-sum{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; margin-bottom:8px; }
@@ -1237,7 +1248,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v22.2: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v22.3: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1266,7 +1277,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v22.2: Cockpit kompakter ---------- */
+  /* ---------- v22.3: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1523,7 +1534,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v22.2: verschlankt ---------- */
+  /* ---------- v22.3: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1726,7 +1737,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.2</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.3</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -10560,6 +10571,67 @@ function renderWithingsImporter(){
     ev.target.value = '';
   };
 }
+
+
+// ================= AUFKLAPPBARE KARTEN =================
+// Kern bleibt offen; Vertiefungen sind zugeklappt, zeigen aber eine Kurzfassung. Jede Karte merkt sich, ob du sie geöffnet hast.
+const KZ_FOLD_KEY = 'cutplan_fold_v1';
+const kzHero = c => { const b = c.querySelector('.chx-hero b'); return b ? 'zuletzt ' + b.textContent.trim() : ''; };
+const kzMarkers = c => { const odd = [...c.querySelectorAll('.bm-row summary')].map(r => { const n = r.querySelector('.bm-n'); const b = n && n.querySelector('b'); if (!b) return null;
+    const rating = b.textContent.trim(); const name = n.firstChild ? n.firstChild.textContent.trim() : ''; return ['Normal', 'Im Ziel', 'Stabil'].includes(rating) ? null : name + ' ' + rating.toLowerCase(); }).filter(Boolean);
+  return odd.length ? odd.slice(0, 2).join(' · ') + (odd.length > 2 ? ' +' + (odd.length - 2) : '') : 'alles im Normalbereich'; };
+const KZ_FOLDS = [
+  // [Ansicht, Titelanfang, zu, Kurzfassung]
+  ['dashboard', 'Prognose für morgen', true, c => [...c.querySelectorAll('.fc-vals > div')].map(d => (d.querySelector('span') || {}).textContent + ' ' + (d.querySelector('b') || {}).textContent).join(' · ')],
+  ['dashboard', 'Körperwerte', true, c => { const i = c.querySelector('input[data-b="w"]'); const v = i && (i.value || i.placeholder); return v ? String(v).replace('.', ',') + ' kg' : ''; }],
+  ['progress', 'Muskelverteilung', true, c => [...c.querySelectorAll('.pb-dm-sum div')].slice(0, 2).map(d => d.querySelector('span').textContent + ' ' + d.querySelector('b').textContent).join(' · ')],
+  ['trends', 'Vitalwerte', true, kzMarkers],
+  ['trends', 'Schlafleistung', true, kzHero],
+  ['trends', 'Belastung', true, kzHero],
+  ['trends', 'Herz & Fitness', true, kzHero],
+  ['trends', 'VO2max', true, kzHero],
+  ['trends', 'Tageslicht', true, kzHero],
+  ['wbericht', 'Protokolle', true, null],
+  ['wbericht', 'Körper & Befinden', true, null],
+  ['motivation', 'Prognose-Modell', true, null],
+  ['motivation', 'Verlauf', true, null],
+  ['motivation', 'Was mit', true, c => { const n = c.querySelectorAll('.mo-row').length; return n ? n + ' Faktoren' : ''; }],
+  ['motivation', 'Selbst-Experimente', true, null],
+  ['koerper', 'Alle Körper-Biomarker', true, kzMarkers],
+  ['koerper', 'Fett & Muskeln', true, null],
+  ['koerper', 'Körperfettanteil', true, kzHero],
+  ['koerper', 'Muskelmasse', true, kzHero],
+];
+function kzFoldState(){ try { return JSON.parse(localStorage.getItem(KZ_FOLD_KEY) || '{}') || {}; } catch(e) { return {}; } }
+function kzApplyFolds(){
+  const st = kzFoldState();
+  KZ_FOLDS.forEach(([v, title, defClosed, sumFn]) => {
+    const sec = document.getElementById('view-' + v); if (!sec) return;
+    sec.querySelectorAll('.card-title').forEach(ti => {
+      if (!ti.textContent.trim().startsWith(title)) return;
+      const card = ti.closest('.card'); if (!card || card.parentElement.closest('.card')) return;
+      const key = v + ':' + title;
+      if (card.dataset.kz !== key) {
+        card.dataset.kz = key; card.classList.add('kz-fold');
+        let head = ti; while (head.parentElement && head.parentElement !== card) head = head.parentElement;
+        head.classList.add('kz-head'); ti.classList.add('kz-title');
+        ti.setAttribute('role', 'button'); ti.tabIndex = 0;
+        const sum = document.createElement('span'); sum.className = 'kz-sum'; ti.appendChild(sum);
+        const toggle = e => { if (e && e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') return; if (e) e.preventDefault();
+          const closed = !card.classList.contains('closed'); card.classList.toggle('closed', closed); ti.setAttribute('aria-expanded', String(!closed));
+          const s2 = kzFoldState(); s2[key] = closed; try { localStorage.setItem(KZ_FOLD_KEY, JSON.stringify(s2)); } catch(_) {}
+          if (!closed) setTimeout(() => { try { window.dispatchEvent(new Event('resize')); } catch(_) {} }, 30); };
+        ti.addEventListener('click', toggle); ti.addEventListener('keydown', toggle);
+      }
+      const closed = key in st ? !!st[key] : defClosed;
+      card.classList.toggle('closed', closed); ti.setAttribute('aria-expanded', String(!closed));
+      const sp = ti.querySelector('.kz-sum'); if (sp) { let t = ''; try { t = sumFn ? (sumFn(card) || '') : ''; } catch(e) {} sp.textContent = t; }
+    });
+  });
+}
+let kzFoldTimer = null;
+try { new MutationObserver(() => { clearTimeout(kzFoldTimer); kzFoldTimer = setTimeout(kzApplyFolds, 40); })
+  .observe(document.querySelector('main') || document.body, { childList: true, subtree: true }); } catch(e) {}
 
 refreshProgressSafeCopy();
 migrateLegacyEntries();
