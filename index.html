@@ -742,6 +742,8 @@
   .qh-row svg{ flex:0 0 auto; }
   .qh-txt{ display:flex; flex-direction:column; font-size:12px; color:var(--ink-dim); line-height:1.45; min-width:0; }
   .qh-txt b{ color:var(--ink); font-size:12.5px; }
+  .qc-how{ margin-top:8px; display:inline-flex; align-items:center; gap:7px; padding:7px 12px; border-radius:10px; border:1px solid var(--line); background:var(--bg2); color:var(--lime); font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+  .qc-how svg{ width:16px; height:16px; }
   .qc-tech{ margin-top:8px; font-size:13px; color:var(--ink-dim); line-height:1.55; }
   .qc-tech summary{ cursor:pointer; color:var(--lime); font-weight:700; font-size:13px; padding:4px 0; }
   .qc-tech div{ padding:4px 2px 2px; }
@@ -1273,6 +1275,9 @@
   .pb-img-step{ position:absolute; left:8px; bottom:8px; font-size:11px; font-weight:800; background:rgba(0,0,0,.6); color:#fff; padding:3px 8px; border-radius:6px; }
   .pb-img-t{ margin-top:10px; font-size:13.5px; line-height:1.5; } .pb-img-m{ margin-top:6px; font-size:12.5px; color:var(--ink-dim); } .pb-img-m b{ color:var(--ink); }
   .pb-img-src{ margin-top:8px; font-size:10.5px; color:var(--ink-dim); }
+  .pb-vid{ margin-top:12px; display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:var(--bg2); color:var(--ink); text-decoration:none; }
+  .pb-vid svg{ width:22px; height:22px; color:var(--lime); flex:0 0 auto; } .pb-vid span{ display:flex; flex-direction:column; min-width:0; } .pb-vid b{ font-size:13.5px; } .pb-vid small{ font-size:11px; color:var(--ink-dim); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pb-lsec{ margin:14px 2px 6px; } .pb-lsec span{ font-weight:600; letter-spacing:0; }
   /* Training → Plan */
   .pb-act-h{ display:flex; justify-content:space-between; } .pb-act-n{ font-size:20px; font-weight:800; margin-top:4px; }
   .pb-wstrip{ display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:4px; margin-top:12px; }
@@ -1813,7 +1818,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.6</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.7</span></div>
   <button class="hdr-gear" id="hdrGear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"></path></svg></button>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
@@ -2920,6 +2925,63 @@ const PB_MNAME = Object.fromEntries(PB_MUSCLES.map(m => [m[0], m[1]]));
 const PB_GROUPS = [['brust', 'Brust'], ['schulter', 'Schultern'], ['ruecken', 'Rücken'], ['arme', 'Arme'], ['rumpf', 'Rumpf'], ['beine', 'Beine & Gesäß']];
 const PB_CAT = { k: 'Kraft', c: 'Calisthenics', h: 'HIIT', a: 'Ausdauer', m: 'Mobility' };
 const PB_EQ = { studio: 'Studio', kh: 'Kurzhanteln', stange: 'Klimmzugstange', ringe: 'Ringe / Barren', koerper: 'ohne Geräte', kb: 'Kettlebell', mb: 'Medizinball', band: 'Band' };
+// Englische Namen: für die Video-Suche (YouTube) und als zusätzliche Suchbegriffe
+const PB_EN = {
+  bp: 'barbell bench press', sbkh: 'incline dumbbell press', sblh: 'incline barbell bench press', nlh: 'decline barbell bench press', khbd: 'dumbbell bench press',
+  bpm: 'machine chest press', kzf45: 'incline cable fly', kzfu: 'low to high cable crossover', kzfo: 'high to low cable crossover', fly: 'pec deck machine fly',
+  khfly: 'dumbbell fly', ls: 'push up', lsfe: 'decline push up feet elevated', lsarch: 'archer push up', rls: 'ring push up', dips: 'ring dips', bdips: 'parallel bar dips chest',
+  ppls: 'pseudo planche push up', burp: 'burpees', kls: 'clap push up', mbp: 'medicine ball chest pass',
+  ohp: 'standing barbell overhead press', khsd: 'seated dumbbell shoulder press', smm: 'machine shoulder press', arn: 'arnold press', sh: 'dumbbell lateral raise',
+  ksh: 'cable lateral raise', fh: 'dumbbell front raise', fp: 'cable face pull', rfly: 'reverse pec deck rear delt fly', vbsh: 'bent over rear delt raise', bpa: 'band pull apart',
+  pike: 'pike push up', hspu: 'wall handstand push up', hsp: 'handstand practice beginner',
+  shr: 'barbell shrug', khshr: 'dumbbell shrug', farm: 'farmers walk',
+  kz: 'weighted pull up', kzn: 'pull up', kzneg: 'negative pull up', chin: 'chin up', lpd: 'lat pulldown', lpde: 'close grip neutral lat pulldown', sap: 'straight arm pulldown',
+  lhr: 'barbell bent over row', khr: 'one arm dumbbell row', kr: 'seated cable row', tbar: 't bar row', bgr: 'chest supported dumbbell row', rrow: 'feet elevated ring row',
+  irow: 'australian pull up inverted row', ren: 'renegade row', fl: 'front lever progression', mu: 'muscle up progression', kh2: 'barbell deadlift', hyp: 'back extension hyperextension',
+  super: 'superman arch hold',
+  bc: 'biceps curl', hc: 'hammer curl', schr: 'incline dumbbell curl', kcurl: 'cable biceps curl', prc: 'preacher curl', tpd: 'triceps pushdown', tue: 'overhead cable triceps extension',
+  skull: 'ez bar skull crusher', khte: 'dumbbell overhead triceps extension', cgbp: 'close grip bench press', bnkd: 'bench dips', diam: 'diamond push up', wc: 'dumbbell wrist curl',
+  hang: 'dead hang', bauch6: '6 minute ab workout',
+  hlr: 'hanging leg raise', khr2: 'hanging knee raise', lsit: 'l-sit', hollow: 'hollow body rock', plank: 'forearm plank', splank: 'side plank', crunch: 'crunch',
+  kcr: 'kneeling cable crunch', abroll: 'ab wheel rollout', pallof: 'pallof press', rtw: 'russian twist', wood: 'cable woodchopper', deadbug: 'dead bug', mc: 'mountain climbers',
+  hack: 'hack squat machine', sq: 'barbell back squat', fsq: 'front squat', gob: 'goblet squat', lp: 'leg press', bss: 'bulgarian split squat', lunge: 'dumbbell lunges',
+  stepup: 'dumbbell step up', le: 'leg extension', sissy: 'sissy squat', pistol: 'pistol squat', bwsq: 'bodyweight squat', jsq: 'jump squat', rdl: 'romanian deadlift',
+  goodm: 'good morning', lc: 'lying leg curl', slc: 'seated leg curl', ebn: 'single leg eccentric leg curl', nordic: 'nordic hamstring curl', ht: 'barbell hip thrust',
+  gb: 'glute bridge', kick: 'cable glute kickback', abd: 'hip abduction machine', bandw: 'mini band lateral walk', add: 'hip adduction machine', cop: 'copenhagen plank',
+  crst: 'standing calf raise', crsi: 'seated calf raise', crein: 'single leg calf raise step', tib: 'tibialis raise',
+  kbs: 'kettlebell swing', thr: 'kettlebell thruster', jj: 'jumping jacks', boxj: 'box jump', rope: 'jump rope', rowi: 'rowing machine intervals', bike: 'stationary bike sprint intervals',
+  walkrun: 'walk run intervals', walkrunh: 'walk run intervals', gehen: 'brisk walking', zone2: 'zone 2 cycling', rudl: 'rowing machine technique', lauf: 'easy running form',
+  schwimm: 'swimming technique', dehnen: 'full body stretching routine', dehngk: 'post run stretching', mobhk: 'hip flexor ankle mobility', mobd: 'hip mobility stretching routine',
+  mobs: 'shoulder mobility routine',
+  // neu v22.7
+  smbp: 'smith machine bench press', smsb: 'smith machine incline bench press', sbm: 'machine incline chest press', khfloor: 'dumbbell floor press', khsbfly: 'incline dumbbell fly',
+  lsknie: 'knee push up', lshe: 'incline push up', lsbr: 'wide push up', lshindu: 'hindu push up', ls1: 'one arm push up progression', sbdips: 'straight bar dips',
+  rsup: 'ring support hold', plean: 'planche lean', tplan: 'tuck planche',
+  uprow: 'barbell upright row', rdkab: 'cable rear delt fly', smsd: 'smith machine shoulder press', lmp: 'single arm landmine press', pikee: 'elevated pike push up',
+  hswall: 'wall handstand hold', wallw: 'wall walk', tgu: 'kettlebell turkish get up',
+  mub: 'bar muscle up', murg: 'ring muscle up', muband: 'band assisted muscle up', muneg: 'muscle up negative', kzbr: 'wide grip pull up', kzeng: 'neutral grip pull up',
+  kzband: 'band assisted pull up', kzskap: 'scapular pull up', kzarch: 'archer pull up', kzexp: 'explosive chest to bar pull up', kzl: 'l-sit pull up', kztw: 'typewriter pull up',
+  kz1: 'one arm pull up progression', flrow: 'tuck front lever row', bl: 'back lever progression', skin: 'skin the cat', birddog: 'bird dog',
+  rack: 'rack pull', isor: 'iso lateral row machine', hrow: 'machine high row', kr1: 'single arm seated cable row', pull: 'dumbbell pullover', lpdu: 'underhand lat pulldown', pend: 'pendlay row',
+  ezc: 'ez bar curl', conc: 'concentration curl', spc: 'spider curl', zott: 'zottman curl', mbc: 'machine biceps curl', bwcurl: 'bodyweight ring biceps curl', revc: 'reverse barbell curl',
+  rwc: 'reverse wrist curl', wroll: 'wrist roller', kickb: 'dumbbell triceps kickback', mtc: 'machine triceps extension', dipm: 'seated dip machine', bwtri: 'bodyweight triceps extension',
+  ttb: 'toes to bar', wiper: 'hanging windshield wipers', vup: 'v-ups', hollowh: 'hollow body hold', dflag: 'dragon flag progression', hflag: 'human flag progression',
+  situp: 'sit up', revcr: 'reverse crunch', bicy: 'bicycle crunch', flut: 'flutter kicks', jkn: 'jackknife sit up', llr: 'lying leg raise', obcr: 'oblique crunch',
+  plsh: 'plank shoulder taps', abm: 'ab crunch machine', sbend: 'dumbbell side bend', suitc: 'suitcase carry', lm180: 'landmine 180 rotation', kbwind: 'kettlebell windmill',
+  smsq: 'smith machine squat', tbdl: 'trap bar deadlift', sumo: 'sumo deadlift', revl: 'dumbbell reverse lunge', walkl: 'barbell walking lunge', sldl: 'single leg romanian deadlift',
+  pthr: 'cable pull through', revhyp: 'reverse hyperextension', ghr: 'glute ham raise', cplp: 'leg press calf raise', bwlunge: 'bodyweight walking lunge', shrimp: 'shrimp squat',
+  coss: 'cossack squat', revnord: 'reverse nordic curl', wallsit: 'wall sit', sgb: 'single leg glute bridge', gkick: 'glute kickback quadruped', clam: 'banded clamshell',
+  ropes: 'battle ropes', sledp: 'sled push', tuckj: 'tuck jumps', sjump: 'jumping lunges', brjump: 'standing broad jump', slam: 'medicine ball slam', wallb: 'wall balls',
+  hknee: 'high knees', skater: 'skater jumps', bear: 'bear crawl', kbcl: 'kettlebell clean', kbsn: 'kettlebell snatch', airbk: 'assault air bike sprints',
+  ell: 'elliptical trainer', stair: 'stairmaster', lband: 'treadmill running', incw: 'incline treadmill walk', radl: 'cycling', wander: 'hiking',
+  wgs: 'worlds greatest stretch', catcow: 'cat cow stretch', child: 'childs pose', hfd: 'kneeling hip flexor stretch', inch: 'inchworm', wade: 'wall calf stretch',
+  foam: 'foam rolling', m9090: '90 90 hip mobility', tsr: 'thoracic rotation mobility', deepsq: 'deep squat hold',
+};
+// Zusätzliche Suchwörter (Umgangssprache, Abkürzungen)
+const PB_ALIAS = { super: 'arch hold', fly: 'butterfly', rfly: 'reverse fly', kz: 'pullups', kzn: 'pullups', chin: 'klimmzug untergriff', lpd: 'latzug', lpde: 'latzug',
+  hlr: 'beinheben hängend', lsit: 'l sitz', ttb: 'zehen zur stange', mu: 'muscleup', mub: 'muscleup', murg: 'muscleup ringe', muband: 'muscleup', muneg: 'muscleup',
+  rdl: 'rdl', ohp: 'military press', bss: 'bulgarische kniebeuge', kbs: 'kb swing', jj: 'jumping jacks', burp: 'burpee', mc: 'bergsteiger', plank: 'brett', wallsit: 'wandsitz',
+  tgu: 'tgu', hack: 'hackenschmidt', sumo: 'sumo', tbdl: 'hexbar', sledp: 'prowler', ell: 'elliptical', stair: 'treppe' };
 // [id, Name, Kategorie, primär, sekundär, Gerät, Level 1–3, Grundübung 0/1, Art r=Wdh h=Halten t=Zeit i=Intervall, Bild-ID, Tipp]
 const EXDB = [
   // ---------- Brust ----------
@@ -2944,6 +3006,20 @@ const EXDB = [
   ['burp', 'Burpees', 'h', 'quads', 'chest_lower abs delt_front', 'koerper', 1, 0, 'i', '', 'Runter in den Stütz, Liegestütz, hoch und abspringen — im eigenen Takt.'],
   ['kls', 'Klatsch-Liegestütz', 'h', 'chest_lower', 'triceps', 'koerper', 2, 0, 'i', 'Plyo_Push-up', 'Explosiv hochdrücken, weich landen.'],
   ['mbp', 'Medizinball-Brustpass', 'h', 'chest_lower', 'triceps', 'mb', 1, 0, 'i', 'Medicine_Ball_Chest_Pass', 'Ball explosiv gegen die Wand stoßen und fangen.'],
+  ['smbp', 'Bankdrücken an der Multipresse', 'k', 'chest_lower', 'chest_upper triceps delt_front', 'studio', 1, 1, 'r', 'Smith_Machine_Bench_Press', 'Geführte Stange — schwer drücken ohne Partner. Stange zur unteren Brust.'],
+  ['smsb', 'Schrägbankdrücken an der Multipresse', 'k', 'chest_upper', 'delt_front triceps', 'studio', 1, 1, 'r', 'Smith_Machine_Incline_Bench_Press', 'Bank auf 30°, Stange zum oberen Brustbein.'],
+  ['sbm', 'Schrägbankpresse (Maschine)', 'k', 'chest_upper', 'delt_front triceps', 'studio', 1, 1, 'r', 'Leverage_Incline_Chest_Press', 'Obere Brust sicher bis kurz vors Muskelversagen.'],
+  ['khfloor', 'Kurzhantel-Bodendrücken', 'k', 'chest_lower', 'triceps delt_front', 'kh', 1, 1, 'r', 'Dumbbell_Floor_Press', 'Oberarme tippen kurz den Boden an — schont die Schultern.'],
+  ['khsbfly', 'Schrägbank-Fliegende (Kurzhantel)', 'k', 'chest_upper', 'delt_front', 'kh', 1, 0, 'r', 'Incline_Dumbbell_Flyes', 'Bank auf 30°, Arme leicht gebeugt, in die Dehnung sinken.'],
+  ['lsknie', 'Liegestütz auf den Knien', 'c', 'chest_lower', 'triceps delt_front', 'koerper', 1, 1, 'r', '', 'Einstieg: Körper von Knie bis Kopf eine Linie, Brust bis knapp über den Boden.'],
+  ['lshe', 'Liegestütz, Hände erhöht', 'c', 'chest_lower', 'triceps delt_front', 'koerper', 1, 1, 'r', 'Incline_Push-Up', 'Hände auf Bank oder Kasten — je höher, desto leichter.'],
+  ['lsbr', 'Breite Liegestütz', 'c', 'chest_lower', 'delt_front triceps', 'koerper', 1, 1, 'r', 'Push-Up_Wide', 'Hände deutlich breiter als schulterbreit — mehr Brust, weniger Trizeps.'],
+  ['lshindu', 'Hindu-Liegestütz', 'c', 'chest_lower', 'delt_front triceps lower_back', 'koerper', 2, 0, 'r', '', 'Aus dem herabschauenden Hund im Bogen nach vorn in die Kobra tauchen und zurück.'],
+  ['ls1', 'Einarmiger Liegestütz (Progression)', 'c', 'chest_lower', 'triceps delt_front obliques', 'koerper', 3, 1, 'r', 'Single-Arm_Push-Up', 'Beine breit, Hüfte gerade. Erst mit erhöhten Händen üben.'],
+  ['sbdips', 'Dips an der geraden Stange', 'c', 'chest_lower', 'triceps delt_front', 'stange', 2, 1, 'r', '', 'Stange vor der Hüfte, Brust über die Stange — die Druckphase des Muscle-Ups.'],
+  ['rsup', 'Stütz an den Ringen (Support Hold)', 'c', 'triceps', 'chest_lower delt_front abs', 'ringe', 2, 0, 'h', '', 'Arme gestreckt, Ringe nah am Körper, ruhig halten — Basis für Ring-Dips und Muscle-Ups.'],
+  ['plean', 'Planche Lean', 'c', 'delt_front', 'chest_lower abs', 'koerper', 2, 0, 'h', '', 'Im Liegestütz die Schultern weit vor die Hände schieben und halten, Arme gestreckt.'],
+  ['tplan', 'Tuck Planche (Progression)', 'c', 'delt_front', 'chest_lower triceps abs', 'koerper', 3, 0, 'h', '', 'Knie an die Brust, Füße vom Boden, Arme durchgestreckt — mit Paralettes leichter.'],
   // ---------- Schultern ----------
   ['ohp', 'Schulterdrücken (Langhantel, stehend)', 'k', 'delt_front', 'delt_side triceps traps', 'studio', 2, 1, 'r', 'Standing_Military_Press', 'Gesäß und Bauch fest, Stange senkrecht über den Kopf.'],
   ['khsd', 'Kurzhantel-Schulterdrücken', 'k', 'delt_front', 'delt_side triceps', 'kh', 1, 1, 'r', 'Dumbbell_Shoulder_Press', 'Sitzend mit Lehne — stabil und rückenschonend.'],
@@ -2959,6 +3035,14 @@ const EXDB = [
   ['pike', 'Pike Push-ups', 'c', 'delt_front', 'triceps delt_side', 'koerper', 2, 1, 'r', '', 'Hüfte hoch, Kopf zwischen die Hände senken. Füße erhöht = schwerer.'],
   ['hspu', 'Handstand-Liegestütz an der Wand', 'c', 'delt_front', 'triceps traps', 'koerper', 3, 1, 'r', 'Handstand_Push-Ups', 'Kopf und Hände bilden ein Dreieck, kontrolliert absenken.'],
   ['hsp', 'Handstand-Praxis', 'c', 'delt_front', 'abs traps', 'koerper', 2, 0, 't', '', 'Skill-Training: kurz und oft, solange du frisch bist.'],
+  ['uprow', 'Aufrechtes Rudern (SZ/Langhantel)', 'k', 'delt_side', 'traps', 'studio', 1, 0, 'r', 'Upright_Barbell_Row', 'Griff etwas breiter als schulterbreit, Ellenbogen nur bis Schulterhöhe.'],
+  ['rdkab', 'Reverse Flys am Kabel', 'k', 'delt_rear', 'upper_back', 'studio', 1, 0, 'r', 'Cable_Rear_Delt_Fly', 'Kabel überkreuzt greifen, Arme auf Schulterhöhe nach außen öffnen.'],
+  ['smsd', 'Schulterdrücken an der Multipresse', 'k', 'delt_front', 'delt_side triceps', 'studio', 1, 1, 'r', 'Smith_Machine_Overhead_Shoulder_Press', 'Sitzend, Stange vor dem Gesicht bis zum Kinn absenken.'],
+  ['lmp', 'Landmine Press (einarmig)', 'k', 'delt_front', 'chest_upper triceps abs', 'studio', 2, 1, 'r', '', 'Stange schräg nach vorn-oben drücken — schulterfreundlich.'],
+  ['pikee', 'Pike Push-ups, Füße erhöht', 'c', 'delt_front', 'triceps delt_side', 'koerper', 2, 1, 'r', '', 'Füße auf der Bank, Hüfte über den Schultern — Vorstufe zum Handstand-Liegestütz.'],
+  ['hswall', 'Handstand an der Wand (halten)', 'c', 'delt_front', 'traps abs triceps', 'koerper', 2, 0, 'h', '', 'Bauch zur Wand: Körper gerade, Schultern aktiv zu den Ohren schieben.'],
+  ['wallw', 'Wall Walks', 'c', 'delt_front', 'abs triceps traps', 'koerper', 2, 0, 'r', '', 'Aus dem Liegestütz mit den Füßen die Wand hochlaufen, Hände zur Wand, kontrolliert zurück.'],
+  ['tgu', 'Turkish Get-up', 'k', 'delt_front', 'abs obliques glutes', 'kb', 2, 0, 'r', 'Kettlebell_Turkish_Get-Up_Squat_style', 'Kettlebell bleibt senkrecht über der Schulter, Blick zur Kugel. Langsam, je Seite.'],
   // ---------- Nacken / Trapez ----------
   ['shr', 'Shrugs (Langhantel)', 'k', 'traps', 'forearm', 'studio', 1, 0, 'r', 'Barbell_Shrug', 'Gerade nach oben ziehen, oben 1 Sek. halten, nicht kreisen.'],
   ['khshr', 'Kurzhantel-Shrugs', 'k', 'traps', 'forearm', 'kh', 1, 0, 'r', 'Dumbbell_Shrug', 'Schultern zu den Ohren, oben kurz halten.'],
@@ -2980,10 +3064,34 @@ const EXDB = [
   ['irow', 'Australian Pull-ups (Ringe/Stange)', 'c', 'upper_back', 'lats biceps delt_rear', 'ringe', 1, 1, 'r', 'Inverted_Row', 'Je flacher der Körper, desto schwerer.'],
   ['ren', 'Renegade Rows (Liegestütz-Position, Kurzhantel)', 'k', 'upper_back', 'abs obliques lats', 'kh', 2, 0, 'r', 'Alternating_Renegade_Row', 'Hüfte darf nicht mitdrehen — die Stabilität ist der Reiz.'],
   ['fl', 'Front Lever Progression', 'c', 'lats', 'abs upper_back', 'stange', 3, 0, 'h', '', 'Tuck → Advanced Tuck → ein Bein → Straddle → voll.'],
-  ['mu', 'Muscle-Up-Progression', 'c', 'lats', 'triceps chest_lower', 'stange', 3, 1, 'r', 'Muscle_Up', 'Explosiv ziehen, Übergang über die Stange üben, notfalls mit Band.'],
+  ['mu', 'Muscle-Up-Progression', 'c', 'lats', 'triceps chest_lower', 'stange', 3, 1, 'r', '', 'Explosiv ziehen, Übergang über die Stange üben, notfalls mit Band.'],
   ['kh2', 'Kreuzheben (Langhantel)', 'k', 'lower_back', 'glutes hamstrings traps quads forearm', 'studio', 3, 1, 'r', 'Barbell_Deadlift', 'Stange am Schienbein, Rücken neutral, aus den Beinen drücken.'],
   ['hyp', 'Hyperextensions (Rückenstrecker)', 'k', 'lower_back', 'glutes hamstrings', 'studio', 1, 0, 'r', 'Hyperextensions_Back_Extensions', 'Kontrolliert bis zur Waagerechten, nicht überstrecken.'],
   ['super', 'Superman', 'c', 'lower_back', 'glutes', 'koerper', 1, 0, 'h', 'Superman', 'Bauchlage, Arme und Beine leicht anheben und halten.'],
+  ['mub', 'Muscle-Up (Stange)', 'c', 'lats', 'triceps chest_lower biceps', 'stange', 3, 1, 'r', '', 'Explosiv bis zur unteren Brust ziehen, Handgelenke über die Stange kippen, hochdrücken.'],
+  ['murg', 'Ring-Muscle-Up', 'c', 'lats', 'triceps chest_lower biceps', 'ringe', 3, 1, 'r', 'Muscle_Up', 'Falscher Griff (Handballen auf dem Ring), Ringe nah am Körper, tiefer Übergang.'],
+  ['muband', 'Muscle-Up mit Band', 'c', 'lats', 'triceps chest_lower', 'stange', 2, 1, 'r', '', 'Band an der Stange, Knie hinein — übt den ganzen Ablauf mit Hilfe.'],
+  ['muneg', 'Muscle-Up-Negative', 'c', 'lats', 'triceps chest_lower', 'stange', 2, 1, 'r', '', 'Oben im Stütz starten (Sprung), langsam über die Stange in den Hang ablassen.'],
+  ['kzbr', 'Klimmzüge breit (Obergriff)', 'c', 'lats', 'upper_back biceps', 'stange', 2, 1, 'r', '', 'Griff deutlich breiter als schulterbreit, Brust zur Stange, nicht hinter den Kopf.'],
+  ['kzeng', 'Klimmzüge eng / Neutralgriff', 'c', 'lats', 'biceps upper_back', 'stange', 2, 1, 'r', 'V-Bar_Pullup', 'Handflächen zueinander — oft der gelenkschonendste Klimmzug.'],
+  ['kzband', 'Klimmzüge mit Band', 'c', 'lats', 'biceps upper_back', 'stange', 1, 1, 'r', 'Band_Assisted_Pull-Up', 'Band an der Stange, Knie oder Fuß hinein. Mit der Zeit dünnere Bänder.'],
+  ['kzskap', 'Skapula-Klimmzüge', 'c', 'upper_back', 'lats traps', 'stange', 1, 0, 'r', 'Scapular_Pull-Up', 'Arme bleiben gestreckt, nur die Schulterblätter nach unten ziehen.'],
+  ['kzarch', 'Archer-Klimmzüge', 'c', 'lats', 'biceps upper_back', 'stange', 3, 1, 'r', 'Side_To_Side_Chins', 'Breit greifen, zu einer Hand ziehen, der andere Arm streckt sich — Vorstufe zum einarmigen Klimmzug.'],
+  ['kzexp', 'Explosive Klimmzüge (Brust zur Stange)', 'c', 'lats', 'biceps upper_back', 'stange', 3, 1, 'r', '', 'So schnell wie möglich hoch, Brust berührt die Stange — der Zug für den Muscle-Up.'],
+  ['kzl', 'L-Sit-Klimmzüge', 'c', 'lats', 'abs biceps', 'stange', 3, 1, 'r', '', 'Beine waagerecht halten, während du ziehst.'],
+  ['kztw', 'Typewriter-Klimmzüge', 'c', 'lats', 'biceps upper_back', 'stange', 3, 1, 'r', '', 'Oben mit dem Kinn über der Stange von einer Hand zur anderen schieben.'],
+  ['kz1', 'Einarmiger Klimmzug (Progression)', 'c', 'lats', 'biceps forearm', 'stange', 3, 1, 'r', '', 'Erst mit Handtuch-Hilfe der zweiten Hand, dann nur Negative.'],
+  ['flrow', 'Front-Lever-Rows (Tuck)', 'c', 'lats', 'upper_back abs biceps', 'stange', 3, 0, 'r', '', 'Aus dem Tuck Front Lever die Stange zur Hüfte ziehen.'],
+  ['bl', 'Back Lever (Progression)', 'c', 'lats', 'chest_lower biceps abs', 'ringe', 3, 0, 'h', '', 'Tuck → Advanced Tuck → Straddle → voll. Bizepssehnen langsam daran gewöhnen.'],
+  ['skin', 'Skin the Cat', 'c', 'lats', 'delt_front biceps', 'ringe', 2, 0, 'r', '', 'Beine langsam durch die Arme bis in den German Hang drehen und zurück.'],
+  ['birddog', 'Bird Dog', 'c', 'lower_back', 'abs glutes', 'koerper', 1, 0, 'r', '', 'Vierfüßlerstand: Arm und Gegenbein strecken, Becken bleibt ruhig.'],
+  ['rack', 'Rack Pulls', 'k', 'lower_back', 'traps upper_back glutes forearm', 'studio', 2, 1, 'r', 'Rack_Pulls', 'Stange ab Kniehöhe — schwerer oberer Rücken, schont die Beine.'],
+  ['isor', 'Rudermaschine (Iso-Row)', 'k', 'upper_back', 'lats biceps delt_rear', 'studio', 1, 1, 'r', 'Leverage_Iso_Row', 'Brust am Polster, Ellenbogen nach hinten führen, Schulterblätter zusammen.'],
+  ['hrow', 'High Row (Maschine)', 'k', 'lats', 'upper_back biceps', 'studio', 1, 1, 'r', 'Leverage_High_Row', 'Von schräg oben nach unten-hinten ziehen.'],
+  ['kr1', 'Einarmiges Kabelrudern', 'k', 'lats', 'upper_back biceps', 'studio', 1, 1, 'r', 'Seated_One-arm_Cable_Pulley_Rows', 'Weit nach vorn dehnen lassen, Ellenbogen zur Hüfte ziehen.'],
+  ['pull', 'Kurzhantel-Pullover', 'k', 'lats', 'chest_lower triceps', 'kh', 1, 0, 'r', 'Straight-Arm_Dumbbell_Pullover', 'Quer über der Bank, Arme leicht gebeugt, Hantel hinter den Kopf senken.'],
+  ['lpdu', 'Latziehen Untergriff', 'k', 'lats', 'biceps', 'studio', 1, 1, 'r', 'Underhand_Cable_Pulldowns', 'Schulterbreit im Untergriff, Ellenbogen zu den Rippen.'],
+  ['pend', 'Pendlay Rows', 'k', 'upper_back', 'lats delt_rear lower_back', 'studio', 2, 1, 'r', '', 'Oberkörper waagerecht, jede Wdh. vom Boden explosiv zur unteren Brust.'],
   // ---------- Arme ----------
   ['bc', 'Bizeps-Curls (Langhantel oder Kurzhantel)', 'k', 'biceps', 'forearm', 'kh', 1, 0, 'r', 'Barbell_Curl', 'Ellenbogen fest am Körper, kein Schwung.'],
   ['hc', 'Hammer Curls', 'k', 'biceps', 'forearm', 'kh', 1, 0, 'r', 'Hammer_Curls', 'Neutraler Griff — trifft Brachialis und Unterarm.'],
@@ -2999,6 +3107,19 @@ const EXDB = [
   ['diam', 'Diamant-Liegestütz', 'c', 'triceps', 'chest_lower', 'koerper', 2, 1, 'r', 'Push-Ups_-_Close_Triceps_Position', 'Hände eng unter der Brust.'],
   ['wc', 'Handgelenk-Curls', 'k', 'forearm', '', 'kh', 1, 0, 'r', 'Seated_Dumbbell_Palms-Up_Wrist_Curl', 'Unterarm auf dem Oberschenkel, nur das Handgelenk bewegt sich.'],
   ['hang', 'Totes Hängen an der Stange', 'c', 'forearm', 'lats', 'stange', 1, 0, 'h', '', 'Locker hängen — Griffkraft und Schulterentlastung.'],
+  ['ezc', 'SZ-Curls', 'k', 'biceps', 'forearm', 'studio', 1, 0, 'r', 'EZ-Bar_Curl', 'Angenehmer für die Handgelenke als die gerade Stange.'],
+  ['conc', 'Konzentrationscurls', 'k', 'biceps', '', 'kh', 1, 0, 'r', 'Concentration_Curls', 'Ellenbogen am Oberschenkel, oben kurz halten.'],
+  ['spc', 'Spider Curls', 'k', 'biceps', '', 'kh', 1, 0, 'r', 'Spider_Curl', 'Bauch auf der Schrägbank, Arme hängen senkrecht — Spannung oben.'],
+  ['zott', 'Zottman Curls', 'k', 'biceps', 'forearm', 'kh', 1, 0, 'r', 'Zottman_Curl', 'Hoch im Untergriff, oben drehen, im Obergriff langsam ablassen.'],
+  ['mbc', 'Bizepsmaschine', 'k', 'biceps', '', 'studio', 1, 0, 'r', 'Machine_Bicep_Curl', 'Ellenbogen auf Höhe der Drehachse.'],
+  ['bwcurl', 'Ring-Curls (Körpergewicht)', 'c', 'biceps', 'forearm', 'ringe', 2, 0, 'r', '', 'Wie Australian Pull-ups, aber nur die Ellenbogen beugen — Hände zur Stirn.'],
+  ['revc', 'Reverse Curls (Obergriff)', 'k', 'forearm', 'biceps', 'studio', 1, 0, 'r', 'Reverse_Barbell_Curl', 'Obergriff — trifft Unterarm und Brachialis.'],
+  ['rwc', 'Reverse Handgelenk-Curls', 'k', 'forearm', '', 'kh', 1, 0, 'r', 'Seated_Dumbbell_Palms-Down_Wrist_Curl', 'Handrücken nach oben, nur das Handgelenk hebt die Hantel.'],
+  ['wroll', 'Wrist Roller', 'k', 'forearm', '', 'studio', 1, 0, 'r', 'Wrist_Roller', 'Gewicht an der Schnur hochrollen und kontrolliert wieder ab.'],
+  ['kickb', 'Trizeps-Kickbacks', 'k', 'triceps', '', 'kh', 1, 0, 'r', 'Tricep_Dumbbell_Kickback', 'Oberarm parallel zum Boden, nur der Unterarm bewegt sich.'],
+  ['mtc', 'Trizepsmaschine', 'k', 'triceps', '', 'studio', 1, 0, 'r', 'Machine_Triceps_Extension', 'Ellenbogen auf dem Polster, voll strecken.'],
+  ['dipm', 'Dip-Maschine', 'k', 'triceps', 'chest_lower delt_front', 'studio', 1, 1, 'r', 'Dip_Machine', 'Geführte Dips mit Gewicht — gut, wenn freie Dips noch nicht gehen.'],
+  ['bwtri', 'Trizeps-Strecken mit Körpergewicht', 'c', 'triceps', 'abs', 'stange', 2, 0, 'r', '', 'Hände an einer Stange auf Hüfthöhe, Stirn zu den Händen senken, aus den Ellenbogen strecken.'],
   // ---------- Rumpf ----------
   ['bauch6', 'Bauchworkout (6 Minuten, dein Video)', 'c', 'abs', 'obliques', 'koerper', 1, 0, 't', '', 'Am Anfang der Einheit, solange du frisch bist.'],
   ['hlr', 'Hanging Leg Raises (an der Stange)', 'c', 'abs', 'obliques', 'stange', 2, 0, 'r', 'Hanging_Leg_Raise', 'Beine gestreckt anheben, kontrolliert senken, kein Schwung.'],
@@ -3015,6 +3136,25 @@ const EXDB = [
   ['wood', 'Holzhacker am Kabel', 'k', 'obliques', 'abs', 'studio', 1, 0, 'r', 'Standing_Cable_Wood_Chop', 'Diagonal von oben nach unten, Drehung aus dem Rumpf.'],
   ['deadbug', 'Dead Bug', 'c', 'abs', '', 'koerper', 1, 0, 'r', 'Dead_Bug', 'Rücken fest am Boden, Arm und Gegenbein langsam strecken.'],
   ['mc', 'Mountain Climber', 'h', 'abs', 'quads delt_front', 'koerper', 1, 0, 'i', 'Mountain_Climbers', 'Im Stütz die Knie schnell zur Brust ziehen.'],
+  ['ttb', 'Toes-to-Bar', 'c', 'abs', 'lats obliques', 'stange', 3, 0, 'r', 'Hanging_Pike', 'Fußspitzen kontrolliert zur Stange, so wenig Schwung wie möglich.'],
+  ['wiper', 'Scheibenwischer (Windshield Wipers)', 'c', 'obliques', 'abs', 'stange', 3, 0, 'r', '', 'Hängend oder liegend: gestreckte Beine von Seite zu Seite führen.'],
+  ['vup', 'V-Ups', 'c', 'abs', '', 'koerper', 2, 0, 'r', '', 'Arme und Beine gleichzeitig heben, oben die Zehen berühren.'],
+  ['hollowh', 'Hollow Body Hold', 'c', 'abs', '', 'koerper', 1, 0, 'h', '', 'Lendenwirbel am Boden, Arme und Beine gestreckt knapp über dem Boden halten.'],
+  ['dflag', 'Dragon Flag (Progression)', 'c', 'abs', 'lats lower_back', 'koerper', 3, 0, 'r', '', 'Auf der Bank, nur die Schultern liegen auf — Körper als Brett langsam ablassen.'],
+  ['hflag', 'Human Flag (Progression)', 'c', 'obliques', 'lats delt_side', 'stange', 3, 0, 'h', '', 'An einer senkrechten Stange: untere Hand drückt, obere zieht.'],
+  ['situp', 'Sit-ups', 'c', 'abs', '', 'koerper', 1, 0, 'r', 'Sit-Up', 'Füße am Boden, Oberkörper ganz aufrichten, langsam zurück.'],
+  ['revcr', 'Reverse Crunches', 'c', 'abs', '', 'koerper', 1, 0, 'r', 'Reverse_Crunch', 'Becken vom Boden einrollen, Knie Richtung Brust.'],
+  ['bicy', 'Fahrrad-Crunches', 'c', 'obliques', 'abs', 'koerper', 1, 0, 'r', 'Air_Bike', 'Ellenbogen zum Gegenknie, das andere Bein streckt sich.'],
+  ['flut', 'Flutter Kicks', 'c', 'abs', '', 'koerper', 1, 0, 'h', '', 'Rücken am Boden, gestreckte Beine klein und schnell auf und ab.'],
+  ['jkn', 'Jackknife Sit-ups', 'c', 'abs', '', 'koerper', 2, 0, 'r', 'Jackknife_Sit-Up', 'Arme und Beine treffen sich über der Hüfte.'],
+  ['llr', 'Beinheben liegend', 'c', 'abs', '', 'koerper', 1, 0, 'r', 'Flat_Bench_Lying_Leg_Raise', 'Unterer Rücken bleibt am Boden bzw. an der Bank.'],
+  ['obcr', 'Seitliche Crunches', 'c', 'obliques', '', 'koerper', 1, 0, 'r', 'Oblique_Crunches_-_On_The_Floor', 'Seitlage, Oberkörper seitlich einrollen.'],
+  ['plsh', 'Plank Shoulder Taps', 'c', 'abs', 'obliques delt_front', 'koerper', 1, 0, 'r', '', 'Im hohen Stütz abwechselnd die Schulter antippen, Hüfte bleibt ruhig.'],
+  ['abm', 'Bauchmaschine', 'k', 'abs', '', 'studio', 1, 0, 'r', 'Ab_Crunch_Machine', 'Mit dem Bauch einrollen, nicht mit den Armen ziehen.'],
+  ['sbend', 'Seitbeugen (Kurzhantel)', 'k', 'obliques', '', 'kh', 1, 0, 'r', 'Dumbbell_Side_Bend', 'Hantel in einer Hand, nur seitlich beugen, nicht nach vorn.'],
+  ['suitc', 'Suitcase Carry (einseitig tragen)', 'k', 'obliques', 'forearm traps', 'kh', 1, 0, 'h', '', 'Eine schwere Hantel in einer Hand, aufrecht gehen ohne zur Seite zu kippen.'],
+  ['lm180', 'Landmine Rotation', 'k', 'obliques', 'abs delt_front', 'studio', 2, 0, 'r', 'Landmine_180s', 'Stange mit gestreckten Armen von Hüfte zu Hüfte führen, Becken stabil.'],
+  ['kbwind', 'Kettlebell Windmill', 'k', 'obliques', 'delt_front glutes hamstrings', 'kb', 2, 0, 'r', 'Kettlebell_Windmill', 'Kugel senkrecht über dem Kopf, Hüfte zur Seite schieben, zur Fußspitze greifen.'],
   // ---------- Beine & Gesäß ----------
   ['hack', 'Hack Squat (Matrix)', 'k', 'quads', 'glutes adductors', 'studio', 2, 1, 'r', 'Hack_Squat', 'So tief, wie die Fersen am Boden bleiben.'],
   ['sq', 'Kniebeuge (Langhantel)', 'k', 'quads', 'glutes adductors lower_back', 'studio', 3, 1, 'r', 'Barbell_Squat', 'Knie folgen den Zehen, Rücken neutral, tief und kontrolliert.'],
@@ -3046,6 +3186,24 @@ const EXDB = [
   ['crsi', 'Wadenheben sitzend', 'k', 'calves', '', 'studio', 1, 0, 'r', 'Seated_Calf_Raise', 'Trifft den Soleus, den tiefen Wadenmuskel.'],
   ['crein', 'Einbeiniges Wadenheben (Stufe)', 'c', 'calves', '', 'koerper', 1, 0, 'r', 'Calf_Raise_On_A_Dumbbell', 'Auf einer Stufe, Ferse tief absenken.'],
   ['tib', 'Tibialis Raises (Zehenheben)', 'c', 'tibialis', '', 'koerper', 1, 0, 'r', '', 'Rücken an der Wand, Fersen am Boden, Fußspitzen anheben.'],
+  ['smsq', 'Kniebeuge an der Multipresse', 'k', 'quads', 'glutes adductors', 'studio', 1, 1, 'r', 'Smith_Machine_Squat', 'Füße leicht vor der Stange, tief und kontrolliert.'],
+  ['tbdl', 'Trap-Bar-Kreuzheben', 'k', 'glutes', 'quads hamstrings lower_back traps forearm', 'studio', 2, 1, 'r', 'Trap_Bar_Deadlift', 'Mitten in der Stange stehen, aus den Beinen drücken — rückenfreundlicher als klassisch.'],
+  ['sumo', 'Sumo-Kreuzheben', 'k', 'glutes', 'adductors quads hamstrings lower_back', 'studio', 2, 1, 'r', 'Sumo_Deadlift', 'Breiter Stand, Knie nach außen, Griff zwischen den Beinen.'],
+  ['revl', 'Rückwärts-Ausfallschritte (Kurzhantel)', 'k', 'glutes', 'quads hamstrings', 'kh', 1, 1, 'r', 'Dumbbell_Rear_Lunge', 'Schritt nach hinten — knieschonender als nach vorn.'],
+  ['walkl', 'Ausfallschritte gehend (Langhantel)', 'k', 'quads', 'glutes hamstrings', 'studio', 2, 1, 'r', 'Barbell_Walking_Lunge', 'Lange Schritte, Oberkörper aufrecht.'],
+  ['sldl', 'Einbeiniges Kreuzheben', 'k', 'hamstrings', 'glutes glute_med lower_back', 'kb', 2, 0, 'r', 'Kettlebell_One-Legged_Deadlift', 'Hüfte bleibt gerade, freies Bein und Oberkörper bilden eine Linie.'],
+  ['pthr', 'Pull-Through am Kabel', 'k', 'glutes', 'hamstrings', 'studio', 1, 0, 'r', 'Pull_Through', 'Seil zwischen den Beinen, aus der Hüfte nach vorn strecken.'],
+  ['revhyp', 'Reverse Hyperextensions', 'k', 'glutes', 'lower_back hamstrings', 'studio', 1, 0, 'r', 'Reverse_Hyperextension', 'Oberkörper liegt, Beine bis zur Waagerechten heben.'],
+  ['ghr', 'Glute-Ham-Raise (Gerät)', 'k', 'hamstrings', 'glutes calves', 'studio', 2, 0, 'r', 'Glute_Ham_Raise', 'Knie auf dem Polster, aus den Beinbeugern aufrichten.'],
+  ['cplp', 'Wadenheben an der Beinpresse', 'k', 'calves', '', 'studio', 1, 0, 'r', 'Calf_Press_On_The_Leg_Press_Machine', 'Fußballen an die Plattenkante, voll dehnen.'],
+  ['bwlunge', 'Ausfallschritte gehend (Körpergewicht)', 'c', 'quads', 'glutes hamstrings', 'koerper', 1, 1, 'r', 'Bodyweight_Walking_Lunge', 'Hinteres Knie Richtung Boden, Oberkörper aufrecht.'],
+  ['shrimp', 'Shrimp Squats', 'c', 'quads', 'glutes', 'koerper', 3, 1, 'r', '', 'Hinteren Fuß mit der Hand fassen, Knie kontrolliert zum Boden.'],
+  ['coss', 'Cossack Squats', 'c', 'adductors', 'quads glutes', 'koerper', 2, 0, 'r', '', 'Breiter Stand, zu einer Seite tief sitzen, das andere Bein gestreckt.'],
+  ['revnord', 'Reverse Nordic', 'c', 'quads', '', 'koerper', 2, 0, 'r', '', 'Kniend, Körper als Linie von Knie bis Kopf langsam nach hinten lehnen.'],
+  ['wallsit', 'Wandsitzen (Wall Sit)', 'c', 'quads', 'glutes', 'koerper', 1, 0, 'h', '', 'Rücken an der Wand, Knie 90°, halten.'],
+  ['sgb', 'Einbeinige Hüftbrücke', 'c', 'glutes', 'hamstrings', 'koerper', 1, 0, 'r', 'Single_Leg_Glute_Bridge', 'Ein Fuß am Boden, Hüfte hoch, Becken bleibt waagerecht.'],
+  ['gkick', 'Glute Kickbacks (Vierfüßler)', 'c', 'glutes', 'hamstrings', 'koerper', 1, 0, 'r', 'Glute_Kickback', 'Bein gebeugt nach oben drücken, ohne ins Hohlkreuz zu gehen.'],
+  ['clam', 'Clamshells (Muschel)', 'c', 'glute_med', '', 'band', 1, 0, 'r', '', 'Seitlage, Knie gebeugt, oberes Knie gegen das Band öffnen.'],
   // ---------- HIIT ----------
   ['kbs', 'Kettlebell Swings', 'h', 'glutes', 'hamstrings lower_back abs', 'kb', 2, 0, 'i', 'One-Arm_Kettlebell_Swings', 'Kraft aus der Hüfte, nicht aus den Armen.'],
   ['thr', 'Thruster', 'h', 'quads', 'delt_front glutes triceps', 'kb', 2, 0, 'i', 'Kettlebell_Thruster', 'Kniebeuge und Drücken in einer fließenden Bewegung.'],
@@ -3054,6 +3212,19 @@ const EXDB = [
   ['rope', 'Seilspringen', 'h', 'calves', 'delt_side', 'koerper', 1, 0, 'i', 'Rope_Jumping', 'Aus den Fußgelenken, Ellenbogen nah am Körper.'],
   ['rowi', 'Rudergerät-Intervalle', 'h', 'upper_back', 'quads lats', 'studio', 1, 0, 'i', 'Rowing_Stationary', 'Erst Beine, dann Rücken, dann Arme.'],
   ['bike', 'Ergometer-Sprints', 'h', 'quads', 'glutes calves', 'studio', 1, 0, 'i', 'Bicycling_Stationary', 'Hoher Widerstand, voller Einsatz in der Belastung.'],
+  ['ropes', 'Battle Ropes', 'h', 'delt_front', 'abs forearm', 'studio', 1, 0, 'i', 'Battling_Ropes', 'Leicht in der Hocke, Wellen aus den Schultern — Rumpf fest.'],
+  ['sledp', 'Schlitten schieben', 'h', 'quads', 'glutes calves', 'studio', 2, 0, 'i', 'Sled_Push', 'Körper schräg nach vorn, kurze kräftige Schritte.'],
+  ['tuckj', 'Hocksprünge (Tuck Jumps)', 'h', 'quads', 'calves abs', 'koerper', 2, 0, 'i', 'Knee_Tuck_Jump', 'Knie zur Brust ziehen, weich landen.'],
+  ['sjump', 'Sprung-Ausfallschritte', 'h', 'quads', 'glutes calves', 'koerper', 2, 0, 'i', 'Split_Jump', 'In der Luft die Beine wechseln, im Ausfallschritt landen.'],
+  ['brjump', 'Standweitsprung', 'h', 'quads', 'glutes hamstrings calves', 'koerper', 2, 0, 'i', '', 'Mit Armschwung weit nach vorn springen, stabil landen.'],
+  ['slam', 'Medizinball-Slams', 'h', 'lats', 'abs delt_front', 'mb', 1, 0, 'i', 'Overhead_Slam', 'Ball über den Kopf, mit ganzem Körper auf den Boden schmettern.'],
+  ['wallb', 'Wall Balls', 'h', 'quads', 'glutes delt_front', 'mb', 1, 0, 'i', '', 'Kniebeuge, dann den Ball an ein Ziel an der Wand werfen und fangen.'],
+  ['hknee', 'Kniehebelauf (High Knees)', 'h', 'quads', 'abs calves', 'koerper', 1, 0, 'i', '', 'Auf der Stelle laufen, Knie bis Hüfthöhe.'],
+  ['skater', 'Skater Jumps', 'h', 'glute_med', 'quads calves', 'koerper', 2, 0, 'i', '', 'Seitlich von Bein zu Bein springen, weich landen.'],
+  ['bear', 'Bärengang (Bear Crawl)', 'h', 'delt_front', 'abs quads', 'koerper', 1, 0, 'i', '', 'Knie knapp über dem Boden, Gegenarm und -bein gleichzeitig.'],
+  ['kbcl', 'Kettlebell Clean', 'h', 'glutes', 'hamstrings traps forearm', 'kb', 2, 0, 'i', '', 'Aus der Hüfte in die Rack-Position, Kugel rollt weich um die Hand.'],
+  ['kbsn', 'Kettlebell Snatch', 'h', 'glutes', 'delt_front hamstrings traps', 'kb', 3, 0, 'i', '', 'Aus dem Swing in einem Zug über den Kopf.'],
+  ['airbk', 'Air-Bike-Sprints', 'h', 'quads', 'delt_front glutes', 'studio', 1, 0, 'i', '', 'Arme und Beine arbeiten mit — kurze, harte Intervalle.'],
   // ---------- Ausdauer ----------
   ['walkrun', 'Walk-Run', 'a', '', '', 'koerper', 1, 0, 't', '', '3 min gehen, 1 min joggen im Wechsel.'],
   ['walkrunh', 'Walk-Run (Hauptlauf der Woche)', 'a', '', '', 'koerper', 1, 0, 't', '', 'Wenn es gut läuft: Laufanteil steigern — immer nur eine Variable pro Woche.'],
@@ -3062,13 +3233,29 @@ const EXDB = [
   ['rudl', 'Rudergerät (locker)', 'a', '', '', 'studio', 1, 0, 't', 'Rowing_Stationary', 'Gleichmäßig, Puls in Zone 2.'],
   ['lauf', 'Lauf (locker)', 'a', '', '', 'koerper', 1, 0, 't', '', 'Lockeres Tempo, Nasenatmung als Richtwert.'],
   ['schwimm', 'Schwimmen', 'a', '', '', 'koerper', 1, 0, 't', '', 'Gelenkschonend, gut an Erholungstagen.'],
+  ['ell', 'Crosstrainer', 'a', '', '', 'studio', 1, 0, 't', 'Elliptical_Trainer', 'Gelenkschonend, Puls in Zone 2.'],
+  ['stair', 'Stepper / Treppensteiger', 'a', '', '', 'studio', 1, 0, 't', 'Stairmaster', 'Aufrecht, nicht auf die Griffe stützen.'],
+  ['lband', 'Laufband (Joggen)', 'a', '', '', 'studio', 1, 0, 't', 'Jogging_Treadmill', '1 % Steigung entspricht etwa dem Laufen draußen.'],
+  ['incw', 'Laufband bergauf gehen', 'a', '', '', 'studio', 1, 0, 't', 'Walking_Treadmill', '8–12 % Steigung, zügig gehen, nicht festhalten.'],
+  ['radl', 'Radfahren (draußen)', 'a', '', '', 'koerper', 1, 0, 't', '', 'Lockeres Tempo, Unterhaltung möglich.'],
+  ['wander', 'Wandern', 'a', '', '', 'koerper', 1, 0, 't', '', 'Lange, lockere Belastung — zählt aufs Schritte-Ziel.'],
   // ---------- Mobility ----------
   ['dehnen', 'Dehnen', 'm', '', '', 'koerper', 1, 0, 't', '', 'Hüfte, Waden, unterer Rücken.'],
   ['dehngk', 'Dehnen: Ganzkörper', 'm', '', '', 'koerper', 1, 0, 't', '', 'Nach dem Laufen: Waden, Hamstrings, Hüftbeuger.'],
   ['mobhk', 'Mobility: Hüftbeuger & Knöchel', 'm', '', '', 'koerper', 1, 0, 't', '', 'Knöchelbeweglichkeit ist Voraussetzung für tiefe Hocke.'],
   ['mobd', 'Mobility & Dehnen', 'm', '', '', 'koerper', 1, 0, 't', '', 'Hüfte, unterer Rücken, Schultern, Pancake-Dehnung.'],
   ['mobs', 'Schulter-Mobility', 'm', '', '', 'koerper', 1, 0, 't', 'Arm_Circles', 'Armkreisen, Wandrutschen, Band-Dislocates.'],
-].map(a => ({ id: a[0], n: a[1], c: a[2], m: a[3] ? a[3].split(' ') : [], s: a[4] ? a[4].split(' ') : [], eq: a[5], l: a[6], x: a[7], k: a[8], img: a[9], t: a[10] }));
+  ['wgs', "World's Greatest Stretch", 'm', '', '', 'koerper', 1, 0, 't', 'Worlds_Greatest_Stretch', 'Ausfallschritt, Ellenbogen zum Fuß, dann aufdrehen — je Seite 5×.'],
+  ['catcow', 'Katze-Kuh', 'm', '', '', 'koerper', 1, 0, 't', 'Cat_Stretch', 'Vierfüßlerstand, Rücken rund und hohl im Atemrhythmus.'],
+  ['child', 'Kindhaltung', 'm', '', '', 'koerper', 1, 0, 't', 'Childs_Pose', 'Gesäß zu den Fersen, Arme lang nach vorn.'],
+  ['hfd', 'Hüftbeuger-Dehnung kniend', 'm', '', '', 'koerper', 1, 0, 't', 'Kneeling_Hip_Flexor', 'Gesäß anspannen, Becken nach vorn schieben.'],
+  ['inch', 'Inchworm', 'm', '', '', 'koerper', 1, 0, 't', 'Inchworm', 'Mit den Händen in den Stütz laufen und zurück.'],
+  ['wade', 'Wadendehnung an der Wand', 'm', '', '', 'koerper', 1, 0, 't', 'Calf_Stretch_Hands_Against_Wall', 'Hintere Ferse am Boden, Knie gestreckt.'],
+  ['foam', 'Faszienrolle', 'm', '', '', 'koerper', 1, 0, 't', 'Quadriceps-SMR', 'Langsam rollen, an festen Stellen 20–30 Sek. bleiben.'],
+  ['m9090', '90/90-Hüftmobility', 'm', '', '', 'koerper', 1, 0, 't', '', 'Beide Beine im 90°-Winkel, Knie von Seite zu Seite drehen.'],
+  ['tsr', 'Brustwirbelsäulen-Rotation', 'm', '', '', 'koerper', 1, 0, 't', '', 'Seitlage oder Vierfüßler, oberen Arm weit aufdrehen.'],
+  ['deepsq', 'Tiefe Hocke halten', 'm', '', '', 'koerper', 1, 0, 't', '', 'Fersen am Boden, Ellenbogen drücken die Knie nach außen.'],
+].map(a => ({ id: a[0], n: a[1], c: a[2], m: a[3] ? a[3].split(' ') : [], s: a[4] ? a[4].split(' ') : [], eq: a[5], l: a[6], x: a[7], k: a[8], img: a[9], t: a[10], en: PB_EN[a[0]] || '', al: PB_ALIAS[a[0]] || '' }));
 
 // ================= TRAININGSPLAN-BAUER: Speicher, Logik, Verdrahtung =================
 const PB_KEY = 'cutplan_plans_v1', PB_CUSTOM_KEY = 'cutplan_customex_v1';
@@ -3088,6 +3275,15 @@ function pbCustomEx(){ try { const a = JSON.parse(localStorage.getItem(PB_CUSTOM
 function pbAllEx(){ return EXDB.concat(pbCustomEx()); }
 function pbById(id){ return pbAllEx().find(e => e.id === id) || null; }
 const pbNorm = s => String(s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+// Suche: ignoriert Groß/klein, Umlaute, Bindestriche, Leerzeichen, Plural-Endungen; kennt englische Namen
+const pbKey = s => String(s || '').toLowerCase().replace(/ß/g, 'ss').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[-'’]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+const PB_EQ_WORDS = { studio: 'studio maschine', kh: 'kurzhantel', stange: 'stange', ringe: 'ringe barren', koerper: 'ohne geraete koerpergewicht', kb: 'kettlebell', mb: 'medizinball', band: 'band' };
+function pbHay(ex){ return [ex.n, ex.en, ex.al, PB_MNAME[ex.m[0]], PB_CAT[ex.c], PB_EQ_WORDS[ex.eq]].map(pbKey).join(' | '); }
+// Treffer nur innerhalb eines Wortes (kein „l sit“ in „kabel sitzend“), Plural-/Beugungsendungen werden toleriert
+function pbHit(h, t){ if (!t) return true; const v = [t]; if (t.length >= 3) v.push(t.replace(/s$/, '')); if (t.length > 3) v.push(t.replace(/en$/, ''), t.replace(/e$/, ''), t.replace(/n$/, ''));
+  return v.some(x => x.length >= 2 && h.includes(x)); }
+function pbMatch(ex, q){ const h = pbHay(ex), k = pbKey(q); if (pbHit(h, k.replace(/ /g, ''))) return true; const toks = pbKey(String(q).replace(/-/g, ' ')).split(' ').filter(Boolean); return toks.length > 1 && toks.every(t => pbHit(h, t)); }
+function pbVideoUrl(ex){ return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(ex.en ? ex.en + ' exercise proper form' : ex.n + ' Übung richtige Ausführung'); }
 function pbExOf(item){
   if (!item) return null;
   if (item.id) { const e = pbById(item.id); if (e) return e; }
@@ -3096,7 +3292,9 @@ function pbExOf(item){
 
 // ---------- Sätze, Dauer, Volumen ----------
 const PB_TDEF = { walkrun: '60 min', walkrunh: '60 min', gehen: '40–50 min', zone2: '30–45 min', rudl: '20–30 min', lauf: '30 min', schwimm: '30 min',
-  dehnen: '10 min', dehngk: '10 min', mobhk: '8 min', mobd: '15 min', mobs: '8 min', hsp: '5–8 min', bauch6: '6 min' };
+  dehnen: '10 min', dehngk: '10 min', mobhk: '8 min', mobd: '15 min', mobs: '8 min', hsp: '5–8 min', bauch6: '6 min',
+  ell: '30 min', stair: '20 min', lband: '30 min', incw: '30–40 min', radl: '45 min', wander: '60–90 min',
+  wgs: '5 min', catcow: '3 min', child: '2 min', hfd: '4 min', inch: '4 min', wade: '3 min', foam: '10 min', m9090: '5 min', tsr: '4 min', deepsq: '3 min' };
 const PB_SCHEMES = {
   cut: { label: 'Fett verlieren, Muskeln halten', sets: 3, repsC: '6–10', repsI: '10–15', restC: 120, restI: 75, lo: 6,
     why: 'Im Defizit schwer bleiben: wenige Wiederholungen mit hoher Last sind das stärkste Signal, die Muskeln zu behalten.' },
@@ -3393,7 +3591,10 @@ const PB_ICO = {
   down: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>',
   x: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>',
   check: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>',
+  play: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M10 8.6v6.8l5.4-3.4z" fill="currentColor"></path></svg>',
 };
+// Bild-Knopf, wenn ein passendes Foto existiert; sonst Info/Video-Knopf
+function pbInfoBtn(ex){ return `<button class="pb-imgbtn" data-act="img" data-id="${ex.id}" aria-label="${ex.img ? 'Bild' : 'Anleitung und Video'} zu ${pbEsc(ex.n)}">${ex.img ? PB_ICO.img : PB_ICO.play}</button>`; }
 let pbUI = null;
 function pbToast(msg){
   let t = document.getElementById('pbToast');
@@ -3496,33 +3697,38 @@ function pbStep2(){
 function pbPickerHTML(sel, wiz){
   const u = pbUI, ans = wiz ? u.d.ans : (u.plan.answers || PB_DEF_ANS()), avail = pbAvail(ans.geraete), hist = pbHistInfo();
   const selMus = wiz ? new Set(u.d.muscles) : null;
-  const groups = PB_GROUPS.filter(([g]) => !selMus || PB_MUSCLES.some(m => m[2] === g && selMus.has(m[0]))).concat(wiz ? [] : [['extra', 'Ausdauer & Mobility']]);
-  if (!u.grp || !groups.some(g => g[0] === u.grp)) u.grp = groups[0][0];
+  const groups = [['alle', 'Alle']].concat(PB_GROUPS.filter(([g]) => !selMus || PB_MUSCLES.some(m => m[2] === g && selMus.has(m[0]))), wiz ? [] : [['extra', 'Ausdauer & Mobility']]);
+  if (!u.grp || !groups.some(g => g[0] === u.grp)) u.grp = groups[1] ? groups[1][0] : 'alle';
   const all = pbAllEx(), q = pbNorm(u.q);
   const grpMus = PB_MUSCLES.filter(m => m[2] === u.grp && (!selMus || selMus.has(m[0]))).map(m => m[0]);
   let list = all.filter(ex => {
-    if (q) return pbNorm(ex.n).includes(q) || (PB_MNAME[ex.m[0]] || '').toLowerCase().includes(q);
+    if (q) return pbMatch(ex, u.q);
     if (u.grp === 'extra') return ex.c === 'a' || ex.c === 'm';
     if (ex.c === 'a' || ex.c === 'm') return false;
+    if (u.grp === 'alle') return !selMus || selMus.has(ex.m[0]);
     const pm = ex.m[0]; if (u.mf !== 'all') return pm === u.mf;
     return grpMus.includes(pm);
   });
   if (u.cat !== 'alle' && u.grp !== 'extra' && !q) list = list.filter(ex => ex.c === u.cat);
   const sc = ex => (avail(ex.eq) ? 100 : 0) + (hist[aliasKey(ex.n)] ? 20 : 0) + (ex.x ? 8 : 0) - ex.l;
-  list.sort((a, b) => sc(b) - sc(a));
-  const cnt = g => sel.filter(id => { const ex = pbById(id); return ex && (g === 'extra' ? (ex.c === 'a' || ex.c === 'm') : PB_MUSCLES.some(m => m[0] === ex.m[0] && m[2] === g)); }).length;
+  const gOf = ex => { const m = PB_MUSCLES.find(x => x[0] === ex.m[0]); return m ? m[2] : 'extra'; }, gIdx = ex => { const i = PB_GROUPS.findIndex(g => g[0] === gOf(ex)); return i < 0 ? 99 : i; };
+  const secs = u.grp === 'alle' && !q;
+  list.sort((a, b) => (secs ? gIdx(a) - gIdx(b) : 0) || sc(b) - sc(a));
+  const cnt = g => sel.filter(id => { const ex = pbById(id); return ex && (g === 'extra' ? (ex.c === 'a' || ex.c === 'm') : g === 'alle' ? !(ex.c === 'a' || ex.c === 'm') : PB_MUSCLES.some(m => m[0] === ex.m[0] && m[2] === g)); }).length;
+  let lastG = null;
   const rows = list.map(ex => {
+    const g = gOf(ex), head = secs && g !== lastG ? `<div class="pb-sec pb-lsec">${(PB_GROUPS.find(x => x[0] === g) || [0, 'Sonstige'])[1]}<span>${list.filter(x => gOf(x) === g).length}</span></div>` : ''; lastG = g;
     const on = sel.includes(ex.id), ok = avail(ex.eq), h = hist[aliasKey(ex.n)];
     const meta = PB_CAT[ex.c] + ' · ' + (ok ? '' : 'Gerät fehlt: ') + PB_EQ[ex.eq] + (ex.s.length ? ' · auch ' + ex.s.slice(0, 2).map(m => PB_MNAME[m]).join(', ') : '');
-    return `<div class="pb-ex${ok ? '' : ' dim'}"><button class="pb-chk${on ? ' on' : ''}" data-act="tog" data-id="${ex.id}" aria-pressed="${on}" aria-label="${pbEsc(ex.n)} ${on ? 'abwählen' : 'wählen'}">${on ? PB_ICO.check : ''}</button>
+    return head + `<div class="pb-ex${ok ? '' : ' dim'}"><button class="pb-chk${on ? ' on' : ''}" data-act="tog" data-id="${ex.id}" aria-pressed="${on}" aria-label="${pbEsc(ex.n)} ${on ? 'abwählen' : 'wählen'}">${on ? PB_ICO.check : ''}</button>
       <div class="pb-ex-b" data-act="tog" data-id="${ex.id}"><b>${pbEsc(ex.n)}</b><span>${pbEsc(meta)}</span>${h ? `<em>Zuletzt ${pbEsc(h)}</em>` : ''}</div>
       <span class="pb-lvl" aria-label="Schwierigkeit ${ex.l} von 3">${[1, 2, 3].map(k => `<i class="${k <= ex.l ? 'on' : ''}"></i>`).join('')}</span>
-      ${ex.img ? `<button class="pb-imgbtn" data-act="img" data-id="${ex.id}" aria-label="Bild zu ${pbEsc(ex.n)}">${PB_ICO.img}</button>` : '<span class="pb-imgbtn ph"></span>'}</div>`; }).join('');
+      ${pbInfoBtn(ex)}</div>`; }).join('');
   return `${wiz ? `<h2 class="pb-h">Übungen wählen</h2><div class="pb-note">Vorschlag aus deinen Antworten${Object.keys(hist).length ? ' — bevorzugt Übungen aus deinem Verlauf' : ''}. Anpassen nach Belieben. <span class="pb-links"><button data-act="repick">Neu vorschlagen</button> · <button data-act="clearpick">Alle abwählen</button></span></div>` : ''}
-    <input class="pb-search" type="search" placeholder="Übung suchen …" value="${pbEsc(u.q)}" data-input="q" aria-label="Übung suchen">
+    <input class="pb-search" type="search" placeholder="Suchen, z. B. Muscle-Up oder Klimmzug" value="${pbEsc(u.q)}" data-input="q" aria-label="Übung suchen">
     ${q ? '' : `<div class="pb-tabs">${groups.map(([g, l]) => { const n = cnt(g); return `<button class="pb-tab${g === u.grp ? ' on' : ''}" data-act="grp" data-v="${g}">${l}${n ? ' · ' + n : ''}</button>`; }).join('')}</div>
     ${u.grp === 'extra' ? '' : `<div class="pb-seg">${[['alle', 'Alle'], ['k', 'Kraft'], ['c', 'Calisthenics'], ['h', 'HIIT']].map(([v, l]) => `<button class="${u.cat === v ? 'on' : ''}" data-act="cat" data-v="${v}">${l}</button>`).join('')}</div>
-    <div class="pb-chips">${[['all', 'Alle']].concat(grpMus.map(m => [m, PB_MNAME[m]])).map(([v, l]) => `<button class="pb-chip sm${u.mf === v ? ' on' : ''}" data-act="mf" data-v="${v}">${l}</button>`).join('')}</div>`}`}
+    ${u.grp === 'alle' ? '' : `<div class="pb-chips">${[['all', 'Alle']].concat(grpMus.map(m => [m, PB_MNAME[m]])).map(([v, l]) => `<button class="pb-chip sm${u.mf === v ? ' on' : ''}" data-act="mf" data-v="${v}">${l}</button>`).join('')}</div>`}`}`}
     <div class="pb-list">${rows || '<div class="pb-empty">Keine passende Übung. Andere Kategorie wählen oder eigene Übung anlegen.</div>'}</div>
     ${pbCustomFormHTML()}`;
 }
@@ -3617,7 +3823,7 @@ function pbSessionEdit(s, shared){
     ${s.ex.length > 1 ? '<p class="pb-p sm pb-dnd-hint">Reihenfolge ändern: am Griff ziehen oder die Pfeile nutzen.</p>' : ''}
     ${s.ex.map((it, i) => { const ex = pbExOf(it); const a = `data-sid="${s.id}" data-i="${i}"`;
       return `<div class="pb-row${u_new(it) ? ' pb-new-it' : ''}"><div class="pb-row-h"><button class="pb-grip" data-grip ${a} aria-label="${pbEsc(it.n)} verschieben — ziehen"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="9" cy="6" r="1.7"></circle><circle cx="15" cy="6" r="1.7"></circle><circle cx="9" cy="12" r="1.7"></circle><circle cx="15" cy="12" r="1.7"></circle><circle cx="9" cy="18" r="1.7"></circle><circle cx="15" cy="18" r="1.7"></circle></svg></button><b class="grow">${pbEsc(it.n)}</b>
-        <span class="pb-rowbtns">${ex && ex.img ? `<button class="pb-imgbtn" data-act="img" data-id="${ex.id}" aria-label="Bild">${PB_ICO.img}</button>` : ''}
+        <span class="pb-rowbtns">${ex ? pbInfoBtn(ex) : ''}
         <button class="pb-ib" data-act="mv" data-d="-1" ${a} aria-label="Nach oben" ${i ? '' : 'disabled'}>${PB_ICO.up}</button><button class="pb-ib" data-act="mv" data-d="1" ${a} aria-label="Nach unten" ${i < s.ex.length - 1 ? '' : 'disabled'}>${PB_ICO.down}</button><button class="pb-ib del" data-act="rm" ${a} aria-label="Entfernen">${PB_ICO.x}</button></span></div>
         ${pbItemCtl(it, a)}</div>`; }).join('')}
     <div class="pb-cxrow"><button class="pb-btn2 acc" data-act="add" data-sid="${s.id}">+ Übung hinzufügen</button></div></div>`;
@@ -3783,15 +3989,17 @@ function pbSavePlan(activate){
 // ---------- Bildbetrachter (nur auf Knopfdruck) ----------
 let pbImgTimer = null;
 function pbShowImg(id){
-  const ex = pbById(id); if (!ex || !ex.img) return;
+  const ex = pbById(id); if (!ex) return;
   const ov = document.getElementById('pbImgOv') || (pbEnsureSheet(), document.getElementById('pbImgOv'));
   const src = i => PB_IMG_BASE + ex.img + '/' + i + '.jpg';
-  ov.innerHTML = `<div class="pb-img-card" role="dialog" aria-label="Bild ${pbEsc(ex.n)}"><div class="pb-img-h"><b>${pbEsc(ex.n)}</b><button class="pb-close" data-act="imgclose" aria-label="Schließen">${PB_ICO.x}</button></div>
-    <div class="pb-img-box"><img id="pbImgA" crossorigin="anonymous" alt="${pbEsc(ex.n)} — Start" src="${src(0)}"><img id="pbImgB" crossorigin="anonymous" alt="${pbEsc(ex.n)} — Ende" src="${src(1)}" class="hide"><span class="pb-img-load">Bild wird geladen …</span><span class="pb-img-step" id="pbImgStep">Start</span></div>
+  ov.innerHTML = `<div class="pb-img-card" role="dialog" aria-label="${pbEsc(ex.n)}"><div class="pb-img-h"><b>${pbEsc(ex.n)}</b><button class="pb-close" data-act="imgclose" aria-label="Schließen">${PB_ICO.x}</button></div>
+    ${ex.img ? `<div class="pb-img-box"><img id="pbImgA" crossorigin="anonymous" alt="${pbEsc(ex.n)} — Start" src="${src(0)}"><img id="pbImgB" crossorigin="anonymous" alt="${pbEsc(ex.n)} — Ende" src="${src(1)}" class="hide"><span class="pb-img-load">Bild wird geladen …</span><span class="pb-img-step" id="pbImgStep">Start</span></div>` : ''}
     <div class="pb-img-t">${pbEsc(ex.t || '')}</div>
-    <div class="pb-img-m"><b>Trainiert:</b> ${ex.m.map(m => PB_MNAME[m]).join(', ')}${ex.s.length ? ' · <span>mit: ' + ex.s.map(m => PB_MNAME[m]).join(', ') + '</span>' : ''}</div>
-    <div class="pb-img-src">Bild: free-exercise-db (gemeinfrei) · wird nur auf Knopfdruck geladen</div></div>`;
+    ${ex.m.length ? `<div class="pb-img-m"><b>Trainiert:</b> ${ex.m.map(m => PB_MNAME[m]).join(', ')}${ex.s.length ? ' · <span>mit: ' + ex.s.map(m => PB_MNAME[m]).join(', ') + '</span>' : ''}</div>` : ''}
+    <a class="pb-vid" href="${pbVideoUrl(ex)}" target="_blank" rel="noopener">${PB_ICO.play}<span><b>Video-Anleitung ansehen</b><small>YouTube-Suche${ex.en ? ': „' + pbEsc(ex.en) + '“' : ''}</small></span></a>
+    <div class="pb-img-src">${ex.img ? 'Bild: free-exercise-db (gemeinfrei) · wird nur auf Knopfdruck geladen · ' : 'Für diese Übung gibt es kein passendes Foto — lieber keins als ein falsches. '}Video öffnet YouTube.</div></div>`;
   ov.classList.add('open');
+  clearInterval(pbImgTimer); if (!ex.img) return;
   const a = document.getElementById('pbImgA'), b = document.getElementById('pbImgB'), ld = ov.querySelector('.pb-img-load');
   a.onload = () => { ld.style.display = 'none'; };
   a.onerror = () => { ld.textContent = 'Bild nicht erreichbar — offline?'; };
@@ -4667,7 +4875,7 @@ function renderTodayEntry(){
         <div class="vol-box" data-volfor="${ex.name}"></div>
         ${copyBtn}
         <div class="qc-extra">
-
+          ${(() => { try { const x = pbExOf({ n: ex.name }); return x ? `<button class="qc-how" data-pbid="${x.id}">${x.img ? PB_ICO.img : PB_ICO.play}<span>So geht's · ${x.img ? 'Bild &amp; ' : ''}Video</span></button>` : ''; } catch(e) { return ''; } })()}
           ${ex.note ? `<details class="qc-tech"><summary>Technik &amp; Hinweise</summary><div>${ex.note}</div></details>` : ''}
         </div>
       </div>
@@ -4675,6 +4883,7 @@ function renderTodayEntry(){
   }).join('');
 
   try { if (deloadActive()) listEl.insertAdjacentHTML('afterbegin', `<div class="ins ins-info" style="margin-bottom:12px"><div class="ins-ic">🧘</div><div class="ins-b"><div class="ins-t">Deload-Woche</div><div class="ins-s">Etwa 60 % deiner üblichen Gewichte, je Übung ein Satz weniger. Saubere Technik statt Rekorde.</div></div></div>`); } catch(e) {}
+  listEl.querySelectorAll('.qc-how').forEach(b => b.onclick = (ev) => { ev.stopPropagation(); pbShowImg(b.dataset.pbid); });
   listEl.querySelectorAll('.bw-opt').forEach(b => b.onclick = (ev) => { ev.stopPropagation(); setBwVariant(b.dataset.ex, b.dataset.v); expandedEx.add(b.dataset.ex); renderTodayEntry(); });
   // Kopf antippen = ein-/ausklappen
   listEl.querySelectorAll('.qcard-head').forEach(hd => hd.onclick = () => {
@@ -5308,6 +5517,7 @@ const BW_VARIANTS = [
     opts: [['p45', 'Boden · ~45°', 0.60], ['p60', 'Boden, steiler · ~60°', 0.68], ['p75', 'Füße erhöht · ~75°', 0.80], ['p90', 'Wand-Handstand · 90°', 0.95]] },
   { re: /liegestütz|push-?up/i, not: /pike|renegade|pushdown/i, q: 'Welche Variante?', ask: true,
     opts: [['knee', 'Auf den Knien', 0.49], ['he', 'Hände erhöht', 0.55], ['std', 'Standard', 0.64], ['fe30', 'Füße 30 cm erhöht', 0.70], ['fe60', 'Füße 60 cm erhöht', 0.74]] },
+  { re: /(klimmz|pull-?up|muscle).*mit band/i, q: 'Unterstützung?', opts: [['band', 'Mit Band', 0.75], ['full', 'Ohne Band', 1.0]] },
   { re: /dips/i, q: 'Unterstützung?', opts: [['full', 'Volles Körpergewicht', 1.0], ['band', 'Mit Band', 0.75], ['feet', 'Füße als Hilfe', 0.60]] },
   { re: /klimmz|pull-?up|chin-?up/i, q: 'Unterstützung?', opts: [['full', 'Volles Körpergewicht', 1.0], ['band', 'Mit Band', 0.75]] },
   { re: /muscle/i, q: 'Variante?', opts: [['full', 'Volle Muscle-Ups', 1.0], ['band', 'Mit Band', 0.75], ['jump', 'Mit Sprung/Fußhilfe', 0.60]] },
@@ -6698,7 +6908,7 @@ function renderAppSettings(){
       <button class="set-nav" data-go="goals"><span><b>Deine Ziele</b><small>Worauf die App besonders achten soll</small></span><em>›</em></button>
       <button class="set-nav" data-go="tplan"><span><b>Trainingsplan</b><small>Aktiven Plan wählen oder bauen</small></span><em>›</em></button>
     </div>
-    <div class="set-info">Kaizen Health v22.6 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
+    <div class="set-info">Kaizen Health v22.7 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
   box.querySelectorAll('[data-set]').forEach(el => {
     const k = el.dataset.set;
     const handler = () => {
