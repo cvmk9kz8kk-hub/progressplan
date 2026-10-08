@@ -1164,6 +1164,18 @@
   .pb-sess .pb-row.pb-new-it{ background:color-mix(in srgb, var(--lime) 12%, transparent); padding-left:8px; padding-right:8px; transition:background 1s; }
   body.pb-dragging, body.pb-dragging *{ user-select:none; -webkit-user-select:none; }
   .pb-dnd-hint{ margin:4px 0 2px; }
+  .pb-dm-h{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px; }
+  .pb-seg.sm{ margin:0; padding:3px; grid-template-columns:auto auto; } .pb-seg.sm button{ min-height:30px; padding:0 10px; font-size:12px; } .pb-seg.sm button[disabled]{ opacity:.4; }
+  .pb-dm-sum{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px; margin-bottom:8px; }
+  .pb-dm-sum div{ display:flex; flex-direction:column; } .pb-dm-sum b{ font-size:20px; font-weight:800; line-height:1.1; } .pb-dm-sum span{ font-size:10.5px; color:var(--ink-dim); }
+  .pb-dm-body .pb-svg{ max-width:320px; margin:0 auto; }
+  .pb-pill-bg{ fill:var(--ink); } .pb-pill-t{ fill:var(--bg); font-size:10.5px; font-weight:800; }
+  .pb-dm-rows{ display:flex; flex-direction:column; gap:9px; margin-top:12px; }
+  .pb-dm-r{ display:grid; grid-template-columns:132px 1fr 40px; column-gap:8px; align-items:center; }
+  .pb-dm-r .n{ font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pb-dm-r i{ position:relative; height:8px; border-radius:4px; background:var(--bg2); overflow:hidden; } .pb-dm-r u{ position:absolute; left:0; top:0; bottom:0; border-radius:4px; background:var(--lime); }
+  .pb-dm-r b{ font-size:14px; font-weight:800; text-align:right; white-space:nowrap; } .pb-dm-r small{ grid-column:1 / -1; font-size:10.5px; color:var(--ink-dim); margin-top:1px; }
+
   .pb-ib{ width:34px; height:34px; border-radius:9px; border:1px solid var(--line); background:var(--bg2); color:var(--ink); display:flex; align-items:center; justify-content:center; padding:0; }
   .pb-ib[disabled]{ opacity:.3; } .pb-ib.del{ color:var(--rec-lo); }
   .pb-rowbtns .pb-imgbtn{ width:34px; height:34px; }
@@ -1225,7 +1237,7 @@
   .bi-add input{ flex:1; min-width:0; padding:11px 12px; border-radius:11px; border:1px solid var(--line); background:var(--card); font-size:15px; color:var(--ink); }
   .bi-add button{ border:none; background:var(--lime); color:var(--acc-ink); border-radius:11px; padding:0 14px; font-weight:800; }
 
-  /* ---------- v22.1: Analyse kompakter, Diagramme breiter ---------- */
+  /* ---------- v22.2: Analyse kompakter, Diagramme breiter ---------- */
   /* Ebene 2: Segment-Schalter (iOS-Stil) bei bis zu 5 Bereichen */
   #subNav{ padding:0 14px 10px !important; }
   #subNav.seg{ gap:2px; overflow:visible; padding:3px !important; margin:0 14px 8px; border-radius:11px;
@@ -1254,7 +1266,7 @@
   .svgc-detail{ margin-top:8px; padding:8px 10px; font-size:12px; }
   .svgc-legend{ margin-bottom:6px; }
 
-  /* ---------- v22.1: Cockpit kompakter ---------- */
+  /* ---------- v22.2: Cockpit kompakter ---------- */
   .card .ci-q{ display:flex; align-items:center; gap:10px; margin-bottom:6px; min-height:40px; }
   .card .ci-q .ci-l{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; margin:0; font-size:13.5px; line-height:1.25; }
   .card .ci-q .ci-l span{ font-size:11.5px; }
@@ -1511,7 +1523,7 @@
   .man-vals > summary::after{ content:'›'; font-size:18px; transition:transform .2s; } .man-vals[open] > summary::after{ transform:rotate(90deg); }
   .man-vals > summary::-webkit-details-marker{ display:none; } .man-vals[open] > summary{ margin-bottom:10px; }
 
-  /* ---------- v22.1: verschlankt ---------- */
+  /* ---------- v22.2: verschlankt ---------- */
   .wk-mini{ display:block; width:100%; text-align:left; color:var(--ink); cursor:pointer; }
   .wk-mini-h{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
   .wk-mini-h em{ font-style:normal; font-size:12.5px; font-weight:700; color:var(--lime); }
@@ -1714,7 +1726,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.1</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.2</span></div>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
 </header>
@@ -1896,6 +1908,7 @@
       <div id="progDataStatus" class="data-status"></div>
       <div id="progTodayList"></div>
       <div id="progDayVolume"></div>
+      <div id="progMuscleMap"></div>
     </div>
 
     <div id="progOverview" style="display:none;">
@@ -3700,6 +3713,60 @@ function pbShowImg(id){
   clearInterval(pbImgTimer); let s = 0;
   pbImgTimer = setInterval(() => { if (!document.getElementById('pbImgA')) return clearInterval(pbImgTimer); s = 1 - s; a.classList.toggle('hide', s === 1); b.classList.toggle('hide', s === 0); const st = document.getElementById('pbImgStep'); if (st) st.textContent = s ? 'Ende' : 'Start'; }, 1300);
 }
+
+// ---------- Muskelverteilung eines Trainingstags (Training → Tagesbilanz) ----------
+// Gezählt in harten Sätzen: Hauptmuskel 1, mittrainierte Muskeln ½, HIIT-Runden ¼, Zeit-Übungen mit Muskelbezug ≈ 1 Satz je 2 min
+let pbMuscMode = null;
+function pbContrib(list){ // list: [{name, sets(Anzahl), kind?}]
+  const out = {}, add = (m, v) => { out[m] = (out[m] || 0) + v; };
+  list.forEach(x => { const ex = pbExOf({ n: x.name }); if (!ex || !ex.m.length || !x.sets) return; const f = ex.k === 'i' ? 0.25 : 1;
+    ex.m.forEach(m => add(m, x.sets * f)); ex.s.forEach(m => add(m, x.sets * f * 0.5)); });
+  return out;
+}
+function pbPlannedSets(ex){ const p = pbParseSetStr(ex.sets), x = pbExOf({ n: ex.name });
+  if (x && x.k === 't') return x.m.length ? Math.min(4, (pbAvg(ex.sets) || 0) / 2) : 0;
+  return p.sets || 0; }
+const PB_LBL = { chest_upper: ['f', 86, 84], chest_lower: ['f', 84, 106], delt_front: ['f', 62, 90], delt_side: ['f', 46, 92], biceps: ['f', 49, 128], forearm: ['f', 44, 172],
+  abs: ['f', 93, 150], obliques: ['f', 78, 152], quads: ['f', 79, 250], adductors: ['f', 93, 240], tibialis: ['f', 80, 352],
+  traps: ['b', 86, 68], upper_back: ['b', 84, 102], delt_rear: ['b', 52, 86], triceps: ['b', 50, 124], lats: ['b', 82, 132], lower_back: ['b', 92, 172],
+  glute_med: ['b', 76, 192], glutes: ['b', 86, 216], hamstrings: ['b', 84, 272], calves: ['b', 78, 345] };
+function renderDayMuscles(exList, today, store){
+  const box = document.getElementById('progMuscleMap'); if (!box) return;
+  const strength = (exList || []).filter(ex => { const x = pbExOf({ n: ex.name }); return x && x.m.length; });
+  if (!strength.length) { box.innerHTML = ''; return; }
+  const plan = pbContrib(strength.map(ex => ({ name: ex.name, sets: pbPlannedSets(ex) })));
+  let doneN = 0;
+  const done = pbContrib(strength.map(ex => { const n = historyFor(ex.name, store).filter(e => e.date === today && !e.prefill &&
+      ((e.reps !== null && e.reps !== undefined && e.reps !== '') || (e.weight !== null && e.weight !== undefined && e.weight !== ''))).length;
+    doneN += n; const x = pbExOf({ n: ex.name }); return { name: ex.name, sets: x && x.k === 't' ? (n ? pbPlannedSets(ex) : 0) : n }; }));
+  const mode = pbMuscMode || (doneN ? 'done' : 'plan'), src = mode === 'done' && doneN ? done : plan;
+  const tot = Object.values(src).reduce((a, v) => a + v, 0);
+  if (!tot) { box.innerHTML = ''; return; }
+  const rows = Object.entries(src).map(([m, v]) => [m, v, v / tot * 100]).filter(r => r[2] >= 1).sort((a, b) => b[1] - a[1]);
+  const max = rows[0][1], share = Object.fromEntries(rows.map(r => [r[0], r[2]]));
+  // Woche laut Plan (alle Trainingstage) als Einordnung
+  const week = pbContrib(Object.values(data.trainingDays).flatMap(d => (d.exercises || []).map(ex => ({ name: ex.name, sets: pbPlannedSets(ex) }))));
+  const groups = PB_GROUPS.map(([g, l]) => [l, PB_MUSCLES.filter(m => m[2] === g).reduce((a, m) => a + (src[m[0]] || 0), 0) / tot * 100]).filter(x => x[1] >= 1).sort((a, b) => b[1] - a[1]);
+  const fill = m => { const v = src[m] || 0; return v ? `color-mix(in srgb, var(--lime) ${Math.round(28 + 72 * v / max)}%, var(--pb-off))` : 'var(--pb-off)'; };
+  // Prozent-Etiketten auf dem Körper für die stärksten Muskeln, ohne Überlappung
+  const lbl = { f: [], b: [] };
+  rows.slice(0, 6).forEach(([m, , pct]) => { const a = PB_LBL[m]; if (a) lbl[a[0]].push({ x: 200 - a[1], y: a[2], t: Math.round(pct) + ' %' }); });
+  const pills = (arr, off) => { arr.sort((a, b) => a.y - b.y); for (let i = 1; i < arr.length; i++) if (arr[i].y - arr[i - 1].y < 19 && Math.abs(arr[i].x - arr[i - 1].x) < 40) arr[i].y = arr[i - 1].y + 19;
+    return arr.map(p => `<g transform="translate(${off + p.x} ${p.y})"><rect x="-19" y="-9" width="38" height="18" rx="9" class="pb-pill-bg"></rect><text y="4" text-anchor="middle" class="pb-pill-t">${p.t}</text></g>`).join(''); };
+  let svg = pbBodySVG(fill, 'small');
+  svg = svg.replace('</svg>', pills(lbl.f, 0) + pills(lbl.b, 210) + '</svg>');
+  const fmt = v => fmtNum(Math.round(v * 2) / 2);
+  box.innerHTML = `<div class="card pb-dm">
+    <div class="pb-dm-h"><div class="card-title" style="margin:0">Muskelverteilung</div>
+      <div class="pb-seg sm"><button class="${mode === 'plan' ? 'on' : ''}" data-mm="plan">Geplant</button><button class="${mode === 'done' ? 'on' : ''}" data-mm="done" ${doneN ? '' : 'disabled'}>Heute${doneN ? ' · ' + doneN : ''}</button></div></div>
+    <div class="pb-dm-sum">${groups.slice(0, 4).map(([l, p]) => `<div><b>${Math.round(p)} %</b><span>${l}</span></div>`).join('')}</div>
+    <div class="pb-dm-body">${svg}</div>
+    <div class="pb-dm-rows">${rows.map(([m, v, pct]) => `<div class="pb-dm-r"><span class="n">${PB_MNAME[m]}</span><i><u style="width:${(v / max * 100).toFixed(0)}%"></u></i><b>${Math.round(pct)} %</b>
+      <small>${fmt(v)} ${v === 1 ? 'Satz' : 'Sätze'}${mode === 'done' ? ' heute' : ''}${week[m] ? ' · Woche ' + fmt(week[m]) : ''}</small></div>`).join('')}</div>
+    <div class="vol-note">${mode === 'done' ? 'Aus den heute eingetragenen Sätzen.' : 'Aus den geplanten Sätzen dieses Trainings.'} Anteil an allen harten Sätzen der Einheit — Hauptmuskel zählt voll, mittrainierte Muskeln halb. „Woche“ = geplante Sätze im ganzen Plan; sinnvoll sind meist 6–20 pro Muskel.</div></div>`;
+  box.querySelectorAll('[data-mm]').forEach(b => b.onclick = () => { pbMuscMode = b.dataset.mm; renderDayMuscles(exList, today, loadProgress()); });
+}
+
 function pbCloseImg(){ const ov = document.getElementById('pbImgOv'); if (ov) { ov.classList.remove('open'); ov.innerHTML = ''; } clearInterval(pbImgTimer); }
 
 // ---------- Training → Plan ----------
@@ -4565,6 +4632,7 @@ function renderTodayEntry(){
   // ---- Volumen je Übung und für den ganzen Tag berechnen und anzeigen ----
   function renderVolumes(){
     const store = loadProgress();
+    try { renderDayMuscles(relevantExercises, today, store); } catch(e) { console.warn('Muskelverteilung', e); }
     let dayNow = 0, dayPrev = 0, doneCount = 0, prevCount = 0;
     let dayMinNow = 0, dayMinPrev = 0, daySecNow = 0, daySecPrev = 0;
 
