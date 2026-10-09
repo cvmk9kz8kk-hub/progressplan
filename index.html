@@ -1813,12 +1813,23 @@
   .trend-sw button{ flex:1; border:none; background:transparent; padding:7px; border-radius:8px; font-weight:700; font-size:13px; color:var(--ink-dim); }
   .trend-sw button.on{ background:var(--card); color:var(--ink); }
   .sec-h{ font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim); margin:18px 4px 8px; }
+
+  /* ---------- v22.8: Segment-Schalter — aktiver Reiter klar abgehoben, auch in dunklen Designs ---------- */
+  :root{ --seg-on: color-mix(in srgb, #fff 72%, var(--bg)); --seg-on-ink: var(--ink); --seg-on-shadow: 0 1px 3px rgba(40,30,20,.16), 0 0 0 .5px rgba(40,30,20,.06); }
+  :root[data-theme="performance"], :root[data-theme="walnuss"], :root[data-theme="graphit"], :root[data-theme="original"]{
+    --seg-on: color-mix(in srgb, var(--ink) 20%, var(--bg2)); --seg-on-ink: #fff;
+    --seg-on-shadow: 0 1px 2px rgba(0,0,0,.45), inset 0 0 0 .5px color-mix(in srgb, var(--ink) 22%, transparent); }
+  @media (prefers-color-scheme: dark){ :root[data-theme="auto"]{
+    --seg-on: color-mix(in srgb, var(--ink) 20%, var(--bg2)); --seg-on-ink: #fff;
+    --seg-on-shadow: 0 1px 2px rgba(0,0,0,.45), inset 0 0 0 .5px color-mix(in srgb, var(--ink) 22%, transparent); } }
+  #subNav.seg .subnav-btn.active, .subtab-btn.active, .pb-seg button.on, .set-seg button.on, .as-tab.on, .trend-sw button.on{
+    background: var(--seg-on) !important; color: var(--seg-on-ink) !important; box-shadow: var(--seg-on-shadow) !important; }
 </style>
 </head>
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.7</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.8</span></div>
   <button class="hdr-gear" id="hdrGear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"></path></svg></button>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
@@ -6908,7 +6919,7 @@ function renderAppSettings(){
       <button class="set-nav" data-go="goals"><span><b>Deine Ziele</b><small>Worauf die App besonders achten soll</small></span><em>›</em></button>
       <button class="set-nav" data-go="tplan"><span><b>Trainingsplan</b><small>Aktiven Plan wählen oder bauen</small></span><em>›</em></button>
     </div>
-    <div class="set-info">Kaizen Health v22.7 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
+    <div class="set-info">Kaizen Health v22.8 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
   box.querySelectorAll('[data-set]').forEach(el => {
     const k = el.dataset.set;
     const handler = () => {
