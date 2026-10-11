@@ -1814,6 +1814,14 @@
   .trend-sw button.on{ background:var(--card); color:var(--ink); }
   .sec-h{ font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim); margin:18px 4px 8px; }
 
+  /* ---------- v22.9: Ernährungstag zählt / zählt nicht ---------- */
+  .nf-box{ margin-top:12px; padding-top:10px; border-top:1px solid var(--line); }
+  .nf-top{ display:flex; flex-direction:column; align-items:stretch; gap:8px; }
+  .nf-l{ display:flex; align-items:center; gap:7px; font-size:12.5px; font-weight:700; color:var(--ink); white-space:nowrap; }
+  .nf-dot{ width:9px; height:9px; border-radius:50%; background:var(--ink-dim); opacity:.6; flex:0 0 auto; }
+  .nf-dot.ok{ background:var(--up); opacity:1; } .nf-dot.part{ background:var(--amber); opacity:1; }
+  .nf-seg{ width:100%; } .nf-seg button{ flex:1 1 0; min-width:0; min-height:32px; padding:0 6px; font-size:12.5px; }
+  .nf-txt{ margin-top:7px; font-size:12px; line-height:1.5; color:var(--ink-dim); }
   /* ---------- v22.8: Segment-Schalter — aktiver Reiter klar abgehoben, auch in dunklen Designs ---------- */
   :root{ --seg-on: color-mix(in srgb, #fff 72%, var(--bg)); --seg-on-ink: var(--ink); --seg-on-shadow: 0 1px 3px rgba(40,30,20,.16), 0 0 0 .5px rgba(40,30,20,.06); }
   :root[data-theme="performance"], :root[data-theme="walnuss"], :root[data-theme="graphit"], :root[data-theme="original"]{
@@ -1829,7 +1837,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.8</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.9</span></div>
   <button class="hdr-gear" id="hdrGear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"></path></svg></button>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
@@ -6214,13 +6222,7 @@ function startHourByDate(){
   return out;
 }
 function kcalOf(dateStr){
-  let nut = {}; try { nut = JSON.parse(localStorage.getItem('cutplan_nutrition_v1') || '{}') || {}; } catch(e) {}
-  const day = nut[dateStr]; if (!day) return null;
-  let kcal = 0, p = 0, any = false;
-  Object.values(day).forEach(arr => Array.isArray(arr) && arr.forEach(it => {
-    const m = (parseFloat(it.amount) || 0) / 100; kcal += (parseFloat(it.kcal) || 0) * m; p += (parseFloat(it.p) || 0) * m; any = true;
-  }));
-  return any && kcal > 300 ? { kcal: Math.round(kcal), p: Math.round(p) } : null;
+  try { if (!nutCounts(dateStr)) return null; const t = dayTotals(dateStr); return { kcal: t.kcal, p: t.p }; } catch(e) { return null; }
 }
 
 function renderSessionAnalysis(){
@@ -6919,7 +6921,7 @@ function renderAppSettings(){
       <button class="set-nav" data-go="goals"><span><b>Deine Ziele</b><small>Worauf die App besonders achten soll</small></span><em>›</em></button>
       <button class="set-nav" data-go="tplan"><span><b>Trainingsplan</b><small>Aktiven Plan wählen oder bauen</small></span><em>›</em></button>
     </div>
-    <div class="set-info">Kaizen Health v22.8 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
+    <div class="set-info">Kaizen Health v22.9 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
   box.querySelectorAll('[data-set]').forEach(el => {
     const k = el.dataset.set;
     const handler = () => {
@@ -7544,7 +7546,7 @@ function weekBalanceHTML(today){
   const nut = loadNutrition(); let steps = {}, sleep = {};
   try { steps = JSON.parse(localStorage.getItem('cutplan_steps_v1') || '{}') || {}; } catch(e) {}
   try { sleep = JSON.parse(localStorage.getItem('cutplan_sleep_v1') || '{}') || {}; } catch(e) {}
-  const nd = days.filter(d => nut[d] && dayTotals(d).kcal > 300);
+  const ndays = days.filter(d => d < today || nutCounts(d)), nd = ndays.filter(nutCounts), nPart = ndays.filter(d => nutDayInfo(d).st === 'partial').length;
   const avg = (arr) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null;
   const kcal = avg(nd.map(d => dayTotals(d).kcal)), kGoal = avg(nd.map(d => goalsForDate(d).kcal)) || goalsForDate(today).kcal;
   const prot = avg(nd.map(d => dayTotals(d).p)), pGoal = avg(nd.map(d => goalsForDate(d).p)) || goalsForDate(today).p;
@@ -7563,7 +7565,7 @@ function weekBalanceHTML(today){
   const n0 = v => Math.round(v).toLocaleString('de-DE');
   return `<div class="card">
     <div class="card-title">Wochenbilanz · ${fmtDate(mon)} bis heute</div>
-    ${row('Ø Kalorien', kcal, kGoal, n0, (c, g) => Math.abs(c - g) <= g * 0.07, nd.length ? nd.length + ' von ' + days.length + ' Tagen eingetragen' : '')}
+    ${row('Ø Kalorien', kcal, kGoal, n0, (c, g) => Math.abs(c - g) <= g * 0.07, nd.length ? nd.length + ' von ' + ndays.length + ' Tagen vollständig' + (nPart ? ` · ${nPart} unvollständig, zählt nicht` : '') : '')}
     ${row('Ø Eiweiß', prot, pGoal, v => n0(v) + ' g', (c, g) => c >= g * 0.92)}
     ${row('Ø Schritte', st, 12000, n0, (c, g) => c >= g * 0.95)}
     ${row('Ø Schlaf', sl, 7, v => fmtNum(Math.round(v * 10) / 10) + ' h', (c, g) => c >= g)}
@@ -7833,7 +7835,7 @@ function renderMotivationAlt(){
   const trainDays = Object.keys(loadByDate).sort();
   const perf = performanceByDate();
   const nut = loadNutrition();
-  const prevNut = d => { const p = addDays(d, -1); return nut[p] && dayTotals(p).kcal > 300 ? dayTotals(p) : null; };
+  const prevNut = d => { const p = addDays(d, -1); return nutCounts(p) ? dayTotals(p) : null; };
   const F = [
     ['Schlafdauer', d => sleep[d] && sleep[d].h ? +sleep[d].h : null, 'mehr Schlaf', 'weniger Schlaf'],
     ['Schlafqualität', d => C(d).sleepQ || null, 'besserer Schlaf', 'schlechterer Schlaf'],
@@ -8243,7 +8245,7 @@ function renderWeekReport(){
   if (stAvg !== null && stAvg < 11000) recs.push(['🚶', `Schritte: +${Math.round((12000 - stAvg) / 100) * 100} pro Tag`, `Ø ${Math.round(stAvg).toLocaleString('de-DE')} — Schritte waren in deiner erfolgreichsten Phase der stärkste Hebel. Zwei Spaziergänge à 15 min nach dem Essen reichen.`]);
   const sl = days.filter(d => sleep[d] && sleep[d].h).map(d => +sleep[d].h); const slAvg = sl.length ? sl.reduce((a, b) => a + b, 0) / sl.length : null;
   if (slAvg !== null && slAvg < 6.8) recs.push(['😴', 'Schlaf: 30 min früher ins Bett', `Ø ${fmtNum(Math.round(slAvg * 10) / 10)} h. Unter 7 h leiden Regeneration und Muskelerhalt im Defizit messbar.`]);
-  const nut = loadNutrition(), nd = days.filter(d => nut[d] && dayTotals(d).kcal > 800);
+  const nd = days.filter(nutCounts);
   const pAvg = nd.length ? nd.reduce((a, d) => a + dayTotals(d).p, 0) / nd.length : null, pGoal = goalsForDate(ref).p;
   if (pAvg !== null && pAvg < pGoal * 0.9) recs.push(['🥩', `Eiweiß: +${Math.round(pGoal - pAvg)} g pro Tag`, `Ø ${Math.round(pAvg)} g statt ${pGoal} g — ein Shake oder ein Skyr schließt die Lücke.`]);
   if (nd.length < Math.min(days.length, 7) * 0.7) recs.push(['📝', 'Ernährung vollständiger eintragen', `${nd.length} von ${days.length} Tagen eingetragen. Ohne vollständige Tage kann die App deinen Verbrauch nicht berechnen.`]);
@@ -9476,8 +9478,9 @@ function renderHealthImporter(){
 function hkDaily(d){ return _js('cutplan_hkdaily_v1')[d] || {}; }
 // Ernährung eines Tages: App-Tagebuch, sonst Yazio-Werte aus Apple Health
 function intakeOf(d){
-  try { const t = dayTotals(d); if (t.kcal >= 1000) return { kcal: t.kcal, p: t.p, c: t.c, f: t.f, src: 'app' }; } catch(e) {}
-  const x = hkDaily(d); if (x.kcalIn >= 1000) return { kcal: x.kcalIn, p: x.pIn || 0, c: x.cIn || 0, f: x.fIn || 0, src: 'health' };
+  try { const i = nutDayInfo(d); if (i.st === 'full') return { kcal: i.t.kcal, p: i.t.p, c: i.t.c, f: i.t.f, src: 'app' }; } catch(e) {}
+  let min = 1000; try { min = nutMinKcal(d); } catch(e) {}
+  const x = hkDaily(d); if (x.kcalIn >= min) return { kcal: x.kcalIn, p: x.pIn || 0, c: x.cIn || 0, f: x.fIn || 0, src: 'health' };
   return null;
 }
 // Ev = Studienlage: stark · mittel · begrenzt
@@ -11558,7 +11561,9 @@ const GENERIC_PORTIONS_LIQUID = [["Kleines Glas",200],["Großes Glas",300],["Tas
 const MEAL_SLOTS = ["Frühstück", "Mittagessen", "Abendessen", "Snack", "Importiert"];
 
 function loadNutrition(){ try { const r = localStorage.getItem(NUT_KEY); return r ? JSON.parse(r) : {}; } catch(e){ return {}; } }
-function saveNutrition(d){ try { localStorage.setItem(NUT_KEY, JSON.stringify(d)); } catch(e){} }
+function nutPrune(d){ let n = 0; Object.keys(d || {}).forEach(k => { const day = d[k]; if (!day || typeof day !== 'object' || !Object.values(day).some(a => Array.isArray(a) && a.length)) { delete d[k]; n++; } }); return n; }
+function saveNutrition(d){ try { nutPrune(d); localStorage.setItem(NUT_KEY, JSON.stringify(d)); } catch(e){} }
+try { const _n = loadNutrition(); if (nutPrune(_n)) localStorage.setItem(NUT_KEY, JSON.stringify(_n)); } catch(e) {}
 function loadCustomFoods(){ try { const r = localStorage.getItem(CUSTOM_FOOD_KEY); return r ? JSON.parse(r) : []; } catch(e){ return []; } }
 function saveCustomFoods(d){ try { localStorage.setItem(CUSTOM_FOOD_KEY, JSON.stringify(d)); return true; } catch(e){ return false; } }
 
@@ -11749,6 +11754,44 @@ function dayTotals(dateStr){
   });
   return {kcal: Math.round(kcal), p: Math.round(p), c: Math.round(c), f: Math.round(f)};
 }
+// ---------- v22.9: Wann zählt ein Ernährungstag in den Auswertungen? ----------
+// Eine Regel für alle Analysen: Ein Tag zählt, wenn mind. die Hälfte des Kalorienziels eingetragen ist —
+// oder du ihn selbst als „Vollständig“ markierst. „Nicht getrackt“ schließt ihn immer aus.
+// Tage ohne Eintrag werden ausgelassen (nie als 0 kcal gewertet, nie mit Durchschnitt aufgefüllt).
+let _nfC = null;
+function nutFlags(){ if (_nfC && Date.now() - _nfC.t < 1500) return _nfC.v;
+  let v = {}; try { v = JSON.parse(localStorage.getItem('cutplan_nutflag_v1') || '{}') || {}; } catch(e) {}
+  _nfC = { t: Date.now(), v }; return v; }
+function setNutFlag(d, v){ const f = Object.assign({}, nutFlags()); if (v) f[d] = v; else delete f[d];
+  try { localStorage.setItem('cutplan_nutflag_v1', JSON.stringify(f)); } catch(e) {} _nfC = null; try { _adCache = null; } catch(e) {} }
+function nutMinKcal(d){ let g = 2400; try { g = goalsForDate(d).kcal || g; } catch(e) {} return Math.round(g * 0.5 / 10) * 10; }
+function nutDayInfo(d){
+  const t = dayTotals(d), flag = nutFlags()[d] || null;
+  let st, min = null;
+  if (flag === 'skip') st = 'skip';
+  else if (flag === 'full') st = t.kcal > 0 ? 'full' : 'none';
+  else if (!t.kcal) st = 'none';
+  else { min = nutMinKcal(d); st = t.kcal >= min ? 'full' : 'partial'; }
+  return { st, flag, kcal: t.kcal, min, t };
+}
+function nutCounts(d){ return nutDayInfo(d).st === 'full'; }
+// Kalendertage [von … bis] einschließlich
+function nutDaysRange(from, to){ const out = []; for (let d = from; d <= to && out.length < 400; d = addDays(d, 1)) out.push(d); return out; }
+function nutBasisTxt(days){ const c = { full: 0, partial: 0, skip: 0, none: 0 }; days.forEach(d => c[nutDayInfo(d).st]++);
+  const x = []; if (c.partial) x.push(c.partial + ' unvollständig'); if (c.skip) x.push(c.skip + ' nicht getrackt'); if (c.none) x.push(c.none + ' ohne Eintrag');
+  return { n: c.full, txt: `Ø aus ${c.full} von ${days.length} Tagen` + (x.length ? ` · ${x.join(', ')} — zählen nicht` : '') }; }
+function nutFlagHTML(d){
+  const i = nutDayInfo(d), running = d === localDateStr(Date.now()), n0 = v => Math.round(v).toLocaleString('de-DE');
+  let txt, cls;
+  if (i.flag === 'skip') { txt = 'Nicht getrackt — der Tag fließt in keine Auswertung ein.'; cls = 'off'; }
+  else if (i.flag === 'full') { txt = i.kcal ? 'Als vollständig markiert — zählt in den Auswertungen, auch wenn es wenig ist.' : 'Als vollständig markiert — sobald etwas eingetragen ist, zählt der Tag.'; cls = i.kcal ? 'ok' : 'off'; }
+  else if (i.st === 'full') { txt = `Zählt in den Auswertungen (ab ${n0(i.min)} kcal, der Hälfte deines Ziels).`; cls = 'ok'; }
+  else if (i.st === 'partial') { txt = running ? `Noch ${n0(i.min - i.kcal)} kcal bis der Tag in den Auswertungen zählt.` : `Nur ${n0(i.kcal)} kcal eingetragen — gilt als unvollständig und zählt nicht. Wenn du wirklich so wenig gegessen hast: „Vollständig“ wählen.`; cls = 'part'; }
+  else { txt = running ? 'Noch nichts eingetragen.' : 'Nichts eingetragen — der Tag wird ausgelassen, nicht als 0 kcal gezählt.'; cls = 'off'; }
+  return `<div class="nf-box"><div class="nf-top"><span class="nf-l"><i class="nf-dot ${cls}"></i>In Auswertungen</span>
+    <div class="set-seg nf-seg">${[['', 'Auto'], ['full', 'Vollständig'], ['skip', 'Nicht getrackt']].map(([v, l]) => `<button class="${(i.flag || '') === v ? 'on' : ''}" data-nf="${v}">${l}</button>`).join('')}</div></div>
+    <div class="nf-txt">${txt}</div></div>`;
+}
 
 function renderNutToday(){
   const dateInput = document.getElementById('nutDate');
@@ -11786,6 +11829,10 @@ function renderNutToday(){
     try { ns.innerHTML = suppDayHTML(currentNutDate); } catch(e) { ns.innerHTML = ''; } }
   { let nc = document.getElementById('nutCoach'); if (!nc) { nc = document.createElement('div'); nc.id = 'nutCoach'; const mr = document.getElementById('nutP').closest('.macro-row'); mr.parentNode.insertBefore(nc, mr.nextSibling); }
     try { nc.innerHTML = nutCoachHTML(currentNutDate, tot, goals); } catch(e) { nc.innerHTML = ''; } }
+  { let nf = document.getElementById('nutFlag'); const nc = document.getElementById('nutCoach');
+    if (!nf) { nf = document.createElement('div'); nf.id = 'nutFlag'; nc.parentNode.insertBefore(nf, nc.nextSibling);
+      nf.addEventListener('click', e => { const b = e.target.closest('[data-nf]'); if (!b) return; setNutFlag(currentNutDate, b.dataset.nf || null); renderNutToday(); }); }
+    try { nf.innerHTML = nutFlagHTML(currentNutDate); } catch(e) { nf.innerHTML = ''; } }
 
   const store = loadNutrition();
   const day = store[currentNutDate] || {};
@@ -12217,11 +12264,12 @@ function initNutSearch(){
 function renderNutOverview(){
   const store = loadNutrition();
   const dates = Object.keys(store).sort();
-  const last7 = dates.slice(-7);
+  // letzte 7 Kalendertage; der laufende Tag zählt erst ab 21 Uhr (oder sobald er vollständig ist)
+  const t0 = localDateStr(Date.now()), endD = new Date().getHours() >= 21 || nutCounts(t0) ? t0 : addDays(t0, -1);
+  const cal7 = nutDaysRange(addDays(endD, -6), endD), basis = nutBasisTxt(cal7);
+  const last7 = cal7.filter(nutCounts);
 
   const sum = {kcal:0,p:0,c:0,f:0};
-  // nur abgeschlossene Tage — der laufende Tag zählt erst ab 21 Uhr
-  { const t0 = localDateStr(Date.now()); if (new Date().getHours() < 21) { const i = last7.indexOf(t0); if (i >= 0) last7.splice(i, 1); } }
   const gAvg = last7.length ? Math.round(last7.reduce((s, d) => s + goalsForDate(d).p, 0) / last7.length) : goalsForDate(localDateStr(Date.now())).p;
   last7.forEach(d => { const t = dayTotals(d); sum.kcal+=t.kcal; sum.p+=t.p; sum.c+=t.c; sum.f+=t.f; });
   const n = last7.length || 1;
@@ -12229,7 +12277,7 @@ function renderNutOverview(){
 
   const sEl = document.getElementById('nutWeekSummary');
   if (!last7.length) {
-    sEl.innerHTML = '<div style="font-size:12.5px; color:var(--ink-dim);">Noch keine Daten.</div>';
+    sEl.innerHTML = `<div style="font-size:12.5px; color:var(--ink-dim);">${dates.length ? 'Keine vollständig eingetragenen Tage in den letzten 7 Tagen — unvollständige Tage zählen nicht, damit der Schnitt nicht künstlich sinkt.' : 'Noch keine Daten.'}</div>`;
   } else {
     const target = 2400;
     const diff = avg.kcal - target;
@@ -12242,7 +12290,7 @@ function renderNutOverview(){
       </div>
       <div style="font-size:12px; color:var(--ink-dim); margin-top:10px; line-height:1.5;">
         ${avg.p < gAvg * 0.9 ? `<span style="color:var(--clay); font-weight:700;">Protein liegt im Schnitt unter deinem Ziel von ${gAvg} g.</span> ` : ''}
-        Basis: ${last7.length} abgeschlossene Tage${new Date().getHours() < 21 ? ' (heute zählt ab 21 Uhr)' : ''}.
+        ${basis.txt}${endD !== t0 ? ' (heute zählt ab 21 Uhr)' : ''}.<br>Im Diagramm: Punkt statt Balken = nicht oder unvollständig eingetragen.
       </div>`;
   }
 
@@ -12253,9 +12301,10 @@ function renderNutOverview(){
     chartEl.style.display='none'; pChartEl.style.display='none'; emptyEl.style.display='block';
   } else {
     chartEl.style.display='block'; pChartEl.style.display='block'; emptyEl.style.display='none';
-    const recent = dates.slice(-30);
-    const kcals = recent.map(d => dayTotals(d).kcal);
-    const prots = recent.map(d => dayTotals(d).p);
+    const from = dates[0] > addDays(t0, -29) ? dates[0] : addDays(t0, -29);
+    const recent = nutDaysRange(from, t0);
+    const kcals = recent.map(d => nutCounts(d) ? dayTotals(d).kcal : null);
+    const prots = recent.map(d => nutCounts(d) ? dayTotals(d).p : null);
     const goalLine = recent.map(d => goalsForDate(d).kcal);
 
     if (nutChartInstance) nutChartInstance.destroy();
@@ -12344,7 +12393,7 @@ function renderCorrelation(){
     if (!weeksTrain[wk] || e.weight > weeksTrain[wk]) weeksTrain[wk] = e.weight;
   });
   const weeksNut = {};
-  Object.keys(nutr).forEach(d => {
+  Object.keys(nutr).filter(nutCounts).forEach(d => {
     const wk = isoWeekKey(d);
     const t = dayTotals(d);
     if (!weeksNut[wk]) weeksNut[wk] = {kcal:0, p:0, n:0};
@@ -12939,11 +12988,11 @@ function renderDashboard(){
 
   // --- Kalorien ---
   const nut = loadNutrition();
-  const nutDates = Object.keys(nut).sort().slice(-14);
+  const todayK = localDateStr(Date.now()), nutDates = nutDaysRange(addDays(todayK, -13), todayK);
   const kEmpty = document.getElementById('dbKcalEmpty'), kCan = document.getElementById('dbKcalChart');
-  if (nutDates.length) {
+  if (nutDates.some(nutCounts)) {
     kEmpty.style.display='none';
-    const vals = nutDates.map(d=>dayTotals(d).kcal);
+    const vals = nutDates.map(d => nutCounts(d) ? dayTotals(d).kcal : null);
     if (chartAvailable()) {
       kCan.style.display='block'; dbDestroy('k');
       dbCharts.k = new Chart(kCan, {
@@ -13027,7 +13076,7 @@ function renderDashboard(){
 
   // --- Wochenbilanz ---
   const wk = document.getElementById('dbWeekStats');
-  const nd = Object.keys(nut).sort().slice(-7);
+  const nd = nutDaysRange(addDays(localDateStr(Date.now()), -6), localDateStr(Date.now())).filter(nutCounts);
   const sdd = sd.slice(-7), std = Object.keys(steps).sort().slice(-7);
   const avg = a => a.length ? Math.round(a.reduce((x,y)=>x+y,0)/a.length) : null;
   const kcalAvg = avg(nd.map(d=>dayTotals(d).kcal));
@@ -13036,7 +13085,7 @@ function renderDashboard(){
   const stAvg = avg(std.map(d=>steps[d]));
   const row = (l,v,ok) => `<div class="st-row"><span>${l}</span><b style="color:${ok===null?'var(--ink)':(ok?'var(--steps)':'var(--clay)')}">${v}</b></div>`;
   wk.innerHTML =
-    row('⌀ Kalorien', kcalAvg!==null? kcalAvg+' kcal':'–', kcalAvg===null?null:(kcalAvg<=2500)) +
+    row('⌀ Kalorien' + (nd.length && nd.length < 7 ? ` <small style="color:var(--ink-dim)">(${nd.length} von 7 Tagen)</small>` : ''), kcalAvg!==null? kcalAvg+' kcal':'–', kcalAvg===null?null:(kcalAvg<=2500)) +
     row('⌀ Protein', pAvg!==null? pAvg+' g':'–', pAvg===null?null:(pAvg>=180)) +
     row('⌀ Schlaf', slAvg!==null? slAvg.toFixed(1)+' h':'–', slAvg===null?null:(slAvg>=7)) +
     row('⌀ Schritte', stAvg!==null? stAvg.toLocaleString('de-DE'):'–', stAvg===null?null:(stAvg>=12000));
