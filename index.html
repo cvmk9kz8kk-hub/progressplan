@@ -1814,6 +1814,30 @@
   .trend-sw button.on{ background:var(--card); color:var(--ink); }
   .sec-h{ font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim); margin:18px 4px 8px; }
 
+  /* ---------- v23.0: Verlauf bearbeiten & Übung tauschen ---------- */
+  .hx-tools{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; } .hx-tools .pb-btn2{ flex:1 1 auto; }
+  .hx-tools .pb-btn2:disabled, .pb-cta:disabled{ opacity:.45; }
+  .hist-top{ align-items:center; } .hist-edit{ margin-left:8px; width:30px; height:30px; flex:0 0 auto; border-radius:9px; border:1px solid var(--line); background:var(--bg2); color:var(--ink-dim); display:inline-flex; align-items:center; justify-content:center; padding:0; }
+  .hx-row{ display:flex; align-items:center; gap:10px; width:100%; text-align:left; border:none; background:transparent; color:var(--ink); padding:11px 12px; font:inherit; }
+  .hx-row + .hx-row{ border-top:1px solid var(--line); }
+  .hx-d{ flex:0 0 auto; min-width:52px; font-weight:800; font-size:13.5px; font-family:var(--num-font); }
+  .hx-s{ flex:1; min-width:0; font-size:12.5px; color:var(--ink-dim); line-height:1.45; }
+  .hx-go{ color:var(--ink-dim); display:flex; }
+  .hx-empty{ padding:14px; font-size:13px; color:var(--ink-dim); }
+  .pb-chk.sm{ width:30px; height:30px; border-radius:9px; }
+  .hx-lbl{ display:flex; flex-direction:column; gap:6px; font-size:12px; font-weight:700; color:var(--ink-dim); } .hx-lbl .pb-sel{ width:100%; }
+  .hx-set{ display:flex; align-items:center; gap:8px; padding:9px 12px; } .hx-set + .hx-set{ border-top:1px solid var(--line); }
+  .hx-n{ width:22px; font-weight:800; color:var(--ink-dim); font-family:var(--num-font); }
+  .hx-f{ flex:1; display:flex; align-items:center; gap:6px; } .hx-f .pb-in{ padding:9px 10px; text-align:center; font-family:var(--num-font); font-weight:700; } .hx-f small{ font-size:11px; color:var(--ink-dim); min-width:26px; }
+  .hx-x{ color:var(--ink-dim); }
+  .hx-danger{ margin-top:22px; } .hx-del{ color:var(--down); border-color:color-mix(in srgb, var(--down) 45%, var(--line)); }
+  .hx-move-card b{ font-size:14px; } .hx-move-card .pb-btn2{ margin-top:10px; width:100%; }
+  .hx-toast{ display:flex; align-items:center; gap:14px; pointer-events:auto; width:max-content; max-width:calc(100vw - 32px); box-sizing:border-box; } .hx-toast span{ flex:1 1 auto; min-width:0; } .hx-toast button{ border:none; background:transparent; color:var(--lime); font-weight:800; font-size:13px; padding:4px 0; white-space:nowrap; }
+  .hx-toast:not(.show){ pointer-events:none; }
+  .pb-swaprow{ display:flex; justify-content:flex-end; margin-top:6px; }
+  .pb-swap{ display:inline-flex; align-items:center; gap:6px; border:none; background:transparent; color:var(--ink-dim); font-size:12.5px; font-weight:700; padding:4px 2px; }
+  .pb-swapask{ margin-top:10px; padding:12px; border-radius:12px; border:1px solid color-mix(in srgb, var(--lime) 45%, var(--line)); background:color-mix(in srgb, var(--lime) 7%, var(--card)); }
+  .pb-swapask .pb-cxrow .pb-btn2{ min-height:40px; font-size:12.5px; }
   /* ---------- v22.9: Ernährungstag zählt / zählt nicht ---------- */
   .nf-box{ margin-top:12px; padding-top:10px; border-top:1px solid var(--line); }
   .nf-top{ display:flex; flex-direction:column; align-items:stretch; gap:8px; }
@@ -1837,7 +1861,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v22.9</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v23.0</span></div>
   <button class="hdr-gear" id="hdrGear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"></path></svg></button>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
@@ -2122,6 +2146,7 @@
       <div class="card">
         <div class="card-title">Übung wählen</div>
         <select id="progExercise" class="prog-input"></select>
+        <div class="hx-tools"><button class="pb-btn2 sm" id="hxEditBtn">Verlauf bearbeiten</button><button class="pb-btn2 sm acc" id="hxMoveBtn">Anderer Übung zuordnen …</button></div>
       </div>
 
       <div class="card accent">
@@ -2951,7 +2976,7 @@ const PB_EN = {
   khfly: 'dumbbell fly', ls: 'push up', lsfe: 'decline push up feet elevated', lsarch: 'archer push up', rls: 'ring push up', dips: 'ring dips', bdips: 'parallel bar dips chest',
   ppls: 'pseudo planche push up', burp: 'burpees', kls: 'clap push up', mbp: 'medicine ball chest pass',
   ohp: 'standing barbell overhead press', khsd: 'seated dumbbell shoulder press', smm: 'machine shoulder press', arn: 'arnold press', sh: 'dumbbell lateral raise',
-  ksh: 'cable lateral raise', fh: 'dumbbell front raise', fp: 'cable face pull', rfly: 'reverse pec deck rear delt fly', vbsh: 'bent over rear delt raise', bpa: 'band pull apart',
+  ksh: 'cable lateral raise', shm: 'machine lateral raise', fh: 'dumbbell front raise', fp: 'cable face pull', rfly: 'reverse pec deck rear delt fly', vbsh: 'bent over rear delt raise', bpa: 'band pull apart',
   pike: 'pike push up', hspu: 'wall handstand push up', hsp: 'handstand practice beginner',
   shr: 'barbell shrug', khshr: 'dumbbell shrug', farm: 'farmers walk',
   kz: 'weighted pull up', kzn: 'pull up', kzneg: 'negative pull up', chin: 'chin up', lpd: 'lat pulldown', lpde: 'close grip neutral lat pulldown', sap: 'straight arm pulldown',
@@ -2997,7 +3022,7 @@ const PB_EN = {
   foam: 'foam rolling', m9090: '90 90 hip mobility', tsr: 'thoracic rotation mobility', deepsq: 'deep squat hold',
 };
 // Zusätzliche Suchwörter (Umgangssprache, Abkürzungen)
-const PB_ALIAS = { super: 'arch hold', fly: 'butterfly', rfly: 'reverse fly', kz: 'pullups', kzn: 'pullups', chin: 'klimmzug untergriff', lpd: 'latzug', lpde: 'latzug',
+const PB_ALIAS = { sh: 'kurzhantel seitheben dumbbell', shm: 'seitheben maschine', super: 'arch hold', fly: 'butterfly', rfly: 'reverse fly', kz: 'pullups', kzn: 'pullups', chin: 'klimmzug untergriff', lpd: 'latzug', lpde: 'latzug',
   hlr: 'beinheben hängend', lsit: 'l sitz', ttb: 'zehen zur stange', mu: 'muscleup', mub: 'muscleup', murg: 'muscleup ringe', muband: 'muscleup', muneg: 'muscleup',
   rdl: 'rdl', ohp: 'military press', bss: 'bulgarische kniebeuge', kbs: 'kb swing', jj: 'jumping jacks', burp: 'burpee', mc: 'bergsteiger', plank: 'brett', wallsit: 'wandsitz',
   tgu: 'tgu', hack: 'hackenschmidt', sumo: 'sumo', tbdl: 'hexbar', sledp: 'prowler', ell: 'elliptical', stair: 'treppe' };
@@ -3045,6 +3070,7 @@ const EXDB = [
   ['smm', 'Schulterpresse (Maschine)', 'k', 'delt_front', 'delt_side triceps', 'studio', 1, 1, 'r', 'Leverage_Shoulder_Press', 'Griffe auf Kinnhöhe starten.'],
   ['arn', 'Arnold Press', 'k', 'delt_front', 'delt_side triceps', 'kh', 2, 1, 'r', 'Arnold_Dumbbell_Press', 'Beim Hochdrücken die Handflächen nach vorn drehen.'],
   ['sh', 'Seitheben', 'k', 'delt_side', '', 'kh', 1, 0, 'r', 'Side_Lateral_Raise', 'Leichtes Gewicht, kein Schwung — Bewegung endet auf Schulterhöhe.'],
+  ['shm', 'Seitheben an der Maschine', 'k', 'delt_side', '', 'studio', 1, 0, 'r', '', 'Sitzend, Polster außen an den Oberarmen, bis Schulterhöhe führen — oben kurz halten.'],
   ['ksh', 'Seitheben am Kabel', 'k', 'delt_side', '', 'studio', 1, 0, 'r', 'Cable_Seated_Lateral_Raise', 'Konstante Spannung auch unten — ideal für die seitliche Schulter.'],
   ['fh', 'Frontheben', 'k', 'delt_front', '', 'kh', 1, 0, 'r', 'Front_Dumbbell_Raise', 'Meist überflüssig, wenn du schon drückst — nur bei Bedarf.'],
   ['fp', 'Face Pulls (Kabel, Seil auf Kopfhöhe)', 'k', 'delt_rear', 'upper_back traps', 'studio', 1, 0, 'r', 'Face_Pull', 'Ellenbogen hoch, Seil zur Stirn ziehen — Gegengewicht zum Drücken.'],
@@ -3610,6 +3636,8 @@ const PB_ICO = {
   down: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>',
   x: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>',
   check: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>',
+  edit: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>',
+  swap: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3.5-3.5M20 16H7l3.5 3.5"></path></svg>',
   play: '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M10 8.6v6.8l5.4-3.4z" fill="currentColor"></path></svg>',
 };
 // Bild-Knopf, wenn ein passendes Foto existiert; sonst Info/Video-Knopf
@@ -3667,11 +3695,12 @@ function pbRender(){
   if (!pbUI) return;
   const u = pbUI, body = document.getElementById('pbBody'), foot = document.getElementById('pbFoot'), back = document.querySelector('#pbSheet .pb-back');
   const wiz = u.mode === 'wizard';
-  document.getElementById('pbStepLbl').textContent = u.pick ? 'ÜBUNG HINZUFÜGEN' : wiz ? 'SCHRITT ' + u.step + ' VON 6' : 'PLAN BEARBEITEN';
+  document.getElementById('pbStepLbl').textContent = u.pick ? (u.pick.swap ? 'ÜBUNG TAUSCHEN' : 'ÜBUNG HINZUFÜGEN') : wiz ? 'SCHRITT ' + u.step + ' VON 6' : 'PLAN BEARBEITEN';
   back.textContent = u.pick ? '‹ Zurück' : wiz && u.step > 1 ? '‹ ' + ['Fragen', 'Muskeln', 'Übungen', 'Sätze', 'Aufteilung'][u.step - 2] : '‹ Plan';
   document.getElementById('pbProg').innerHTML = wiz && !u.pick ? PB_STEPS.map((s, i) => `<i class="${i < u.step ? 'on' : ''}"></i>`).join('') : '';
   let h = '', f = '';
-  if (u.pick) { h = pbPickerHTML(u.pick.sel, false); f = `<button class="pb-cta" data-act="pickadd" ${u.pick.sel.length ? '' : 'disabled'}>${u.pick.sel.length ? u.pick.sel.length + ' hinzufügen' : 'Übungen antippen'}</button>`; }
+  if (u.pick && u.pick.swap) { const nx = u.pick.sel.length ? pbById(u.pick.sel[0]) : null; h = `<div class="pb-note" style="margin:0 0 12px">Ersetzt <b>${pbEsc(u.pick.swap.n)}</b>. Sätze, Wiederholungen und Pause bleiben, wenn die Übungsart gleich ist.</div>` + pbPickerHTML(u.pick.sel, false); f = `<button class="pb-cta" data-act="pickadd" ${nx ? '' : 'disabled'}>${nx ? 'Tauschen gegen „' + pbEsc(nx.n) + '“' : 'Neue Übung antippen'}</button>`; }
+  else if (u.pick) { h = pbPickerHTML(u.pick.sel, false); f = `<button class="pb-cta" data-act="pickadd" ${u.pick.sel.length ? '' : 'disabled'}>${u.pick.sel.length ? u.pick.sel.length + ' hinzufügen' : 'Übungen antippen'}</button>`; }
   else if (u.step === 1) { h = pbStep1(); f = `<button class="pb-cta" data-act="next">Weiter: Muskeln wählen</button>`; }
   else if (u.step === 2) { h = pbStep2(); f = `<button class="pb-cta" data-act="next" ${u.d.muscles.length ? '' : 'disabled'}>Übungen wählen · ${u.d.muscles.length} Muskeln</button>`; }
   else if (u.step === 3) { h = pbPickerHTML(u.d.picks, true); f = `<div class="pb-foot-info"><span>${u.d.picks.length} Übungen gewählt</span></div><button class="pb-cta" data-act="next" ${u.d.picks.length ? '' : 'disabled'}>Weiter: Sätze &amp; Wiederholungen</button>`; }
@@ -3833,6 +3862,11 @@ function pbEditorHTML(){
     <div class="pb-sec">Wird übernommen in</div><div class="pb-tags"><span>Training & Cockpit</span><span>Wochen-Checkliste</span><span>Kalorien an Trainingstagen</span><span>Belastung</span><span>Analysen</span></div>
     <p class="pb-p sm">Dein bisheriger Plan bleibt als Vorlage erhalten. Alle Trainingsdaten und Statistiken bleiben, auch für Übungen, die nicht mehr im Plan sind.</p>`;
 }
+function pbSwapAskHTML(q){
+  return `<div class="pb-swapask"><b>Verlauf mitnehmen?</b><p class="pb-p">„${pbEsc(q.from)}“ hat ${q.n} ${q.n === 1 ? 'Einheit' : 'Einheiten'} im Verlauf.</p>
+    <div class="pb-cxrow"><button class="pb-btn2 acc" data-act="swapkeep">Zu „${pbEsc(q.to)}“ mitnehmen</button><button class="pb-btn2" data-act="swapnew">Neu starten</button></div>
+    <p class="pb-p sm">Mitnehmen: wenn es dieselbe Bewegung ist und nur der Name nicht stimmte. Neu starten: wenn du wirklich anders trainierst — der alte Verlauf bleibt unter „${pbEsc(q.from)}“ erhalten.</p></div>`;
+}
 function u_new(it){ return !!(pbUI && pbUI.justAdded && pbUI.justAdded.includes(it)); }
 function pbSessionEdit(s, shared){
   return `<div class="pb-sess">
@@ -3844,7 +3878,9 @@ function pbSessionEdit(s, shared){
       return `<div class="pb-row${u_new(it) ? ' pb-new-it' : ''}"><div class="pb-row-h"><button class="pb-grip" data-grip ${a} aria-label="${pbEsc(it.n)} verschieben — ziehen"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="9" cy="6" r="1.7"></circle><circle cx="15" cy="6" r="1.7"></circle><circle cx="9" cy="12" r="1.7"></circle><circle cx="15" cy="12" r="1.7"></circle><circle cx="9" cy="18" r="1.7"></circle><circle cx="15" cy="18" r="1.7"></circle></svg></button><b class="grow">${pbEsc(it.n)}</b>
         <span class="pb-rowbtns">${ex ? pbInfoBtn(ex) : ''}
         <button class="pb-ib" data-act="mv" data-d="-1" ${a} aria-label="Nach oben" ${i ? '' : 'disabled'}>${PB_ICO.up}</button><button class="pb-ib" data-act="mv" data-d="1" ${a} aria-label="Nach unten" ${i < s.ex.length - 1 ? '' : 'disabled'}>${PB_ICO.down}</button><button class="pb-ib del" data-act="rm" ${a} aria-label="Entfernen">${PB_ICO.x}</button></span></div>
-        ${pbItemCtl(it, a)}</div>`; }).join('')}
+        ${pbItemCtl(it, a)}
+        <div class="pb-swaprow"><button class="pb-swap" data-act="swap" ${a}>${PB_ICO.swap}<span>Übung tauschen</span></button></div>
+        ${pbUI && pbUI.swapAsk && pbUI.swapAsk.it === it ? pbSwapAskHTML(pbUI.swapAsk) : ''}</div>`; }).join('')}
     <div class="pb-cxrow"><button class="pb-btn2 acc" data-act="add" data-sid="${s.id}">+ Übung hinzufügen</button></div></div>`;
 }
 
@@ -3920,6 +3956,7 @@ function pbOnClick(e){
   if (act === 'cat') { u.cat = v; return pbRerender(); }
   if (act === 'mf') { u.mf = v; return pbRerender(); }
   if (act === 'tog') {
+    if (u.pick && u.pick.swap) { u.pick.sel = u.pick.sel[0] === el.dataset.id ? [] : [el.dataset.id]; return pbRerender(); }
     const id = el.dataset.id, arr = u.pick ? u.pick.sel : u.d.picks, i = arr.indexOf(id);
     if (i >= 0) arr.splice(i, 1); else arr.push(id); u.dirty = true; return pbRerender();
   }
@@ -3947,7 +3984,24 @@ function pbOnClick(e){
     else { const j = i + (+el.dataset.d); if (j >= 0 && j < s.ex.length) { const t = s.ex[i]; s.ex[i] = s.ex[j]; s.ex[j] = t; } }
     u.dirty = true; return pbRerender();
   }
+  if (act === 'swap') { const i = +el.dataset.i, s = u.plan.sessions.find(x => x.id === el.dataset.sid); if (!s || !s.ex[i]) return;
+    u.pick = { sid: el.dataset.sid, sel: [], swap: s.ex[i] }; u.q = ''; u.grp = null; u.mf = 'all'; u.cat = 'alle'; document.getElementById('pbBody').scrollTop = 0; return pbRender(); }
+  if (act === 'swapkeep' || act === 'swapnew') { const q = u.swapAsk; if (!q) return;
+    if (act === 'swapkeep') { (u.histMoves = u.histMoves || []).push({ from: q.from, to: q.to }); u.dirty = true; pbToast('Verlauf wird beim Speichern übernommen'); } else pbToast('„' + q.to + '“ startet ohne Verlauf');
+    u.swapAsk = null; u._keepScroll = true; return pbRender(); }
   if (act === 'add') { u.pick = { sid: el.dataset.sid, sel: [] }; u.q = ''; u.grp = null; u.mf = 'all'; u.cat = 'alle'; document.getElementById('pbBody').scrollTop = 0; return pbRender(); }
+  if (act === 'pickadd' && u.pick && u.pick.swap) {
+    const s = u.plan.sessions.find(x => x.id === u.pick.sid), old = u.pick.swap, ex = pbById(u.pick.sel[0]);
+    const i = s ? s.ex.indexOf(old) : -1; if (i < 0 || !ex) { u.pick = null; return pbRender(); }
+    const it = pbNewItem(ex, pbScheme(u.plan.answers || PB_DEF_ANS()));
+    if (pbKind(it) === pbKind(old)) { it.sets = old.sets; it.reps = old.reps; it.rest = old.rest; }
+    s.ex[i] = it; u.pick = null; u.q = ''; u.dirty = true;
+    const n = new Set(historyFor(old.n).map(e => e.date)).size;
+    u.swapAsk = n ? { it, from: old.n, to: it.n, n } : null;
+    pbToast('„' + old.n + '“ → „' + it.n + '“');
+    pbRender(); setTimeout(() => { const el = document.querySelector('#pbBody .pb-swapask') || [...document.querySelectorAll('#pbBody .pb-row b.grow')].find(b => b.textContent === it.n); if (el) el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60);
+    return;
+  }
   if (act === 'pickadd') {
     const s = u.plan.sessions.find(x => x.id === u.pick.sid), sch = pbScheme(u.plan.answers || PB_DEF_ANS());
     // Kraftübungen vor Rumpf, HIIT und Ausdauer einsortieren — feinjustieren per Griff
@@ -4001,6 +4055,7 @@ function pbSavePlan(activate){
   const wasActive = st.active === p.id;
   if (activate) st.active = p.id;
   if (!pbSave(st)) { pbToast('Speichern fehlgeschlagen — Speicher voll?'); return; }
+  if (u.histMoves && u.histMoves.length) { u.histMoves.forEach(m => { try { hxMove(m.from, m.to, null); } catch(e) {} }); u.histMoves = []; }
   u.dirty = false;
   if (activate || wasActive) { pbToast('Plan aktiviert — App lädt neu …'); setTimeout(() => location.reload(), 700); return; }
   pbToast('Plan gespeichert'); pbClose(true);
@@ -4444,7 +4499,12 @@ function normalizeExName(name){
 const EX_ALIASES = {
   'beinbeuger sitzend': 'beinbeuger',
 };
+// Bewusst getrennte Übungen (z. B. „Seitheben (Maschine)“ ≠ „Seitheben“) — gesetzt beim Zuordnen des Verlaufs
+var _exSepC = null;
+function exSepList(){ if (_exSepC) return _exSepC; let v = []; try { v = JSON.parse(localStorage.getItem('cutplan_exsep_v1') || '[]') || []; } catch(e) {} _exSepC = new Set(v); return _exSepC; }
+function exSepAdd(name){ const st = new Set(exSepList()); st.add(name); try { localStorage.setItem('cutplan_exsep_v1', JSON.stringify([...st])); } catch(e) {} _exSepC = null; }
 function aliasKey(name){
+  if (exSepList().has(name)) return '§' + name;
   const n = normalizeExName(name);
   return EX_ALIASES[n] || n;
 }
@@ -5617,6 +5677,237 @@ function buildSessions(entries, kind, exName){
 }
 
 // Alle Übungen mit Daten, zusammengeführt über umbenannte Namen
+// ---------- v23.0: Verlauf bearbeiten, löschen oder einer anderen Übung zuordnen ----------
+// Alle Änderungen gehen durch hxSnapshot → „Rückgängig“ für den letzten Schritt.
+function hxKeys(name, store){ const k = aliasKey(name); return Object.keys(store).filter(x => x === name || aliasKey(x) === k); }
+function hxSnapshot(label){
+  try { localStorage.setItem('cutplan_hx_undo_v1', JSON.stringify({ t: Date.now(), label, prog: localStorage.getItem(PROG_KEY), sep: localStorage.getItem('cutplan_exsep_v1') })); } catch(e) {}
+}
+function hxUndo(){
+  let u = null; try { u = JSON.parse(localStorage.getItem('cutplan_hx_undo_v1') || 'null'); } catch(e) {}
+  if (!u || typeof u.prog !== 'string') return false;
+  try {
+    localStorage.setItem(PROG_KEY, u.prog);
+    if (u.sep === null || u.sep === undefined) localStorage.removeItem('cutplan_exsep_v1'); else localStorage.setItem('cutplan_exsep_v1', u.sep);
+    localStorage.removeItem('cutplan_hx_undo_v1');
+  } catch(e) { return false; }
+  _exSepC = null; return true;
+}
+const hxSig = e => e.date + '|' + e.setIdx + '|' + e.weight + '|' + e.reps;
+const hxSort = arr => arr.sort((a, b) => a.date.localeCompare(b.date) || ((a.setIdx || 0) - (b.setIdx || 0)));
+// Einheiten (Datum → Sätze) einer Übung, wie sie in der Statistik erscheinen
+function hxSessionsOf(name){
+  const by = {}; historyFor(name).forEach(e => { (by[e.date] = by[e.date] || []).push(e); });
+  return Object.keys(by).sort().reverse().map(d => ({ date: d, sets: by[d].sort((a, b) => (a.setIdx || 0) - (b.setIdx || 0)) }));
+}
+function hxSetsTxt(sets){
+  return sets.map(x => { const r = (x.reps === null || x.reps === undefined || isNaN(x.reps)) ? '?' : x.reps;
+    return x.unit === 'duration' ? r + ' min' : x.unit === 'hold' ? r + ' s' + (x.weight ? ' @' + fmtNum(x.weight) + ' kg' : '') : (x.weight ? fmtNum(x.weight) + ' kg × ' : '') + r; }).join(' · ');
+}
+function hxCollides(to, from){
+  if (exSepList().has(to)) return false;
+  const k = aliasKey(to);
+  if (from && aliasKey(from) === k) return true;
+  const names = new Set([...exerciseList, ...(typeof pbAllEx === 'function' ? pbAllEx().map(e => e.n) : [])]);
+  return [...names].some(n => n !== to && aliasKey(n) === k);
+}
+// Einheiten von „from“ nach „to“ verschieben (dates = Set der Daten oder null = alle)
+function hxMove(from, to, dates){
+  to = String(to || '').trim(); if (!to || to === from) return 0;
+  const store = loadProgress(); if (progReadFailed) return -1;
+  hxSnapshot('Verschoben nach „' + to + '“');
+  // Gleicher Namenskern wie eine andere Übung (z. B. „Seitheben (Maschine)“ vs. „Seitheben“): Ziel bewusst getrennt halten
+  if (hxCollides(to, from)) exSepAdd(to);
+  const keys = hxKeys(from, store).filter(k => k !== to);
+  const moved = [], seen = new Set(), days = new Set();
+  keys.forEach(k => {
+    store[k] = (store[k] || []).filter(e => {
+      if (dates && !dates.has(e.date)) return true;
+      const s = hxSig(e); if (!seen.has(s)) { seen.add(s); moved.push(e); days.add(e.date); }
+      return false;
+    });
+    if (!store[k].length) delete store[k];
+  });
+  if (!moved.length) return 0;
+  const tgt = store[to] = store[to] || [];
+  const have = new Set(tgt.map(hxSig));
+  hxSort(moved).forEach(e => {
+    if (have.has(hxSig(e))) return;
+    const same = tgt.filter(x => x.date === e.date);
+    if (same.some(x => x.setIdx === e.setIdx)) e.setIdx = Math.max(...same.map(x => x.setIdx || 0)) + 1;
+    tgt.push(e);
+  });
+  hxSort(tgt); saveProgress(store);
+  return days.size;
+}
+function hxDeleteSession(name, date){
+  const store = loadProgress(); if (progReadFailed) return false;
+  hxSnapshot('Einheit vom ' + fmtDate(date) + ' gelöscht');
+  hxKeys(name, store).forEach(k => { store[k] = (store[k] || []).filter(e => e.date !== date); if (!store[k].length) delete store[k]; });
+  saveProgress(store); return true;
+}
+// Einheit überschreiben: alte Sätze des Datums raus, neue Sätze unter dem angezeigten Namen rein
+function hxSaveSession(name, oldDate, newDate, sets){
+  const store = loadProgress(); if (progReadFailed) return false;
+  hxSnapshot('Einheit vom ' + fmtDate(oldDate) + ' geändert');
+  const old = [];
+  hxKeys(name, store).forEach(k => { store[k] = (store[k] || []).filter(e => { if (e.date === oldDate) { old.push(e); return false; } return true; }); if (!store[k].length) delete store[k]; });
+  hxSort(old);
+  const tgt = store[name] = store[name] || [];
+  let idx = newDate !== oldDate ? Math.max(-1, ...tgt.filter(x => x.date === newDate).map(x => x.setIdx || 0)) + 1 : 0;
+  sets.forEach((s, i) => {
+    const w = parseFloat(String(s.weight).replace(',', '.')), r = parseInt(s.reps, 10);
+    if (isNaN(w) && isNaN(r)) return;
+    const base = old[i] ? Object.assign({}, old[i]) : { unit: (old[0] && old[0].unit) || 'reps', ts: Date.now(), tsDone: Date.now() };
+    base.date = newDate; base.setIdx = idx++; base.weight = isNaN(w) ? null : w; base.reps = isNaN(r) ? null : r; delete base.prefill;
+    tgt.push(base);
+  });
+  if (!tgt.length) delete store[name]; else hxSort(tgt);
+  saveProgress(store); return true;
+}
+// Namen, die als Ziel angeboten werden
+function hxTargets(from){
+  const plan = exerciseList.filter(n => n !== from && n !== 'Sonstige Übung');
+  const db = (typeof pbAllEx === 'function' ? pbAllEx() : []).filter(e => e.c !== 'a' && e.c !== 'm').map(e => e.n).filter(n => n !== from && !plan.includes(n)).sort((a, b) => a.localeCompare(b, 'de'));
+  const hist = Object.keys(collectAllExercises()).filter(n => n !== from && !plan.includes(n) && !db.includes(n)).sort((a, b) => a.localeCompare(b, 'de'));
+  return { plan, db, hist };
+}
+
+// ---------- Oberfläche ----------
+let hxUI = null;
+function hxEnsure(){
+  if (document.getElementById('hxSheet')) return;
+  const el = document.createElement('div'); el.id = 'hxSheet'; el.className = 'pb-ov hx-ov'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
+  el.innerHTML = `<div class="pb-top"><button class="pb-back" data-hx="back">‹ Zurück</button><span class="pb-steplbl" id="hxLbl"></span><button class="pb-close" data-hx="close" aria-label="Schließen">${PB_ICO.x}</button></div>
+    <div class="pb-body" id="hxBody"></div><div class="pb-foot" id="hxFoot"></div>`;
+  document.body.appendChild(el);
+  el.addEventListener('click', hxOnClick);
+  el.addEventListener('input', hxOnInput);
+  el.addEventListener('change', hxOnInput);
+}
+function hxOpen(name, view, date){
+  hxEnsure();
+  hxUI = { name, view: view || 'list', date: date || null, sel: new Set(date ? [date] : []), target: '', newName: '', sets: null, back: null };
+  if (view === 'move' && !date) hxUI.sel = new Set(hxSessionsOf(name).map(s => s.date));
+  if (view === 'edit') hxStartEdit(date);
+  document.getElementById('hxSheet').classList.add('open'); document.body.classList.add('as-lock'); hxRender();
+}
+function hxClose(){ const s = document.getElementById('hxSheet'); if (s) s.classList.remove('open'); document.body.classList.remove('as-lock'); hxUI = null; }
+function hxStartEdit(date){
+  const ses = hxSessionsOf(hxUI.name).find(s => s.date === date);
+  hxUI.view = 'edit'; hxUI.date = date; hxUI.newDate = date;
+  hxUI.sets = (ses ? ses.sets : []).map(e => ({ weight: e.weight === null || e.weight === undefined ? '' : String(e.weight).replace('.', ','), reps: e.reps === null || e.reps === undefined ? '' : String(e.reps), unit: e.unit }));
+  if (!hxUI.sets.length) hxUI.sets.push({ weight: '', reps: '' });
+}
+function hxAfterChange(msg){
+  try { if (typeof renderOverview === 'function' && document.getElementById('progExercise')) renderOverview(); } catch(e) {}
+  hxToast(msg);
+}
+function hxToast(msg){
+  let t = document.getElementById('hxToast');
+  if (!t) { t = document.createElement('div'); t.id = 'hxToast'; t.className = 'pb-toast hx-toast'; document.body.appendChild(t);
+    t.addEventListener('click', e => { if (!e.target.closest('[data-undo]')) return;
+      if (hxUndo()) { t.classList.remove('show'); hxAfterChange0(); pbToast('Rückgängig gemacht'); } }); }
+  t.innerHTML = `<span>${pbEsc(msg)}</span><button data-undo>Rückgängig</button>`;
+  const pt = document.getElementById('pbToast'); if (pt) pt.classList.remove('show');
+  t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 7000);
+}
+function hxAfterChange0(){ try { renderOverview(); } catch(e) {} try { if (hxUI) hxRender(); } catch(e) {} }
+
+function hxRender(){
+  const u = hxUI; if (!u) return;
+  const body = document.getElementById('hxBody'), foot = document.getElementById('hxFoot');
+  const sessions = hxSessionsOf(u.name);
+  document.getElementById('hxLbl').textContent = u.view === 'edit' ? 'EINHEIT BEARBEITEN' : u.view === 'move' ? 'ANDERER ÜBUNG ZUORDNEN' : 'VERLAUF BEARBEITEN';
+  document.querySelector('#hxSheet [data-hx="back"]').style.visibility = u.view === 'list' ? 'hidden' : 'visible';
+  let h = '', f = '';
+  if (u.view === 'list') {
+    h = `<h2 class="pb-h">${pbEsc(u.name)}</h2><p class="pb-p">${sessions.length} Einheiten im Verlauf. Tippe eine Einheit an, um Gewichte, Wiederholungen oder das Datum zu korrigieren oder sie zu löschen.</p>
+      <div class="pb-card acc hx-move-card"><b>Falsche Übung erwischt?</b><p class="pb-p">Zum Beispiel „Seitheben“ gewählt, aber an der Maschine trainiert: Ordne die Einheiten der richtigen Übung zu. Sie wandern samt Statistik dorthin, und hier startest du frisch.</p>
+        <button class="pb-btn2 acc" data-hx="tomove">Einheiten einer anderen Übung zuordnen …</button></div>
+      <div class="pb-sec">Einheiten<span>${sessions.length}</span></div>
+      <div class="pb-card list">${sessions.map(s => `<button class="hx-row" data-hx="edit" data-d="${s.date}"><span class="hx-d">${fmtDate(s.date)}${s.date.slice(0, 4) !== localDateStr(Date.now()).slice(0, 4) ? s.date.slice(0, 4) : ''}</span><span class="hx-s">${hxSetsTxt(s.sets)}</span><span class="hx-go">${PB_ICO.edit}</span></button>`).join('') || '<div class="hx-empty">Keine Einträge.</div>'}</div>`;
+    f = `<button class="pb-cta ghost" data-hx="close">Fertig</button>`;
+  } else if (u.view === 'edit') {
+    h = `<h2 class="pb-h">${pbEsc(u.name)}</h2><p class="pb-p">Einheit vom ${fmtDate(u.date)}${u.date.slice(0, 4)}</p>
+      <div class="pb-card"><label class="hx-lbl">Datum<input type="date" class="pb-in" data-hxin="date" value="${u.newDate}" max="${localDateStr(Date.now())}"></label></div>
+      <div class="pb-sec">Sätze<span>${u.sets.length}</span></div>
+      <div class="pb-card list">${u.sets.map((s, i) => `<div class="hx-set"><span class="hx-n">${i + 1}</span>
+        <label class="hx-f"><input class="pb-in" inputmode="decimal" data-hxin="w" data-i="${i}" value="${pbEsc(s.weight)}" placeholder="–"><small>kg</small></label>
+        <span class="hx-x">×</span>
+        <label class="hx-f"><input class="pb-in" inputmode="numeric" data-hxin="r" data-i="${i}" value="${pbEsc(s.reps)}" placeholder="–"><small>${s.unit === 'duration' ? 'min' : s.unit === 'hold' ? 'Sek.' : 'Wdh.'}</small></label>
+        <button class="pb-ib del" data-hx="rmset" data-i="${i}" aria-label="Satz ${i + 1} löschen">${PB_ICO.x}</button></div>`).join('')}</div>
+      <div class="pb-cxrow"><button class="pb-btn2" data-hx="addset">+ Satz</button></div>
+      <div class="pb-card hx-danger"><div class="pb-cxrow" style="margin-top:0"><button class="pb-btn2" data-hx="tomove1">Andere Übung …</button><button class="pb-btn2 hx-del" data-hx="delses">Einheit löschen</button></div>
+        <p class="pb-p sm">„Andere Übung“ verschiebt nur diese Einheit, z. B. wenn du an dem Tag ein anderes Gerät genutzt hast.</p></div>`;
+    f = `<button class="pb-cta" data-hx="saveedit">Speichern</button>`;
+  } else if (u.view === 'move') {
+    const T = hxTargets(u.name), opt = n => `<option value="${pbEsc(n)}" ${u.target === n ? 'selected' : ''}>${pbEsc(n)}</option>`;
+    const tgtName = u.target === '__new' ? u.newName.trim() : u.target;
+    const tgtCount = tgtName ? (hxCollides(tgtName, u.name) ? new Set((loadProgress()[tgtName] || []).map(e => e.date)).size : new Set(historyFor(tgtName).map(e => e.date)).size) : 0;
+    const same = tgtName && tgtName !== u.name && hxCollides(tgtName, u.name);
+    h = `<h2 class="pb-h">Einer anderen Übung zuordnen</h2>
+      <p class="pb-p">Die gewählten Einheiten verschwinden bei „${pbEsc(u.name)}“ und erscheinen bei der Zielübung — mit allen Sätzen, Gewichten und Rekorden.</p>
+      <div class="pb-card"><label class="hx-lbl">Zielübung
+        <select class="pb-sel" data-hxin="target"><option value="">Bitte wählen …</option>
+          <option value="__new" ${u.target === '__new' ? 'selected' : ''}>＋ Neue Übung mit eigenem Namen …</option>
+          ${T.plan.length ? `<optgroup label="Im Trainingsplan">${T.plan.map(opt).join('')}</optgroup>` : ''}
+          ${T.hist.length ? `<optgroup label="Übungen mit Verlauf">${T.hist.map(opt).join('')}</optgroup>` : ''}
+          <optgroup label="Alle Übungen">${T.db.map(opt).join('')}</optgroup></select></label>
+        ${u.target === '__new' ? `<label class="hx-lbl" style="margin-top:10px">Name der neuen Übung<input class="pb-in" data-hxin="newname" value="${pbEsc(u.newName)}" placeholder="z. B. Seitheben an der Maschine"></label>` : ''}
+        ${tgtName ? `<p class="pb-p sm">${tgtCount ? `„${pbEsc(tgtName)}“ hat schon ${tgtCount} Einheiten — beide Verläufe werden zusammengeführt.` : `„${pbEsc(tgtName)}“ hat noch keinen Verlauf.`}${same ? ' Beide Namen gelten ab jetzt als getrennte Übungen.' : ''}</p>` : ''}</div>
+      <div class="pb-sec">Welche Einheiten?<span class="pb-links"><button data-hx="selall">Alle</button> · <button data-hx="selnone">Keine</button></span></div>
+      <div class="pb-card list">${sessions.map(s => `<button class="hx-row" data-hx="tog" data-d="${s.date}"><span class="pb-chk sm ${u.sel.has(s.date) ? 'on' : ''}">${u.sel.has(s.date) ? PB_ICO.check : ''}</span><span class="hx-d">${fmtDate(s.date)}${s.date.slice(2, 4)}</span><span class="hx-s">${hxSetsTxt(s.sets)}</span></button>`).join('')}</div>`;
+    const n = [...u.sel].filter(d => sessions.some(s => s.date === d)).length;
+    f = `<button class="pb-cta" data-hx="domove" ${n && tgtName && tgtName !== u.name ? '' : 'disabled'}>${n ? n + (n === 1 ? ' Einheit' : ' Einheiten') + ' verschieben' : 'Einheiten wählen'}</button>`;
+  }
+  body.innerHTML = h; foot.innerHTML = f;
+}
+function hxOnInput(e){
+  const el = e.target, u = hxUI; if (!u || !el.dataset || !el.dataset.hxin) return;
+  const k = el.dataset.hxin;
+  if (k === 'w' || k === 'r') { u.sets[+el.dataset.i][k === 'w' ? 'weight' : 'reps'] = el.value; return; }
+  if (k === 'date') { u.newDate = el.value || u.date; return; }
+  if (k === 'newname') { u.newName = el.value; if (e.type === 'change') hxRender(); else { const b = document.querySelector('#hxFoot .pb-cta'); if (b) b.disabled = !(u.newName.trim() && u.newName.trim() !== u.name && u.sel.size); } return; }
+  if (k === 'target' && e.type === 'change') { u.target = el.value; hxRender(); }
+}
+function hxOnClick(e){
+  const el = e.target.closest('[data-hx]'); if (!el || !hxUI) return;
+  const u = hxUI, a = el.dataset.hx;
+  if (a === 'close') return hxClose();
+  if (a === 'back') { if (u.view === 'move' && u.back === 'edit') { u.view = 'edit'; } else u.view = 'list'; return hxRender(); }
+  if (a === 'edit') { hxStartEdit(el.dataset.d); return hxRender(); }
+  if (a === 'tomove') { u.view = 'move'; u.back = 'list'; u.sel = new Set(hxSessionsOf(u.name).map(s => s.date)); return hxRender(); }
+  if (a === 'tomove1') { u.view = 'move'; u.back = 'edit'; u.sel = new Set([u.date]); return hxRender(); }
+  if (a === 'tog') { const d = el.dataset.d; if (u.sel.has(d)) u.sel.delete(d); else u.sel.add(d); return hxRender(); }
+  if (a === 'selall') { u.sel = new Set(hxSessionsOf(u.name).map(s => s.date)); return hxRender(); }
+  if (a === 'selnone') { u.sel = new Set(); return hxRender(); }
+  if (a === 'addset') { const l = u.sets[u.sets.length - 1] || {}; u.sets.push({ weight: l.weight || '', reps: '', unit: l.unit }); return hxRender(); }
+  if (a === 'rmset') { u.sets.splice(+el.dataset.i, 1); if (!u.sets.length) u.sets.push({ weight: '', reps: '' }); return hxRender(); }
+  if (a === 'delses') {
+    if (!confirm('Einheit vom ' + fmtDate(u.date) + u.date.slice(0, 4) + ' bei „' + u.name + '“ löschen?')) return;
+    if (!hxDeleteSession(u.name, u.date)) return pbToast('Speicher nicht lesbar — nichts geändert');
+    u.view = 'list'; hxRender(); return hxAfterChange('Einheit gelöscht');
+  }
+  if (a === 'saveedit') {
+    const nd = u.newDate || u.date;
+    if (nd > localDateStr(Date.now())) return pbToast('Datum liegt in der Zukunft');
+    const valid = u.sets.filter(s => String(s.weight).trim() !== '' || String(s.reps).trim() !== '');
+    if (!valid.length && !confirm('Keine Sätze mehr übrig — Einheit löschen?')) return;
+    if (!hxSaveSession(u.name, u.date, nd, valid)) return pbToast('Speicher nicht lesbar — nichts geändert');
+    u.view = 'list'; hxRender(); return hxAfterChange('Einheit gespeichert');
+  }
+  if (a === 'domove') {
+    const to = u.target === '__new' ? u.newName.trim() : u.target;
+    if (!to || to === u.name) return;
+    const n = hxMove(u.name, to, u.sel);
+    if (n < 0) return pbToast('Speicher nicht lesbar — nichts geändert');
+    if (!n) return pbToast('Nichts verschoben');
+    try { currentProgExercise = hxSessionsOf(u.name).length ? u.name : to; } catch(e) {}
+    hxClose(); return hxAfterChange(n + (n === 1 ? ' Einheit' : ' Einheiten') + ' → „' + to + '“');
+  }
+}
+
 function collectAllExercises(){
   const store = loadProgress();
   const groups = {};
@@ -5773,6 +6064,9 @@ function renderOverview(){
   sel.innerHTML = ordered.map(n => `<option value="${n}">${n}${counts[n] ? ' · ' + counts[n] + '×' : ''}</option>`).join('');
   sel.value = currentProgExercise;
   sel.onchange = () => { currentProgExercise = sel.value; renderOverview(); };
+  { const hasD = !!(all[currentProgExercise] || []).length, b1 = document.getElementById('hxEditBtn'), b2 = document.getElementById('hxMoveBtn');
+    if (b1) { b1.disabled = !hasD; b1.onclick = () => hxOpen(currentProgExercise, 'list'); }
+    if (b2) { b2.disabled = !hasD; b2.onclick = () => hxOpen(currentProgExercise, 'move'); } }
 
   const entries = all[currentProgExercise] || [];
   const kind = kindForExercise(currentProgExercise, entries);
@@ -5857,10 +6151,11 @@ function renderOverview(){
     }).join(' · ');
     return `<div class="hist-sess"><div class="hist-top"><span class="hist-d">${fmtDate(s.date)}${s.date.slice(0,4) !== new Date().toISOString().slice(0,4) ? s.date.slice(0,4) : ''}</span>
       ${p !== null ? `<span class="vol-delta ${p > 0.5 ? 'up' : p < -0.5 ? 'down' : 'same'}">${fmtPct(p)}</span>` : ''}
-      <span class="hist-v">${unitFmt(metric(s))}</span></div>
+      <span class="hist-v">${unitFmt(metric(s))}</span><button class="hist-edit" data-hxd="${s.date}" aria-label="Einheit vom ${fmtDate(s.date)} bearbeiten">${PB_ICO.edit}</button></div>
       <div class="hist-sets">${setsTxt}</div></div>`;
   }).join('');
 
+  histEl.onclick = e => { const b = e.target.closest('[data-hxd]'); if (b) hxOpen(currentProgExercise, 'edit', b.dataset.hxd); };
   strengthCard.style.display = hasWeights ? 'block' : 'none';
   repsCard.style.display = hasWeights ? 'block' : 'none';
 
@@ -6921,7 +7216,7 @@ function renderAppSettings(){
       <button class="set-nav" data-go="goals"><span><b>Deine Ziele</b><small>Worauf die App besonders achten soll</small></span><em>›</em></button>
       <button class="set-nav" data-go="tplan"><span><b>Trainingsplan</b><small>Aktiven Plan wählen oder bauen</small></span><em>›</em></button>
     </div>
-    <div class="set-info">Kaizen Health v22.9 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
+    <div class="set-info">Kaizen Health v23.0 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
   box.querySelectorAll('[data-set]').forEach(el => {
     const k = el.dataset.set;
     const handler = () => {
@@ -7912,7 +8207,7 @@ function renderMotivationAlt(){
 // ================= PRIVATSPHÄRE: private Check-in-Felder, Backup, App-Sperre =================
 const PRIVATE_FIELDS = ['sexA', 'sexM', 'sex2h'];
 const LOCK_KEY = 'cutplan_lock_v1';
-const BACKUP_SKIP = ['cutplan_session_active_v1', 'cutplan_progress_safecopy_v1'];
+const BACKUP_SKIP = ['cutplan_session_active_v1', 'cutplan_progress_safecopy_v1', 'cutplan_hx_undo_v1'];
 
 function buildBackup(includePrivate){
   const dump = {};
