@@ -1814,6 +1814,27 @@
   .trend-sw button.on{ background:var(--card); color:var(--ink); }
   .sec-h{ font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim); margin:18px 4px 8px; }
 
+  /* ---------- v23.1: Nährstoffe ---------- */
+  .nx-p{ font-size:13px; line-height:1.55; color:var(--ink); margin:0 0 8px; } .nx-p.dim{ color:var(--ink-dim); font-size:12.5px; } .nx-p:last-child{ margin-bottom:0; }
+  .nx-row{ border-top:1px solid var(--line); } .nx-row:first-of-type{ border-top:none; }
+  .nx-row summary{ list-style:none; display:flex; align-items:center; gap:10px; padding:11px 0; cursor:pointer; }
+  .nx-row summary::-webkit-details-marker{ display:none; }
+  .nx-n{ flex:0 0 auto; max-width:58%; font-weight:700; font-size:14px; color:var(--ink); }
+  .nx-v{ flex:1 1 auto; text-align:right; font-size:12.5px; font-weight:700; color:var(--lime); line-height:1.35; min-width:0; }
+  .nx-chev{ color:var(--ink-dim); font-size:18px; line-height:1; transition:transform .2s; flex:0 0 auto; } .nx-row[open] .nx-chev{ transform:rotate(90deg); }
+  .nx-row .nx-ev{ margin-left:auto; }
+  .nx-det{ padding:0 0 12px; display:flex; flex-direction:column; gap:7px; }
+  .nx-kv{ display:grid; grid-template-columns:118px 1fr; gap:10px; font-size:12.5px; line-height:1.45; } .nx-kv span{ color:var(--ink-dim); } .nx-kv b{ font-weight:600; color:var(--ink); }
+  .nx-note{ margin:2px 0 0; padding:9px 11px; border-radius:10px; background:var(--bg2); font-size:12.5px; line-height:1.5; color:var(--ink); }
+  .nx-note.warn{ background:color-mix(in srgb, var(--amber) 14%, var(--card)); border:1px solid color-mix(in srgb, var(--amber) 40%, var(--line)); }
+  .nx-ev{ display:inline-block; padding:2px 8px; border-radius:99px; font-size:11px; font-weight:800; white-space:nowrap; }
+  .nx-ev-s{ background:color-mix(in srgb, var(--up) 18%, transparent); color:var(--up); } .nx-ev-m{ background:color-mix(in srgb, var(--amber) 18%, transparent); color:var(--amber); } .nx-ev-w{ background:color-mix(in srgb, var(--ink) 10%, transparent); color:var(--ink-dim); }
+  .nx-warn{ color:var(--amber); }
+  .nx-tl{ display:grid; grid-template-columns:104px 1fr; gap:10px; padding:9px 0; border-top:1px solid var(--line); font-size:12.5px; line-height:1.5; } .nx-tl:first-child{ border-top:none; } .nx-tl b{ color:var(--ink); } .nx-tl span{ color:var(--ink-dim); }
+  .nx-pr{ display:flex; align-items:center; gap:10px; padding:8px 0; border-top:1px solid var(--line); } .nx-pr:first-child{ border-top:none; }
+  .nx-pn{ flex:1; min-width:0; font-size:13.5px; font-weight:600; color:var(--ink); display:flex; flex-direction:column; } .nx-pn small{ font-weight:500; font-size:11.5px; color:var(--ink-dim); margin-top:1px; }
+  .nx-pr b{ font-family:var(--num-font); font-size:15px; color:var(--lime); white-space:nowrap; }
+  .nx-links{ margin:6px 0 0; padding-left:18px; font-size:12.5px; line-height:1.7; } .nx-links a{ color:var(--lime); }
   /* ---------- v23.0: Verlauf bearbeiten & Übung tauschen ---------- */
   .hx-tools{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; } .hx-tools .pb-btn2{ flex:1 1 auto; }
   .hx-tools .pb-btn2:disabled, .pb-cta:disabled{ opacity:.45; }
@@ -1861,7 +1882,7 @@
 <body>
 
 <header class="top">
-  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v23.0</span></div>
+  <div class="eyebrow">Kaizen Health · <span style="color:var(--ink-dim)">v23.1</span></div>
   <button class="hdr-gear" id="hdrGear" aria-label="Einstellungen"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"></path></svg></button>
   <h1 id="pageTitle">Wochenplan</h1>
   <div class="sub" id="pageSub">88 kg → 12% KFA · Push/Pull/Beine · Datenbasiert</div>
@@ -2352,6 +2373,7 @@
       </div>
     </div>
 
+    <div id="nutNaehr" style="display:none;"></div>
     <div id="nutInsights" style="display:none;">
       <div class="insight"><b>Warum dieser Tab existiert:</b> Deine Ausgangsfrage war, ob Kraftverlust mit der Ernährung zusammenhängt. Hier siehst du beides nebeneinander — Kalorien/Protein der Vorwoche gegen deine Gewichtsentwicklung im Training.</div>
       <div class="card">
@@ -7216,7 +7238,7 @@ function renderAppSettings(){
       <button class="set-nav" data-go="goals"><span><b>Deine Ziele</b><small>Worauf die App besonders achten soll</small></span><em>›</em></button>
       <button class="set-nav" data-go="tplan"><span><b>Trainingsplan</b><small>Aktiven Plan wählen oder bauen</small></span><em>›</em></button>
     </div>
-    <div class="set-info">Kaizen Health v23.0 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
+    <div class="set-info">Kaizen Health v23.1 · ${Math.round(used / 1024)} KB Daten auf diesem iPhone · alles bleibt lokal</div>`;
   box.querySelectorAll('[data-set]').forEach(el => {
     const k = el.dataset.set;
     const handler = () => {
@@ -12022,7 +12044,8 @@ function renderNutSubtabs(){
   el.innerHTML = `
     <button class="subtab-btn ${currentNutTab==='today'?'active':''}" data-t="today">Tagebuch</button>
     <button class="subtab-btn ${currentNutTab==='overview'?'active':''}" data-t="overview">Auswertung</button>
-    <button class="subtab-btn ${currentNutTab==='insights'?'active':''}" data-t="insights">Kraft vs. Ernährung</button>`;
+    <button class="subtab-btn ${currentNutTab==='insights'?'active':''}" data-t="insights">Kraft</button>
+    <button class="subtab-btn ${currentNutTab==='naehr'?'active':''}" data-t="naehr">Nährstoffe</button>`;
   el.querySelectorAll('.subtab-btn').forEach(b=>{
     b.onclick = ()=>{ currentNutTab = b.dataset.t; renderNutSubtabs(); switchNutView(); };
   });
@@ -12032,9 +12055,150 @@ function switchNutView(){
   document.getElementById('nutToday').style.display = currentNutTab==='today' ? 'block' : 'none';
   document.getElementById('nutOverview').style.display = currentNutTab==='overview' ? 'block' : 'none';
   document.getElementById('nutInsights').style.display = currentNutTab==='insights' ? 'block' : 'none';
+  document.getElementById('nutNaehr').style.display = currentNutTab==='naehr' ? 'block' : 'none';
   if (currentNutTab==='today') renderNutToday();
   else if (currentNutTab==='overview') renderNutOverview();
+  else if (currentNutTab==='naehr') { try { renderNutNaehr(); } catch(e) { console.warn('Nährstoffe', e); } }
   else renderCorrelation();
+}
+
+// ================= v23.1: NÄHRSTOFFE — Tagesbedarf für Kraftsportler, aus echten Lebensmitteln =================
+// Spalten: DGE (Normalbevölkerung, Männer 25–51) · Sportler-Ziel (Sporternährungs-Literatur) · Obergrenze (EFSA UL 2024)
+// Mehr ist bei Mikronährstoffen nicht automatisch besser — die Obergrenze gilt auch für Profis.
+const NX_EV = { s: ['stark', 'nx-ev-s'], m: ['mittel', 'nx-ev-m'], w: ['schwach', 'nx-ev-w'] };
+const NX_MIN = [
+  { n: 'Natrium (Salz)', s: '3–5 g', ref: '1,5 g', ath: '3–5 g Natrium (≈ 7–12 g Salz) an Trainingstagen', ul: 'keine', split: 'über alle Mahlzeiten; ein Teil 30–60 Min. vor dem Training',
+    foods: 'Speisesalz, Brühe, Käse, Oliven, Mineralwasser mit viel Natrium', note: 'Mit jedem Liter Schweiß gehen grob 0,5–1 g Natrium verloren. Wer viel schwitzt, braucht deutlich mehr als die Normalbevölkerung — sonst Krämpfe, flacher Pump, Kopfschmerz.' },
+  { n: 'Kalium', ref: '4 g', ath: '4–5 g', ul: 'keine (aus Lebensmitteln)', split: 'über den Tag verteilt',
+    foods: 'Kartoffeln (300 g ≈ 1,2 g), Banane (≈ 0,4 g), Spinat, Avocado, Linsen, Lachs', note: 'Nicht als hochdosierte Tablette — über Lebensmittel ist es sicher und reicht.' },
+  { n: 'Magnesium', s: '400–500 mg', ref: '350 mg', ath: '400–500 mg gesamt', ul: '250 mg zusätzlich als Präparat', split: '2 Portionen: mittags + abends (z. B. 2 × 125 mg Bisglycinat oder Citrat)',
+    foods: 'Kürbiskerne 30 g ≈ 160 mg, Haferflocken 80 g ≈ 110 mg, Mandeln 30 g ≈ 80 mg, Spinat, magnesiumreiches Mineralwasser', note: 'Aufteilen verbessert die Aufnahme und schont den Darm. Die Obergrenze gilt nur für Präparate, nicht für Essen.' },
+  { n: 'Calcium', ref: '1.000 mg', ath: '1.000–1.500 mg', ul: '2.500 mg', split: 'auf 2–3 Mahlzeiten; nicht zusammen mit Eisen- oder Zink-Präparaten',
+    foods: 'Skyr/Magerquark 250 g ≈ 300 mg, Emmentaler 30 g ≈ 330 mg, calciumreiches Mineralwasser, Brokkoli', note: '' },
+  { n: 'Zink', ref: '14 mg', ath: '15–25 mg', ul: '25 mg', split: 'als Präparat abends, getrennt von Calcium und Eisen',
+    foods: 'Rindfleisch 200 g ≈ 9–10 mg, Austern, Kürbiskerne 30 g ≈ 2 mg, Haferflocken, Käse', note: 'Viel rotes Fleisch deckt Zink meist schon. Präparat nur ergänzend (max. 10–15 mg), sonst wird Kupfer verdrängt.' },
+  { n: 'Eisen', ref: '11 mg', ath: '11–15 mg', ul: 'kein UL · sicher bis 40 mg', split: 'mit Vitamin-C-Quelle essen; 1 Std. Abstand zu Kaffee, Tee und Milch',
+    foods: 'Rind 200 g ≈ 5 mg, Leber, Linsen 200 g gekocht ≈ 6 mg, Kürbiskerne', note: 'Männer haben selten zu wenig. Nie auf Verdacht ergänzen — nur bei niedrigem Ferritin im Blutbild.' },
+  { n: 'Selen', ref: '70 µg', ath: '70–150 µg', ul: '255 µg', split: 'egal, mit einer Mahlzeit',
+    foods: '1 Paranuss ≈ 50–90 µg, Thunfisch 150 g ≈ 100 µg, Eier, Hähnchen', note: 'Mehr als 1–2 Paranüsse am Tag sind schnell zu viel.' },
+  { n: 'Jod', ref: '200 µg', ath: '200–250 µg', ul: '600 µg', split: 'egal', foods: 'Jodsalz, Seefisch (Kabeljau 200 g ≈ 200 µg), Milchprodukte, Eier', note: 'Wer Salz bewusst nutzt: Jodsalz nehmen.' },
+  { n: 'Kupfer', ref: '1,0–1,5 mg', ath: '1,5–2 mg', ul: '5 mg', split: 'egal', foods: 'Nüsse, Kakao, Leber, Hülsenfrüchte, Vollkorn', note: 'Wichtig, wenn du Zink ergänzt (Verhältnis Zink : Kupfer ≈ 10 : 1).' },
+  { n: 'Phosphor', ref: '700 mg', ath: '700–1.500 mg', ul: 'kein UL', split: 'egal', foods: 'Fleisch, Fisch, Milchprodukte', note: 'Bei proteinreicher Ernährung automatisch gedeckt.' },
+  { n: 'Mangan', ref: '2–5 mg', ath: '3–5 mg', ul: 'sicher bis 8 mg', split: 'egal', foods: 'Haferflocken, Vollkorn, Nüsse, Tee', note: '' },
+  { n: 'Chrom', ref: '30–100 µg', ath: '50–100 µg', ul: 'kein Präparat nötig', split: 'egal', foods: 'Vollkorn, Brokkoli, Fleisch', note: 'Chrom-Präparate fürs Abnehmen: keine belastbare Wirkung.' },
+];
+const NX_VIT = [
+  { n: 'Vitamin D', s: '1.000–4.000 IE', ref: '20 µg (800 IE) ohne Sonne', ath: 'Okt.–März 25–100 µg (1.000–4.000 IE) — nach Blutwert', ul: '100 µg (4.000 IE)', split: '1× täglich morgens oder mittags zu einer fetthaltigen Mahlzeit',
+    foods: 'Lachs 150 g ≈ 10–20 µg, Hering, Eier (≈ 1 µg/Ei); April–Sept.: 15–30 Min. Sonne auf Arme/Gesicht', note: 'Im Winter bildet die Haut in Deutschland praktisch kein Vitamin D. Blutwert 25(OH)D messen lassen, Ziel 30–50 ng/ml (75–125 nmol/l), dann die Dosis anpassen.' },
+  { n: 'Vitamin C', s: '200–500 mg', ref: '110 mg', ath: '200–500 mg aus Lebensmitteln', ul: 'kein UL', split: 'zu den Mahlzeiten, z. B. zu eisenreichem Essen',
+    foods: 'Paprika 100 g ≈ 120 mg, Brokkoli 200 g ≈ 180 mg, Kiwi ≈ 60 mg, Beeren', note: 'Keine Dauer-Megadosen (≥ 1 g) als Tablette: Sie können die Trainingsanpassung bremsen.' },
+  { n: 'Vitamin E', s: '15–20 mg', ref: '14 mg', ath: '15–20 mg aus Lebensmitteln', ul: '300 mg', split: 'mit Fett', foods: 'Mandeln 30 g ≈ 8 mg, Sonnenblumenkerne, Rapsöl, Avocado', note: 'Hochdosierte Antioxidantien (C + E) bremsen nachweislich Trainingseffekte — lieber aus Essen.' },
+  { n: 'Vitamin A', ref: '850 µg', ath: '900–1.500 µg', ul: '3.000 µg (vorgeformt)', split: 'mit Fett', foods: 'Karotten/Süßkartoffel (Beta-Carotin), Eier, Butter, Leber (max. 1×/Woche)', note: '' },
+  { n: 'Vitamin K', ref: '70 µg', ath: '100–200 µg', ul: 'kein UL', split: 'mit Fett, gern zusammen mit Vitamin D', foods: 'Grünkohl, Spinat, Brokkoli (K1); Käse, Eigelb (K2)', note: 'K2 als Präparat (100–200 µg) ist eine Option zu hohem Vitamin D; die Belege sind dünn.' },
+  { n: 'Vitamin B1 (Thiamin)', ref: '1,2 mg', ath: '1,5–3 mg', ul: 'kein UL', split: 'mit den Mahlzeiten', foods: 'Schweinefilet 150 g ≈ 1,4 mg, Haferflocken, Hülsenfrüchte', note: 'Bedarf steigt mit dem Kalorienumsatz.' },
+  { n: 'Vitamin B2 (Riboflavin)', ref: '1,4 mg', ath: '1,6–3 mg', ul: 'kein UL', split: 'mit den Mahlzeiten', foods: 'Milchprodukte, Eier, Fleisch, Mandeln', note: '' },
+  { n: 'Vitamin B3 (Niacin)', ref: '15 mg', ath: '20–35 mg', ul: 'Nikotinsäure 10 mg als Präparat', split: 'mit den Mahlzeiten', foods: 'Hähnchenbrust 200 g ≈ 25 mg, Thunfisch, Erdnüsse', note: 'Aus Fleisch und Fisch leicht gedeckt.' },
+  { n: 'Vitamin B6', s: '2–4 mg', ref: '1,6 mg', ath: '2–4 mg (≈ 0,02 mg je g Protein)', ul: '12 mg', split: 'mit den Mahlzeiten', foods: 'Hähnchen, Lachs, Kartoffeln, Banane, Kichererbsen', note: 'Achtung bei Kombipräparaten (ZMA, Multivitamin): oft 10 mg und mehr — zusammen mit Essen schnell über der Grenze.' },
+  { n: 'Vitamin B12', ref: '4 µg', ath: '4–10 µg', ul: 'kein UL', split: 'egal', foods: 'Rind 200 g ≈ 5 µg, Lachs, Eier, Milchprodukte', note: '' },
+  { n: 'Folat', ref: '300 µg', ath: '400–600 µg', ul: '1.000 µg (als Folsäure-Präparat)', split: 'egal', foods: 'Spinat, Brokkoli, Linsen, Kichererbsen, Eier', note: '' },
+  { n: 'Biotin', ref: '40 µg', ath: '40–60 µg', ul: 'kein UL', split: 'egal', foods: 'Eier, Nüsse, Haferflocken', note: 'Hohe Biotin-Dosen verfälschen Bluttests (z. B. Schilddrüse) — vor einer Blutabnahme pausieren.' },
+  { n: 'Pantothensäure', ref: '5 mg', ath: '5–10 mg', ul: 'kein UL', split: 'egal', foods: 'Fleisch, Eier, Pilze, Avocado', note: '' },
+  { n: 'Cholin', ref: '400 mg', ath: '450–550 mg', ul: '—', split: 'egal', foods: '1 Ei ≈ 150 mg, Rind, Lachs', note: '' },
+];
+const NX_EXTRA = [
+  { n: 'Kreatin-Monohydrat', dose: '3–5 g täglich', time: 'egal — praktisch nach dem Training; auch an Ruhetagen', ev: 's',
+    foods: 'aus Essen kaum erreichbar (1 kg Rindfleisch ≈ 4–5 g)', note: 'Bestbelegtes Präparat für Kraft und Muskelmasse. Keine Ladephase nötig. Ehrlich: Hier ist ein Pulver sinnvoll, weil echte Lebensmittel die Menge nicht liefern.' },
+  { n: 'Omega-3 (EPA + DHA)', dose: '1–2 g EPA + DHA täglich', time: 'zu einer Mahlzeit', ev: 'm',
+    foods: 'Lachs, Hering, Makrele 2–3× pro Woche à 150–200 g ≈ 2–4 g je Portion', note: 'Mit 2–3 Fischmahlzeiten pro Woche brauchst du kein Fischöl. Ohne Fisch: Fisch- oder Algenöl.' },
+  { n: 'Koffein', dose: '3 mg/kg ≈ {caf} mg vor dem Training', time: '30–60 Min. vor dem Training, nicht nach 14 Uhr', ev: 's',
+    foods: 'Espresso ≈ 60–80 mg, Filterkaffee 200 ml ≈ 90 mg', note: 'Max. 400 mg am Tag, max. 200 mg auf einmal. Später am Tag stört es den Schlaf — und damit die Regeneration.' },
+  { n: 'Kollagen / Gelatine + Vitamin C', dose: '10–15 g + ca. 50 mg Vitamin C', time: '30–60 Min. vor dem Training', ev: 'w',
+    foods: 'Knochenbrühe, Gelatine', note: 'Für Sehnen und Gelenke (Knie, Rücken). Erste Studien positiv, Belege aber noch dünn. Kein vollwertiges Protein — zählt nur halb zum Proteinziel.' },
+  { n: 'Elektrolyte im Training', dose: '300–600 mg Natrium je Liter', time: 'bei Einheiten > 60 Min. oder starkem Schwitzen', ev: 'm',
+    foods: 'Prise Salz + Saft ins Wasser', note: '' },
+  { n: 'Beta-Alanin', dose: '3,2–6,4 g täglich', time: 'in 2–4 Portionen à 0,8–1,6 g zu den Mahlzeiten', ev: 'm',
+    foods: 'Fleisch und Fisch liefern nur kleine Mengen', note: 'Hilft bei Belastungen von 1–4 Minuten (hohe Wiederholungen, HIIT). Kribbeln ist harmlos. Optional.' },
+  { n: 'Citrullin-Malat', dose: '6–8 g', time: '30–60 Min. vor dem Training', ev: 'w', foods: 'Wassermelone (kaum relevante Mengen)', note: 'Uneinheitliche Studienlage. Nice-to-have, kein Muss.' },
+  { n: 'Glycin', dose: '3 g', time: '30–60 Min. vor dem Schlafen', ev: 'w', foods: 'Gelatine, Knochenbrühe', note: 'Kleine Studien zeigen etwas bessere Schlafqualität. Günstig und gut verträglich.' },
+  { n: 'Ashwagandha', dose: '300–600 mg Wurzelextrakt (z. B. KSM-66)', time: 'abends, max. 8–12 Wochen, dann Pause', ev: 'm',
+    foods: '—', warn: true, note: 'Studien: weniger Stress, besserer Schlaf, leicht mehr Kraft. ABER: In Europa sind Leberschäden bis zum Leberversagen gemeldet, Dänemark hat es verboten, eine EU-Bewertung läuft. Nicht bei Leber- oder Schilddrüsenerkrankung, nicht mit Schlaf- oder Beruhigungsmitteln. Vorher mit dem Arzt sprechen, auf Leberwarnsignale achten (Müdigkeit, Übelkeit, dunkler Urin, gelbe Augen).' },
+];
+// Proteinquellen ohne Shake: Portion, Protein, Bonus
+const NX_PROT = [
+  ['Hähnchenbrust', '200 g', 46, 'Vitamin B3 + B6'], ['Rinderhüfte / Steak', '200 g', 44, 'Zink, Eisen, B12, Kreatin'], ['Rinderhack 5 %', '200 g', 42, 'Zink, B12'],
+  ['Lachs', '200 g', 40, 'Omega-3, Vitamin D'], ['Garnelen', '200 g', 38, 'Jod, Selen'], ['Kabeljau / Seelachs', '200 g', 36, 'Jod, fast fettfrei'],
+  ['Thunfisch (Dose, abgetropft)', '150 g', 36, 'Selen, B3'], ['Harzer Käse', '100 g', 30, 'fast fettfrei'], ['Magerquark', '250 g', 30, 'Calcium, Casein (langsam)'],
+  ['Skyr', '250 g', 27, 'Calcium, Casein'], ['Hüttenkäse', '200 g', 24, 'Calcium, Casein'], ['Eiklar', '200 g', 22, 'fast kalorienfrei'],
+  ['3 Eier (M)', '≈ 180 g', 20, 'Cholin, Vitamin D, B12'], ['Linsen (gekocht)', '200 g', 18, 'Eisen, Folat, Ballaststoffe'], ['Tofu natur', '200 g', 28, 'Calcium, Eisen'],
+];
+
+function nxBasis(){
+  const s = latestBodyStats(), cfg = Object.assign({}, GOAL_DEFAULTS, loadGoalCfg() || {});
+  const w = s.weight || 85, bf = s.bf && s.bf > 3 && s.bf < 60 ? s.bf : null, ffm = bf ? w * (1 - bf / 100) : null;
+  let g = null; try { g = goalsForDate(localDateStr(Date.now())); } catch(e) {}
+  return { w, bf, ffm, goal: cfg.goal || 'cut', g, wDate: s.weightDate };
+}
+function nxMacros(b){
+  const r5 = v => Math.round(v / 5) * 5, f0 = v => Math.round(v).toLocaleString('de-DE'), cut = b.goal === 'cut';
+  let pLo, pHi, pTxt;
+  if (cut && b.ffm) { pLo = 2.3 * b.ffm; pHi = 3.1 * b.ffm; pTxt = `2,3–3,1 g je kg fettfreie Masse (${fmtNum(Math.round(b.ffm * 10) / 10)} kg)`; }
+  else if (cut) { pLo = 2.0 * b.w; pHi = 2.4 * b.w; pTxt = '2,0–2,4 g je kg Körpergewicht'; }
+  else { pLo = 1.6 * b.w; pHi = 2.2 * b.w; pTxt = '1,6–2,2 g je kg Körpergewicht'; }
+  const meal = [0.4 * b.w, 0.55 * b.w], kcal = b.g ? b.g.kcal : null;
+  return [
+    { n: 'Protein', val: `${f0(r5(pLo))}–${f0(r5(pHi))} g`, app: b.g ? b.g.p + ' g' : '–', basis: pTxt + (cut ? ' — in der Diät höher, um Muskeln zu schützen' : ''),
+      split: `4–5 Mahlzeiten à ${f0(r5(meal[0]))}–${f0(r5(meal[1]))} g, alle 3–5 Std.; eine davon vor dem Schlafen`, foods: 'siehe „Protein ohne Shake“ unten' },
+    { n: 'Kohlenhydrate', val: cut ? `${f0(r5(2 * b.w))}–${f0(r5(4 * b.w))} g` : `${f0(r5(4 * b.w))}–${f0(r5(7 * b.w))} g`, app: b.g ? b.g.c + ' g' : '–',
+      basis: cut ? '2–4 g/kg in der Diät (Wettkampf-Bodybuilder meist im oberen Bereich)' : '4–7 g/kg im Aufbau',
+      split: 'Den Großteil 1–3 Std. vor und direkt nach dem Training; an Ruhetagen weniger', foods: 'Reis, Kartoffeln, Haferflocken, Obst, Vollkornbrot' },
+    { n: 'Fett', val: `${f0(r5(0.7 * b.w))}–${f0(r5(1.0 * b.w))} g`, app: b.g ? b.g.f + ' g' : '–', basis: 'ca. 20–30 % der Kalorien; nicht unter 0,5 g/kg (Hormone)',
+      split: 'Eher weg vom Training (verlangsamt die Verdauung)', foods: 'Olivenöl, Nüsse, Avocado, fetter Fisch, Eigelb' },
+    { n: 'Ballaststoffe', val: kcal ? `${f0(r5(kcal / 1000 * 14))}–40 g` : '30–40 g', app: '–', basis: '14 g je 1.000 kcal', split: 'über den Tag; nicht direkt vor dem Training', foods: 'Gemüse, Hülsenfrüchte, Haferflocken, Beeren, Leinsamen' },
+    { n: 'Wasser', val: `${fmtNum(Math.round(0.035 * b.w * 10) / 10)}–${fmtNum(Math.round(0.045 * b.w * 10) / 10)} l + 0,5–1 l je Trainingsstunde`, app: '–', basis: '35–45 ml je kg Körpergewicht', split: 'Morgens 0,5 l direkt nach dem Aufstehen; im Training schluckweise', foods: 'Urin hellgelb = passt' },
+  ];
+}
+function nxRow(x, cols){
+  return `<details class="nx-row"><summary><span class="nx-n">${x.n}</span><span class="nx-v">${x.s || x.ath || x.val || x.dose}</span><span class="nx-chev">›</span></summary>
+    <div class="nx-det">${cols.map(([l, v]) => v ? `<div class="nx-kv"><span>${l}</span><b>${v}</b></div>` : '').join('')}${x.note ? `<p class="nx-note${x.warn ? ' warn' : ''}">${x.note}</p>` : ''}</div></details>`;
+}
+function renderNutNaehr(){
+  const el = document.getElementById('nutNaehr'); if (!el) return;
+  const b = nxBasis(), M = nxMacros(b), caf = Math.min(400, Math.round(b.w * 3 / 10) * 10);
+  const head = `<div class="card nx-hero"><div class="card-title">Dein Tagesbedarf als Kraftsportler</div>
+    <p class="nx-p">Berechnet für <b>${fmtNum(Math.round(b.w * 10) / 10)} kg</b>${b.bf ? ` · ${fmtNum(b.bf)} % Körperfett · ${fmtNum(Math.round(b.ffm * 10) / 10)} kg fettfreie Masse` : ''} · Phase: <b>${b.goal === 'cut' ? 'Diät' : b.goal === 'bulk' ? 'Aufbau' : 'Erhaltung'}</b>${b.g ? ` · ${b.g.kcal.toLocaleString('de-DE')} kcal heute` : ''}.</p>
+    <p class="nx-p dim">Je Nährstoff: DGE-Referenz (Normalbevölkerung) · Ziel für Kraftsportler · Obergrenze (EFSA). Wo Sportler mehr brauchen, liegt das Ziel höher — bei vielen Vitaminen bringt mehr aber nichts, und die Obergrenze gilt auch für Profis.</p></div>`;
+  const mac = `<div class="card"><div class="card-title">Makronährstoffe</div>${M.map(x => nxRow(x, [['Ziel', x.val], ['In deinem Plan', x.app], ['Grundlage', x.basis], ['Aufteilung', x.split], ['Woraus', x.foods]])).join('')}</div>`;
+  const min = `<div class="card"><div class="card-title">Mineralstoffe</div>${NX_MIN.map(x => nxRow(x, [['Sportler-Ziel', x.ath], ['DGE (Normal)', x.ref], ['Obergrenze', x.ul], ['Wann / Aufteilung', x.split], ['Aus Lebensmitteln', x.foods]])).join('')}</div>`;
+  const vit = `<div class="card"><div class="card-title">Vitamine & Co.</div>${NX_VIT.map(x => nxRow(x, [['Sportler-Ziel', x.ath], ['DGE (Normal)', x.ref], ['Obergrenze', x.ul], ['Wann / Aufteilung', x.split], ['Aus Lebensmitteln', x.foods]])).join('')}</div>`;
+  const ext = `<div class="card"><div class="card-title">Weitere Vitalstoffe für Training & Gesundheit</div>
+    <p class="nx-p dim">Belege: <span class="nx-ev nx-ev-s">stark</span> <span class="nx-ev nx-ev-m">mittel</span> <span class="nx-ev nx-ev-w">schwach</span></p>
+    ${NX_EXTRA.map(x => { const d = x.dose.replace('{caf}', caf); return `<details class="nx-row"><summary><span class="nx-n">${x.n}${x.warn ? ' <span class="nx-warn">⚠︎</span>' : ''}</span><span class="nx-ev ${NX_EV[x.ev][1]}">${NX_EV[x.ev][0]}</span><span class="nx-chev">›</span></summary>
+      <div class="nx-det"><div class="nx-kv"><span>Menge</span><b>${d}</b></div><div class="nx-kv"><span>Wann</span><b>${x.time}</b></div><div class="nx-kv"><span>Aus Lebensmitteln</span><b>${x.foods}</b></div>${x.note ? `<p class="nx-note${x.warn ? ' warn' : ''}">${x.note}</p>` : ''}</div></details>`; }).join('')}</div>`;
+  const pm = Math.round(0.45 * b.w / 5) * 5;
+  const day = `<div class="card"><div class="card-title">Tagesablauf — was wann</div><div class="nx-time">
+    ${[['Morgens', `Proteinmahlzeit (~${pm} g), z. B. 3 Eier + 250 g Skyr · Vitamin D (Okt.–März) zur Mahlzeit · Omega-3, falls kein Fisch · 0,5 l Wasser`],
+       ['Vor dem Training', `Mahlzeit mit Protein + Kohlenhydraten 1–3 Std. vorher · Koffein ~${caf} mg 30–60 Min. vorher · Salz/Elektrolyte · optional Kollagen + Vitamin C`],
+       ['Im Training', 'Wasser schluckweise; ab 60 Min. oder viel Schweiß mit Natrium'],
+       ['Nach dem Training', `Protein (~${pm} g) + Kohlenhydrate, z. B. Hähnchen + Reis · Kreatin 3–5 g`],
+       ['Nachmittag', `Proteinmahlzeit (~${pm} g) · Magnesium, 1. Portion`],
+       ['Abends', 'Proteinmahlzeit mit Gemüse (Vitamin C, K, Folat) · Zink, getrennt von Milchprodukten · Magnesium, 2. Portion · optional Ashwagandha'],
+       ['Vor dem Schlafen', '30–40 g langsames Protein aus Magerquark, Skyr oder Hüttenkäse statt Shake · optional Glycin 3 g']]
+      .map(([t, v]) => `<div class="nx-tl"><b>${t}</b><span>${v}</span></div>`).join('')}</div></div>`;
+  const prot = `<div class="card"><div class="card-title">Protein ohne Shake</div>
+    <p class="nx-p dim">Je Portion — zwei davon ersetzen einen Shake-Tag. Mit dem Bonus deckst du gleich Mikronährstoffe mit.</p>
+    <div class="nx-pt">${NX_PROT.map(([n, por, p, bon]) => `<div class="nx-pr"><span class="nx-pn">${n}<small>${por} · ${bon}</small></span><b>${p} g</b></div>`).join('')}</div>
+    <p class="nx-p dim" style="margin-top:10px">Statt Shake vor dem Schlafen: 300 g Magerquark ≈ 36 g Protein (Casein, sättigt die Nacht über).</p></div>`;
+  const src = `<div class="card nx-src"><div class="card-title">Ehrlich & Quellen</div>
+    <p class="nx-p dim">Die App kann noch nicht zählen, wie viele Vitamine und Mineralstoffe du wirklich isst: In der Lebensmittel-Datenbank stehen nur Kalorien und Makros. Die Liste ist deshalb ein Richtwert. Gewissheit gibt ein Blutbild (Vitamin D, Ferritin, Magnesium, Zink, B12) — einmal im Jahr, am besten im Spätwinter. Ersetzt keine ärztliche Beratung.</p>
+    <ul class="nx-links">
+      <li><a href="https://pubmed.ncbi.nlm.nih.gov/28642676/" target="_blank" rel="noopener">ISSN: Protein und Training (2017)</a></li>
+      <li><a href="https://pubmed.ncbi.nlm.nih.gov/24092765/" target="_blank" rel="noopener">Helms et al.: Protein in der Diät bei Kraftsportlern (2014)</a></li>
+      <li><a href="https://pubmed.ncbi.nlm.nih.gov/29540367/" target="_blank" rel="noopener">IOC-Konsens: Supplemente im Leistungssport (2018)</a></li>
+      <li><a href="https://www.efsa.europa.eu/sites/default/files/2024-05/ul-summary-report.pdf" target="_blank" rel="noopener">EFSA: Obergrenzen für Vitamine & Mineralstoffe (2024)</a></li>
+      <li><a href="https://www.dge.de/wissenschaft/referenzwerte/" target="_blank" rel="noopener">DGE-Referenzwerte</a></li>
+      <li><a href="https://www.verbraucherzentrale.de/wissen/lebensmittel/nahrungsergaenzungsmittel/ashwagandha-welche-wirkung-hat-es-und-wo-koennen-gefahren-liegen-117720" target="_blank" rel="noopener">Verbraucherzentrale: Ashwagandha (Stand Juli 2026)</a></li>
+    </ul></div>`;
+  el.innerHTML = head + mac + day + prot + min + vit + ext + src;
 }
 
 function dayTotals(dateStr){
